@@ -1,0 +1,125 @@
+name: feature-pipeline
+description: "End-to-end feature delivery: idea -> research -> design -> implement -> test -> review"
+mode: project
+
+steps:
+  - id: research
+    type: agent
+    agent: researcher
+    prompt: |
+      Research context for the following feature request:
+      {{input}}
+
+      Read CLAUDE.md, DECISIONS.md, ROADMAP.md, examples/.
+      Produce a research brief with confidence score.
+      If confidence < 7, flag gaps that need clarification.
+
+  - id: design
+    type: agent
+    agent: architect
+    depends_on: [research]
+    prompt: |
+      Based on the research brief below, design the architecture for this feature.
+
+      ## Research Brief
+      {{research.output}}
+
+      Produce an architecture decision with:
+      - Files to create/modify
+      - Database changes (if any)
+      - New dependencies (if any)
+      - ADR entry for DECISIONS.md
+
+  - id: plan_approval
+    type: gate
+    depends_on: [design]
+    message: |
+      ## Architecture Plan Ready
+      Review the architecture decision above.
+      Approve to proceed with implementation, or reject to revise.
+
+  - id: implement
+    type: agent
+    agent: orchestrator
+    depends_on: [plan_approval]
+    prompt: |
+      Implement the feature based on this architecture decision:
+
+      {{design.output}}
+
+      Use wave-based parallelism where possible.
+      Each task must have a validation command.
+      Run loop-until-passing after each wave.
+
+  - id: test
+    type: agent
+    agent: tester
+    depends_on: [implement]
+    prompt: |
+      Write comprehensive tests for the newly implemented feature.
+      Run coverage analysis with pytest-cov.
+      Ensure all new code paths are tested.
+      Report coverage percentage per module.
+
+  - id: review
+    type: agent
+    agent: code-reviewer
+    depends_on: [implement]
+    prompt: |
+      Perform multi-perspective code review on all changes.
+      Spawn parallel sub-reviewers (security, quality, logic, performance, tests).
+      Synthesize findings into unified report.
+
+  - id: validation
+    type: validation
+    depends_on: [test, review]
+    commands:
+      - ruff check src/ tests/
+      - black --check src/ tests/
+      - pytest tests/ -v
+    retry: 3
+
+  - id: summary
+    type: summary
+    depends_on: [validation]
+    prompt: |
+      Feature implementation complete. Summarize:
+      - What was built
+      - Architecture decisions made
+      - Test coverage achieved
+      - Review findings addressed
+      - Any remaining TODOs
+
+  - id: retrospective
+    type: agent
+    agent: smart-context
+    depends_on: [summary]
+    prompt: |
+      Self-healing retrospective for the feature just shipped.
+
+      Run in a fresh sub-agent context — separate from the implementer above.
+      The implementer is biased about its own work; you are not.
+
+      Inputs:
+      - Original feature request: {{input}}
+      - Implementation diff: run `git diff main...HEAD` and `git log --oneline main..HEAD`
+      - Changed files: from the implementation step above
+      - Review findings: {{review.output}}
+
+      For each painful moment in this implementation, ask:
+      "What could we have put in CLAUDE.md / examples/ / .claude/skills/ /
+      .claude/agents/ to prevent this?"
+
+      Output a list of CONCRETE AI-layer changes (file path + exact addition),
+      not vague improvement suggestions. If nothing went wrong, output
+      "Implementation was clean, no AI-layer changes needed" and stop.
+
+      Apply changes ONLY if the user accepts in the next gate.
+
+  - id: retrospective_gate
+    type: gate
+    depends_on: [retrospective]
+    message: |
+      ## Self-Healing Retrospective Ready
+      Review the proposed AI-layer changes above (CLAUDE.md, examples, skills, agents).
+      Approve to apply them, or reject to skip.
