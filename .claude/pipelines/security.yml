@@ -1,0 +1,61 @@
+name: security-pipeline
+description: "Security audit -> vulnerability fix -> dependency update -> validate"
+mode: both
+
+steps:
+  - id: audit
+    type: agent
+    agent: security-auditor
+    prompt: |
+      Run a comprehensive security audit on the project.
+      {{input}}
+      Check: secrets, OWASP patterns, dependency vulnerabilities, input validation, configuration.
+
+  - id: deps
+    type: agent
+    agent: dependency-manager
+    prompt: |
+      Audit all project dependencies:
+      1. Check for known vulnerabilities (pip-audit)
+      2. Check for outdated packages (pip list --outdated)
+      3. Assess breaking change risk for updates
+      4. Propose safe update plan
+
+  - id: fix_approval
+    type: gate
+    depends_on: [audit, deps]
+    message: |
+      ## Security Findings Ready
+      Review the security audit and dependency report above.
+      Approve to proceed with fixes, or select specific items to address.
+
+  - id: fix
+    type: agent
+    agent: debugger
+    depends_on: [fix_approval]
+    prompt: |
+      Apply security fixes identified in the audit:
+      {{audit.output}}
+
+      For dependency updates:
+      {{deps.output}}
+
+      Apply fixes one at a time, validate after each.
+
+  - id: validation
+    type: validation
+    depends_on: [fix]
+    commands:
+      - ruff check src/ tests/
+      - black --check src/ tests/
+      - pytest tests/ -v
+    retry: 3
+
+  - id: summary
+    type: summary
+    depends_on: [validation]
+    prompt: |
+      Security remediation complete. Summarize:
+      - Vulnerabilities found and fixed
+      - Dependencies updated
+      - Remaining items (if any)

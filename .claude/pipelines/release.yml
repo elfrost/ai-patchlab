@@ -1,0 +1,69 @@
+name: release-pipeline
+description: "Pre-release validation -> review -> test -> release-manager -> tag"
+mode: project
+
+steps:
+  - id: review
+    type: agent
+    agent: code-reviewer
+    prompt: |
+      Final pre-release code review.
+      Review ALL changes since last release tag.
+      Use: git log $(git describe --tags --abbrev=0 2>/dev/null || echo HEAD~20)..HEAD
+      Multi-reviewer mode: spawn all 5 sub-reviewers.
+
+  - id: test
+    type: agent
+    agent: tester
+    prompt: |
+      Run full test suite for release validation.
+      Include: unit tests, integration tests (if marked), coverage analysis.
+      All tests MUST pass. Coverage must not decrease from last run.
+
+  - id: security
+    type: agent
+    agent: security-auditor
+    prompt: |
+      Pre-release security scan.
+      Focus on: no secrets committed, no vulnerable deps, OWASP compliance.
+
+  - id: validation
+    type: validation
+    depends_on: [review, test, security]
+    commands:
+      - ruff check src/ tests/
+      - black --check src/ tests/
+      - pytest tests/ -v
+    retry: 3
+
+  - id: e2e
+    type: agent
+    agent: integration-tester
+    depends_on: [validation]
+    prompt: |
+      Pre-release end-to-end integration tests.
+      Run all tests marked with @pytest.mark.integration:
+        pytest tests/ -v -m integration
+      For api/ai-agent stacks: smoke-test all endpoints + verify health check returns 200 with expected schema.
+      For web stack: run Playwright E2E flows on critical paths (use wait_until="domcontentloaded").
+      For data stack: skip if no integration tests exist; otherwise run them.
+      Flag any failing or flaky test as a release blocker.
+
+  - id: release_approval
+    type: gate
+    depends_on: [e2e]
+    message: |
+      ## Release Ready
+      All checks passed (lint + format + unit + E2E). Review summary and approve release.
+
+  - id: release
+    type: agent
+    agent: release-manager
+    depends_on: [release_approval]
+    prompt: |
+      Execute release process:
+      1. Determine version bump (patch/minor/major) from commit history
+      2. Update version in pyproject.toml and .ezproject.json
+      3. Generate CHANGELOG.md entry
+      4. Create release commit and tag
+      5. Ask user about push

@@ -1,0 +1,68 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(*)",
+      "Write(*)",
+      "Bash(python*)",
+      "Bash(pytest*)",
+      "Bash(ruff*)",
+      "Bash(black*)",
+      "Bash(git*)",
+      "Bash(pip*)",
+      "Bash(npm*)",
+      "Bash(npx*)",
+      "Bash(cat*)",
+      "Bash(ls*)",
+      "Bash(mkdir*)",
+      "Bash(cp*)",
+      "Bash(mv*)",
+      "Bash(rm*)",
+      "Bash(find*)",
+      "Bash(grep*)",
+      "Bash(head*)",
+      "Bash(tail*)",
+      "Bash(wc*)",
+      "Bash(sort*)",
+      "Bash(curl*)",
+      "Bash(test*)",
+      "Bash(echo*)",
+      "Bash(date*)",
+      "Bash(playwright*)",
+      "Bash(powershell -ExecutionPolicy Bypass -NoProfile -File \"./ez-launcher.ps1\")",
+      "Bash(powershell -ExecutionPolicy Bypass -NoProfile -Command \"Add-Type -AssemblyName System.Windows.Forms; Write-Host ''WinForms OK''\")",
+      "Bash(powershell -ExecutionPolicy Bypass -NoProfile -Command \":*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Read(./**/*.key)",
+      "Read(./**/*.pem)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_FILE\" | grep -q '\\.py$'; then ruff check --fix \"$CLAUDE_FILE\" 2>/dev/null; black --quiet \"$CLAUDE_FILE\" 2>/dev/null; fi"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "INPUT=$(cat); COMMAND=$(echo \"$INPUT\" | jq -r '.tool_input.command // empty'); if echo \"$COMMAND\" | grep -q 'git commit'; then BLOCKED=0; if git diff --cached --name-only | grep -qE '\\.(env|key|pem|p12|pfx|jks)$'; then echo 'BLOCKED: Attempting to commit sensitive files (.env, .key, .pem, .p12, .pfx, .jks)'; BLOCKED=1; fi; if git diff --cached -U0 | grep -qE '(api[_-]?key|api[_-]?secret|password|token|secret[_-]?key|private[_-]?key|access[_-]?token)\\s*[=:]\\s*[^\\s]{8,}' 2>/dev/null; then echo 'WARNING: Possible hardcoded secret detected in staged changes.'; fi; if [ $BLOCKED -eq 1 ]; then exit 1; fi; fi"
+          }
+        ]
+      }
+    ]
+  },
+  "enableAllProjectMcpServers": true
+}

@@ -1,0 +1,56 @@
+name: bugfix-pipeline
+description: "End-to-end bug fix: diagnose -> fix -> test -> review -> commit"
+mode: both
+
+steps:
+  - id: diagnose
+    type: agent
+    agent: debugger
+    prompt: |
+      Diagnose and fix the following bug:
+      {{input}}
+
+      Follow the full debug process:
+      1. Reproduce the bug
+      2. Check logs/ for related errors
+      3. Isolate root cause
+      4. Apply fix
+      5. Verify fix with tests
+
+  - id: test
+    type: agent
+    agent: tester
+    depends_on: [diagnose]
+    prompt: |
+      Validate the bug fix:
+      1. Ensure existing tests still pass
+      2. Write a regression test for this specific bug
+      3. Run coverage analysis
+      4. Report results
+
+  - id: review
+    type: agent
+    agent: code-reviewer
+    depends_on: [diagnose]
+    prompt: |
+      Review the bug fix changes.
+      Focus on: root cause addressed (not just symptom), no regressions introduced, similar patterns elsewhere.
+
+  - id: validation
+    type: validation
+    depends_on: [test, review]
+    commands:
+      - ruff check src/ tests/
+      - black --check src/ tests/
+      - pytest tests/ -v
+    retry: 3
+
+  - id: summary
+    type: summary
+    depends_on: [validation]
+    prompt: |
+      Bug fix complete. Summarize:
+      - Root cause identified
+      - Fix applied (file:line references)
+      - Regression test added
+      - Review status

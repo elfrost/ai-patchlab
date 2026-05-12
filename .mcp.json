@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/mcp-memory"]
+    },
+    "mysql": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@bytebase/dbhub@latest",
+        "--transport", "stdio",
+        "--dsn", "${MYSQL_DSN}"
+      ]
+    }
+  }
+}
