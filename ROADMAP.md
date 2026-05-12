@@ -1,4 +1,4 @@
-﻿# ROADMAP â€” ai-patchlab
+# ROADMAP - ai-patchlab
 
 ## Conventions
 - `[ ]` = Todo
@@ -7,47 +7,53 @@
 
 ---
 
-## Phase 0 â€” Bootstrap
-- [x] Project scaffolded from EzProject v4 template â€” Project mode (2026-05-12)
+## Phase 0 - Bootstrap
+- [x] Project scaffolded from EzProject v4 template - Project mode (2026-05-12)
+- [x] Stack finalized as `data` (2026-05-12)
 - [ ] Virtual environment + dependencies installed
 - [ ] `.env` configured
-- [ ] `/kickoff` interview completed
-- [ ] INITIAL.md populated with feature spec
+- [x] `/kickoff` interview completed (2026-05-12)
+- [x] `INITIAL.md` populated with MVP v0.1 scanner foundation spec (2026-05-12)
 
-## Phase 1 â€” Setup & Foundation
-- [ ] **[REMPLIR â€” Tache setup 1]**
-- [ ] **[REMPLIR â€” Tache setup 2]**
-- [ ] **[REMPLIR â€” Tache setup 3]**
+## Phase 1 - Scanner Foundation
+- [x] CLI accepts a local repository path (2026-05-12)
+- [x] `reports/` is created automatically when missing (2026-05-12)
+- [x] JSON and Markdown reports are generated (2026-05-12)
+- [x] Normalized finding schema implemented (2026-05-12)
+- [x] Placeholder scanner modules added for Semgrep, Gitleaks, Trivy, dependency scan, and AI review (2026-05-12)
 
-## Phase 2 â€” Core MVP
-- [ ] **[REMPLIR â€” Feature core 1]**
-- [ ] **[REMPLIR â€” Feature core 2]**
-- [ ] **[REMPLIR â€” Feature core 3]**
+## Phase 2 - Real Scanner Integrations
+- [x] Add Semgrep execution and result parsing (2026-05-12)
+- [x] Add Gitleaks execution and result parsing (2026-05-12)
+- [ ] Add Trivy execution and result parsing
+- [ ] Add dependency scan execution and result parsing
 
-## Phase 3 â€” Polish & Stabilize
-- [ ] **[REMPLIR â€” Polish 1]**
-- [ ] **[REMPLIR â€” Polish 2]**
-- [ ] **[REMPLIR â€” Integration tests]**
+## Phase 3 - Remediation Planning
+- [x] Generate actionable remediation recommendations from findings (2026-05-12)
+- [ ] Add confidence rules for scanner outputs
+- [x] Add patch-plan Markdown section (2026-05-12)
+- [ ] Keep AI review local or explicitly user-configured
 
-## Phase 4 â€” Scaling & CI/CD
-- [ ] **CI/CD pipeline** â€” GitHub Actions for lint, test, deploy
-- [ ] **Performance profiling** â€” Identify and fix bottlenecks
-- [ ] **Horizontal scaling** â€” If applicable, design for multiple instances
+## Phase 4 - Polish & Stabilize
+- [ ] Add integration tests with sample vulnerable repositories
+- [ ] Add clear scanner failure handling and partial-report behavior
+- [ ] Add release checklist
 
-## Phase 5 â€” Monitoring & Observability
-- [ ] **Health checks** â€” Endpoint or script to verify system health
-- [ ] **Alerting** â€” Discord/email alerts for failures and anomalies
-- [ ] **Logging dashboard** â€” Centralized log viewing (Grafana, etc.)
-- [ ] **Metrics** â€” Key performance indicators tracked over time
+## Phase 5 - Scaling & CI/CD
+- [ ] CI/CD pipeline - GitHub Actions for lint and tests
+- [ ] Performance profiling - Identify slow scanner steps
+- [ ] Optional cache strategy for repeated scans
 
-## Phase 6 â€” Release & Maintenance
-- [ ] **Version management** â€” Semantic versioning and changelog
-- [ ] **Release checklist** â€” Documented release process
-- [ ] **Backup strategy** â€” Database and config backups
-- [ ] **Documentation** â€” User-facing docs, API docs if applicable
+## Phase 6 - Monitoring & Observability
+- [ ] Structured scan logs
+- [ ] Optional alerting for scheduled scans
+- [ ] Metrics for scan duration and finding counts
 
 ## Backlog
-- [ ] [REMPLIR â€” Features futures]
+- [ ] Patch-ready output generation
+- [ ] SARIF export
+- [ ] Repository baseline comparison
+- [ ] Web UI, after CLI workflow is stable
 
 ---
 

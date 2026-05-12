@@ -134,6 +134,48 @@ Pour les dÃ©cisions qui requiÃ¨rent un round de discussion avant `accepted`.
 
 <!-- Ajouter les nouvelles dÃ©cisions en haut (plus rÃ©cent en premier) -->
 
+### ADR-007: Rule-based patch suggestion fields
+**Date:** 2026-05-12
+**Status:** accepted
+**Decision:** Add deterministic patch suggestion fields to normalized findings and render them in Markdown reports.
+**Context:** AI PatchLab needs concise before/after remediation examples for common vulnerability patterns without calling paid APIs.
+**Consequences:** Reports can show actionable patch guidance for known patterns today, and future GPT-backed remediation can reuse the same `patch_before`, `patch_after`, and `remediation_explanation` schema.
+
+### ADR-006: Deterministic recommendation enrichment
+**Date:** 2026-05-12
+**Status:** accepted
+**Decision:** Enrich normalized finding recommendations with local rule-based keyword matching.
+**Context:** Remediation guidance needs to be specific and actionable for common security findings while preserving raw scanner output and avoiding paid APIs in the MVP.
+**Consequences:** Recommendation quality improves for known patterns, but coverage depends on maintaining deterministic keyword rules until a later configurable AI review layer is introduced.
+
+### ADR-005: Semgrep CLI as static analysis scanner integration
+**Date:** 2026-05-12
+**Status:** accepted
+**Decision:** Integrate Semgrep through the local CLI and consume its JSON report output.
+**Context:** AI PatchLab needs a real static analysis scanner while preserving the local CLI MVP and PowerShell-compatible workflow.
+**Consequences:** Users must install Semgrep separately or have it available at the supported Python user Scripts fallback path. If Semgrep is missing, the scan continues with an info finding instead of failing the full report.
+
+### ADR-004: Gitleaks CLI as first real scanner integration
+**Date:** 2026-05-12
+**Status:** accepted
+**Decision:** Integrate Gitleaks through the local CLI and consume its JSON report output.
+**Context:** AI PatchLab needs real secret scanning while staying PowerShell-friendly and avoiding bundled scanner binaries or paid APIs.
+**Consequences:** Users must install Gitleaks separately and ensure it is available on `PATH`. If it is missing, the scan continues with an info finding instead of failing the full report.
+
+### ADR-003: Placeholder scanner adapters before real tool execution
+**Date:** 2026-05-12
+**Status:** accepted
+**Decision:** Start with modular placeholder adapters for Semgrep, Gitleaks, Trivy, dependency scanning, and AI security review.
+**Context:** The immediate goal is to lock the normalized finding schema, report generation, and PowerShell-friendly CLI before integrating external scanner binaries.
+**Consequences:** v0.1 reports contain info-level placeholder findings. Real scanners can replace each module independently while preserving the report contract.
+
+### ADR-002: Data stack for local scanner MVP
+**Date:** 2026-05-12
+**Status:** accepted
+**Decision:** Use the EzProject `data` stack as the primary stack for AI PatchLab MVP v0.1.
+**Context:** The MVP reads a local repository path, normalizes scanner outputs, and writes JSON and Markdown reports. It does not expose a REST API, ship a web app, or call paid AI APIs.
+**Consequences:** Keep the scanner as a local Python CLI first. Future AI-agent patterns may be added after the scanner workflow and remediation report format are stable.
+
 ### ADR-001: Initial project scaffold
 **Date:** 2026-05-12
 **Status:** accepted

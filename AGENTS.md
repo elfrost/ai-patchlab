@@ -4,7 +4,7 @@
 > It should stay aligned with `CLAUDE.md` when both runtimes are present.
 
 ## About
-[FILL IN - Description of the project in 2-3 sentences]
+AI PatchLab is an AI-assisted security remediation toolkit. The MVP focuses on a local Python scanner that accepts a repository path, normalizes security findings, and writes JSON plus Markdown reports for remediation planning.
 
 ## Runtime Parity
 - Treat `INITIAL.md`, `PRPs/`, `ROADMAP.md`, `DECISIONS.md`, `README.md`, and `examples/` as shared sources of truth across runtimes
@@ -21,9 +21,12 @@
 
 ## Tech Stack
 - Python 3.11+
-- MySQL 8.0 (aiomysql for async)
-- Playwright (if scraping is needed)
-- Discord webhooks (alerts)
+- Local CLI scanner foundation
+- JSON and Markdown report generation
+- Data stack selected for repository analysis workflows
+- MySQL 8.0 (aiomysql for async, available but not required in v0.1)
+- Playwright (if scraping is needed later)
+- Discord webhooks (alerts, optional later)
 - Loguru (logging)
 - pytest (testing)
 - ruff + black (linting/formatting)
@@ -31,6 +34,11 @@
 - pydantic + pydantic-settings (validation + config)
 
 ## Key Directories
+- `scanner/` - Scanner CLI, finding model, recommendation enrichment, report generation, scanner registry
+- `scanner/remediation/` - Deterministic patch suggestion engine for known vulnerability patterns
+- `scanner/scanners/` - Scanner adapters for Semgrep and Gitleaks plus placeholders for Trivy, dependency scan, and AI review
+- `scanner/tools/` - External scanner process runners such as Semgrep and Gitleaks
+- `reports/` - Generated security reports (`security_report.json`, `security_report.md`)
 - `src/` - Main source code
 - `src/main.py` - Entry point (`python -m src.main`)
 - `tests/` - pytest tests
@@ -78,14 +86,15 @@ These Claude slash commands are intentionally not mirrored on the Codex side. Li
 ## Common Commands
 ```bash
 # Dev
+python scanner/run_scan.py --repo "C:\path\to\repo"
 python -m src.main
-pytest tests/ -v
-pytest tests/ -v -k "test_name"
+python -m pytest tests/ -v
+python -m pytest tests/ -v -k "test_name"
 
 # Lint & Format
-ruff check src/ tests/
-ruff check src/ --fix
-black src/ tests/
+ruff check scanner src/ tests/
+ruff check scanner src/ tests/ --fix
+python -m black scanner src/ tests/
 
 # Setup
 python -m venv .venv && source .venv/bin/activate

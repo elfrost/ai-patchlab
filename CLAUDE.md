@@ -4,7 +4,7 @@
 > Il dÃ©finit les rÃ¨gles, standards et contexte du projet.
 
 ## About
-[REMPLIR â€” Description du projet en 2-3 phrases]
+AI PatchLab is an AI-assisted security remediation toolkit. The MVP focuses on a local Python scanner that accepts a repository path, normalizes security findings, and writes JSON plus Markdown reports for remediation planning.
 This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.md` and `.agents/skills/`.
 
 ## Project Awareness & Context
@@ -17,9 +17,12 @@ This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.
 
 ## Tech Stack
 - Python 3.11+
-- MySQL 8.0 (aiomysql for async)
-- Playwright (si scraping requis)
-- Discord webhooks (alertes)
+- Local CLI scanner foundation
+- JSON and Markdown report generation
+- Data stack selected for repository analysis workflows
+- MySQL 8.0 (aiomysql for async, available but not required in v0.1)
+- Playwright (si scraping requis plus tard)
+- Discord webhooks (alertes optionnelles plus tard)
 - Loguru (logging)
 - pytest (testing)
 - ruff + black (linting/formatting)
@@ -27,6 +30,11 @@ This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.
 - pydantic + pydantic-settings (validation + config)
 
 ## Key Directories
+- `scanner/` â€” Scanner CLI, finding model, recommendation enrichment, report generation, scanner registry
+- `scanner/remediation/` â€” Deterministic patch suggestion engine for known vulnerability patterns
+- `scanner/scanners/` â€” Scanner adapters for Semgrep and Gitleaks plus placeholders for Trivy, dependency scan, and AI review
+- `scanner/tools/` â€” External scanner process runners such as Semgrep and Gitleaks
+- `reports/` â€” Generated security reports (`security_report.json`, `security_report.md`)
 - `src/` â€” Code source principal
 - `src/main.py` â€” Point d'entrÃ©e (`python -m src.main`)
 - `src/scrapers/` â€” Scrapers Playwright (si applicable)
@@ -102,14 +110,15 @@ This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.
 ## Common Commands
 ```bash
 # Dev
+python scanner/run_scan.py --repo "C:\path\to\repo"  # Run scanner foundation
 python -m src.main              # Run main entry point
-pytest tests/ -v                # Run all tests
-pytest tests/ -v -k "test_name" # Run specific test
+python -m pytest tests/ -v                # Run all tests
+python -m pytest tests/ -v -k "test_name" # Run specific test
 
 # Lint & Format
-ruff check src/ tests/          # Lint
-ruff check src/ --fix           # Auto-fix lint issues
-black src/ tests/               # Format
+ruff check scanner src/ tests/          # Lint
+ruff check scanner src/ tests/ --fix    # Auto-fix lint issues
+python -m black scanner src/ tests/      # Format
 
 # Setup (nouveau projet)
 python -m venv .venv && source .venv/bin/activate
