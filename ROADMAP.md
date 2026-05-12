@@ -59,3 +59,4 @@
 
 ## Completed
 <!-- Items completed are moved here with their date -->
+- [x] AI-Trader fork scan validated end-to-end with Semgrep/Gitleaks environment fixes and actionable recommendations for observed findings (2026-05-12)

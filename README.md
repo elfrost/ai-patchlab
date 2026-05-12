@@ -78,6 +78,9 @@ Current enriched patterns:
 - `subprocess` calls using `shell=True`
 - Wildcard CORS origins
 - Credential, password, secret, or token logging
+- Missing Subresource Integrity on external frontend assets
+- Python non-literal dynamic imports
+- JavaScript unsafe format string logging
 
 No paid APIs are used for recommendation enrichment.
 
@@ -93,10 +96,11 @@ for known vulnerability patterns:
 - `remediation_explanation` - why the change addresses the issue
 
 Current patch suggestion patterns cover wildcard CORS, `subprocess` with
-`shell=True`, SQL injection, hardcoded secrets, and credential logging. The
-Markdown report includes these patch suggestions when a deterministic rule
-matches. The module uses a small rule contract so a future GPT-backed provider
-can be added without changing the report schema.
+`shell=True`, SQL injection, hardcoded secrets, credential logging, missing
+Subresource Integrity, Python non-literal imports, and JavaScript unsafe format
+strings. The Markdown report includes these patch suggestions when a
+deterministic rule matches. The module uses a small rule contract so a future
+GPT-backed provider can be added without changing the report schema.
 
 ## Semgrep Setup
 

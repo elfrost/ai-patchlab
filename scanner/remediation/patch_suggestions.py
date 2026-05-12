@@ -71,6 +71,28 @@ CREDENTIAL_LOGGING_SUGGESTION = PatchSuggestion(
     patch_after='logger.info("login failed for %s", user)',
     remediation_explanation="Logs are often widely retained and searched. Remove sensitive fields and redact tokens, passwords, and secrets before logging.",
 )
+MISSING_INTEGRITY_SUGGESTION = PatchSuggestion(
+    patch_before='<script src="https://cdn.example.com/library.js"></script>',
+    patch_after='<script src="https://cdn.example.com/library.js" integrity="sha384-..." crossorigin="anonymous"></script>',
+    remediation_explanation=(
+        "Subresource Integrity lets the browser verify that a third-party asset has not been "
+        "modified before executing it."
+    ),
+)
+NON_LITERAL_IMPORT_SUGGESTION = PatchSuggestion(
+    patch_before="module = importlib.import_module(user_input)",
+    patch_after="module = importlib.import_module(ALLOWED_MODULES[user_input])",
+    remediation_explanation=(
+        "An allowlist prevents user-controlled input from loading arbitrary Python modules."
+    ),
+)
+UNSAFE_FORMATSTRING_SUGGESTION = PatchSuggestion(
+    patch_before='console.log("Loaded " + userControlledName)',
+    patch_after='console.log("Loaded %s", userControlledName)',
+    remediation_explanation=(
+        "Using a constant format string prevents injected format specifiers from changing log output."
+    ),
+)
 
 
 PATCH_SUGGESTION_RULES = (
@@ -163,6 +185,21 @@ PATCH_SUGGESTION_RULES = (
         )
         or ("cors" in text and "wildcard" in text),
         suggestion=WILDCARD_CORS_SUGGESTION,
+    ),
+    PatchSuggestionRule(
+        name="missing_integrity",
+        matches=lambda text: _contains_any(text, ("missing-integrity", "subresource integrity")),
+        suggestion=MISSING_INTEGRITY_SUGGESTION,
+    ),
+    PatchSuggestionRule(
+        name="non_literal_import",
+        matches=lambda text: _contains_any(text, ("non-literal-import", "dynamic import")),
+        suggestion=NON_LITERAL_IMPORT_SUGGESTION,
+    ),
+    PatchSuggestionRule(
+        name="unsafe_formatstring",
+        matches=lambda text: _contains_any(text, ("unsafe-formatstring", "format specifier")),
+        suggestion=UNSAFE_FORMATSTRING_SUGGESTION,
     ),
 )
 

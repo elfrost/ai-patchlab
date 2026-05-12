@@ -103,6 +103,33 @@ def test_semgrep_json_findings_map_to_normalized_schema(tmp_path: Path, monkeypa
     assert findings[0].patch_after == 'subprocess.run(["git", "log", branch], check=True)'
 
 
+def test_semgrep_json_reader_tolerates_invalid_utf8_bytes(tmp_path: Path, monkeypatch) -> None:
+    repo_path = tmp_path / "repo"
+    reports_dir = tmp_path / "reports"
+    repo_path.mkdir()
+
+    def fake_run_semgrep(repo_path: Path, raw_report_path: Path) -> SemgrepResult:
+        raw_report_path.parent.mkdir(parents=True, exist_ok=True)
+        raw_report_path.write_bytes(
+            b'{"results":[{"check_id":"python.test","path":"src/app.py","start":{"line":1},'
+            b'"extra":{"message":"bad byte '
+            + bytes([0x92])
+            + b' in scanner output","severity":"INFO"}}]}'
+        )
+        return SemgrepResult(
+            installed=True,
+            raw_report_path=raw_report_path,
+            returncode=0,
+        )
+
+    monkeypatch.setattr("scanner.scanners.semgrep.run_semgrep", fake_run_semgrep)
+
+    findings = scan_semgrep(repo_path, reports_dir)
+
+    assert len(findings) == 1
+    assert findings[0].title == "python.test"
+
+
 def test_semgrep_runner_uses_json_report_command(tmp_path: Path, monkeypatch) -> None:
     repo_path = tmp_path / "repo"
     raw_report_path = tmp_path / "reports" / "raw" / "semgrep.json"
@@ -134,13 +161,16 @@ def test_semgrep_runner_uses_json_report_command(tmp_path: Path, monkeypatch) ->
         str(raw_report_path),
         str(repo_path),
     ]
-    assert captured["kwargs"] == {
+    expected_kwargs = {
         "capture_output": True,
         "text": True,
         "encoding": "utf-8",
         "errors": "replace",
         "check": False,
+        "env": captured["kwargs"]["env"],
     }
+    assert captured["kwargs"] == expected_kwargs
+    assert "C:\\Python313\\Scripts" in captured["kwargs"]["env"]["PATH"]
 
 
 def test_semgrep_lookup_uses_python_scripts_fallback_when_path_lookup_fails(
