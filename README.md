@@ -1,76 +1,171 @@
-﻿# ai-patchlab
+# AI PatchLab
 
-> [REMPLIR â€” Description du projet en 1-2 phrases]
+AI PatchLab is an AI-assisted security remediation toolkit. The MVP starts with a
+local repository scanner foundation that normalizes security findings and writes
+actionable JSON and Markdown reports.
 
 ## Quick Start
 
-```bash
+```powershell
 # Setup
-cd ai-patchlab
-python -m venv .venv && .venv\Scripts\activate    # Windows
+cd C:\Users\Elfrost\OneDrive\NetProject\EzWebSolution\ai-patchlab
+python -m venv .venv
+.\.venv\Scripts\activate
 pip install -e ".[dev]"
-cp .env.example .env
 
-# Run
-python -m src.main
+# Run a scan against a local repository
+python scanner/run_scan.py --repo "C:\path\to\repo"
+
+# Run this repository against itself
+python scanner/run_scan.py --repo "."
 
 # Tests
-pytest tests/ -v
+python -m pytest tests/ -v
 
-# Lint & Format
-ruff check src/ tests/
-black src/ tests/
+# Lint and format
+ruff check scanner src/ tests/
+python -m black scanner src/ tests/
 ```
 
-## AI Developer Runtimes
+The scanner creates the `reports/` directory when missing and writes:
 
-### Claude Code
+- `reports/security_report.json`
+- `reports/security_report.md`
+- `reports/raw/semgrep.json` when Semgrep is installed and executed
+- `reports/raw/gitleaks.json` when Gitleaks is installed and executed
 
-Ce projet utilise [Claude Code](https://docs.anthropic.com/en/docs/claude-code) avec des slash commands personnalisÃ©es :
+## Current Scanner Foundation
 
-| Commande | Description |
-|----------|-------------|
-| `/kickoff` | Interview interactive pour dÃ©finir une feature |
-| `/generate-prp INITIAL.md` | GÃ©nÃ¨re un plan d'implÃ©mentation (PRP) |
-| `/execute-prp PRPs/feature.md` | ExÃ©cute le PRP |
-| `/review-code` | Code review automatisÃ©e |
-| `/status` | Snapshot rapide de l'Ã©tat du projet |
-| `/audit-project` | Audit du CLAUDE.md |
-| `/cleanup` | Analyse de dead code |
-| `/housekeeping` | Mise Ã  jour documentation post-implÃ©mentation |
-| `/retrospective` | Analyse rÃ©trospective et amÃ©lioration continue |
+The v0.1 foundation includes:
 
-### Codex / OpenAI
+- Real Gitleaks execution through the local `gitleaks` CLI
+- Real Semgrep execution through the local `semgrep` CLI
+- Trivy placeholder
+- Dependency scan placeholder
+- AI security review placeholder
 
-Si le support Codex a Ã©tÃ© scaffoldÃ© pour le projet, il inclut aussi :
+Each scanner returns findings normalized to:
 
-- `AGENTS.md` â€” instructions runtime pour Codex/OpenAI
-- `.agents/skills/ez-project-workflow` â€” rÃ¨gles de travail EzProject par dÃ©faut
-- `.agents/skills/kickoff` â€” workflow d'interview kickoff
-- `.agents/skills/generate-prp` â€” gÃ©nÃ©ration de PRP
-- `.agents/skills/execute-prp` â€” exÃ©cution de PRP avec housekeeping
-- `.agents/skills/review-code` â€” revue de code
-- `.agents/skills/audit-project` â€” audit runtime/docs
-- `.agents/skills/status` â€” snapshot rapide du projet
-- `.agents/skills/housekeeping` â€” synchronisation de la documentation
-- `.agents/skills/create-skill` â€” gÃ©nÃ©ration d'un skill Codex local au projet
+- `id`
+- `tool`
+- `severity`
+- `title`
+- `description`
+- `file`
+- `line`
+- `recommendation`
+- `confidence`
+- `patch_before`
+- `patch_after`
+- `remediation_explanation`
+
+Findings are grouped by severity: `critical`, `high`, `medium`, `low`, and
+`info`.
+
+## Recommendation Enrichment
+
+AI PatchLab enriches normalized finding recommendations with a deterministic
+rule-based layer in `scanner/recommendations.py`. The enrichment matches finding
+rule IDs, titles, tools, and descriptions for known security patterns, then
+updates only the normalized `recommendation` field. Raw scanner output remains
+unchanged.
+
+Current enriched patterns:
+
+- Stripe/API keys and other exposed secrets
+- GitHub personal access tokens
+- SQL injection and raw SQL findings
+- `subprocess` calls using `shell=True`
+- Wildcard CORS origins
+- Credential, password, secret, or token logging
+
+No paid APIs are used for recommendation enrichment.
+
+## Patch Suggestions
+
+AI PatchLab also adds deterministic patch suggestions through
+`scanner/remediation/patch_suggestions.py`. The engine matches normalized
+findings by title, tool, and security keywords, then fills concise patch fields
+for known vulnerability patterns:
+
+- `patch_before` - a short vulnerable-code example
+- `patch_after` - a short safer-code example
+- `remediation_explanation` - why the change addresses the issue
+
+Current patch suggestion patterns cover wildcard CORS, `subprocess` with
+`shell=True`, SQL injection, hardcoded secrets, and credential logging. The
+Markdown report includes these patch suggestions when a deterministic rule
+matches. The module uses a small rule contract so a future GPT-backed provider
+can be added without changing the report schema.
+
+## Semgrep Setup
+
+AI PatchLab calls the local `semgrep` executable. It does not bundle Semgrep.
+
+Install Semgrep, add it to `PATH`, then verify it from PowerShell:
+
+```powershell
+semgrep --version
+```
+
+AI PatchLab runs Semgrep with JSON output:
+
+```powershell
+semgrep scan --config auto --json --output "reports\raw\semgrep.json" "C:\path\to\repo"
+```
+
+If Semgrep is not installed, the full scan still completes and the report
+includes one `info` finding explaining that Semgrep was skipped.
+
+Semgrep severities are normalized as `ERROR` -> `high`, `WARNING` -> `medium`,
+and `INFO` -> `low`.
+
+## Gitleaks Setup
+
+AI PatchLab calls the local `gitleaks` executable. It does not bundle Gitleaks.
+
+Install Gitleaks for Windows, add it to `PATH`, then verify it from PowerShell:
+
+```powershell
+gitleaks version
+```
+
+AI PatchLab runs Gitleaks with JSON output:
+
+```powershell
+gitleaks detect --source "C:\path\to\repo" --report-format json --report-path "reports\raw\gitleaks.json" --no-git
+```
+
+If Gitleaks is not installed, the full scan still completes and the report
+includes one `info` finding explaining that Gitleaks was skipped.
+
+Confirmed Gitleaks secret findings are normalized as `high` severity with
+`high` confidence.
 
 ## Project Structure
 
-```
+```text
 ai-patchlab/
-â”œâ”€â”€ src/                 # Code source principal
-â”‚   â””â”€â”€ main.py          # Point d'entrÃ©e
-â”œâ”€â”€ tests/               # Tests pytest
-â”œâ”€â”€ examples/            # Code patterns de rÃ©fÃ©rence
-â”œâ”€â”€ PRPs/                # Product Requirements Prompts
-â”œâ”€â”€ docs/                # Documentation technique
-â”œâ”€â”€ .claude/             # Slash commands + subagents + settings
-â”œâ”€â”€ .agents/             # Codex skills (optionnel, si scaffoldÃ©)
-â”œâ”€â”€ AGENTS.md            # Instructions runtime Codex/OpenAI (optionnel)
-â””â”€â”€ pyproject.toml       # Dependencies et config
+|-- scanner/             # Scanner CLI, finding model, recommendations, reports
+|-- scanner/remediation/ # Deterministic patch suggestion engine
+|-- scanner/scanners/    # Semgrep and Gitleaks adapters plus remaining placeholders
+|-- scanner/tools/       # External scanner process runners
+|-- reports/             # Generated security reports
+|-- src/                 # Legacy scaffold entry point
+|-- tests/               # pytest tests
+|-- examples/            # Reference implementation patterns
+|-- PRPs/                # Product Requirements Prompts
+|-- docs/                # Technical documentation
+|-- .claude/             # Claude commands and agents
+|-- .agents/             # Codex skills
+|-- AGENTS.md            # Codex/OpenAI runtime instructions
+|-- CLAUDE.md            # Claude runtime instructions
+`-- pyproject.toml       # Dependencies and tool config
 ```
 
-## License
+## Notes
 
-[REMPLIR â€” Private / MIT / etc.]
+- No web app is included in v0.1.
+- No external paid APIs are called.
+- Placeholder scanners are intentionally simple and ready to be replaced by real
+  tool integrations.
