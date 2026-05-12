@@ -5,6 +5,7 @@ from __future__ import annotations
 import shutil
 import subprocess
 from dataclasses import dataclass
+from os import PathLike
 from pathlib import Path
 
 PIP_USER_SEMGREP_PATH = Path(
@@ -53,6 +54,7 @@ def run_semgrep(repo_path: Path, raw_report_path: Path) -> SemgrepResult:
             encoding="utf-8",
             errors="replace",
             check=False,
+            env=_build_semgrep_env(executable),
         )
     except OSError as exc:
         raw_report_path.write_text('{"results": []}', encoding="utf-8")
@@ -83,3 +85,17 @@ def find_semgrep_executable() -> str | None:
     if PIP_USER_SEMGREP_PATH.exists():
         return str(PIP_USER_SEMGREP_PATH)
     return None
+
+
+def _build_semgrep_env(executable: str | PathLike[str]) -> dict[str, str]:
+    """Ensure adjacent Semgrep helper scripts are discoverable on Windows."""
+    import os
+
+    env = os.environ.copy()
+    executable_dir = str(Path(executable).parent)
+    current_path = env.get("PATH", "")
+    if executable_dir and executable_dir.lower() not in current_path.lower().split(os.pathsep):
+        env["PATH"] = (
+            f"{executable_dir}{os.pathsep}{current_path}" if current_path else executable_dir
+        )
+    return env
