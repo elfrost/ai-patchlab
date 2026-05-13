@@ -25,7 +25,7 @@ def collect_findings(repo_path: Path, reports_dir: Path) -> list[Finding]:
 
 
 def run_scan(repo_path: Path, reports_dir: Path = Path("reports")) -> dict[str, Path]:
-    """Validate input, run placeholder scanners, and write reports."""
+    """Validate input, run configured scanners, and write reports."""
     resolved_repo = repo_path.expanduser().resolve()
     if not resolved_repo.exists() or not resolved_repo.is_dir():
         raise ValueError(f"Repository path does not exist or is not a directory: {repo_path}")

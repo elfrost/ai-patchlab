@@ -34,6 +34,7 @@ The scanner creates the `reports/` directory when missing and writes:
 - `reports/raw/semgrep.json` when Semgrep is installed and executed
 - `reports/raw/gitleaks.json` when Gitleaks is installed and executed
 - `reports/raw/trivy.json` when Trivy is installed and executed
+- `reports/raw/pip-audit.json` when pip-audit is installed and executed
 
 ## Current Scanner Foundation
 
@@ -42,7 +43,7 @@ The v0.1 foundation includes:
 - Real Gitleaks execution through the local `gitleaks` CLI
 - Real Semgrep execution through the local `semgrep` CLI
 - Real Trivy filesystem execution through the local `trivy` CLI
-- Dependency scan placeholder
+- Real Python dependency auditing through local `pip-audit`
 - AI security review placeholder
 
 Each scanner returns findings normalized to:
@@ -171,13 +172,45 @@ Trivy severities are normalized as `CRITICAL` -> `critical`, `HIGH` -> `high`,
 The first Trivy integration normalizes vulnerabilities and misconfigurations;
 secret scanning remains owned by Gitleaks.
 
+## Dependency Scan Setup
+
+AI PatchLab calls local `pip-audit` for Python dependency vulnerability scanning.
+It does not bundle pip-audit.
+
+Install pip-audit, then verify it from PowerShell:
+
+```powershell
+python -m pip install pip-audit
+pip-audit --version
+```
+
+AI PatchLab writes pip-audit JSON output to `reports/raw/pip-audit.json`.
+For requirements files, it runs pip-audit with one or more `--requirement`
+inputs:
+
+```powershell
+pip-audit --format json --output "reports\raw\pip-audit.json" --progress-spinner off --requirement "C:\path\to\repo\requirements.txt"
+```
+
+If no root requirements file is found, AI PatchLab can audit a local Python
+project with `pyproject.toml` or `pylock.*.toml`:
+
+```powershell
+pip-audit --format json --output "reports\raw\pip-audit.json" --progress-spinner off "C:\path\to\repo"
+```
+
+pip-audit exit code `0` means no known vulnerabilities were found, and exit code
+`1` means one or more known vulnerabilities were found. Both are handled as
+successful scanner executions. Other failures become `info` findings so the full
+AI PatchLab report still completes.
+
 ## Project Structure
 
 ```text
 ai-patchlab/
 |-- scanner/             # Scanner CLI, finding model, recommendations, reports
 |-- scanner/remediation/ # Deterministic patch suggestion engine
-|-- scanner/scanners/    # Semgrep, Gitleaks, and Trivy adapters plus placeholders
+|-- scanner/scanners/    # Semgrep, Gitleaks, Trivy, and dependency adapters
 |-- scanner/tools/       # External scanner process runners
 |-- reports/             # Generated security reports
 |-- src/                 # Legacy scaffold entry point
@@ -196,5 +229,5 @@ ai-patchlab/
 
 - No web app is included in v0.1.
 - No external paid APIs are called.
-- Remaining placeholder scanners are intentionally simple and ready to be
-  replaced by real tool integrations.
+- The remaining AI security review placeholder is intentionally simple and ready
+  to be replaced by a real local or explicitly configured integration.
