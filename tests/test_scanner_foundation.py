@@ -7,6 +7,7 @@ from scanner.models import FINDING_FIELDS, SEVERITIES
 from scanner.run_scan import main, run_scan
 from scanner.tools.gitleaks_runner import GitleaksResult
 from scanner.tools.semgrep_runner import SemgrepResult
+from scanner.tools.trivy_runner import TrivyResult
 
 
 def test_run_scan_creates_json_and_markdown_reports(tmp_path: Path, monkeypatch) -> None:
@@ -24,6 +25,13 @@ def test_run_scan_creates_json_and_markdown_reports(tmp_path: Path, monkeypatch)
     monkeypatch.setattr(
         "scanner.scanners.semgrep.run_semgrep",
         lambda repo_path, raw_report_path: SemgrepResult(
+            installed=False,
+            raw_report_path=raw_report_path,
+        ),
+    )
+    monkeypatch.setattr(
+        "scanner.scanners.trivy.run_trivy",
+        lambda repo_path, raw_report_path: TrivyResult(
             installed=False,
             raw_report_path=raw_report_path,
         ),

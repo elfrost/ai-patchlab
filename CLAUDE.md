@@ -32,8 +32,8 @@ This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.
 ## Key Directories
 - `scanner/` â€” Scanner CLI, finding model, recommendation enrichment, report generation, scanner registry
 - `scanner/remediation/` â€” Deterministic patch suggestion engine for known vulnerability patterns
-- `scanner/scanners/` â€” Scanner adapters for Semgrep, Gitleaks, and Trivy plus placeholders for dependency scan and AI review
-- `scanner/tools/` â€” External scanner process runners such as Semgrep, Gitleaks, and Trivy
+- `scanner/scanners/` â€” Scanner adapters for Semgrep, Gitleaks, Trivy, and dependency scan plus placeholder AI review
+- `scanner/tools/` â€” External scanner process runners such as Semgrep, Gitleaks, Trivy, and pip-audit
 - `reports/` â€” Generated security reports (`security_report.json`, `security_report.md`)
 - `src/` â€” Code source principal
 - `src/main.py` â€” Point d'entrÃ©e (`python -m src.main`)
