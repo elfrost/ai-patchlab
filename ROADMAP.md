@@ -25,7 +25,7 @@
 ## Phase 2 - Real Scanner Integrations
 - [x] Add Semgrep execution and result parsing (2026-05-12)
 - [x] Add Gitleaks execution and result parsing (2026-05-12)
-- [ ] Add Trivy execution and result parsing
+- [x] Add Trivy execution and result parsing (2026-05-12)
 - [ ] Add dependency scan execution and result parsing
 
 ## Phase 3 - Remediation Planning
