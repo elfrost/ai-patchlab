@@ -36,8 +36,8 @@ AI PatchLab is an AI-assisted security remediation toolkit. The MVP focuses on a
 ## Key Directories
 - `scanner/` - Scanner CLI, finding model, recommendation enrichment, report generation, scanner registry
 - `scanner/remediation/` - Deterministic patch suggestion engine for known vulnerability patterns
-- `scanner/scanners/` - Scanner adapters for Semgrep, Gitleaks, and Trivy plus placeholders for dependency scan and AI review
-- `scanner/tools/` - External scanner process runners such as Semgrep, Gitleaks, and Trivy
+- `scanner/scanners/` - Scanner adapters for Semgrep, Gitleaks, Trivy, and dependency scan plus placeholder AI review
+- `scanner/tools/` - External scanner process runners such as Semgrep, Gitleaks, Trivy, and pip-audit
 - `reports/` - Generated security reports (`security_report.json`, `security_report.md`)
 - `src/` - Main source code
 - `src/main.py` - Entry point (`python -m src.main`)
