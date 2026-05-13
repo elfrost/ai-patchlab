@@ -6,9 +6,12 @@ from scanner.models import Finding
 from scanner.recommendations import (
     CREDENTIAL_LOGGING_RECOMMENDATION,
     GITHUB_PAT_RECOMMENDATION,
+    MISSING_INTEGRITY_RECOMMENDATION,
+    NON_LITERAL_IMPORT_RECOMMENDATION,
     SECRET_RECOMMENDATION,
     SQL_INJECTION_RECOMMENDATION,
     SUBPROCESS_SHELL_RECOMMENDATION,
+    UNSAFE_FORMATSTRING_RECOMMENDATION,
     WILDCARD_CORS_RECOMMENDATION,
     enrich_finding,
 )
@@ -56,6 +59,21 @@ def _finding(rule: str, title: str, tool: str = "semgrep") -> Finding:
         (
             _finding("python.credential-logging", "Credential logging detected"),
             CREDENTIAL_LOGGING_RECOMMENDATION,
+        ),
+        (
+            _finding("html.security.audit.missing-integrity.missing-integrity", "Missing SRI"),
+            MISSING_INTEGRITY_RECOMMENDATION,
+        ),
+        (
+            _finding("python.lang.security.audit.non-literal-import.non-literal-import", "Import"),
+            NON_LITERAL_IMPORT_RECOMMENDATION,
+        ),
+        (
+            _finding(
+                "javascript.lang.security.audit.unsafe-formatstring.unsafe-formatstring",
+                "Unsafe format string",
+            ),
+            UNSAFE_FORMATSTRING_RECOMMENDATION,
         ),
     ],
 )

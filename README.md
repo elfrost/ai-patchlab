@@ -33,6 +33,7 @@ The scanner creates the `reports/` directory when missing and writes:
 - `reports/security_report.md`
 - `reports/raw/semgrep.json` when Semgrep is installed and executed
 - `reports/raw/gitleaks.json` when Gitleaks is installed and executed
+- `reports/raw/trivy.json` when Trivy is installed and executed
 
 ## Current Scanner Foundation
 
@@ -40,7 +41,7 @@ The v0.1 foundation includes:
 
 - Real Gitleaks execution through the local `gitleaks` CLI
 - Real Semgrep execution through the local `semgrep` CLI
-- Trivy placeholder
+- Real Trivy filesystem execution through the local `trivy` CLI
 - Dependency scan placeholder
 - AI security review placeholder
 
@@ -78,6 +79,9 @@ Current enriched patterns:
 - `subprocess` calls using `shell=True`
 - Wildcard CORS origins
 - Credential, password, secret, or token logging
+- Missing Subresource Integrity on external frontend assets
+- Python non-literal dynamic imports
+- JavaScript unsafe format string logging
 
 No paid APIs are used for recommendation enrichment.
 
@@ -93,10 +97,11 @@ for known vulnerability patterns:
 - `remediation_explanation` - why the change addresses the issue
 
 Current patch suggestion patterns cover wildcard CORS, `subprocess` with
-`shell=True`, SQL injection, hardcoded secrets, and credential logging. The
-Markdown report includes these patch suggestions when a deterministic rule
-matches. The module uses a small rule contract so a future GPT-backed provider
-can be added without changing the report schema.
+`shell=True`, SQL injection, hardcoded secrets, credential logging, missing
+Subresource Integrity, Python non-literal imports, and JavaScript unsafe format
+strings. The Markdown report includes these patch suggestions when a
+deterministic rule matches. The module uses a small rule contract so a future
+GPT-backed provider can be added without changing the report schema.
 
 ## Semgrep Setup
 
@@ -142,13 +147,37 @@ includes one `info` finding explaining that Gitleaks was skipped.
 Confirmed Gitleaks secret findings are normalized as `high` severity with
 `high` confidence.
 
+## Trivy Setup
+
+AI PatchLab calls the local `trivy` executable. It does not bundle Trivy.
+
+Install Trivy for Windows, add it to `PATH`, then verify it from PowerShell:
+
+```powershell
+trivy --version
+```
+
+AI PatchLab runs Trivy in filesystem mode with JSON output:
+
+```powershell
+trivy fs --format json --output "reports\raw\trivy.json" --scanners vuln,misconfig --no-progress --skip-version-check "C:\path\to\repo"
+```
+
+If Trivy is not installed, the full scan still completes and the report
+includes one `info` finding explaining that Trivy was skipped.
+
+Trivy severities are normalized as `CRITICAL` -> `critical`, `HIGH` -> `high`,
+`MEDIUM` -> `medium`, `LOW` -> `low`, and `UNKNOWN` or missing values -> `info`.
+The first Trivy integration normalizes vulnerabilities and misconfigurations;
+secret scanning remains owned by Gitleaks.
+
 ## Project Structure
 
 ```text
 ai-patchlab/
 |-- scanner/             # Scanner CLI, finding model, recommendations, reports
 |-- scanner/remediation/ # Deterministic patch suggestion engine
-|-- scanner/scanners/    # Semgrep and Gitleaks adapters plus remaining placeholders
+|-- scanner/scanners/    # Semgrep, Gitleaks, and Trivy adapters plus placeholders
 |-- scanner/tools/       # External scanner process runners
 |-- reports/             # Generated security reports
 |-- src/                 # Legacy scaffold entry point
@@ -167,5 +196,5 @@ ai-patchlab/
 
 - No web app is included in v0.1.
 - No external paid APIs are called.
-- Placeholder scanners are intentionally simple and ready to be replaced by real
-  tool integrations.
+- Remaining placeholder scanners are intentionally simple and ready to be
+  replaced by real tool integrations.
