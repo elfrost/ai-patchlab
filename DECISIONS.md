@@ -134,6 +134,13 @@ Pour les dÃ©cisions qui requiÃ¨rent un round de discussion avant `accepted`.
 
 <!-- Ajouter les nouvelles dÃ©cisions en haut (plus rÃ©cent en premier) -->
 
+### ADR-009: pip-audit CLI dependency scanner integration
+**Date:** 2026-05-13
+**Status:** accepted
+**Decision:** Integrate Python dependency scanning through local pip-audit execution and consume its JSON vulnerability output.
+**Context:** AI PatchLab needs a real dependency scanner while keeping the MVP local-first, PowerShell-compatible, and free of bundled scanner binaries or paid APIs. pip-audit supports requirements files, local Python project paths, JSON output, and clear exit codes for vulnerable versus clean dependency sets.
+**Consequences:** Users must install pip-audit separately or make the `pip_audit` Python module available. The scan writes `reports/raw/pip-audit.json`, normalizes supported vulnerability records into the shared finding schema, and continues with an info finding when pip-audit is missing, unsupported manifests are absent, or scanner setup fails.
+
 ### ADR-008: Trivy CLI filesystem scanner integration
 **Date:** 2026-05-12
 **Status:** accepted
