@@ -9,8 +9,11 @@ from scanner.remediation.patch_suggestions import (
     CREDENTIAL_LOGGING_SUGGESTION,
     GITHUB_TOKEN_SUGGESTION,
     HARDCODED_SECRET_SUGGESTION,
+    MISSING_INTEGRITY_SUGGESTION,
+    NON_LITERAL_IMPORT_SUGGESTION,
     SQL_INJECTION_SUGGESTION,
     SUBPROCESS_SHELL_SUGGESTION,
+    UNSAFE_FORMATSTRING_SUGGESTION,
     WILDCARD_CORS_SUGGESTION,
     PatchSuggestion,
     apply_patch_suggestion,
@@ -63,6 +66,21 @@ def _finding(
         (
             _finding("python.credential-logging", "Credential logging detected"),
             CREDENTIAL_LOGGING_SUGGESTION,
+        ),
+        (
+            _finding("html.security.audit.missing-integrity.missing-integrity", "Missing SRI"),
+            MISSING_INTEGRITY_SUGGESTION,
+        ),
+        (
+            _finding("python.lang.security.audit.non-literal-import.non-literal-import", "Import"),
+            NON_LITERAL_IMPORT_SUGGESTION,
+        ),
+        (
+            _finding(
+                "javascript.lang.security.audit.unsafe-formatstring.unsafe-formatstring",
+                "Unsafe format string",
+            ),
+            UNSAFE_FORMATSTRING_SUGGESTION,
         ),
     ],
 )

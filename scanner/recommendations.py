@@ -28,6 +28,17 @@ WILDCARD_CORS_RECOMMENDATION = (
 CREDENTIAL_LOGGING_RECOMMENDATION = (
     "Remove secrets/passwords/tokens from logs and add redaction for sensitive fields."
 )
+MISSING_INTEGRITY_RECOMMENDATION = (
+    "Add Subresource Integrity hashes and crossorigin attributes to external script or stylesheet "
+    "tags, or self-host pinned trusted assets."
+)
+NON_LITERAL_IMPORT_RECOMMENDATION = (
+    "Replace dynamic import strings with an explicit allowlist of trusted modules before importing."
+)
+UNSAFE_FORMATSTRING_RECOMMENDATION = (
+    "Use constant log or format strings and pass dynamic values as separate arguments instead of "
+    "concatenating user-controlled text."
+)
 
 
 def enrich_findings(findings: list[Finding]) -> list[Finding]:
@@ -59,6 +70,12 @@ def recommend_for_finding(finding: Finding) -> str:
         return SUBPROCESS_SHELL_RECOMMENDATION
     if _is_wildcard_cors(text):
         return WILDCARD_CORS_RECOMMENDATION
+    if _is_missing_integrity(text):
+        return MISSING_INTEGRITY_RECOMMENDATION
+    if _is_non_literal_import(text):
+        return NON_LITERAL_IMPORT_RECOMMENDATION
+    if _is_unsafe_formatstring(text):
+        return UNSAFE_FORMATSTRING_RECOMMENDATION
 
     return finding.recommendation
 
@@ -141,3 +158,15 @@ def _is_credential_logging(text: str) -> bool:
     return any(term in text for term in sensitive_terms) and any(
         term in text for term in logging_terms
     )
+
+
+def _is_missing_integrity(text: str) -> bool:
+    return "missing-integrity" in text or "subresource integrity" in text
+
+
+def _is_non_literal_import(text: str) -> bool:
+    return "non-literal-import" in text or "dynamic import" in text
+
+
+def _is_unsafe_formatstring(text: str) -> bool:
+    return "unsafe-formatstring" in text or "format specifier" in text

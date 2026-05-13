@@ -74,7 +74,7 @@ def _read_gitleaks_records(raw_report_path: Path) -> list[dict[str, Any]]:
     if not raw_report_path.exists():
         return []
 
-    raw_text = raw_report_path.read_text(encoding="utf-8").strip()
+    raw_text = raw_report_path.read_text(encoding="utf-8", errors="replace").strip()
     if not raw_text:
         return []
 

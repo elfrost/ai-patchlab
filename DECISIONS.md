@@ -134,6 +134,13 @@ Pour les dÃ©cisions qui requiÃ¨rent un round de discussion avant `accepted`.
 
 <!-- Ajouter les nouvelles dÃ©cisions en haut (plus rÃ©cent en premier) -->
 
+### ADR-008: Trivy CLI filesystem scanner integration
+**Date:** 2026-05-12
+**Status:** accepted
+**Decision:** Integrate Trivy through the local CLI in filesystem mode and consume its JSON report output for vulnerabilities and misconfigurations.
+**Context:** AI PatchLab needs real repository dependency and configuration scanning while preserving the local-first, PowerShell-compatible MVP and avoiding bundled scanner binaries or paid APIs.
+**Consequences:** Users must install Trivy separately and ensure it is available on `PATH`. The scan writes `reports/raw/trivy.json`, normalizes supported findings into the shared schema, and continues with an info finding when Trivy is missing or cannot produce usable results.
+
 ### ADR-007: Rule-based patch suggestion fields
 **Date:** 2026-05-12
 **Status:** accepted
