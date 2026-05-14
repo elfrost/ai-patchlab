@@ -1,0 +1,12 @@
+title: AI PatchLab Scans
+description: >-
+  Security scans of public repositories run with AI PatchLab — a local-first,
+  open-source security scanner that orchestrates Semgrep, Gitleaks, Trivy, and
+  pip-audit.
+theme: jekyll-theme-cayman
+markdown: kramdown
+show_downloads: false
+
+exclude:
+  - templates/
+  - README.md

@@ -55,7 +55,7 @@ AI PatchLab is an AI-assisted security remediation toolkit. The MVP focuses on a
 - `PRPs/` - Active Product Requirements Prompts
 - `PRPs/done/` - Archived PRPs (`2026-05-12-trivy-integration.md`, `20260513-phase-3-ai-review-behavior.md`)
 - `PRPs/templates/` - Reusable PRP templates (`prp_base.md`)
-- `docs/` - Technical documentation (placeholder - currently empty)
+- `docs/` - GitHub Pages site (Jekyll, theme `cayman`): `_config.yml`, `index.md` (landing + scan log), `scans/` (per-scan write-ups), `templates/scan-post.md` (template, excluded from publish)
 - `logs/` - Log files (gitignored except `.gitkeep`)
 - `.agents/skills/` - Codex skills for repeatable workflows
 - `.claude/` - Claude runtime files (commands, agents, pipelines), if present

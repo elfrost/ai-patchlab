@@ -4,6 +4,8 @@ AI PatchLab is an AI-assisted security remediation toolkit. The MVP starts with 
 local repository scanner foundation that normalizes security findings and writes
 actionable JSON and Markdown reports.
 
+Public scan write-ups: [elfrost.github.io/ai-patchlab](https://elfrost.github.io/ai-patchlab/).
+
 ## Quick Start
 
 ```powershell
@@ -300,7 +302,7 @@ ai-patchlab/
 |-- tests/               # pytest tests
 |-- examples/            # Reference implementation patterns
 |-- PRPs/                # Product Requirements Prompts
-|-- docs/                # Technical documentation
+|-- docs/                # GitHub Pages site (public scan write-ups)
 |-- .claude/             # Claude commands and agents
 |-- .agents/             # Codex skills
 |-- AGENTS.md            # Codex/OpenAI runtime instructions
