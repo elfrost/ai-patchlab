@@ -34,10 +34,11 @@ This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.
 - `scanner/` — Scanner CLI, finding model, recommendation enrichment, report generation, scanner registry
 - `scanner/run_scan.py` — CLI entry point (`python scanner/run_scan.py --repo <path>` or `--from-git-url <url>`)
 - `scanner/git_source.py` — Shallow-clone a public git URL into a temp directory via the `cloned_repo` context manager; cleanup-on-exit, `shell=False`, no remote API calls
+- `scanner/paths.py` — `rebase_finding_paths(findings, repo_root)` rewrites each finding's `file` (and `id` when it embeds the same path) to a repo-relative POSIX path so reports survive temp-dir cleanup
 - `scanner/models.py` — Normalized `Finding` dataclass + severity/confidence enums + `FINDING_FIELDS`
 - `scanner/recommendations.py` — Deterministic keyword-based recommendation enrichment
 - `scanner/confidence.py` — Centralized `Finding.confidence` rules (one function per scanner + `confidence_for_meta_finding` for shared `not-installed` / `scan-error` / etc.)
-- `scanner/report.py` — JSON + Markdown report writers (severity-grouped, patch suggestion blocks)
+- `scanner/report.py` — JSON + Markdown report writers (severity-grouped, "Top Findings" highlight block, patch suggestion blocks); also exposes `filter_by_min_severity` and `select_top_findings`
 - `scanner/config.py` — Disabled-by-default AI review configuration loaded from environment / `.env` (`AI_PATCHLAB_*`)
 - `scanner/remediation/` — Deterministic patch suggestion engine (`patch_suggestions.py`) for known vulnerability patterns
 - `scanner/scanners/` — Scanner adapters: `semgrep.py`, `gitleaks.py`, `trivy.py`, `dependency_scan.py`, `ai_review.py`, plus `common.py` placeholder helper and `__init__.py` registry (`SCANNERS`)
