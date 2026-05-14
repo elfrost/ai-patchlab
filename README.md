@@ -10,7 +10,7 @@ Public scan write-ups: [elfrost.github.io/ai-patchlab](https://elfrost.github.io
 
 ```powershell
 # Setup
-cd C:\Users\Elfrost\OneDrive\NetProject\EzWebSolution\ai-patchlab
+cd path\to\ai-patchlab
 python -m venv .venv
 .\.venv\Scripts\activate
 pip install -e ".[dev]"

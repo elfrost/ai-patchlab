@@ -14,7 +14,7 @@ None.
 The command runs from a generated project, but needs to find the EzProject template repo elsewhere on the machine. Try these in order:
 
 1. `$EZ_TEMPLATE_PATH` environment variable (if set, point to the template repo root)
-2. Common Windows location: `c:/Users/racer/OneDrive/ez-project-template/`
+2. Common Windows location: `<user-home>/OneDrive/ez-project-template/` (resolve `<user-home>` via the standard home-directory API)
 3. Common Unix location: `~/ez-project-template/` or `~/dev/ez-project-template/`
 4. If none of the above exist or contain a `template/.ezproject.json`, ask the user for the path
 
