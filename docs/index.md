@@ -27,12 +27,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Scans
 
-_No scans published yet. Check back soon._
-
-<!--
-Once the first scan is published, list it here, newest first, as:
-- YYYY-MM-DD - [owner/repo](scans/owner-repo.html) - N findings, M of interest
--->
+- **2026-05-14** — [gptme/gptme](scans/gptme-gptme.html) — 57 findings, 3 best-practice improvements filed with the maintainer
 
 ---
 
