@@ -34,6 +34,13 @@
 - [x] Add patch-plan Markdown section (2026-05-12)
 - [x] Keep AI review local or explicitly user-configured (2026/05/13)
 
+## Phase 3.5 - Public scans & reputation
+- [-] Set up GitHub Pages scan log under `docs/` (2026/05/14)
+- [ ] Add `--from-git-url` to scan a public repo with one command
+- [ ] Add `--min-severity` filter to keep public reports focused
+- [ ] Add a "Top findings" summary block at the top of `security_report.md`
+- [ ] First public scan published
+
 ## Phase 4 - Polish & Stabilize
 - [ ] Add integration tests with sample vulnerable repositories
 - [ ] Add clear scanner failure handling and partial-report behavior
