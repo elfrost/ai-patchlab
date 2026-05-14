@@ -35,6 +35,21 @@ AI PatchLab is an AI-assisted security remediation toolkit. The MVP focuses on a
 - Standard-library `subprocess` for external scanner runners (no remote endpoints)
 
 ## Key Directories
+- `fingerprint/` - Web template fingerprinting (v0.1, experimental): seed loader, extractors, indexer CLI, web probe, matchers, scoring, JSON+MD match report. Local-first, single-target probe, probabilistic signal only.
+- `fingerprint/models.py` - Frozen dataclasses (`RepoFingerprint`, `AssetFingerprint`, `HtmlSignature`, `MatchResult`, `MatchSignal`) and the canonical `band_for_score()` helper
+- `fingerprint/config.py` - `FingerprintConfig` (pydantic-settings, `AI_PATCHLAB_FINGERPRINT_` env prefix)
+- `fingerprint/git_seeds.py` - Loader + validator for `fingerprint/seeds/repos.json` + `slug_from_repo_url`
+- `fingerprint/seeds/repos.json` - Curated seed list (committed; expand via PR only)
+- `fingerprint/extractors/` - Pure functions over a cloned repo: `favicon.py`, `static_assets.py`, `html_signatures.py`
+- `fingerprint/repo_index.py` - Clones via `scanner.git_source.cloned_repo`, runs extractors, writes `fingerprint/db/<slug>.json`
+- `fingerprint/run_index.py` - CLI: `python fingerprint/run_index.py --rebuild` / `--repo-url <url>`
+- `fingerprint/web_probe.py` - Sync `httpx.Client` probe with robots.txt respect, scheme allowlist, bytes/asset caps
+- `fingerprint/matchers/` - `asset_hash.py`, `html_regex.py`; registered in `fingerprint/matchers/__init__.py:MATCHERS`
+- `fingerprint/scoring.py` - Bounded weighted score (`WEIGHT_VALUES`); shared `band_for_score` helper from models
+- `fingerprint/run_match.py` - CLI: `python fingerprint/run_match.py --target <url>` -> `reports/fingerprint/match_<host>_<UTC>.json` + `.md`
+- `fingerprint/report.py` - JSON + Markdown writer; disclaimer block is mandatory
+- `fingerprint/db/` - Per-repo fingerprint JSONs (gitignored except `.gitkeep`)
+- `reports/fingerprint/` - Generated match reports
 - `scanner/` - Scanner CLI, finding model, recommendation enrichment, report generation, scanner registry
 - `scanner/run_scan.py` - CLI entry point (`python scanner/run_scan.py --repo <path>` or `--from-git-url <url>`)
 - `scanner/git_source.py` - Shallow-clone a public git URL into a temp directory via the `cloned_repo` context manager; cleanup-on-exit, `shell=False`, no remote API calls
@@ -104,9 +119,13 @@ python -m pytest tests/ -v
 python -m pytest tests/ -v -k "test_name"
 
 # Lint & Format
-ruff check scanner src/ tests/
-ruff check scanner src/ tests/ --fix
-python -m black scanner src/ tests/
+ruff check scanner src/ tests/ fingerprint/
+ruff check scanner src/ tests/ fingerprint/ --fix
+python -m black scanner src/ tests/ fingerprint/
+
+# Web template fingerprinting (experimental)
+python fingerprint/run_index.py --rebuild                      # Rebuild local DB from seed list
+python fingerprint/run_match.py --target https://example.com   # Probe a single live URL
 
 # Setup
 python -m venv .venv && source .venv/bin/activate
@@ -152,6 +171,16 @@ export AI_PATCHLAB_AI_REVIEW_COMMAND=/path/to/ai-review-wrapper
 - Do not call subprocesses directly from `scanner/scanners/*` - go through the runner module
 - `Finding.confidence` values come from `scanner/confidence.py` - never inline `confidence="high"` / `"medium"` / `"low"` in a scanner adapter; add or reuse a rule function instead
 
+### Fingerprint adapter contract
+- Extractors in `fingerprint/extractors/` are pure functions over a cloned repo path (and the active `FingerprintConfig`). No subprocess, no network, no raise on missing files.
+- Matchers in `fingerprint/matchers/` take `(RepoFingerprint, TargetSnapshot)` and return `list[MatchSignal]`. Registered in `fingerprint/matchers/__init__.py:MATCHERS`. A mismatch is the empty list.
+- The indexer (`fingerprint/repo_index.py:index_seed`) is the only place that performs a git clone; it goes through `scanner.git_source.cloned_repo`.
+- The web probe (`fingerprint/web_probe.py:fetch_target`) is the only place that makes outbound HTTP requests. Scheme allowlist: `http`/`https`. Honours `robots.txt` and hard byte/asset caps.
+- The match CLI (`fingerprint/run_match.py`) always exits 0 (partial-result discipline). Empty DB, unreachable target, bad scheme, robots-disallowed all still produce a valid report.
+- The Markdown report ALWAYS includes the `DISCLAIMER` block and never uses attribution words ("confirmed", "proven", "stolen", "copied") - tested in `tests/test_fingerprint_report.py`.
+- Score banding goes through `band_for_score()` in `fingerprint/models.py` - single source of truth used by validator and writer.
+- The seed list `fingerprint/seeds/repos.json` is curated. Adding a new entry is a human PR - never auto-discover via the GitHub API.
+
 ## Database Conventions
 - MySQL tables in `snake_case`
 - Always include `id`, `created_at`, and `updated_at`
@@ -192,7 +221,7 @@ export AI_PATCHLAB_AI_REVIEW_COMMAND=/path/to/ai-review-wrapper
 - Log architectural decisions in `DECISIONS.md`
 - Check existing ADRs before making structural changes
 - Record date, decision, context, and consequences
-- Current ADRs of record: ADR-001 scaffold, ADR-002 data stack, ADR-003 placeholder adapters, ADR-004 Gitleaks, ADR-005 Semgrep, ADR-006 recommendation enrichment, ADR-007 patch suggestions, ADR-008 Trivy, ADR-009 pip-audit, ADR-010 disabled-by-default AI review boundary, ADR-011 centralized scanner confidence rules
+- Current ADRs of record: ADR-001 scaffold, ADR-002 data stack, ADR-003 placeholder adapters, ADR-004 Gitleaks, ADR-005 Semgrep, ADR-006 recommendation enrichment, ADR-007 patch suggestions, ADR-008 Trivy, ADR-009 pip-audit, ADR-010 disabled-by-default AI review boundary, ADR-011 centralized scanner confidence rules, ADR-012 probabilistic web template fingerprinting boundary
 
 ## Known Gotchas
 - `ai-patchlab` and `2026-05-12` are template placeholders replaced during scaffolding
@@ -208,6 +237,10 @@ export AI_PATCHLAB_AI_REVIEW_COMMAND=/path/to/ai-review-wrapper
 - All external scanners are optional - if a tool is missing, the adapter emits a normalized `info` finding (`semgrep-not-installed`, `gitleaks-not-installed`, `trivy-not-installed`, `pip-audit-not-installed`, `ai-review-disabled`) instead of failing
 - pip-audit input resolution order: root `requirements*.txt` first, then `pylock.*.toml` (with `--locked`), then `pyproject.toml`
 - AI review timeouts default to 120s (`AI_PATCHLAB_AI_REVIEW_TIMEOUT_SECONDS`); on timeout the runner writes `[]` to `reports/raw/ai-review.json` and emits a normalized error finding so the report still completes
+- Fingerprint web probe respects `robots.txt`. `urllib.robotparser` splits the live user-agent on `/` before matching, so a robots.txt block for `ai-patchlab-fingerprint/0.1` is matched as `ai-patchlab-fingerprint` (drop the version when authoring rules)
+- Fingerprint matching is a SIGNAL, not an attribution. The Markdown report keeps the `DISCLAIMER` block and never claims a match is "confirmed", "proven", "stolen", or "copied" - blocked by a regression test
+- The fingerprint CLI accepts exactly one `--target` per invocation. No `--targets-file` flag exists by design - multi-target scanning requires a new ADR
+- Fingerprinting must not add DOM-parser dependencies (`beautifulsoup4`, `lxml`) or browser stacks (`playwright`, `selenium`). v0.1 stays on `re` + `hashlib` + `httpx` only
 
 ## Important Rules
 - Keep things simple - MVP first
