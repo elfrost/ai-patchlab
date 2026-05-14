@@ -134,6 +134,13 @@ Pour les dÃ©cisions qui requiÃ¨rent un round de discussion avant `accepted`.
 
 <!-- Ajouter les nouvelles dÃ©cisions en haut (plus rÃ©cent en premier) -->
 
+### ADR-010: Disabled-by-default local AI review boundary
+**Date:** 2026-05-13
+**Status:** accepted
+**Decision:** AI security review is disabled by default. The first implementation supports only a user-configured local command provider invoked through `subprocess.run(..., shell=False)`; no remote, hosted, or paid AI provider is contacted by default, and adding one in the future requires explicit configuration plus a new ADR.
+**Context:** AI PatchLab must keep the MVP local-first, PowerShell-friendly, and free of paid API calls. The earlier AI review placeholder did not enforce a real boundary, and Phase 3 explicitly requires AI review to stay local or explicitly user-configured before any GPT-backed remediation work is reused on top of it.
+**Consequences:** Default scans emit one `ai-review-disabled` info finding and never reach the network. When a user sets `AI_PATCHLAB_AI_REVIEW_ENABLED=true` with provider `local_command` and a wrapper path, AI PatchLab executes that wrapper, accepts JSON list or `{ "findings": [...] }` shapes, and normalizes results into the shared `Finding` schema. Disabled, misconfigured, command-failure, JSON-parse, and empty-result states all surface as normalized `info` findings so the security report still completes.
+
 ### ADR-009: pip-audit CLI dependency scanner integration
 **Date:** 2026-05-13
 **Status:** accepted

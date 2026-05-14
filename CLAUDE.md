@@ -32,8 +32,9 @@ This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.
 ## Key Directories
 - `scanner/` â€” Scanner CLI, finding model, recommendation enrichment, report generation, scanner registry
 - `scanner/remediation/` â€” Deterministic patch suggestion engine for known vulnerability patterns
-- `scanner/scanners/` â€” Scanner adapters for Semgrep, Gitleaks, Trivy, and dependency scan plus placeholder AI review
-- `scanner/tools/` â€” External scanner process runners such as Semgrep, Gitleaks, Trivy, and pip-audit
+- `scanner/scanners/` â€” Scanner adapters for Semgrep, Gitleaks, Trivy, dependency scan, and a disabled-by-default local-only AI review boundary
+- `scanner/tools/` â€” External scanner process runners such as Semgrep, Gitleaks, Trivy, pip-audit, and the opt-in AI review local command runner
+- `scanner/config.py` â€” Disabled-by-default AI review configuration loaded from environment / `.env`
 - `reports/` â€” Generated security reports (`security_report.json`, `security_report.md`)
 - `src/` â€” Code source principal
 - `src/main.py` â€” Point d'entrÃ©e (`python -m src.main`)
@@ -192,6 +193,7 @@ cp .env.example .env            # Configure environment
 - pydantic-settings: les variables .env sont case-insensitive par dÃ©faut
 - MCP MySQL (dbhub): si le password contient `@`, `:`, `/` ou `%`, il faut l'URL-encoder dans le DSN
 - cPanel MySQL: les noms de DB et users sont prÃ©fixÃ©s (ex: `cpaneluser_dbname`) â€” ne pas oublier le prÃ©fixe
+- AI review must remain disabled by default and local-first. Never add a default remote provider, default endpoint, default model, or default token variable. Any future remote/paid provider requires explicit configuration and a new ADR.
 
 ## IMPORTANT RULES
 - Keep things SIMPLE â€” MVP first, iterate later

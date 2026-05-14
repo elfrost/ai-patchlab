@@ -36,8 +36,9 @@ AI PatchLab is an AI-assisted security remediation toolkit. The MVP focuses on a
 ## Key Directories
 - `scanner/` - Scanner CLI, finding model, recommendation enrichment, report generation, scanner registry
 - `scanner/remediation/` - Deterministic patch suggestion engine for known vulnerability patterns
-- `scanner/scanners/` - Scanner adapters for Semgrep, Gitleaks, Trivy, and dependency scan plus placeholder AI review
-- `scanner/tools/` - External scanner process runners such as Semgrep, Gitleaks, Trivy, and pip-audit
+- `scanner/scanners/` - Scanner adapters for Semgrep, Gitleaks, Trivy, dependency scan, and a disabled-by-default local-only AI review boundary
+- `scanner/tools/` - External scanner process runners such as Semgrep, Gitleaks, Trivy, pip-audit, and the opt-in AI review local command runner
+- `scanner/config.py` - Disabled-by-default AI review configuration loaded from environment / `.env`
 - `reports/` - Generated security reports (`security_report.json`, `security_report.md`)
 - `src/` - Main source code
 - `src/main.py` - Entry point (`python -m src.main`)
@@ -150,6 +151,7 @@ cp .env.example .env
 - `aiomysql` pools must be closed explicitly
 - Playwright `networkidle` can time out on SPAs; use `domcontentloaded` when needed
 - MCP MySQL DSNs require URL-encoding special characters in passwords
+- AI review must remain disabled by default and local-first. Never add a default remote provider, default endpoint, default model, or default token variable. Any future remote/paid provider requires explicit configuration and a new ADR.
 
 ## Important Rules
 - Keep things simple - MVP first

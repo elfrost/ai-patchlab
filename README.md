@@ -35,6 +35,8 @@ The scanner creates the `reports/` directory when missing and writes:
 - `reports/raw/gitleaks.json` when Gitleaks is installed and executed
 - `reports/raw/trivy.json` when Trivy is installed and executed
 - `reports/raw/pip-audit.json` when pip-audit is installed and executed
+- `reports/raw/ai-review.json` only when AI review is enabled and the configured
+  local command is executed
 
 ## Current Scanner Foundation
 
@@ -44,7 +46,8 @@ The v0.1 foundation includes:
 - Real Semgrep execution through the local `semgrep` CLI
 - Real Trivy filesystem execution through the local `trivy` CLI
 - Real Python dependency auditing through local `pip-audit`
-- AI security review placeholder
+- AI security review disabled by default, with explicit opt-in for a local
+  command provider
 
 Each scanner returns findings normalized to:
 
@@ -204,6 +207,86 @@ pip-audit exit code `0` means no known vulnerabilities were found, and exit code
 successful scanner executions. Other failures become `info` findings so the full
 AI PatchLab report still completes.
 
+## AI Review Setup
+
+AI security review is **disabled by default**. The default scan calls no AI
+provider, no hosted model, and no remote or paid API. Reports include one
+`info` finding (`ai-review-disabled`) explaining the opt-in.
+
+To enable AI review, the user must configure a local command wrapper. AI
+PatchLab executes that wrapper directly with `subprocess.run(..., shell=False)`,
+captures its JSON output, and normalizes the findings into the shared schema.
+
+Configure with PowerShell environment variables before running a scan:
+
+```powershell
+$env:AI_PATCHLAB_AI_REVIEW_ENABLED = "true"
+$env:AI_PATCHLAB_AI_REVIEW_PROVIDER = "local_command"
+$env:AI_PATCHLAB_AI_REVIEW_COMMAND = "C:\tools\ai-review-wrapper.cmd"
+$env:AI_PATCHLAB_AI_REVIEW_TIMEOUT_SECONDS = "120"
+```
+
+You can also store the same `AI_PATCHLAB_AI_REVIEW_*` keys in a project `.env`
+file at the repository root.
+
+Supported provider values for v0.1: `disabled`, `local_command`. No default
+remote provider, endpoint, model, or token variable is shipped. Adding any
+future remote provider requires explicit configuration and a new ADR.
+
+AI PatchLab calls the configured wrapper with:
+
+```powershell
+C:\tools\ai-review-wrapper.cmd --repo "C:\path\to\repo" --output "reports\raw\ai-review.json"
+```
+
+The wrapper must either write JSON to the `--output` path or print JSON to
+stdout. When stdout is used and the output file is missing, AI PatchLab writes
+the captured stdout to `reports/raw/ai-review.json` for traceability.
+
+Accepted JSON shapes:
+
+```json
+[
+  {
+    "id": "ai-review-example",
+    "severity": "medium",
+    "title": "Potential unsafe dynamic execution",
+    "description": "A local AI reviewer flagged a risky execution pattern.",
+    "file": "src/example.py",
+    "line": 42,
+    "recommendation": "Replace with an allowlisted dispatcher.",
+    "confidence": "medium"
+  }
+]
+```
+
+```json
+{
+  "findings": [
+    {
+      "id": "ai-review-example",
+      "severity": "medium",
+      "title": "Potential unsafe dynamic execution",
+      "description": "A local AI reviewer flagged a risky execution pattern.",
+      "file": "src/example.py",
+      "line": 42,
+      "recommendation": "Replace with an allowlisted dispatcher.",
+      "confidence": "medium"
+    }
+  ]
+}
+```
+
+Each record is normalized to the AI PatchLab finding schema, the `tool` field
+is forced to `ai-security-review`, and missing patch fields default to empty
+strings. Invalid severity or confidence values fall back to safe defaults.
+
+Failure fallback: if AI review is enabled but the configured command is
+missing, times out, exits non-zero with no findings, or emits unparseable JSON,
+AI PatchLab emits one normalized `info` finding (`ai-review-command-error`,
+`ai-review-json-parse-error`, `ai-review-no-findings`, or
+`ai-review-not-configured`) and the full report still completes.
+
 ## Project Structure
 
 ```text
@@ -229,5 +312,6 @@ ai-patchlab/
 
 - No web app is included in v0.1.
 - No external paid APIs are called.
-- The remaining AI security review placeholder is intentionally simple and ready
-  to be replaced by a real local or explicitly configured integration.
+- AI security review is disabled by default and must remain local or
+  explicitly user-configured. No remote provider or paid API is contacted
+  unless the user opts in to a future explicitly configured provider.
