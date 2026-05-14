@@ -10,7 +10,7 @@ Read-only report of the gap between this project's template version and the late
 ## Phase 1: Locate the template repo
 Try in order:
 1. `$EZ_TEMPLATE_PATH` env var
-2. `c:/Users/racer/OneDrive/ez-project-template/` (Windows default)
+2. `<user-home>/OneDrive/ez-project-template/` (Windows default; resolve `<user-home>` via the standard home-directory API)
 3. `~/ez-project-template/` or `~/dev/ez-project-template/` (Unix defaults)
 4. Ask the user for the path if none of the above resolve
 
