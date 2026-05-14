@@ -27,6 +27,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Scans
 
+- **2026-05-14** — [traceloop/openllmetry](scans/traceloop-openllmetry.html) — 33 findings, 25 false-positive secrets in test cassettes, 1 best-practice item filed with the maintainer
 - **2026-05-14** — [gptme/gptme](scans/gptme-gptme.html) — 57 findings, 3 best-practice improvements filed with the maintainer
 
 ---
