@@ -39,6 +39,7 @@ AI PatchLab is an AI-assisted security remediation toolkit. The MVP focuses on a
 - `scanner/run_scan.py` - CLI entry point (`python scanner/run_scan.py --repo <path>`)
 - `scanner/models.py` - Normalized `Finding` dataclass + severity/confidence enums + `FINDING_FIELDS`
 - `scanner/recommendations.py` - Deterministic keyword-based recommendation enrichment
+- `scanner/confidence.py` - Centralized `Finding.confidence` rules (one function per scanner + `confidence_for_meta_finding` for shared `not-installed` / `scan-error` / etc.)
 - `scanner/report.py` - JSON + Markdown report writers (severity-grouped, patch suggestion blocks)
 - `scanner/config.py` - Disabled-by-default AI review configuration loaded from environment / `.env` (`AI_PATCHLAB_*`)
 - `scanner/remediation/` - Deterministic patch suggestion engine (`patch_suggestions.py`) for known vulnerability patterns
@@ -147,6 +148,7 @@ export AI_PATCHLAB_AI_REVIEW_COMMAND=/path/to/ai-review-wrapper
 - Each adapter pipes its findings through `apply_patch_suggestions(enrich_findings(...))` before returning
 - Each external tool runner lives in `scanner/tools/<tool>_runner.py`, returns a frozen `*Result` dataclass, writes raw JSON to `reports/raw/<tool>.json`, and uses `subprocess.run(..., shell=False, check=False)` with captured stdout/stderr
 - Do not call subprocesses directly from `scanner/scanners/*` - go through the runner module
+- `Finding.confidence` values come from `scanner/confidence.py` - never inline `confidence="high"` / `"medium"` / `"low"` in a scanner adapter; add or reuse a rule function instead
 
 ## Database Conventions
 - MySQL tables in `snake_case`
@@ -188,7 +190,7 @@ export AI_PATCHLAB_AI_REVIEW_COMMAND=/path/to/ai-review-wrapper
 - Log architectural decisions in `DECISIONS.md`
 - Check existing ADRs before making structural changes
 - Record date, decision, context, and consequences
-- Current ADRs of record: ADR-001 scaffold, ADR-002 data stack, ADR-003 placeholder adapters, ADR-004 Gitleaks, ADR-005 Semgrep, ADR-006 recommendation enrichment, ADR-007 patch suggestions, ADR-008 Trivy, ADR-009 pip-audit, ADR-010 disabled-by-default AI review boundary
+- Current ADRs of record: ADR-001 scaffold, ADR-002 data stack, ADR-003 placeholder adapters, ADR-004 Gitleaks, ADR-005 Semgrep, ADR-006 recommendation enrichment, ADR-007 patch suggestions, ADR-008 Trivy, ADR-009 pip-audit, ADR-010 disabled-by-default AI review boundary, ADR-011 centralized scanner confidence rules
 
 ## Known Gotchas
 - `ai-patchlab` and `2026-05-12` are template placeholders replaced during scaffolding

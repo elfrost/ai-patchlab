@@ -30,7 +30,7 @@
 
 ## Phase 3 - Remediation Planning
 - [x] Generate actionable remediation recommendations from findings (2026-05-12)
-- [ ] Add confidence rules for scanner outputs
+- [x] Add confidence rules for scanner outputs (2026-05-14)
 - [x] Add patch-plan Markdown section (2026-05-12)
 - [x] Keep AI review local or explicitly user-configured (2026/05/13)
 

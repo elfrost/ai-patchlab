@@ -6,6 +6,10 @@ import json
 from pathlib import Path
 from typing import Any
 
+from scanner.confidence import (
+    confidence_for_meta_finding,
+    confidence_for_semgrep_finding,
+)
 from scanner.models import Finding
 from scanner.recommendations import enrich_findings
 from scanner.remediation import apply_patch_suggestions
@@ -34,7 +38,7 @@ def scan_semgrep(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 file=str(repo_path),
                 line=None,
                 recommendation="Install Semgrep and re-run the scan from PowerShell.",
-                confidence="high",
+                confidence=confidence_for_meta_finding("not-installed"),
             )
         ]
 
@@ -49,7 +53,7 @@ def scan_semgrep(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 file=str(repo_path),
                 line=None,
                 recommendation="Review the Semgrep error output, fix the scanner setup, and re-run the scan.",
-                confidence="medium",
+                confidence=confidence_for_meta_finding("scan-error"),
             )
         ]
 
@@ -66,7 +70,7 @@ def scan_semgrep(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 file=str(repo_path),
                 line=None,
                 recommendation="Re-run Semgrep and inspect the raw JSON report for truncation or invalid output.",
-                confidence="medium",
+                confidence=confidence_for_meta_finding("json-parse-error"),
             )
         ]
 
@@ -113,7 +117,7 @@ def _map_semgrep_finding(record: dict[str, Any]) -> Finding:
         file=file_path,
         line=line,
         recommendation=_get_recommendation(extra),
-        confidence="medium",
+        confidence=confidence_for_semgrep_finding(),
     )
 
 
