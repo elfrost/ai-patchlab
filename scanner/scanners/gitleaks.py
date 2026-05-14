@@ -6,6 +6,10 @@ import json
 from pathlib import Path
 from typing import Any
 
+from scanner.confidence import (
+    confidence_for_gitleaks_finding,
+    confidence_for_meta_finding,
+)
 from scanner.models import Finding
 from scanner.recommendations import enrich_findings
 from scanner.remediation import apply_patch_suggestions
@@ -28,7 +32,7 @@ def scan_gitleaks(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 file=str(repo_path),
                 line=None,
                 recommendation="Install Gitleaks and re-run the scan from PowerShell.",
-                confidence="high",
+                confidence=confidence_for_meta_finding("not-installed"),
             )
         ]
 
@@ -43,7 +47,7 @@ def scan_gitleaks(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 file=str(repo_path),
                 line=None,
                 recommendation="Review the Gitleaks error output, fix the scanner setup, and re-run the scan.",
-                confidence="medium",
+                confidence=confidence_for_meta_finding("scan-error"),
             )
         ]
 
@@ -60,7 +64,7 @@ def scan_gitleaks(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 file=str(repo_path),
                 line=None,
                 recommendation="Re-run Gitleaks and inspect the raw JSON report for truncation or invalid output.",
-                confidence="medium",
+                confidence=confidence_for_meta_finding("json-parse-error"),
             )
         ]
 
@@ -111,7 +115,7 @@ def _map_gitleaks_finding(record: dict[str, Any]) -> Finding:
         file=file_path,
         line=line,
         recommendation="Rotate the exposed secret, remove it from the repository, and rewrite git history if the secret was committed.",
-        confidence="high",
+        confidence=confidence_for_gitleaks_finding(),
     )
 
 

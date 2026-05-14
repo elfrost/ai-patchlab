@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+from scanner.confidence import confidence_for_placeholder
 from scanner.models import Finding
 
 
@@ -23,5 +24,5 @@ def placeholder_finding(
         file=str(repo_path),
         line=None,
         recommendation="Wire this placeholder to the real scanner and map results into the normalized finding schema.",
-        confidence="low",
+        confidence=confidence_for_placeholder(),
     )

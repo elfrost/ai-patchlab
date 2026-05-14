@@ -134,6 +134,13 @@ Pour les dÃ©cisions qui requiÃ¨rent un round de discussion avant `accepted`.
 
 <!-- Ajouter les nouvelles dÃ©cisions en haut (plus rÃ©cent en premier) -->
 
+### ADR-011: Centralized scanner confidence rules
+**Date:** 2026-05-14
+**Status:** accepted
+**Decision:** Centralize every `Finding.confidence` assignment in `scanner/confidence.py`. Each scanner adapter imports a named rule function (`confidence_for_semgrep_finding`, `confidence_for_gitleaks_finding`, `confidence_for_trivy_vulnerability`, `confidence_for_trivy_misconfiguration`, `confidence_for_dependency_vulnerability`, `confidence_for_ai_review_record`, `confidence_for_placeholder`) plus the shared `confidence_for_meta_finding(kind)` helper for cross-cutting `not-installed` / `disabled` / `not-configured` / `no-supported-manifest` / `no-findings` / `scan-error` / `json-parse-error` / `command-error` states. Magic strings (`confidence="high"`, `confidence="medium"`, `confidence="low"`) are no longer allowed inline in `scanner/scanners/*`.
+**Context:** Phase 3 of the roadmap called for explicit confidence rules. The previous code assigned confidence levels as inline magic strings across five scanner adapters and `common.py`, with no shared rationale and a few mild inconsistencies between the meta-finding cases of different scanners. New scanner contributors had no documented contract for picking a level.
+**Consequences:** Adding a new scanner means writing a new rule function in `scanner/confidence.py` (or reusing the meta-finding helper) instead of inventing inline strings; the rules are exercised by `tests/test_confidence.py` and behavior is unchanged for the existing scanners. The meta-finding helper rejects unknown kinds with `ValueError` so typos surface early.
+
 ### ADR-010: Disabled-by-default local AI review boundary
 **Date:** 2026-05-13
 **Status:** accepted
