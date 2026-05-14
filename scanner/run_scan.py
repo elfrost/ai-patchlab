@@ -10,10 +10,11 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scanner.git_source import GitCloneError, cloned_repo
-from scanner.models import Finding
+from scanner.models import SEVERITIES, Finding
+from scanner.paths import rebase_finding_paths
 from scanner.recommendations import enrich_findings
 from scanner.remediation import apply_patch_suggestions
-from scanner.report import write_reports
+from scanner.report import filter_by_min_severity, write_reports
 from scanner.scanners import SCANNERS
 
 
@@ -25,17 +26,27 @@ def collect_findings(repo_path: Path, reports_dir: Path) -> list[Finding]:
     return apply_patch_suggestions(enrich_findings(findings))
 
 
-def run_scan(repo_path: Path, reports_dir: Path = Path("reports")) -> dict[str, Path]:
+def run_scan(
+    repo_path: Path,
+    reports_dir: Path = Path("reports"),
+    min_severity: str = "info",
+) -> dict[str, Path]:
     """Validate input, run configured scanners, and write reports."""
     resolved_repo = repo_path.expanduser().resolve()
     if not resolved_repo.exists() or not resolved_repo.is_dir():
         raise ValueError(f"Repository path does not exist or is not a directory: {repo_path}")
 
     findings = collect_findings(resolved_repo, reports_dir)
+    findings = rebase_finding_paths(findings, resolved_repo)
+    findings = filter_by_min_severity(findings, min_severity)
     return write_reports(repo_path=resolved_repo, findings=findings, reports_dir=reports_dir)
 
 
-def run_scan_from_url(url: str, reports_dir: Path = Path("reports")) -> dict[str, Path]:
+def run_scan_from_url(
+    url: str,
+    reports_dir: Path = Path("reports"),
+    min_severity: str = "info",
+) -> dict[str, Path]:
     """Clone a public git URL into a temporary directory, then scan it.
 
     The temporary clone is removed when the function returns. The
@@ -43,7 +54,7 @@ def run_scan_from_url(url: str, reports_dir: Path = Path("reports")) -> dict[str
     outside the clone).
     """
     with cloned_repo(url) as clone:
-        return run_scan(clone.repo_path, reports_dir)
+        return run_scan(clone.repo_path, reports_dir, min_severity=min_severity)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -61,6 +72,13 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default="reports",
         help="Directory where security_report.json and security_report.md are written.",
     )
+    parser.add_argument(
+        "--min-severity",
+        dest="min_severity",
+        default="info",
+        choices=list(SEVERITIES),
+        help="Drop findings strictly less severe than this threshold (default: info, keeps everything).",
+    )
     return parser.parse_args(argv)
 
 
@@ -70,9 +88,11 @@ def main(argv: list[str] | None = None) -> int:
     reports_dir = Path(args.reports_dir)
     try:
         if args.from_git_url:
-            report_paths = run_scan_from_url(args.from_git_url, reports_dir)
+            report_paths = run_scan_from_url(
+                args.from_git_url, reports_dir, min_severity=args.min_severity
+            )
         else:
-            report_paths = run_scan(Path(args.repo), reports_dir)
+            report_paths = run_scan(Path(args.repo), reports_dir, min_severity=args.min_severity)
     except (ValueError, GitCloneError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 2

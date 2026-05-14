@@ -37,8 +37,10 @@
 ## Phase 3.5 - Public scans & reputation
 - [-] Set up GitHub Pages scan log under `docs/` (2026/05/14)
 - [x] Add `--from-git-url` to scan a public repo with one command (2026-05-14)
-- [ ] Add `--min-severity` filter to keep public reports focused
-- [ ] Add a "Top findings" summary block at the top of `security_report.md`
+- [x] Add `--min-severity` filter to keep public reports focused (2026-05-14)
+- [x] Add a "Top findings" summary block at the top of `security_report.md` (2026-05-14)
+- [x] Rebase finding paths to repo-relative posix when scanning so reports survive temp-dir cleanup (2026-05-14)
+- [ ] Show the public URL (not the temp clone path) in the report's `Repository:` header when scanning from `--from-git-url`
 - [ ] First public scan published
 
 ## Phase 4 - Polish & Stabilize
