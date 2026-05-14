@@ -8,8 +8,8 @@ from dataclasses import dataclass
 from os import PathLike
 from pathlib import Path
 
-PIP_USER_SEMGREP_PATH = Path(
-    r"C:\Users\Elfrost\AppData\Roaming\Python\Python313\Scripts\semgrep.exe"
+PIP_USER_SEMGREP_PATH = (
+    Path.home() / "AppData" / "Roaming" / "Python" / "Python313" / "Scripts" / "semgrep.exe"
 )
 
 

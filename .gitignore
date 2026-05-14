@@ -31,6 +31,10 @@ logs/*.log
 screenshots/
 CLEANUP_REPORT.md
 CLAUDE.md.proposed
+AGENTS.md.proposed
+
+# Scan output (regenerable; can contain absolute local paths)
+reports/
 
 # Secrets
 *.key

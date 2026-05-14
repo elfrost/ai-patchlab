@@ -7,9 +7,15 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
-WINGET_GITLEAKS_PATH = Path(
-    r"C:\Users\Elfrost\AppData\Local\Microsoft\WinGet\Packages"
-    r"\Gitleaks.Gitleaks_Microsoft.Winget.Source_8wekyb3d8bbwe\gitleaks.exe"
+WINGET_GITLEAKS_PATH = (
+    Path.home()
+    / "AppData"
+    / "Local"
+    / "Microsoft"
+    / "WinGet"
+    / "Packages"
+    / "Gitleaks.Gitleaks_Microsoft.Winget.Source_8wekyb3d8bbwe"
+    / "gitleaks.exe"
 )
 
 
