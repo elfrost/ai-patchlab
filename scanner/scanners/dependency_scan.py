@@ -7,6 +7,10 @@ import re
 from pathlib import Path
 from typing import Any
 
+from scanner.confidence import (
+    confidence_for_dependency_vulnerability,
+    confidence_for_meta_finding,
+)
 from scanner.models import Finding
 from scanner.recommendations import enrich_findings
 from scanner.remediation import apply_patch_suggestions
@@ -32,7 +36,7 @@ def scan_dependencies(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 file=str(repo_path),
                 line=None,
                 recommendation="Add a supported Python dependency manifest or skip dependency auditing for this repository.",
-                confidence="high",
+                confidence=confidence_for_meta_finding("no-supported-manifest"),
             )
         ]
 
@@ -54,7 +58,7 @@ def scan_dependencies(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 file=str(audit_input.display_path),
                 line=None,
                 recommendation="Install pip-audit with `python -m pip install pip-audit` and re-run the scan from PowerShell.",
-                confidence="high",
+                confidence=confidence_for_meta_finding("not-installed"),
             )
         ]
 
@@ -71,7 +75,7 @@ def scan_dependencies(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 file=str(audit_input.display_path),
                 line=None,
                 recommendation="Re-run pip-audit and inspect the raw JSON report for truncation or invalid output.",
-                confidence="medium",
+                confidence=confidence_for_meta_finding("json-parse-error"),
             )
         ]
 
@@ -87,7 +91,7 @@ def scan_dependencies(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 file=str(audit_input.display_path),
                 line=None,
                 recommendation="Review the pip-audit error output, fix the dependency scanner setup, and re-run the scan.",
-                confidence="medium",
+                confidence=confidence_for_meta_finding("scan-error"),
             )
         ]
 
@@ -169,7 +173,7 @@ def _map_pip_audit_vulnerability(
             fix_versions=fix_versions,
             vulnerability_id=vulnerability_id,
         ),
-        confidence="high" if vulnerability_id != "pip-audit-finding" else "medium",
+        confidence=confidence_for_dependency_vulnerability(vulnerability_id),
     )
 
 

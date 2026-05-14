@@ -6,6 +6,11 @@ import json
 from pathlib import Path
 from typing import Any
 
+from scanner.confidence import (
+    confidence_for_meta_finding,
+    confidence_for_trivy_misconfiguration,
+    confidence_for_trivy_vulnerability,
+)
 from scanner.models import Finding
 from scanner.recommendations import enrich_findings
 from scanner.remediation import apply_patch_suggestions
@@ -36,7 +41,7 @@ def scan_trivy(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 file=str(repo_path),
                 line=None,
                 recommendation="Install Trivy, ensure it is available on PATH, and re-run the scan from PowerShell.",
-                confidence="high",
+                confidence=confidence_for_meta_finding("not-installed"),
             )
         ]
 
@@ -53,7 +58,7 @@ def scan_trivy(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 file=str(repo_path),
                 line=None,
                 recommendation="Re-run Trivy and inspect the raw JSON report for truncation or invalid output.",
-                confidence="medium",
+                confidence=confidence_for_meta_finding("json-parse-error"),
             )
         ]
 
@@ -69,7 +74,7 @@ def scan_trivy(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 file=str(repo_path),
                 line=None,
                 recommendation="Review the Trivy error output, fix the scanner setup, and re-run the scan.",
-                confidence="medium",
+                confidence=confidence_for_meta_finding("scan-error"),
             )
         ]
 
@@ -152,7 +157,7 @@ def _map_vulnerabilities(result: dict[str, Any]) -> list[Finding]:
                     fixed_version=fixed_version,
                     primary_url=primary_url,
                 ),
-                confidence="high" if vulnerability_id.upper().startswith("CVE-") else "medium",
+                confidence=confidence_for_trivy_vulnerability(vulnerability_id),
             )
         )
 
@@ -194,7 +199,7 @@ def _map_misconfigurations(result: dict[str, Any]) -> list[Finding]:
                 file=_misconfiguration_file(cause_metadata, target),
                 line=line,
                 recommendation=_misconfiguration_recommendation(record),
-                confidence="medium",
+                confidence=confidence_for_trivy_misconfiguration(),
             )
         )
 

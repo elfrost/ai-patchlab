@@ -15,6 +15,10 @@ import re
 from pathlib import Path
 from typing import Any
 
+from scanner.confidence import (
+    confidence_for_ai_review_record,
+    confidence_for_meta_finding,
+)
 from scanner.config import AiReviewConfig, get_ai_review_config
 from scanner.models import CONFIDENCES, SEVERITIES, Finding
 from scanner.recommendations import enrich_findings
@@ -101,7 +105,9 @@ def _map_ai_review_record(
         return None
 
     severity = _validate_choice(record.get("severity"), SEVERITIES, default="info")
-    confidence = _validate_choice(record.get("confidence"), CONFIDENCES, default="medium")
+    confidence = _validate_choice(
+        record.get("confidence"), CONFIDENCES, default=confidence_for_ai_review_record()
+    )
     raw_id = _get_string(record, "id", default="").strip()
     finding_id = _stable_id("ai-review", raw_id or title or "finding")
     file_value = _get_string(record, "file", default="").strip()
@@ -145,7 +151,7 @@ def _disabled_finding(repo_path: Path) -> Finding:
             "local provider, and configure AI_PATCHLAB_AI_REVIEW_COMMAND. See README for the "
             "local command JSON contract."
         ),
-        confidence="high",
+        confidence=confidence_for_meta_finding("disabled"),
     )
 
 
@@ -165,7 +171,7 @@ def _not_configured_finding(repo_path: Path) -> Finding:
             "Set AI_PATCHLAB_AI_REVIEW_PROVIDER=local_command and AI_PATCHLAB_AI_REVIEW_COMMAND "
             "to the absolute path of your local AI review executable."
         ),
-        confidence="high",
+        confidence=confidence_for_meta_finding("not-configured"),
     )
 
 
@@ -182,7 +188,7 @@ def _command_error_finding(repo_path: Path, result: AiReviewResult) -> Finding:
             "Inspect the local AI review command output, fix the wrapper script, and re-run "
             "the scan from PowerShell."
         ),
-        confidence="medium",
+        confidence=confidence_for_meta_finding("command-error"),
     )
 
 
@@ -203,7 +209,7 @@ def _empty_result_finding(repo_path: Path, result: AiReviewResult) -> Finding:
             "If you expected findings, verify the AI review wrapper outputs the documented "
             "JSON contract to the configured output path or stdout."
         ),
-        confidence="high",
+        confidence=confidence_for_meta_finding("no-findings"),
     )
 
 
@@ -223,7 +229,7 @@ def _json_parse_error_finding(repo_path: Path, raw_report_path: Path) -> Finding
             "Re-run the AI review wrapper and inspect the raw JSON output for truncation or "
             "invalid formatting."
         ),
-        confidence="medium",
+        confidence=confidence_for_meta_finding("json-parse-error"),
     )
 
 
