@@ -15,6 +15,14 @@ def test_run_scan_creates_json_and_markdown_reports(tmp_path: Path, monkeypatch)
     repo_path.mkdir()
     reports_dir = tmp_path / "reports"
 
+    for var in (
+        "AI_PATCHLAB_AI_REVIEW_ENABLED",
+        "AI_PATCHLAB_AI_REVIEW_PROVIDER",
+        "AI_PATCHLAB_AI_REVIEW_COMMAND",
+        "AI_PATCHLAB_AI_REVIEW_TIMEOUT_SECONDS",
+    ):
+        monkeypatch.delenv(var, raising=False)
+
     monkeypatch.setattr(
         "scanner.scanners.gitleaks.run_gitleaks",
         lambda repo_path, raw_report_path: GitleaksResult(
@@ -37,6 +45,14 @@ def test_run_scan_creates_json_and_markdown_reports(tmp_path: Path, monkeypatch)
         ),
     )
 
+    def _fail_subprocess(*args, **kwargs):
+        raise AssertionError("AI review must not invoke subprocess when disabled.")
+
+    monkeypatch.setattr(
+        "scanner.tools.ai_review_runner.subprocess.run",
+        _fail_subprocess,
+    )
+
     report_paths = run_scan(repo_path=repo_path, reports_dir=reports_dir)
 
     assert report_paths["json"] == reports_dir / "security_report.json"
@@ -56,6 +72,11 @@ def test_run_scan_creates_json_and_markdown_reports(tmp_path: Path, monkeypatch)
         "dependency-scan",
         "ai-security-review",
     }
+    ai_review_findings = [
+        finding for finding in findings if finding["tool"] == "ai-security-review"
+    ]
+    assert len(ai_review_findings) == 1
+    assert ai_review_findings[0]["id"] == "ai-review-disabled"
     for finding in findings:
         assert set(FINDING_FIELDS).issubset(finding)
         assert "patch_before" in finding
