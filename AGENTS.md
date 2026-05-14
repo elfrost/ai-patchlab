@@ -36,7 +36,8 @@ AI PatchLab is an AI-assisted security remediation toolkit. The MVP focuses on a
 
 ## Key Directories
 - `scanner/` - Scanner CLI, finding model, recommendation enrichment, report generation, scanner registry
-- `scanner/run_scan.py` - CLI entry point (`python scanner/run_scan.py --repo <path>`)
+- `scanner/run_scan.py` - CLI entry point (`python scanner/run_scan.py --repo <path>` or `--from-git-url <url>`)
+- `scanner/git_source.py` - Shallow-clone a public git URL into a temp directory via the `cloned_repo` context manager; cleanup-on-exit, `shell=False`, no remote API calls
 - `scanner/models.py` - Normalized `Finding` dataclass + severity/confidence enums + `FINDING_FIELDS`
 - `scanner/recommendations.py` - Deterministic keyword-based recommendation enrichment
 - `scanner/confidence.py` - Centralized `Finding.confidence` rules (one function per scanner + `confidence_for_meta_finding` for shared `not-installed` / `scan-error` / etc.)

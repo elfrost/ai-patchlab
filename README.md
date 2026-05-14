@@ -21,6 +21,9 @@ python scanner/run_scan.py --repo "C:\path\to\repo"
 # Run this repository against itself
 python scanner/run_scan.py --repo "."
 
+# Scan a public repository by URL (shallow clone into a temp dir, then deleted)
+python scanner/run_scan.py --from-git-url "https://github.com/owner/repo" --reports-dir "reports\owner-repo"
+
 # Tests
 python -m pytest tests/ -v
 
