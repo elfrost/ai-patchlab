@@ -323,3 +323,7 @@ ai-patchlab/
 - AI security review is disabled by default and must remain local or
   explicitly user-configured. No remote provider or paid API is contacted
   unless the user opts in to a future explicitly configured provider.
+
+## License
+
+[MIT](LICENSE) — © 2026 elfrost
