@@ -36,7 +36,7 @@
 
 ## Phase 3.5 - Public scans & reputation
 - [-] Set up GitHub Pages scan log under `docs/` (2026/05/14)
-- [ ] Add `--from-git-url` to scan a public repo with one command
+- [x] Add `--from-git-url` to scan a public repo with one command (2026-05-14)
 - [ ] Add `--min-severity` filter to keep public reports focused
 - [ ] Add a "Top findings" summary block at the top of `security_report.md`
 - [ ] First public scan published
