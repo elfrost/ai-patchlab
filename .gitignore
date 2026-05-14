@@ -36,6 +36,10 @@ AGENTS.md.proposed
 # Scan output (regenerable; can contain absolute local paths)
 reports/
 
+# Fingerprint local database (regenerable from seeds via run_index.py)
+fingerprint/db/*
+!fingerprint/db/.gitkeep
+
 # Secrets
 *.key
 *.pem
