@@ -32,7 +32,7 @@
 - [x] Generate actionable remediation recommendations from findings (2026-05-12)
 - [ ] Add confidence rules for scanner outputs
 - [x] Add patch-plan Markdown section (2026-05-12)
-- [ ] Keep AI review local or explicitly user-configured
+- [x] Keep AI review local or explicitly user-configured (2026/05/13)
 
 ## Phase 4 - Polish & Stabilize
 - [ ] Add integration tests with sample vulnerable repositories
