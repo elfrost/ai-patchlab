@@ -24,6 +24,9 @@ python scanner/run_scan.py --repo "."
 # Scan a public repository by URL (shallow clone into a temp dir, then deleted)
 python scanner/run_scan.py --from-git-url "https://github.com/owner/repo" --reports-dir "reports\owner-repo"
 
+# Filter low-noise findings out of public reports (default keeps everything)
+python scanner/run_scan.py --from-git-url "https://github.com/owner/repo" --reports-dir "reports\owner-repo" --min-severity medium
+
 # Tests
 python -m pytest tests/ -v
 
