@@ -43,7 +43,15 @@
 - [ ] Show the public URL (not the temp clone path) in the report's `Repository:` header when scanning from `--from-git-url`
 - [ ] First public scan published
 
-## Phase 4 - Polish & Stabilize
+## Phase 4 - Template Fingerprinting
+- [x] Curated seed list committed (`fingerprint/seeds/repos.json`) (2026-05-14)
+- [x] Indexer (`fingerprint/run_index.py`) clones seeds via `scanner.git_source.cloned_repo` and writes `fingerprint/db/<slug>.json` (2026-05-14)
+- [x] Single-target match CLI (`fingerprint/run_match.py --target <url>`) (2026-05-14)
+- [x] Web probe honours `robots.txt`, scheme allowlist, bytes/asset caps (2026-05-14)
+- [x] JSON + Markdown match report with mandatory disclaimer (2026-05-14)
+- [x] ADR-012 logged (2026-05-14)
+
+## Phase 4.5 - Polish & Stabilize
 - [ ] Add integration tests with sample vulnerable repositories
 - [ ] Add clear scanner failure handling and partial-report behavior
 - [ ] Add release checklist

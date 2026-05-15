@@ -134,6 +134,13 @@ Pour les dÃ©cisions qui requiÃ¨rent un round de discussion avant `accepted`.
 
 <!-- Ajouter les nouvelles dÃ©cisions en haut (plus rÃ©cent en premier) -->
 
+### ADR-012: Probabilistic web template fingerprinting boundary
+**Date:** 2026-05-14
+**Status:** accepted
+**Decision:** Add a `fingerprint/` module that indexes a curated, committed list of open-source template repositories into deterministic `RepoFingerprint` records (favicon SHA-256, distinctive static asset hashes, HTML signatures) and then probes one user-supplied live URL per invocation, scoring each candidate repo with a bounded weighted sum. Single target, single shot. The output is a SIGNAL, never an attribution: JSON + Markdown reports must keep the canonical disclaimer block and may not use words like "confirmed", "proven", "stolen", or "copied". The web probe is the only network surface besides the seeded git remotes; it validates the scheme (`http`/`https` only), honours `robots.txt` for our configured user agent, and caps both bytes per asset and total assets per target.
+**Context:** AI PatchLab needs to surface "this site looks like it was built from repo X" as a remediation hint without becoming a mass crawler, a paid AI client, or an attribution oracle. The MVP must stay local-first and stay aligned with ADR-010 (no default remote/paid call) and ADR-003 (placeholder-then-real pattern reusing existing module shapes). The future use case is cross-correlating template detection with PatchLab vulnerability scans (e.g. "this site was likely built from repo X, and repo X has CVE-Y"), so the signal needs a stable score band but does not need to be a single yes/no answer.
+**Consequences:** Indexer + matcher live under `fingerprint/`. No database, no DOM parser, no scraping framework: v0.1 is built on `re` + `hashlib` + `httpx`. Match results are ranked but never confirmed; the disclaimer block and the absence of attribution words are guaranteed by tests. Expanding to multi-target scanning, auto-discovery, or a DOM-based extractor requires a new ADR. The indexer clones via `scanner.git_source.cloned_repo` (no duplicated clone code); fingerprint JSON files live in `fingerprint/db/<slug>.json` (gitignored except `.gitkeep`); match reports live in `reports/fingerprint/`.
+
 ### ADR-011: Centralized scanner confidence rules
 **Date:** 2026-05-14
 **Status:** accepted

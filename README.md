@@ -295,6 +295,75 @@ AI PatchLab emits one normalized `info` finding (`ai-review-command-error`,
 `ai-review-json-parse-error`, `ai-review-no-findings`, or
 `ai-review-not-configured`) and the full report still completes.
 
+## Web Template Fingerprinting (experimental)
+
+AI PatchLab v0.1 ships an optional **fingerprint** module that probes one live
+URL at a time and reports which of a small curated set of open-source template
+repositories the site was likely built from. **The output is a signal, not an
+attribution** — every report carries a "Probable template match — manual
+verification required" disclaimer.
+
+What it does:
+
+- Reads the curated seed list in `fingerprint/seeds/repos.json` (add new
+  entries by PR — there is no auto-discovery)
+- Clones each seed via `scanner/git_source.py:cloned_repo` and runs
+  deterministic extractors (favicon SHA-256, distinctive static asset hashes,
+  HTML signatures) into `fingerprint/db/<slug>.json`
+- Fetches one user-supplied target URL over HTTPS, honours `robots.txt`,
+  caps bytes per asset and total assets per target
+- Emits a ranked JSON + Markdown match report under `reports/fingerprint/`
+
+What it does NOT do:
+
+- No multi-target scanning. One `--target` per invocation is the entire CLI.
+- No DOM parser (no `beautifulsoup4`, no `lxml`, no headless browser).
+- No remote AI / no GitHub API / no telemetry. The only servers contacted are
+  the seeded git remotes and the user-supplied target URL.
+
+### Indexer
+
+Rebuild the local fingerprint database from the seed list. Each seed is
+shallow-cloned into a temp directory; the clone is deleted on exit.
+
+```powershell
+python fingerprint/run_index.py --rebuild
+
+# Or index one ad-hoc repo
+python fingerprint/run_index.py --repo-url https://github.com/owner/repo
+```
+
+### Match
+
+Probe one live URL against the local fingerprint database.
+
+```powershell
+python fingerprint/run_match.py --target https://example.com
+
+# Optional: drop low-score candidates from the Markdown summary
+python fingerprint/run_match.py --target https://example.com --min-score 0.3
+```
+
+Reports are written to `reports/fingerprint/match_<host>_<UTC-timestamp>.json`
+and `.md`. The CLI always exits 0 — an unreachable target, an empty database,
+a `robots.txt` disallow, or an invalid scheme all produce a valid report with
+the appropriate `notes` value.
+
+### Limits and configuration
+
+Configurable via `AI_PATCHLAB_FINGERPRINT_*` environment variables (or `.env`):
+
+- `AI_PATCHLAB_FINGERPRINT_MAX_BYTES_PER_ASSET` — bytes cap per asset
+  (default 524288, i.e. 512 KiB)
+- `AI_PATCHLAB_FINGERPRINT_MAX_ASSETS_PER_TARGET` — total assets fetched per
+  target including the homepage (default 16)
+- `AI_PATCHLAB_FINGERPRINT_FETCH_READ_TIMEOUT_SECONDS` — read timeout
+  (default 10)
+- `AI_PATCHLAB_FINGERPRINT_FETCH_TOTAL_TIMEOUT_SECONDS` — connect/write
+  timeout (default 5)
+- `AI_PATCHLAB_FINGERPRINT_USER_AGENT` — User-Agent header (default
+  `ai-patchlab-fingerprint/0.1`)
+
 ## Project Structure
 
 ```text
@@ -303,7 +372,11 @@ ai-patchlab/
 |-- scanner/remediation/ # Deterministic patch suggestion engine
 |-- scanner/scanners/    # Semgrep, Gitleaks, Trivy, and dependency adapters
 |-- scanner/tools/       # External scanner process runners
+|-- fingerprint/         # Web template fingerprinting (experimental)
+|-- fingerprint/seeds/   # Curated open-source template seed list
+|-- fingerprint/db/      # Generated per-repo fingerprint JSONs
 |-- reports/             # Generated security reports
+|-- reports/fingerprint/ # Generated fingerprint match reports
 |-- src/                 # Legacy scaffold entry point
 |-- tests/               # pytest tests
 |-- examples/            # Reference implementation patterns

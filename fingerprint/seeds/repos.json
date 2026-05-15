@@ -1,0 +1,29 @@
+[
+  {
+    "slug": "vercel-commerce",
+    "repo_url": "https://github.com/vercel/commerce",
+    "notable_paths": [
+      "favicon.ico",
+      "public/favicon.ico",
+      "public/og.png"
+    ]
+  },
+  {
+    "slug": "jekyll-minima",
+    "repo_url": "https://github.com/jekyll/minima",
+    "notable_paths": [
+      "favicon.ico",
+      "assets/main.css",
+      "assets/minima-social-icons.svg"
+    ]
+  },
+  {
+    "slug": "withastro-starter",
+    "repo_url": "https://github.com/withastro/astro",
+    "notable_paths": [
+      "favicon.ico",
+      "favicon.svg",
+      "public/favicon.svg"
+    ]
+  }
+]
