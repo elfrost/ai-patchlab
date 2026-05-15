@@ -9,7 +9,7 @@ date: 2026-05-14
 **Repository:** [gptme/gptme](https://github.com/gptme/gptme) — 4.3k★, a terminal-based AI agent that writes code and runs commands locally.
 **Commit scanned:** approx `0bf47a6` (HEAD of `master` at scan time)
 **Scan date:** 2026-05-14
-**Disclosure status:** Best-practice items filed as a public courtesy issue on the gptme repo. No findings required private coordination.
+**Disclosure status:** ✅ **Resolved.** All three items in the courtesy issue were addressed by [gptme PR #2399](https://github.com/gptme/gptme/pull/2399), merged within ~12 hours of filing. Issue [#2398](https://github.com/gptme/gptme/issues/2398) closed as completed.
 
 ## Summary
 
@@ -87,7 +87,20 @@ Things AI PatchLab handled awkwardly or missed during this scan, each of which n
 ## Disclosure timeline
 
 - **2026-05-14** — Scan run, top findings curated.
-- **2026-05-14** — Public courtesy issue filed on [gptme/gptme](https://github.com/gptme/gptme/issues) with the three best-practice items (CI/CD `env:` fix + `shell=True` comment). This post and that issue are public from day 1; no critical finding required private coordination.
+- **2026-05-14** — Public courtesy issue [#2398](https://github.com/gptme/gptme/issues/2398) filed on gptme/gptme with the three best-practice items.
+- **2026-05-15** — [PR #2399](https://github.com/gptme/gptme/pull/2399) merged by [@TimeToBuildBob](https://github.com/TimeToBuildBob) (gptme contributor), addressing all three items. The PR body credits the report via "Reported-by: elfrost via AI PatchLab scan". Issue closed as completed.
+
+## Resolution
+
+The merged fix touches five files:
+
+- **`.github/workflows/build.yml`** — `TAG` moved to `env:`
+- **`.github/workflows/optimize-prompts.yml`** — `MODEL`, `OPTIMIZERS`, `MAX_DEMOS`, `NUM_TRIALS` moved to `env:`; the JS literal in the `actions/github-script` block now reads `process.env.MODEL` instead of inline `${{ inputs.model }}` interpolation
+- **`.github/workflows/release.yml`** — `TYPE` moved to `env:`
+- **`.github/workflows/tauri.yml`** — `TAG` moved to `env:` in both the Set-version and Upload-APK steps
+- **`gptme/prompts/context_cmd.py`** — one-line comment added documenting the `shell=True` trust boundary
+
+Twelve hours from issue filed to fix merged, all three flagged patterns addressed in a single PR, full attribution in the commit message. The contributor's level of care — preserving identical behavior across every substitution, double-checking with pre-commit hooks, documenting each change in the PR body — is exactly the response a courtesy report hopes to land.
 
 ## Reproduce
 
