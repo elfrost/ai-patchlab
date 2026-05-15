@@ -27,6 +27,9 @@ python scanner/run_scan.py --from-git-url "https://github.com/owner/repo" --repo
 # Filter low-noise findings out of public reports (default keeps everything)
 python scanner/run_scan.py --from-git-url "https://github.com/owner/repo" --reports-dir "reports\owner-repo" --min-severity medium
 
+# Suppress known false-positive paths with a .gitignore-style ignore file
+python scanner/run_scan.py --from-git-url "https://github.com/owner/repo" --reports-dir "reports\owner-repo" --ignore-file "reports\owner-repo\.aipatchlabignore"
+
 # Tests
 python -m pytest tests/ -v
 
@@ -388,6 +391,31 @@ ai-patchlab/
 |-- CLAUDE.md            # Claude runtime instructions
 `-- pyproject.toml       # Dependencies and tool config
 ```
+
+## Ignore File
+
+`--ignore-file` accepts a `.gitignore`-style file whose patterns suppress matching
+findings *after* path rebasing. Patterns match the repo-relative POSIX path of
+each finding (e.g. `tests/cassettes/foo.yaml`). Lines starting with `#` are
+comments; `!`-prefixed lines re-include previously excluded paths.
+
+Example for a project whose own safety-engine tests embed crafted fake secrets
+that look real to Gitleaks:
+
+```
+# Crafted fixtures in the safety policy engine tests.
+tests/unit_tests/safety_engine/**
+
+# Smoke tests that ship fake API tokens to exercise integrations.
+tests/smoke_tests/integrations/**
+
+# Re-include one specific file that's actually worth scanning.
+!tests/unit_tests/safety_engine/test_real_findings.py
+```
+
+Findings with an empty `file` field (e.g. info-level "tool not installed"
+placeholders) are never suppressed — they describe infrastructure state, not
+file content, and a `**` pattern should not silently drop them.
 
 ## Notes
 
