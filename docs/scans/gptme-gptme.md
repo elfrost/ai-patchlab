@@ -9,7 +9,7 @@ date: 2026-05-14
 **Repository:** [gptme/gptme](https://github.com/gptme/gptme) — 4.3k★, a terminal-based AI agent that writes code and runs commands locally.
 **Commit scanned:** approx `0bf47a6` (HEAD of `master` at scan time)
 **Scan date:** 2026-05-14
-**Disclosure status:** Best-practice items filed as a public courtesy issue on the gptme repo. No findings required private coordination.
+**Disclosure status:** ✅ **Resolved.** All three items in the courtesy issue were addressed by [gptme PR #2399](https://github.com/gptme/gptme/pull/2399), merged within ~12 hours of filing. Issue [#2398](https://github.com/gptme/gptme/issues/2398) closed as completed.
 
 ## Summary
 
