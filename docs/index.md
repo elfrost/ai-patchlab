@@ -27,6 +27,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Scans
 
+- **2026-05-19** — [airweave-ai/airweave](scans/airweave-ai-airweave.html) — 46 findings, ~4 publishable best-practice items + 1 disclosed privately via SECURITY.md email channel, ~30 false positives or intentional-by-design patterns
 - **2026-05-16** — [MervinPraison/PraisonAI](scans/mervinpraison-praisonai.html) — 489 raw findings (largest scan yet), 5 real items, first validation of the `--ignore-file` workflow on a fresh target · ✅ **All five resolved in PR #1677 by their `praisonai-triage-agent` bot + human review (merged 2026-05-19)**
 - **2026-05-15** — [Upsonic/Upsonic](scans/upsonic-upsonic.html) — 40 findings, 4 real items across SSL/SQL/subprocess/pickle, ~36 false positives or by-design patterns
 - **2026-05-15** — [msoedov/agentic_security](scans/msoedov-agentic-security.html) — 9 findings, 2 real best-practice items + 1 disclosed privately, 6 false positives or out-of-scope
