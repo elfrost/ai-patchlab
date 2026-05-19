@@ -9,7 +9,7 @@ date: 2026-05-16
 **Repository:** [MervinPraison/PraisonAI](https://github.com/MervinPraison/PraisonAI) — 7.7k★, MIT, "AI Workforce" multi-agent orchestration framework spanning Python, TypeScript, and a CLI.
 **Commit scanned:** `68035af76d81` (HEAD of `main` at scan time)
 **Scan date:** 2026-05-16
-**Disclosure status:** Public courtesy issue filed on the PraisonAI repo with the five publishable items. No findings required private coordination.
+**Disclosure status:** ✅ **Resolved.** All five items in the courtesy issue were addressed by [PraisonAI PR #1677](https://github.com/MervinPraison/PraisonAI/pull/1677), authored by their `praisonai-triage-agent` bot (itself built with the PraisonAI framework) within ~50 minutes, then reviewed and merged by [@MervinPraison](https://github.com/MervinPraison) on 2026-05-19. Issue [#1676](https://github.com/MervinPraison/PraisonAI/issues/1676) auto-closed by the merge. The bot also found an additional ClickHouse identifier-safety site and shipped a new test module covering both vector stores.
 
 ## Summary
 
@@ -195,7 +195,27 @@ New from this scan:
 ## Disclosure timeline
 
 - **2026-05-16** — Scan run, ignore file applied to suppress `examples/**` + `**/tests/**`, top findings curated.
-- **2026-05-16** — Public courtesy issue filed on MervinPraison/PraisonAI with the five publishable items. No finding rose to the level requiring private coordination.
+- **2026-05-16** — Public courtesy issue [#1676](https://github.com/MervinPraison/PraisonAI/issues/1676) filed with the five publishable items.
+- **2026-05-16 (≈50 min later)** — PraisonAI's `praisonai-triage-agent` bot picked up the issue and opened [PR #1677](https://github.com/MervinPraison/PraisonAI/pull/1677) with fixes for all five items plus an additional ClickHouse vector-store finding and a new test module.
+- **2026-05-19** — PR #1677 reviewed and merged by [@MervinPraison](https://github.com/MervinPraison). Issue #1676 auto-closed.
+
+## Resolution
+
+The merged fix touches eight files:
+
+- **`src/praisonai/praisonai/persistence/knowledge/surrealdb_vector.py`** (+44/-5) — `username` and `password` defaults removed; the constructor now raises `ValueError` if either isn't provided, with a docstring pointing at the rationale. Marked as a documented breaking change.
+- **`src/praisonai/praisonai/persistence/knowledge/clickhouse.py`** (+8/-3) — *not in the original issue.* The bot's deeper analysis surfaced a parallel identifier-interpolation site in the ClickHouse vector store and applied the same `validate_identifier` defense used elsewhere in the codebase.
+- **`src/praisonai/tests/unit/persistence/test_knowledge_identifier_safety.py`** (+21) — *new test module* covering both vector-store identifier-safety paths.
+- **`src/praisonai/praisonai/cli/commands/port.py`** (+37/-34) — `shell=True` removed from both netstat invocations; the broken `|` pipe at `:79` replaced with a Python-side filter on netstat's output; the Windows-port-detection code-path rewritten as part of the same refactor.
+- **`.github/workflows/praisonai-issue-triage.yml`** and **`praisonai-pr-review.yml`** — `${{ inputs.issue_number }}` and `${{ github.event.issue.number }}` moved to `env:` blocks instead of inline `run:` interpolation.
+- **`src/praisonai/scripts/install.sh`** (+10/-1) and **`src/praisonai/scripts/docker/install-smoke/run.sh`** (+13/-3) — `curl | bash` replaced with download-then-run, with the install script gaining basic validation steps before execution.
+
+Two notable details:
+
+- **The PR author is a bot built with PraisonAI itself** (`praisonai-triage-agent`, running their multi-agent framework). The fix loop ran the same framework being audited, fed by the AI PatchLab scan output, with a human reviewer (MervinPraison) approving the change before merge. The recursion is intentional dogfooding — they ship the triage agent as part of the project.
+- **The bot's deeper analysis surfaced a finding the scan missed.** The original courtesy issue called out the SurrealDB identifier-interpolation site explicitly; the bot generalized the same pattern to ClickHouse without being prompted to. That's a meaningful gain over a purely-mechanical fix.
+
+Three days from issue filed to PR merged, all five flagged patterns addressed plus one bonus generalization, with new test coverage and full attribution. Combined with the [gptme #2399 outcome](gptme-gptme.html) (12h, human contributor, all three items), this is the second confirmation of the scan-and-disclose workflow producing real maintainer action.
 
 ## Reproduce
 
