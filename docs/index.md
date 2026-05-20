@@ -27,6 +27,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Scans
 
+- **2026-05-20** — [Giskard-AI/giskard-oss](scans/giskard-ai-giskard-oss.html) — 27 findings, **all false positives** — first clean scan in the series; a teardown of `pull_request_target` done right vs the airweave finding
 - **2026-05-19** — [guardrails-ai/guardrails](scans/guardrails-ai-guardrails.html) — 17 findings, **first dep-scan hits in the series** (7 known CVEs on a pinned `litellm` upper bound) + 2× duplicated `unverified-jwt-decode` + 4× workflow inputs interpolation
 - **2026-05-19** — [airweave-ai/airweave](scans/airweave-ai-airweave.html) — 46 findings, ~4 publishable best-practice items + 1 disclosed privately via SECURITY.md email channel, ~30 false positives or intentional-by-design patterns
 - **2026-05-16** — [MervinPraison/PraisonAI](scans/mervinpraison-praisonai.html) — 489 raw findings (largest scan yet), 5 real items, first validation of the `--ignore-file` workflow on a fresh target · ✅ **All five resolved in PR #1677 by their `praisonai-triage-agent` bot + human review (merged 2026-05-19)**
