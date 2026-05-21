@@ -27,6 +27,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Scans
 
+- **2026-05-21** — [HolmesGPT/holmesgpt](scans/holmesgpt-holmesgpt.html) — 2,143 findings, 93% are an SRE agent's deliberately-broken Kubernetes test fixtures; real signal is 17 workflow-injection patterns + a drifted `experimental/` front-end
 - **2026-05-21** — [dograh-hq/dograh](scans/dograh-hq-dograh.html) — 69 findings, one dominant cluster (outdated Next.js across two front-ends, incl. middleware-bypass advisories) + a fail-open `OSS_JWT_SECRET` default
 - **2026-05-20** — [Klavis-AI/klavis](scans/klavis-ai-klavis.html) — 1,556 findings (largest scan in the series), 22 critical dependency CVEs incl. authlib auth-bypass + fastmcp SSRF; a case study in monorepo dependency drift across 50+ MCP servers
 - **2026-05-20** — [Giskard-AI/giskard-oss](scans/giskard-ai-giskard-oss.html) — 27 findings, **all false positives** — first clean scan in the series; a teardown of `pull_request_target` done right vs the airweave finding
