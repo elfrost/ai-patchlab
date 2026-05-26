@@ -27,6 +27,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Scans
 
+- **2026-05-26** — [pydantic/logfire](scans/pydantic-logfire.html) — 27 findings, **third clean scan in the series**; every `eval`/`exec`/pickle finding is a deliberate language-feature use that an observability library structurally needs
 - **2026-05-25** — [MinishLab/semble](scans/minishlab-semble.html) — 2 findings, **second clean scan in the series** (after Giskard); a small focused library with two hyper-responsive maintainers
 - **2026-05-25** — [plastic-labs/honcho](scans/plastic-labs-honcho.html) — 315 findings, real cluster on the MCP server's Hono framework (~9 CVEs incl. auth bypass) + a critical `basic-ftp` in the docs-site lockfile; first scan where `logger-credential-leak` hit five-for-five FPs across the series
 - **2026-05-21** — [HolmesGPT/holmesgpt](scans/holmesgpt-holmesgpt.html) — 2,143 findings, 93% are an SRE agent's deliberately-broken Kubernetes test fixtures; real signal is 17 workflow-injection patterns + a drifted `experimental/` front-end
