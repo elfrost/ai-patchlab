@@ -27,6 +27,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Scans
 
+- **2026-05-26** — [dstackai/dstack](scans/dstackai-dstack.html) — 163 findings, **3 real critical Go CVEs** in the runner (SSH `PublicKeyCallback` auth-bypass, Moby AuthZ bypass, go-git argument injection) + 21 workflow-injection patterns (series-high)
 - **2026-05-26** — [pydantic/logfire](scans/pydantic-logfire.html) — 27 findings, **third clean scan in the series**; every `eval`/`exec`/pickle finding is a deliberate language-feature use that an observability library structurally needs
 - **2026-05-25** — [MinishLab/semble](scans/minishlab-semble.html) — 2 findings, **second clean scan in the series** (after Giskard); a small focused library with two hyper-responsive maintainers
 - **2026-05-25** — [plastic-labs/honcho](scans/plastic-labs-honcho.html) — 315 findings, real cluster on the MCP server's Hono framework (~9 CVEs incl. auth bypass) + a critical `basic-ftp` in the docs-site lockfile; first scan where `logger-credential-leak` hit five-for-five FPs across the series
