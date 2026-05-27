@@ -27,12 +27,12 @@ remediation and confidence rules to normalize the findings.
 
 ## Scans
 
-- **2026-05-26** — [dstackai/dstack](scans/dstackai-dstack.html) — 163 findings, **3 real critical Go CVEs** in the runner (SSH `PublicKeyCallback` auth-bypass, Moby AuthZ bypass, go-git argument injection) + 21 workflow-injection patterns (series-high)
+- **2026-05-26** — [dstackai/dstack](scans/dstackai-dstack.html) — 163 findings, **3 real critical Go CVEs** in the runner (SSH `PublicKeyCallback` auth-bypass, Moby AuthZ bypass, go-git argument injection) + 21 workflow-injection patterns (series-high) · ❌ **Issue declined by maintainer for disclosure-format reasons; honest record kept**
 - **2026-05-26** — [pydantic/logfire](scans/pydantic-logfire.html) — 27 findings, **third clean scan in the series**; every `eval`/`exec`/pickle finding is a deliberate language-feature use that an observability library structurally needs
 - **2026-05-25** — [MinishLab/semble](scans/minishlab-semble.html) — 2 findings, **second clean scan in the series** (after Giskard); a small focused library with two hyper-responsive maintainers
 - **2026-05-25** — [plastic-labs/honcho](scans/plastic-labs-honcho.html) — 315 findings, real cluster on the MCP server's Hono framework (~9 CVEs incl. auth bypass) + a critical `basic-ftp` in the docs-site lockfile; first scan where `logger-credential-leak` hit five-for-five FPs across the series
 - **2026-05-21** — [HolmesGPT/holmesgpt](scans/holmesgpt-holmesgpt.html) — 2,143 findings, 93% are an SRE agent's deliberately-broken Kubernetes test fixtures; real signal is 17 workflow-injection patterns + a drifted `experimental/` front-end
-- **2026-05-21** — [dograh-hq/dograh](scans/dograh-hq-dograh.html) — 69 findings, one dominant cluster (outdated Next.js across two front-ends, incl. middleware-bypass advisories) + a fail-open `OSS_JWT_SECRET` default
+- **2026-05-21** — [dograh-hq/dograh](scans/dograh-hq-dograh.html) — 69 findings, one dominant cluster (outdated Next.js across two front-ends, incl. middleware-bypass advisories) + a fail-open `OSS_JWT_SECRET` default · ✅ **3 of 4 PRs merged by `nuthalapativarun` (2026-05-27); issue closed**
 - **2026-05-20** — [Klavis-AI/klavis](scans/klavis-ai-klavis.html) — 1,556 findings (largest scan in the series), 22 critical dependency CVEs incl. authlib auth-bypass + fastmcp SSRF; a case study in monorepo dependency drift across 50+ MCP servers
 - **2026-05-20** — [Giskard-AI/giskard-oss](scans/giskard-ai-giskard-oss.html) — 27 findings, **all false positives** — first clean scan in the series; a teardown of `pull_request_target` done right vs the airweave finding
 - **2026-05-19** — [guardrails-ai/guardrails](scans/guardrails-ai-guardrails.html) — 17 findings, **first dep-scan hits in the series** (7 known CVEs on a pinned `litellm` upper bound) + 2× duplicated `unverified-jwt-decode` + 4× workflow inputs interpolation
