@@ -9,7 +9,7 @@ date: 2026-05-21
 **Repository:** [dograh-hq/dograh](https://github.com/dograh-hq/dograh) — 2.5k★, BSD-2-Clause, an open-source voice-agent platform (Python API backend + Next.js UI).
 **Commit scanned:** `21951eca18cd` (HEAD of `main` at scan time)
 **Scan date:** 2026-05-21
-**Disclosure status:** Public courtesy issue filed on the dograh repo. Every finding traces to a published CVE or a best-practice pattern — no private coordination required.
+**Disclosure status:** ✅ **Resolved.** Issue [#338](https://github.com/dograh-hq/dograh/issues/338) closed COMPLETED on 2026-05-27. Maintainer [@nuthalapativarun](https://github.com/nuthalapativarun) authored four PRs covering each item; three merged ([#356](https://github.com/dograh-hq/dograh/pull/356) `OSS_JWT_SECRET` fail-closed, [#360](https://github.com/dograh-hq/dograh/pull/360) api container non-root, [#361](https://github.com/dograh-hq/dograh/pull/361) Next.js upgrade in `evals/visualizer/`), one closed without merging ([#357](https://github.com/dograh-hq/dograh/pull/357), duplicate-lockfile — likely a different approach chosen).
 
 ## Summary
 
@@ -95,6 +95,17 @@ The API container runs as root (no `USER` directive) and its `apt-get install` o
 
 - **2026-05-21** — Scan run at commit `21951eca18cd`, findings curated.
 - **2026-05-21** — Public courtesy issue filed on dograh-hq/dograh. All findings trace to published CVEs or best-practice patterns; no private coordination required.
+
+## Resolution
+
+Six days from issue filed to all PRs merged. The fix breakdown:
+
+- **[PR #361](https://github.com/dograh-hq/dograh/pull/361)** — `evals/visualizer/package.json` upgraded `next` from `16.1.4` to `16.2.6` and regenerated `pnpm-lock.yaml`, clearing the middleware-bypass, SSRF, DoS, and reflected-XSS advisories on that surface. (The `ui/` Next.js upgrade is not addressed by this PR — that lockfile is still on the older version and remains a follow-on item.)
+- **[PR #360](https://github.com/dograh-hq/dograh/pull/360)** — Added a `dograh` system user in `api/Dockerfile` so uvicorn, arq workers, and the ARI manager all run non-root. The PR body explicitly notes "Running as root unnecessarily increases the blast radius of any container escape or RCE vulnerability" — same framing we recommended.
+- **[PR #356](https://github.com/dograh-hq/dograh/pull/356)** — `docker-compose.yaml` switched from `${OSS_JWT_SECRET:-ChangeMeInProduction}` to `${OSS_JWT_SECRET:?...}` so the stack now aborts at startup if the variable is unset. Exact fix-pattern from the issue.
+- **[PR #357](https://github.com/dograh-hq/dograh/pull/357)** — Closed without merging. The PR proposed removing the redundant `package-lock.json` from `evals/visualizer/` (since the directory has `pnpm-workspace.yaml`). Likely the maintainers chose a different reconciliation; the duplicate-lockfile cleanup may have been handled differently or deferred.
+
+Three PRs merged within hours of being opened, the JWT-secret fix-closed pattern adopted verbatim from the recommendation, and the maintainer (`nuthalapativarun`) authored each PR with a clear summary explaining the security rationale. Combined with the resolved [gptme #2399](gptme-gptme.html) and [PraisonAI #1677](mervinpraison-praisonai.html), this is the **third confirmed resolution** in the series — and the first one with a partial outcome (one PR not merged) worth noting honestly rather than papering over.
 
 ## Reproduce
 

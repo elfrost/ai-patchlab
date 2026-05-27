@@ -9,7 +9,7 @@ date: 2026-05-26
 **Repository:** [dstackai/dstack](https://github.com/dstackai/dstack) — 2.1k★, MPL-2.0, vendor-agnostic orchestration for AI training, inference, and agentic workloads. Python control plane + Go runner agent.
 **Commit scanned:** `39d34533748d` (HEAD of `master` at scan time)
 **Scan date:** 2026-05-26
-**Disclosure status:** Public courtesy issue filed on the dstack repo. Every finding traces to a published CVE or a best-practice pattern — no private coordination required.
+**Disclosure status:** ❌ **Issue declined by maintainer.** [Issue #3908](https://github.com/dstackai/dstack/issues/3908) was closed on 2026-05-27 by dstack maintainer [@peterschmidt85](https://github.com/peterschmidt85) as not meeting the project's disclosure-format requirements (paraphrased: one vulnerability per issue, explicit exploitability description against dstack users, no third-party repo links, no "shallow runs of security tools"). Honest record kept here in lieu of removing the post; the technical content — three published CVEs in `runner/go.mod`, plus the workflow-injection class — remains independently verifiable from the lockfile. The published-CVE recommendation stands regardless of whether the maintainer accepts it through the issue channel. See the [Maintainer response](#maintainer-response-and-lessons) section below.
 
 ## Summary
 
@@ -108,7 +108,23 @@ dstack's runner exists to execute user-defined workloads (containers, SSH sessio
 ## Disclosure timeline
 
 - **2026-05-26** — Scan run at commit `39d34533748d`; `examples/**`, `mkdocs/**`, `testing/**`, `migrations/**` suppressed; findings curated.
-- **2026-05-26** — Public courtesy issue filed on dstackai/dstack. All findings trace to published CVEs or best-practice patterns; no private coordination required.
+- **2026-05-26** — Public courtesy issue [#3908](https://github.com/dstackai/dstack/issues/3908) filed on dstackai/dstack.
+- **2026-05-27** — Issue closed by maintainer [@peterschmidt85](https://github.com/peterschmidt85) as not meeting the project's disclosure format. See below.
+
+## Maintainer response and lessons
+
+The closure comment, quoted in full:
+
+> Dear @elfrost, we're deleting this issue since its description contains direct advertising of another repo and is considered spam. If you care to submit security reports to dstack repo, do not include any third-party repo links, plus do submit security issues separately (one vulnerability per issue) and ensure to describe how the vulnerability can be exploited by dstack users. Shallow runs of security tools on a repo are not accepted. Really appreciate your good will to improve security of other [projects].
+
+This is the first declined issue in fifteen scans, and the feedback is worth taking seriously on its own terms — separate from whether the "advertising" framing is fair to the report's actual content (the technical items are real published CVEs, not a tool pitch). Four specific requirements the maintainer flagged, three of which are reasonable enough to fold into the methodology going forward:
+
+1. **One vulnerability per issue.** dstack is the first scan target with this explicit norm. Across the series so far, the "grouped courtesy issue" pattern has worked on every repo that accepted reports (gptme, PraisonAI, airweave, guardrails, Klavis, HolmesGPT, honcho, dograh — eight projects, two resolved, none rejected on grouping). dstack is the outlier, and a reasonable one given a security team's need to track resolution per-CVE. **Lesson applied:** for repos with formal SECURITY.md or explicit per-vulnerability norms, file separate issues going forward.
+2. **Describe how the vulnerability can be exploited by users of *this* project.** Also fair. The original issue cited the SSH `PublicKeyCallback` CVE and noted dstack's runner SSH's into remote VMs — but didn't say "here's the specific code path on the runner that uses the affected API." For a Go advisory in a Go binary, a maintainer reasonably wants to know whether the misuse pattern is actually present in the codebase, not just whether the library is present in the lockfile. **Lesson applied:** for high-severity dep CVEs, include a `grep` for the affected API in the codebase as part of the report.
+3. **No third-party repo links.** The original issue linked to the AI PatchLab repo and the public write-up of this scan. For a security team that doesn't recognize the tool, those links read as promotion. **Lesson applied:** for repos where the maintainer culture is unknown, scope the issue to dstack-only content and mention the source tool minimally if at all (footer line, no link).
+4. **"Shallow runs of security tools on a repo are not accepted."** This one's the harder push-back to fully absorb. The dep-scan findings here aren't from a "shallow run" — they're three published Go CVEs sitting in the runner's `go.mod` at versions older than the advisory fix versions. Bumping the deps would clear them regardless of whose tool surfaced them. But the framing is the maintainer's prerogative; a different repo's norm doesn't override their own intake policy.
+
+The technical content of this write-up — the three Go criticals, the workflow-injection count, the FP analysis — remains independently verifiable from the lockfile and the workflow files at the scanned commit. The post is kept up as an honest record of what happened (both the findings and the maintainer's response) rather than removed; pretending the rejection didn't happen would be worse than the rejection itself.
 
 ## Reproduce
 
