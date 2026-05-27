@@ -27,6 +27,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Scans
 
+- **2026-05-27** — [aurelio-labs/semantic-router](scans/aurelio-labs-semantic-router.html) — 116 findings, cleanest two-person-team scan in the series; entire actionable surface is 50 SQL-identifier sites in one Postgres-backend file + a 30-advisory dep-drift tail
 - **2026-05-27** — [pixeltable/pixeltable](scans/pixeltable-pixeltable.html) — 67 findings, first scan to surface a **CVE-2007-4559-shape `tarfile.extractall` finding** on a code path that imports user-shared bundles; plus the recurring 26-site SQL-identifier class in the catalog layer
 - **2026-05-26** — [dstackai/dstack](scans/dstackai-dstack.html) — 163 findings, **3 real critical Go CVEs** in the runner (SSH `PublicKeyCallback` auth-bypass, Moby AuthZ bypass, go-git argument injection) + 21 workflow-injection patterns (series-high) · ❌ **Issue declined by maintainer for disclosure-format reasons; honest record kept**
 - **2026-05-26** — [pydantic/logfire](scans/pydantic-logfire.html) — 27 findings, **third clean scan in the series**; every `eval`/`exec`/pickle finding is a deliberate language-feature use that an observability library structurally needs
