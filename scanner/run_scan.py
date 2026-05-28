@@ -10,7 +10,11 @@ if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scanner.git_source import GitCloneError, cloned_repo
-from scanner.ignore import apply_ignore, load_ignore_patterns
+from scanner.ignore import (
+    DEFAULT_SAMPLE_IGNORE_PATTERNS,
+    apply_ignore,
+    load_ignore_patterns,
+)
 from scanner.models import SEVERITIES, Finding
 from scanner.paths import rebase_finding_paths
 from scanner.recommendations import enrich_findings
@@ -32,6 +36,7 @@ def run_scan(
     reports_dir: Path = Path("reports"),
     min_severity: str = "info",
     ignore_file: Path | None = None,
+    ignore_samples: bool = False,
 ) -> dict[str, Path]:
     """Validate input, run configured scanners, and write reports."""
     resolved_repo = repo_path.expanduser().resolve()
@@ -39,6 +44,8 @@ def run_scan(
         raise ValueError(f"Repository path does not exist or is not a directory: {repo_path}")
 
     ignore_patterns = load_ignore_patterns(ignore_file)
+    if ignore_samples:
+        ignore_patterns = [*DEFAULT_SAMPLE_IGNORE_PATTERNS, *ignore_patterns]
 
     findings = collect_findings(resolved_repo, reports_dir)
     findings = rebase_finding_paths(findings, resolved_repo)
@@ -52,6 +59,7 @@ def run_scan_from_url(
     reports_dir: Path = Path("reports"),
     min_severity: str = "info",
     ignore_file: Path | None = None,
+    ignore_samples: bool = False,
 ) -> dict[str, Path]:
     """Clone a public git URL into a temporary directory, then scan it.
 
@@ -65,6 +73,7 @@ def run_scan_from_url(
             reports_dir,
             min_severity=min_severity,
             ignore_file=ignore_file,
+            ignore_samples=ignore_samples,
         )
 
 
@@ -96,6 +105,13 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=None,
         help="Path to a .gitignore-style file whose patterns suppress matching findings.",
     )
+    parser.add_argument(
+        "--ignore-samples",
+        dest="ignore_samples",
+        action="store_true",
+        help="Suppress findings under common demo/sample/example subtrees "
+        "(examples/, samples/, sample-apps/, demos/ at any depth).",
+    )
     return parser.parse_args(argv)
 
 
@@ -111,6 +127,7 @@ def main(argv: list[str] | None = None) -> int:
                 reports_dir,
                 min_severity=args.min_severity,
                 ignore_file=ignore_file,
+                ignore_samples=args.ignore_samples,
             )
         else:
             report_paths = run_scan(
@@ -118,6 +135,7 @@ def main(argv: list[str] | None = None) -> int:
                 reports_dir,
                 min_severity=args.min_severity,
                 ignore_file=ignore_file,
+                ignore_samples=args.ignore_samples,
             )
     except (ValueError, GitCloneError, FileNotFoundError) as exc:
         print(f"Error: {exc}", file=sys.stderr)

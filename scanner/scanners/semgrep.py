@@ -117,7 +117,7 @@ def _map_semgrep_finding(record: dict[str, Any]) -> Finding:
         file=file_path,
         line=line,
         recommendation=_get_recommendation(extra),
-        confidence=confidence_for_semgrep_finding(),
+        confidence=confidence_for_semgrep_finding(check_id),
     )
 
 
