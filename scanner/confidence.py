@@ -47,6 +47,19 @@ _FAILURE_META_KINDS = frozenset(
 
 _NAMED_DEPENDENCY_ADVISORY_PREFIXES = ("CVE-", "GHSA-", "PYSEC-")
 
+# Semgrep rules with a track record of firing almost exclusively on false
+# positives across the public scan series. Matched as substrings against the
+# full check_id, so the short rule name is enough. Findings from these rules
+# are emitted at `low` confidence so curation can deprioritize them while the
+# signal is still kept in the report.
+_HIGH_FALSE_POSITIVE_SEMGREP_RULES = frozenset(
+    {
+        # 6/6 false positives (honcho + five prior scans): fires on any logging
+        # call near a secret-shaped variable name, even when no secret is logged.
+        "logger-credential-leak",
+    }
+)
+
 
 def confidence_for_meta_finding(kind: str) -> str:
     """Confidence for cross-cutting infrastructure / error findings.
@@ -71,8 +84,21 @@ def confidence_for_meta_finding(kind: str) -> str:
     raise ValueError(f"Unsupported meta finding kind: {kind}")
 
 
-def confidence_for_semgrep_finding() -> str:
-    """Semgrep findings are rule-based but carry moderate false-positive rates."""
+def confidence_for_semgrep_finding(check_id: str = "") -> str:
+    """Confidence for a Semgrep finding, keyed on its rule (`check_id`).
+
+    Most Semgrep findings are `medium` (rule-based, moderate false-positive
+    rate). Rules listed in `_HIGH_FALSE_POSITIVE_SEMGREP_RULES` - those that
+    have fired almost exclusively on false positives across the public scan
+    series - are downgraded to `low` so curation can deprioritize them.
+
+    Args:
+        check_id: The Semgrep rule id (e.g.
+            `python.lang.security.audit.logging.logger-credential-leak`).
+            Defaults to empty, which yields `medium`.
+    """
+    if any(rule in check_id for rule in _HIGH_FALSE_POSITIVE_SEMGREP_RULES):
+        return "low"
     return "medium"
 
 

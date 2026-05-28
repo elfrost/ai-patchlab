@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 
 from scanner.ignore import (
+    DEFAULT_SAMPLE_IGNORE_PATTERNS,
     apply_ignore,
     load_ignore_patterns,
     parse_ignore_patterns,
@@ -26,6 +27,35 @@ def _finding(file: str, finding_id: str = "x") -> Finding:
         recommendation="r",
         confidence="medium",
     )
+
+
+class TestDefaultSampleIgnore:
+    @pytest.mark.parametrize(
+        "path",
+        [
+            "examples/foo.py",
+            "docs/sample-apps/x/main.py",
+            "pkg/examples/deep/a.py",
+            "src/demo/app.py",
+            "frontend/samples/index.js",
+        ],
+    )
+    def test_suppresses_sample_subtrees(self, path: str) -> None:
+        kept = apply_ignore([_finding(path)], list(DEFAULT_SAMPLE_IGNORE_PATTERNS))
+        assert kept == []
+
+    @pytest.mark.parametrize(
+        "path",
+        [
+            "src/core/example.py",
+            "src/myexamples/a.py",
+            "examples.py",
+            "pixeltable/share/packager.py",
+        ],
+    )
+    def test_keeps_non_sample_paths(self, path: str) -> None:
+        kept = apply_ignore([_finding(path)], list(DEFAULT_SAMPLE_IGNORE_PATTERNS))
+        assert len(kept) == 1
 
 
 class TestParseIgnorePatterns:

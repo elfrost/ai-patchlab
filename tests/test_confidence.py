@@ -57,6 +57,19 @@ class TestSemgrep:
     def test_semgrep_findings_are_medium(self) -> None:
         assert confidence_for_semgrep_finding() == "medium"
 
+    def test_unknown_rule_is_medium(self) -> None:
+        assert confidence_for_semgrep_finding("python.lang.security.audit.something") == "medium"
+
+    def test_logger_credential_leak_is_low(self) -> None:
+        # 6/6 false positives across the public scan series (honcho, etc.) -
+        # the rule fires on any logging call near a variable named like a
+        # secret, regardless of whether a secret is actually logged.
+        rule = "python.lang.security.audit.logging.logger-credential-leak.logger-credential-leak"
+        assert confidence_for_semgrep_finding(rule) == "low"
+
+    def test_high_fp_match_is_substring_based(self) -> None:
+        assert confidence_for_semgrep_finding("logger-credential-leak") == "low"
+
 
 class TestGitleaks:
     def test_gitleaks_findings_are_high(self) -> None:

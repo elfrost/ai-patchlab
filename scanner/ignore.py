@@ -22,6 +22,24 @@ from pathspec.patterns.gitwildmatch import GitWildMatchPattern
 
 from scanner.models import Finding
 
+# Directory subtrees that hold demo/sample/example code rather than the
+# deployed product. Across the public scan series these subtrees were the
+# single most common source of out-of-scope findings (sample-app deps that
+# aren't shipped, demo Dockerfiles running as root, etc.). They are matched
+# anywhere in the tree (`**/`) and only as directories (trailing `/`), so a
+# file literally named `example.py` or a dir like `myexamples/` is NOT
+# suppressed. Opt in via the scanner's `--ignore-samples` flag.
+DEFAULT_SAMPLE_IGNORE_PATTERNS = (
+    "**/examples/",
+    "**/example/",
+    "**/samples/",
+    "**/sample/",
+    "**/sample-apps/",
+    "**/sample_apps/",
+    "**/demos/",
+    "**/demo/",
+)
+
 
 def parse_ignore_patterns(raw: str) -> list[str]:
     """Split raw text into ignore patterns; drop blank lines and comments.

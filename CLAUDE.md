@@ -50,7 +50,7 @@ This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.
 - `scanner/run_scan.py` — CLI entry point (`python scanner/run_scan.py --repo <path>` or `--from-git-url <url>`)
 - `scanner/git_source.py` — Shallow-clone a public git URL into a temp directory via the `cloned_repo` context manager; cleanup-on-exit, `shell=False`, no remote API calls
 - `scanner/paths.py` — `rebase_finding_paths(findings, repo_root)` rewrites each finding's `file` (and `id` when it embeds the same path) to a repo-relative POSIX path so reports survive temp-dir cleanup
-- `scanner/ignore.py` — `apply_ignore(findings, patterns)` + `load_ignore_patterns(path)` provide `.gitignore`-style path suppression of findings (used by the `--ignore-file` CLI flag). Empty-file findings are never suppressed
+- `scanner/ignore.py` — `apply_ignore(findings, patterns)` + `load_ignore_patterns(path)` provide `.gitignore`-style path suppression of findings (used by the `--ignore-file` CLI flag). Empty-file findings are never suppressed. `DEFAULT_SAMPLE_IGNORE_PATTERNS` holds the demo/sample/example subtree patterns opted into via the `--ignore-samples` flag
 - `scanner/models.py` — Normalized `Finding` dataclass + severity/confidence enums + `FINDING_FIELDS`
 - `scanner/recommendations.py` — Deterministic keyword-based recommendation enrichment
 - `scanner/confidence.py` — Centralized `Finding.confidence` rules (one function per scanner + `confidence_for_meta_finding` for shared `not-installed` / `scan-error` / etc.)
@@ -72,7 +72,7 @@ This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.
 - `docs/` — GitHub Pages site (Jekyll, theme `cayman`): `_config.yml`, `index.md` (landing + scan log), `scans/` (per-scan write-ups), `templates/scan-post.md` (template, excluded from publish)
 - `logs/` — Log files (gitignored except .gitkeep)
 - `AGENTS.md` — Codex/OpenAI runtime instructions (kept in parity with this file)
-- `.agents/skills/` — Codex skills for repeatable workflows (one folder per skill — kickoff, generate-prp, execute-prp, fix-issue, pipeline, tdd, review-code, refactor, retrospective, next, upgrade-status, status, audit-project, housekeeping, cleanup, security-scan, dependency-check, performance, document, monitor-setup, rollback, create-skill, ez-project-workflow)
+- `.agents/skills/` — Codex skills for repeatable workflows (one folder per skill — kickoff, generate-prp, execute-prp, fix-issue, pipeline, tdd, review-code, refactor, retrospective, next, upgrade-status, status, audit-project, housekeeping, cleanup, security-scan, dependency-check, performance, document, monitor-setup, rollback, create-skill, daily, ez-project-workflow)
 - `.claude/commands/` — Claude slash command definitions (one Markdown file per command)
 - `.claude/agents/` — Claude subagent definitions (architect, code-reviewer, debugger, dependency-manager, documentation-writer, integration-tester, orchestrator, performance-profiler, refactorer, release-manager, researcher, security-auditor, smart-context, tester)
 - `.claude/pipelines/` — Reusable pipeline YAML definitions (`feature.yml`, `bugfix.yml`, `security.yml`, `release.yml`)
@@ -150,6 +150,7 @@ This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.
 /performance [PATH]   — Profile le code, identifie bottlenecks et optimisations
 /monitor-setup [TYPE] — Configure health checks, alerting, uptime (health, alerts, uptime, all)
 /tdd DESC             — Implémentation Red-Green-Refactor stricte (Iron Law: pas de code sans test failing observé)
+/daily [MODE]         — Pipeline autonome quotidien scan→curation→post→issue→PR (MODE: vide=autonome, --dry-run, --status-only). Garde-fous: 1 scan/jour, quality-gate sur dépôt d'issue, détection strict-norm, kill switch `.daily-paused`
 ```
 
 ## Claude Subagents (`.claude/agents/`)
@@ -170,7 +171,7 @@ Use the Task tool with the matching `subagent_type` to delegate a focused job:
 - `tester` — unit test design and execution
 
 ## Codex Skills (`.agents/skills/`)
-Mirror of slash commands for the Codex runtime: kickoff, generate-prp, execute-prp, fix-issue, pipeline, tdd, review-code, refactor, retrospective, next, upgrade-status, status, audit-project, housekeeping, cleanup, security-scan, dependency-check, performance, document, monitor-setup, rollback, create-skill, plus `ez-project-workflow` (operating rules). `AGENTS.md` lists which Claude commands intentionally have no Codex mirror (`/do`, `/idea-to-pr`, `/upgrade-to-project`).
+Mirror of slash commands for the Codex runtime: kickoff, generate-prp, execute-prp, fix-issue, pipeline, tdd, review-code, refactor, retrospective, next, upgrade-status, status, audit-project, housekeeping, cleanup, security-scan, dependency-check, performance, document, monitor-setup, rollback, create-skill, daily, plus `ez-project-workflow` (operating rules). `AGENTS.md` lists which Claude commands intentionally have no Codex mirror (`/do`, `/idea-to-pr`, `/upgrade-to-project`).
 
 ## Pipelines (`.claude/pipelines/`)
 - `feature.yml` — feature delivery
