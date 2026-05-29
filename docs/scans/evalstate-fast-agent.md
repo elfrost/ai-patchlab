@@ -9,7 +9,7 @@ date: 2026-05-28
 **Repository:** [evalstate/fast-agent](https://github.com/evalstate/fast-agent) — 3.8k★, Apache-2.0, a Python framework to build, run, and evaluate agents with first-class MCP / Skills / ACP support.
 **Commit scanned:** `3a1c4696ca3a` (HEAD of `main` at scan time)
 **Scan date:** 2026-05-28
-**Disclosure status:** Public courtesy issue filed on the fast-agent repo with two defense-in-depth hardenings on real product code paths. The post covers the broader scan as usual.
+**Disclosure status:** ✅ **Resolved.** Public courtesy issue ([#811](https://github.com/evalstate/fast-agent/issues/811)) filed with two defense-in-depth hardenings; the maintainer adopted **both** in release **v0.7.13** the same day (~8 hours later). The post covers the broader scan as usual.
 
 ## Summary
 
@@ -102,6 +102,7 @@ That sanitizer collapses every shell metacharacter to `_`, and the extension is 
 
 - **2026-05-28** — Scan run at commit `3a1c4696ca3a`; findings curated. Sample/demo suppression on by default; no path-ignore file needed.
 - **2026-05-28** — Public courtesy issue filed on evalstate/fast-agent with the two defense-in-depth hardenings (tar `filter='data'`, Windows `shell=True` removal), offering to open a PR if welcome.
+- **2026-05-28 (same day, ~8h later)** — ✅ Maintainer closed [#811](https://github.com/evalstate/fast-agent/issues/811) as completed: *"Thanks for the report, both addressed in 0.7.13."* Verified in [v0.7.13](https://github.com/evalstate/fast-agent/releases/tag/v0.7.13): `_extract_tar_safely` now calls `extractall(..., filter="data")` and the Windows branch of `open_links_in_browser` now uses `os.startfile(file_path)` (no `shell=True`). Both hardenings adopted exactly as suggested.
 
 ## Reproduce
 
