@@ -27,6 +27,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Scans
 
+- **2026-05-29** — [homeassistant-ai/ha-mcp](scans/homeassistant-ai-ha-mcp.html) — 65 findings, **zero real in-scope items**; a strict-norm repo whose maintainer published a precise threat model — every scary finding is a fixture, an intentional public demo token, a documented by-design decision, or an FP · post-only, no issue filed
 - **2026-05-28** — [evalstate/fast-agent](scans/evalstate-fast-agent.html) — 36 findings, **near-clean scan where the maintainer already hand-rolled the hard mitigations** (a tar-traversal guard, a filename sanitizer before a shell call); actionable surface is two defense-in-depth hardenings + a Dependabot-lane `requests` CVE pair · ✅ **Both hardenings adopted in v0.7.13 the same day (~8h)**
 - **2026-05-27** — [aurelio-labs/semantic-router](scans/aurelio-labs-semantic-router.html) — 116 findings, cleanest two-person-team scan in the series; entire actionable surface is 50 SQL-identifier sites in one Postgres-backend file + a 30-advisory dep-drift tail
 - **2026-05-27** — [pixeltable/pixeltable](scans/pixeltable-pixeltable.html) — 67 findings, first scan to surface a **CVE-2007-4559-shape `tarfile.extractall` finding** on a code path that imports user-shared bundles; plus the recurring 26-site SQL-identifier class in the catalog layer
