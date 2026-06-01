@@ -27,6 +27,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Scans
 
+- **2026-06-01** — [SuanmoSuanyangTechnology/MemoryBear](scans/suanmosuanyangtechnology-memorybear.html) — 196 findings, **3 named critical CVEs in a stale `api/uv.lock` (pytorch RCE-class, fastmcp SSRF, nltk Zip Slip)** on a repo with no Dependabot · 37× Jinja2-for-LLM-prompts is the new rule-misfit class of the series
 - **2026-05-29** — [homeassistant-ai/ha-mcp](scans/homeassistant-ai-ha-mcp.html) — 65 findings, **zero real in-scope items**; a strict-norm repo whose maintainer published a precise threat model — every scary finding is a fixture, an intentional public demo token, a documented by-design decision, or an FP · post-only, no issue filed
 - **2026-05-28** — [evalstate/fast-agent](scans/evalstate-fast-agent.html) — 36 findings, **near-clean scan where the maintainer already hand-rolled the hard mitigations** (a tar-traversal guard, a filename sanitizer before a shell call); actionable surface is two defense-in-depth hardenings + a Dependabot-lane `requests` CVE pair · ✅ **Both hardenings adopted in v0.7.13 the same day (~8h)**
 - **2026-05-27** — [aurelio-labs/semantic-router](scans/aurelio-labs-semantic-router.html) — 116 findings, cleanest two-person-team scan in the series; entire actionable surface is 50 SQL-identifier sites in one Postgres-backend file + a 30-advisory dep-drift tail
