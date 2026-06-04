@@ -27,6 +27,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Scans
 
+- **2026-06-04** — [agentscope-ai/ReMe](scans/agentscope-ai-reme.html) — 159 findings, 3 concrete items filed (wildcard CORS + credentials on both HTTP-service entrypoints, `chromadb` CVE, Neo4j `password="neo4j"` default) · **largest SQL-identifier cluster in the series so far** (139 sites across 3 vector/file-store backends) + a new flow-DSL `exec`/`eval`-with-restricted-globals shape to watch
 - **2026-06-03** — [Q00/ouroboros](scans/q00-ouroboros.html) — 34 findings, **third "deps-are-the-thing" scan in a row** (after MemoryBear & agency-swarm) — `litellm` carries a 7-advisory stack incl. 2 criticals (auth bypass + SQL data access) reported privately via the published SECURITY.md channel; the cross-scan litellm-pin-stale pattern is now decisive
 - **2026-06-02** — [VRSEN/agency-swarm](scans/vrsen-agency-swarm.html) — 48 findings, **auth-tier dep concentration that fits the project's shape**: `authlib` 1 critical + 3 auth-bypass highs and `fastmcp` 1 critical SSRF + OAuth pile, on a multi-agent OAuth/MCP framework with no Dependabot · the recurring `shell=True`-in-agent-shell-tool by-design class · ✅ **Resolved 2026-06-04 in PR #659 (~15h)**
 - **2026-06-01** — [SuanmoSuanyangTechnology/MemoryBear](scans/suanmosuanyangtechnology-memorybear.html) — 196 findings, **3 named critical CVEs in a stale `api/uv.lock` (pytorch RCE-class, fastmcp SSRF, nltk Zip Slip)** on a repo with no Dependabot · 37× Jinja2-for-LLM-prompts is the new rule-misfit class of the series
