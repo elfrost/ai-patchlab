@@ -9,7 +9,7 @@ date: 2026-06-02
 **Repository:** [VRSEN/agency-swarm](https://github.com/VRSEN/agency-swarm) — 4.4k★, MIT, a multi-agent orchestration framework that wires together specialist agents over OpenAI/MCP backends, including a FastAPI integration server and built-in tools.
 **Commit scanned:** `f4317cde9248` (HEAD of `main` at scan time)
 **Scan date:** 2026-06-02
-**Disclosure status:** Public courtesy issue filed on the agency-swarm repo. Scope kept tight: one focused note on the auth-heavy dependency advisory cluster (`authlib` + `fastmcp` + `mcp` — exactly the libraries this project depends on for OAuth and MCP server integration).
+**Disclosure status:** ✅ **Resolved.** Public courtesy issue ([#658](https://github.com/VRSEN/agency-swarm/issues/658)) filed on the agency-swarm repo with the auth-heavy dependency advisory cluster (`authlib` + `fastmcp` + `mcp` — exactly the libraries this project depends on for OAuth and MCP server integration). The maintainer refreshed the lockfile in PR [#659](https://github.com/VRSEN/agency-swarm/pull/659) ~15 hours after filing.
 
 ## Summary
 
@@ -118,6 +118,7 @@ Worth a maintainer's eyes on the call-site flow into this function — flagged i
 
 - **2026-06-02** — Scan run at commit `f4317cde9248`; findings curated. No Dependabot detected → dep advisory cluster filed as the primary item with `authlib` auth-bypass class as the headline.
 - **2026-06-02** — Public courtesy issue [#658](https://github.com/VRSEN/agency-swarm/issues/658) filed on VRSEN/agency-swarm focused on the auth-tier `uv.lock` cluster (`authlib` 4-pack, `fastmcp` SSRF + OAuth pile, `mcp` DNS rebinding) and a one-line "consider wiring Dependabot" note.
+- **2026-06-04 (~15h later)** — ✅ Maintainer @nicko-ai refreshed the lockfile in PR [#659](https://github.com/VRSEN/agency-swarm/pull/659) (*"chore: refresh dependency lock for security advisories"*) and closed the issue as completed without further comment. Verified in the post-merge `uv.lock`: `authlib 1.7.2` (clears the JWK header-injection critical and the three high auth-bypass / signature-verification / info-disclosure advisories), `fastmcp 3.3.1` (clears the SSRF critical and the OAuth/token-issuance highs), `mcp 1.27.2` (clears the DNS-rebinding-default CVE).
 
 ## Reproduce
 
