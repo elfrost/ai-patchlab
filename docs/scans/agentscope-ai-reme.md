@@ -9,7 +9,7 @@ date: 2026-06-04
 **Repository:** [agentscope-ai/ReMe](https://github.com/agentscope-ai/ReMe) — 3.0k★, Apache-2.0, an agent memory-management kit (*"Remember Me, Refine Me"*) maintained by the AgentScope team with vector-store backends (pgvector, Alibaba Hologres), a SQLite file store, an HTTP service mode, and a flow-DSL execution layer.
 **Commit scanned:** `a2d76cc03420` (HEAD of `main` at scan time)
 **Scan date:** 2026-06-04
-**Disclosure status:** Public courtesy issue filed on the ReMe repo. Scope kept tight: three concrete real items (a duplicated unsafe CORS configuration on the HTTP-mode entrypoint, a `chromadb` CVE on the pinned version, and a default-credential anti-pattern in the Neo4j adapter). The 139-site SQL identifier pattern, the flow-DSL `exec`/`eval` surface, and the by-design agent shell tool are covered in this write-up rather than the issue.
+**Disclosure status:** ✅ **Resolved.** Public courtesy issue ([#275](https://github.com/agentscope-ai/ReMe/issues/275)) filed with three concrete real items (wildcard CORS + credentials on both HTTP-service entrypoints, a `chromadb` CVE, and a default-credential anti-pattern in the Neo4j adapter). Maintainer @jinliyl responded item-by-item and closed the issue **~13 hours later** with all three items fixed in `reme4/` (the v4 surface — `reme/` is being deprecated as legacy v3, an important context the response surfaced). The 139-site SQL identifier pattern, the flow-DSL `exec`/`eval` surface, and the by-design agent shell tool were covered in this write-up rather than the issue.
 
 ## Summary
 
@@ -128,6 +128,11 @@ Same shape as [fast-agent](evalstate-fast-agent.html)'s `interactive_shell.py` a
 
 - **2026-06-04** — Scan run at commit `a2d76cc03420`; findings curated. No `.github/dependabot.yml` present, but the curated issue is focused on three specific real items rather than the dep tail.
 - **2026-06-04** — Public courtesy issue [#275](https://github.com/agentscope-ai/ReMe/issues/275) filed on agentscope-ai/ReMe with the three concrete items (wildcard CORS at both HTTP-service entrypoints, `chromadb` CVE, Neo4j default credentials).
+- **2026-06-05 (~13h later)** — ✅ Maintainer [@jinliyl](https://github.com/jinliyl) responded item-by-item and closed [#275](https://github.com/agentscope-ai/ReMe/issues/275) as completed. **All three fixes verified in-code on `main`**:
+  - `reme4/components/service/http_service.py` — `allow_credentials="*" not in cors_origins` (inline downgrade, exactly the suggested pattern). Maintainer note: the `reme/` copy is part of a legacy v3 codebase being deprecated, so the fix is in `reme4/` only.
+  - `pyproject.toml` — `chromadb>=1.5.7` (bumped from `>=1.3.5`, clears CVE-2026-45829).
+  - `reme4/components/file_graph/neo4j_file_graph.py` — `password: str | None = None` with fallback to `NEO4J_PASSWORD` env var, raises a `ValueError` when neither is provided.
+  - Maintainer also acknowledged the out-of-scope `parse_expression()` flow-DSL surface as a "watch this" item for any future change exposing flow strings to end-users.
 
 ## Reproduce
 
