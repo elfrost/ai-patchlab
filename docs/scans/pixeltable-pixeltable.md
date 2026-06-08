@@ -9,7 +9,7 @@ date: 2026-05-27
 **Repository:** [pixeltable/pixeltable](https://github.com/pixeltable/pixeltable) — 1.6k★, Apache-2.0, a declarative and incremental data backend for multimodal AI (images, video, audio, documents) with first-class table-sharing.
 **Commit scanned:** `d83a4c29fb0d` (HEAD of `main` at scan time)
 **Scan date:** 2026-05-27
-**Disclosure status:** Public courtesy issue filed on the pixeltable repo with one specific real finding (a tarfile extraction without the safety filter on a code path that imports user-shared bundles). The post covers the broader scan as usual.
+**Disclosure status:** ✅ **Resolved.** Public courtesy issue ([#1376](https://github.com/pixeltable/pixeltable/issues/1376)) filed on the pixeltable repo with one specific real finding (a tarfile extraction without the safety filter on a code path that imports user-shared bundles). Contributor @aaron-siegel asked for a PR; PR [#1378](https://github.com/pixeltable/pixeltable/pull/1378) opened the same day with the single-line `filter='data'` change and was merged into `main` on **2026-06-07** by @sergey-mkhitaryan (silent merge — issue #1376 auto-closed in the same second). The post covers the broader scan as usual.
 
 ## Summary
 
@@ -106,7 +106,9 @@ Two published `urllib3` advisories against the pinned version. Update the `urlli
 ## Disclosure timeline
 
 - **2026-05-27** — Scan run at commit `d83a4c29fb0d`; findings curated. Sample-app subtrees flagged but not suppressed via ignore-file (small scan size).
-- **2026-05-27** — Public courtesy issue filed on pixeltable/pixeltable focusing on the `share/packager.py` tarfile finding (the one specific, exploit-shaped item). The 26-site SQL class and the workflow-input pattern mentioned more briefly given the issue-format lessons from the [dstack rejection](dstackai-dstack.html#maintainer-response-and-lessons).
+- **2026-05-27** — Public courtesy issue [#1376](https://github.com/pixeltable/pixeltable/issues/1376) filed on pixeltable/pixeltable focusing on the `share/packager.py` tarfile finding (the one specific, exploit-shaped item). The 26-site SQL class and the workflow-input pattern mentioned more briefly given the issue-format lessons from the [dstack rejection](dstackai-dstack.html#maintainer-response-and-lessons).
+- **2026-05-27** — Contributor [@aaron-siegel](https://github.com/aaron-siegel) replied within hours: *"Thanks for reporting this. Yes, please do open a PR for the tarfile fix — thanks for catching that!"* PR [#1378](https://github.com/pixeltable/pixeltable/pull/1378) opened the same day with the single-line `tf.extractall(path=self.tmp_dir, filter='data')` change.
+- **2026-06-07 (~11 days later)** — ✅ Maintainer [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) merged PR [#1378](https://github.com/pixeltable/pixeltable/pull/1378) into `main` (merge commit `8c52f50be1`); issue [#1376](https://github.com/pixeltable/pixeltable/issues/1376) auto-closed as completed in the same second. Silent merge after PR sat through standard review; all CI checks had been green since the day the PR was opened.
 
 ## Reproduce
 
