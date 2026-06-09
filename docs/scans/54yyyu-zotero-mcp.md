@@ -9,7 +9,7 @@ date: 2026-06-08
 **Repository:** [54yyyu/zotero-mcp](https://github.com/54yyyu/zotero-mcp) — 3.7k★, MIT, an MCP server that connects Zotero research libraries to Claude (and other MCP clients) over stdio, SSE, or HTTP transports. Solo-maintained by @54yyyu with a healthy occasional-contributor inflow.
 **Commit scanned:** `90c76d5ef224` (HEAD of `main` at scan time)
 **Scan date:** 2026-06-08
-**Disclosure status:** Public courtesy issue filed. The scanner returned 4 findings; **the curated set is 6 real items, every one of which the static scanner missed** — a Phase-B completeness sweep on MCP-specific attack surfaces (initiated under the project's ultracode mode) is what surfaced them.
+**Disclosure status:** ✅ **Resolved.** Public courtesy issue ([#326](https://github.com/54yyyu/zotero-mcp/issues/326)) filed. Maintainer [@54yyyu](https://github.com/54yyyu) responded ~6 hours later with an item-by-item fix table; **all six findings** were merged across PRs [#327](https://github.com/54yyyu/zotero-mcp/pull/327) (SSRF guard) and [#328](https://github.com/54yyyu/zotero-mcp/pull/328) (credential hygiene + DoS hardening batch), and **release [v0.5.0](https://github.com/54yyyu/zotero-mcp/releases/tag/v0.5.0) cut 9 minutes after issue close.** The scanner returned 4 findings; the curated set was 6 real items, every one of which the static scanner missed — a Phase-B completeness sweep on MCP-specific attack surfaces (initiated under the project's ultracode mode) is what surfaced them. The maintainer specifically credited *"adversarial verification, and documenting the excluded false-positives"* — direct endorsement of the workflow methodology. Fastest and most complete resolution in the series so far.
 
 ## Summary
 
@@ -136,6 +136,21 @@ The four scanner-side findings were each adversarially verified by a dedicated a
 
 - **2026-06-08** — Scan run at commit `90c76d5ef224`. Scanner returned 4 findings; ultracode-mode workflow surfaced 5 additional confirmed-real items via MCP-surface completeness sweep + adversarial verification.
 - **2026-06-08** — Public courtesy issue [#326](https://github.com/54yyyu/zotero-mcp/issues/326) filed on 54yyyu/zotero-mcp focused on the six confirmed-real items, with the SSRF and the plaintext-stdout credential disclosure as the headline pair and the four hardening items as a follow-up batch.
+- **2026-06-08 (~6h later)** — ✅ Maintainer [@54yyyu](https://github.com/54yyyu) responded with an item-by-item fix table:
+  > *"Thanks @elfrost — this was an unusually clean report (tight scoping, adversarial verification, and documenting the excluded false-positives). All six findings are fixed and merged."*
+
+  PRs merged:
+  - **[#327](https://github.com/54yyyu/zotero-mcp/pull/327)** — *fix(security): SSRF guard on the open-access PDF download path*. Implements `_url_resolves_to_public_host` (scheme allowlist + resolve all A/AAAA records, reject any non-global IP) and `_guarded_pdf_get` (no auto-redirects; re-validates every hop). Pattern matches the suggested fix shape exactly.
+  - **[#328](https://github.com/54yyyu/zotero-mcp/pull/328)** — *fix(security): credential-hygiene + DoS hardening batch*. (a) `setup --no-claude` masks credentials by default; explicit `--show-secrets` to opt in. (b) `chmod 0o600` after each of the three config-file writes (helper at `setup_helper.py:37`). (c) `--api-key` argv documented as insecure; prefer `ZOTERO_API_KEY` env var, else `getpass.getpass()`. (d) `pdfannots2json` subprocess gets `timeout=120` + explicit `subprocess.TimeoutExpired` handler returning `[]`. (e) Dockerfile picks up a `useradd app` + `USER app` final-stage block before `ENTRYPOINT`.
+  - **[#329](https://github.com/54yyyu/zotero-mcp/pull/329)** — *chore: release 0.5.0* — cut **9 minutes after issue #326 was closed**, shipping all six fixes to users.
+
+  All six fixes verified in-code on `main`:
+  - `src/zotero_mcp/tools/_helpers.py:452` defines `_url_resolves_to_public_host`; `:490` defines `_guarded_pdf_get`; `:500` re-validates the hop URL inside the redirect loop.
+  - `src/zotero_mcp/setup_helper.py:37` chmods every config-write target to `0o600`.
+  - `src/zotero_mcp/pdfannots_helper.py:111` runs `subprocess.run(cmd, ..., timeout=120)` with the `TimeoutExpired` handler immediately below.
+  - `Dockerfile` adds `RUN useradd --create-home --shell /usr/sbin/nologin app && chown -R app:app /app` and `USER app` before the final `ENTRYPOINT`.
+
+  Fastest and most complete resolution in the series so far (~6h, all six items, plus a release cut). The methodology endorsement — explicitly crediting the **adversarial verification + documented-FP discipline** — is the strongest external validation of the ultracode-workflow approach we've received.
 
 ## Reproduce
 
