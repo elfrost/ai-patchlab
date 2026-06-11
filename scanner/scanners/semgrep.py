@@ -42,14 +42,27 @@ def scan_semgrep(repo_path: Path, reports_dir: Path) -> list[Finding]:
             )
         ]
 
-    if result.returncode not in {0, 1}:
+    raw_text = ""
+    if raw_report_path.exists():
+        raw_text = raw_report_path.read_text(encoding="utf-8", errors="replace").strip()
+
+    # An empty/0-byte report is never a valid Semgrep result: even a scan with
+    # no findings writes `{"results": []}`. An empty file means Semgrep died
+    # mid-write (e.g. a UnicodeEncodeError on non-UTF-8 host locales). Treat it
+    # as a scan error rather than silently reporting zero findings — a non-zero
+    # returncode OR an empty report both indicate the scan did not complete.
+    if result.returncode not in {0, 1} or not raw_text:
         return [
             Finding(
                 id="semgrep-scan-error",
                 tool="semgrep",
                 severity="info",
                 title="Semgrep scan did not complete successfully",
-                description=_format_scan_error(result.stderr or result.stdout),
+                description=_format_scan_error(
+                    result.stderr
+                    or result.stdout
+                    or "Semgrep produced an empty report (the scan likely crashed mid-write)."
+                ),
                 file=str(repo_path),
                 line=None,
                 recommendation="Review the Semgrep error output, fix the scanner setup, and re-run the scan.",
