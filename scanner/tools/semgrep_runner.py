@@ -88,10 +88,23 @@ def find_semgrep_executable() -> str | None:
 
 
 def _build_semgrep_env(executable: str | PathLike[str]) -> dict[str, str]:
-    """Ensure adjacent Semgrep helper scripts are discoverable on Windows."""
+    """Build the Semgrep child environment.
+
+    Two concerns:
+    1. Ensure adjacent Semgrep helper scripts are discoverable on Windows.
+    2. Force UTF-8 file I/O. Semgrep writes its ``--output`` report via
+       Python's default text codec, which on Windows is the locale codepage
+       (e.g. cp1252). Source content containing non-Latin-1 characters
+       (Chinese/Japanese/Korean comments, emoji, ...) then raises
+       ``UnicodeEncodeError`` mid-write, leaving a 0-byte report and a
+       non-zero exit. Setting ``PYTHONUTF8`` / ``PYTHONIOENCODING`` makes the
+       child use UTF-8 regardless of the host locale.
+    """
     import os
 
     env = os.environ.copy()
+    env["PYTHONUTF8"] = "1"
+    env["PYTHONIOENCODING"] = "utf-8"
     executable_dir = str(Path(executable).parent)
     current_path = env.get("PATH", "")
     if executable_dir and executable_dir.lower() not in current_path.lower().split(os.pathsep):

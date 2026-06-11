@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from types import SimpleNamespace
 
+from scanner.scanners import semgrep as semgrep_module
 from scanner.scanners.semgrep import scan_semgrep
 from scanner.tools import semgrep_runner
 from scanner.tools.semgrep_runner import SemgrepResult, find_semgrep_executable, run_semgrep
@@ -183,3 +184,63 @@ def test_semgrep_lookup_uses_python_scripts_fallback_when_path_lookup_fails(
     monkeypatch.setattr(semgrep_runner, "PIP_USER_SEMGREP_PATH", fallback)
 
     assert find_semgrep_executable() == str(fallback)
+
+
+def test_semgrep_env_forces_utf8_io(tmp_path: Path, monkeypatch) -> None:
+    """Semgrep writes its --output file via Python's default codec; on Windows
+    that is cp1252, which raises UnicodeEncodeError on non-Latin-1 source
+    content (e.g. Chinese comments) and leaves a 0-byte report. Forcing UTF-8
+    I/O via PYTHONUTF8 / PYTHONIOENCODING in the child env prevents the crash.
+    """
+    repo_path = tmp_path / "repo"
+    raw_report_path = tmp_path / "reports" / "raw" / "semgrep.json"
+    repo_path.mkdir()
+    captured: dict[str, object] = {}
+
+    def fake_run(command: list[str], **kwargs) -> SimpleNamespace:
+        captured["kwargs"] = kwargs
+        raw_report_path.write_text('{"results": []}', encoding="utf-8")
+        return SimpleNamespace(returncode=0, stdout="", stderr="")
+
+    monkeypatch.setattr(
+        semgrep_runner, "find_semgrep_executable", lambda: "C:\\Python313\\Scripts\\semgrep.exe"
+    )
+    monkeypatch.setattr(semgrep_runner.subprocess, "run", fake_run)
+
+    run_semgrep(repo_path=repo_path, raw_report_path=raw_report_path)
+
+    env = captured["kwargs"]["env"]
+    assert env["PYTHONUTF8"] == "1"
+    assert env["PYTHONIOENCODING"] == "utf-8"
+
+
+def test_semgrep_empty_output_with_success_code_is_scan_error(
+    tmp_path: Path, monkeypatch
+) -> None:
+    """A 0-byte output file is never a valid Semgrep result (even an empty scan
+    writes `{"results": []}`). If Semgrep exits 0/1 but leaves an empty file
+    (e.g. it crashed mid-write), the adapter must surface a scan-error finding
+    rather than silently reporting zero findings.
+    """
+    repo_path = tmp_path / "repo"
+    reports_dir = tmp_path / "reports"
+    (reports_dir / "raw").mkdir(parents=True)
+    repo_path.mkdir()
+
+    def fake_run_semgrep(repo_path: Path, raw_report_path: Path):
+        raw_report_path.write_text("", encoding="utf-8")  # 0-byte: crashed mid-write
+        return semgrep_runner.SemgrepResult(
+            installed=True,
+            raw_report_path=raw_report_path,
+            returncode=0,
+            stdout="",
+            stderr="",
+        )
+
+    monkeypatch.setattr(semgrep_module, "run_semgrep", fake_run_semgrep)
+
+    findings = semgrep_module.scan_semgrep(repo_path, reports_dir)
+
+    assert len(findings) == 1
+    assert findings[0].id == "semgrep-scan-error"
+    assert findings[0].tool == "semgrep"
