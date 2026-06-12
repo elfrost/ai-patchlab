@@ -9,7 +9,7 @@ date: 2026-06-01
 **Repository:** [SuanmoSuanyangTechnology/MemoryBear](https://github.com/SuanmoSuanyangTechnology/MemoryBear) — 4.2k★, Apache-2.0, an AI memory-management framework ("Perceive · Extract · Associate · Forget") with a memory engine, RAG ingestion pipeline, and an isolated sandbox runner for tool execution.
 **Commit scanned:** `9e4a35a7e831` (HEAD of `main` at scan time)
 **Scan date:** 2026-06-01
-**Disclosure status:** Public courtesy issue filed on the MemoryBear repo. Scope kept tight: one focused note on the dependency-advisory tail (which is the highest-actionable surface), with the recurring SQL-text class and a methodology note on Jinja2-for-prompt-templates left to this write-up.
+**Disclosure status:** 📝 **Acknowledged (fix pending).** Public courtesy issue ([#1296](https://github.com/SuanmoSuanyangTechnology/MemoryBear/issues/1296)) filed on the MemoryBear repo. The maintainer closed it as completed on 2026-06-12 with an acknowledgment and stated intent to review the advisories and add Dependabot — but as of that close **no fix had landed yet** (the pinned versions are unchanged and no `dependabot.yml` is present). Recorded honestly as an acknowledgment, not a verified resolution. Scope was kept tight: one focused note on the dependency-advisory tail, with the recurring SQL-text class and a methodology note on Jinja2-for-prompt-templates left to this write-up.
 
 ## Summary
 
@@ -116,6 +116,7 @@ This is the same rule-misfit shape as the [HolmesGPT](holmesgpt-holmesgpt.html) 
 
 - **2026-06-01** — Scan run at commit `9e4a35a7e831`; findings curated. No Dependabot detected → dependency tail filed as primary item, not delegated.
 - **2026-06-01** — Public courtesy issue [#1296](https://github.com/SuanmoSuanyangTechnology/MemoryBear/issues/1296) filed on SuanmoSuanyangTechnology/MemoryBear focused on the dep tail (three criticals named) and a one-line "consider wiring Dependabot" note. The SQL-text and Jinja2-for-prompts items live in this write-up.
+- **2026-06-12 (~11 days later)** — 📝 Maintainer (`@keeees`) closed the issue as completed with an acknowledgment: *"Thanks for the detailed report. We will review the advisories against the dependencies currently pinned in `api/uv.lock`. The Dependabot suggestion also makes sense. We plan to add a basic configuration so dependency security issues do not accumulate over time."* **No fix had landed at the time of close** — verified against `main`: `fastmcp` still `3.1.0`, `nltk` still `3.9.2`, `torch` still `2.2.2` (the flagged vulnerable versions), and no `.github/dependabot.yml` present. Recorded as an *acknowledgment with stated intent*, not a verified resolution — the honest-record convention cuts both ways, so this is not counted among the series' confirmed fixes.
 
 ## Reproduce
 
