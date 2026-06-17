@@ -9,7 +9,7 @@ date: 2026-06-17
 **Repository:** [omnigent-ai/omnigent](https://github.com/omnigent-ai/omnigent) — 3.2k★, Apache-2.0, "a meta-harness for all your AI agents" — a Python orchestration layer (~24 MB) that runs Claude/Codex native harnesses, brokers credentials to sandboxed sessions, exposes a server with a bundle-upload API, and ships a React web UI (`ap-web/`).
 **Commit scanned:** `82d831a1b19c` (HEAD of `main` at scan time)
 **Scan date:** 2026-06-17
-**Disclosure status:** 🔒 **Private disclosure (GitHub Security Advisory) + this methodology post.** omnigent ships a real `SECURITY.md` (strict-norm) directing reports to a private GitHub Security Advisory. The headline finding is a **HIGH**, server-side, multi-tenant-reachable sandbox-escape / operator-credential-theft chain — so it was reported privately, and **this public post deliberately contains no weaponized reproduction** (no exploit payload, no IPC port discovery recipe, no elicitation string). It describes the *method* and the finding *classes* only.
+**Disclosure status:** 🔒 **Private disclosure (maintainer email) + this methodology post.** omnigent ships a real `SECURITY.md` (strict-norm) directing reports to a private GitHub Security Advisory — but that channel currently 404s for external reporters because *Private Vulnerability Reporting* isn't enabled on the repo, so the report went privately by email to maintainers instead (with a heads-up to enable PVR). The headline finding is a **HIGH**, server-side, multi-tenant-reachable sandbox-escape / operator-credential-theft chain — so it was reported privately, and **this public post deliberately contains no weaponized reproduction** (no exploit payload, no IPC port discovery recipe, no elicitation string). It describes the *method* and the finding *classes* only.
 
 ## Summary
 
@@ -72,7 +72,7 @@ Reported privately alongside the HIGH (same review), described here at the class
 ## Disclosure timeline
 
 - **2026-06-17** — Scan run at commit `82d831a1b19c`; `semgrep.json` verified healthy. 27-agent adversarial-verification + completeness-sweep workflow. 0/8 scanner clusters survived as standalone vulns; 6 confirmed-real items surfaced by the sweep, one HIGH (credential-proxy reachable via untrusted bundle upload), found by a Phase-C escalation of a Phase-A by-design verdict.
-- **2026-06-17** — HIGH (+ the same-ingestion-path low, + heads-up on the three mediums) reported privately via the repo's GitHub Security Advisory channel per `SECURITY.md`. No public issue filed. This methodology post published with no weaponized reproduction; happy to hold or revise at the maintainer's request.
+- **2026-06-17** — HIGH (+ the same-ingestion-path low, + heads-up on the three mediums) reported privately. The `SECURITY.md` GHSA channel was unavailable (Private Vulnerability Reporting not enabled on the repo → the advisory form 404s for external reporters), so the report went by private email to maintainers, with a note to enable PVR so the documented channel works. No public issue filed. This methodology post published with no weaponized reproduction; happy to hold or revise at the maintainer's request.
 
 ## Reproduce (the scan, not the exploit)
 
