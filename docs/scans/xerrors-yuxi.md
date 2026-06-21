@@ -9,7 +9,7 @@ date: 2026-06-19
 **Repository:** [xerrors/Yuxi](https://github.com/xerrors/Yuxi) — 5.6k★, MIT, a multi-tenant Agent Harness platform with knowledge-base + knowledge-graph management (Chinese-language project: "结合知识库、知识图谱管理的 多租户 Agent Harness 平台"). FastAPI backend + Vue web UI, with built-in agent skills (incl. a MySQL reporter) and a RAG/chunking pipeline.
 **Commit scanned:** `3eac017d3e69` (HEAD of `main` at scan time)
 **Scan date:** 2026-06-19
-**Disclosure status:** Public courtesy issue filed — focused on the one app-code best-practice item (wildcard CORS) + a reachable dependency refresh (the auth-path `pyjwt`, `langchain`), with explicit credit for the parts the developer built correctly. Non-strict-norm (no SECURITY.md); the items are best-practice / public-CVE, not exploit-shaped, so a focused public issue is the right channel.
+**Disclosure status:** ✅ **Resolved.** Public courtesy issue ([#780](https://github.com/xerrors/Yuxi/issues/780)) filed — focused on the one app-code best-practice item (wildcard CORS) + a reachable dependency refresh (the auth-path `pyjwt`, `langchain`), with explicit credit for the parts the developer built correctly. The maintainer landed both within ~2 days: a `YUXI_CORS_ORIGINS` env-allowlist (locked down by default in production) with an explicit `allow_credentials=False` downgrade when `*` is present, and a `pyjwt` bump to 2.13.0. Non-strict-norm (no SECURITY.md); the items were best-practice / public-CVE, not exploit-shaped, so a focused public issue was the right channel.
 
 ## Summary
 
@@ -89,6 +89,10 @@ All four knobs at maximum on a **multi-tenant** API server. Browsers reject `Acc
 
 - **2026-06-19** — Scan run at commit `3eac017d3e69`; `semgrep.json` verified healthy (153 KB, Chinese source). Reachability traced on three multi-tenant sinks (agent-SQL, tenant-JWT, markdown v-html) — all three correctly guarded (allowlist regex, textbook `jwt.decode`, DOMPurify). Residual: wildcard CORS + a reachable dep tail.
 - **2026-06-19** — Public courtesy issue [#780](https://github.com/xerrors/Yuxi/issues/780) filed on xerrors/Yuxi with the wildcard-CORS fix and the dependency refresh (auth-path `pyjwt` + `langchain` + tail, plus a Dependabot suggestion), explicitly crediting the guarded SQL / JWT / markdown handling.
+- **2026-06-21 (~2 days later)** — ✅ Maintainer closed [#780](https://github.com/xerrors/Yuxi/issues/780) as completed (silent close). **Both primary items verified in-code on `main`:**
+  - CORS (commit *"feat: add YUXI_CORS_ORIGINS environment variable for CORS configuration #780"*): `backend/server/main.py` now reads an explicit allowlist from `YUXI_CORS_ORIGINS` (and returns `[]` — fully locked down — by default in production), and `_build_cors_options` does the inline downgrade exactly as suggested: `if "*" in allow_origins: allow_credentials = False`, otherwise an explicit allowlist with scoped methods/headers. This is the [agency-swarm-pattern](vrsen-agency-swarm.html) fix plus a production-secure-by-default posture.
+  - `pyjwt` bumped `2.12.1 → 2.13.0` (clears the auth-path advisories; the call site was already textbook-correct, so this closes the library-internal CVEs).
+  - The Dependabot suggestion wasn't adopted — fine, it was a suggestion. The two actionable items both landed.
 
 ## Reproduce
 
