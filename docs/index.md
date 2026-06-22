@@ -17,6 +17,10 @@ AI PatchLab orchestrates [Semgrep](https://semgrep.dev),
 [pip-audit](https://github.com/pypa/pip-audit), then applies deterministic
 remediation and confidence rules to normalize the findings.
 
+> **Want this run privately against your own codebase?** I do independent
+> security review of AI agents, MCP servers, and LLM apps —
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 33 scans, 9 confirmed fixes, methodology in the open.
+
 ## How these scans work
 
 - Each scan targets a public repository at a specific commit.
