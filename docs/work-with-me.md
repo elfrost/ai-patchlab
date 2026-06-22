@@ -37,7 +37,7 @@ The curation engine behind the public scans — the adversarial-verification wor
 
 ## Get in touch
 
-Email **`<CONTACT_EMAIL_PLACEHOLDER>`** with:
+Email **[dosiswow2@gmail.com](mailto:dosiswow2@gmail.com?subject=AI%20agent%20security%20review%20enquiry)** with:
 
 - a one-line description of the project (and a repo link if it's shareable),
 - the rough scope you're thinking (triage vs full review vs ongoing),
