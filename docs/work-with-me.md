@@ -19,13 +19,13 @@ Everything I'd do for you, I've done in the open — [33 curated scans]({{ '/' |
 
 ## What an engagement looks like
 
-| | **Focused triage** | **Full review** | **Ongoing** |
+| | **First-look** | **Full review** | **Ongoing** |
 |---|---|---|---|
 | **Scope** | One service / repo, the high-risk surfaces (auth, tool execution, credential handling, ingestion trust) | The whole codebase: source, dependencies (with reachability), container/CI, the trust model | Recurring review on a cadence — pre-release, per-quarter, or per-major-feature |
-| **You get** | A prioritized list of real, exploitability-shaped findings with fix guidance + the documented FPs | The above, plus an architecture-level write-up of the trust boundaries and where they're thin | A standing relationship — your codebase reviewed as it evolves, not just once |
-| **Indicative** | from ~$5k | ~$12–25k (scope-dependent) | retainer |
+| **You get** | A prioritized list of real, exploitability-shaped findings with fix guidance + the documented FPs, and a call to walk through them | The above, plus an architecture-level write-up of the trust boundaries and where they're thin | A standing relationship — your codebase reviewed as it evolves, not just once |
+| **Price** | **$750** flat | scoped — *contact for a quote* | retainer, by arrangement |
 
-*Pricing is indicative and scoped per engagement — a 200-LOC MCP server and a 24-MB multi-tenant harness are not the same audit. Tell me the shape and I'll give you a real number.*
+*The first-look is a fixed-price entry point — one focused pass to surface what actually matters, with a call to walk through it. Anything larger is scoped per engagement: a 200-LOC MCP server and a 24-MB multi-tenant harness are not the same audit, so tell me the shape and I'll give you a real number.*
 
 ## What I'm especially good at
 
