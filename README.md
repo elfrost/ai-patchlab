@@ -4,6 +4,14 @@ AI PatchLab is an AI-assisted security remediation toolkit. The MVP starts with 
 local repository scanner foundation that normalizes security findings and writes
 actionable JSON and Markdown reports.
 
+**Local-first by design.** The whole point is a real security audit that runs on
+your machine — no source code leaves the host, no AI provider is contacted, and
+the same inputs produce the same report. Cloud remediation services (e.g. OpenAI's
+[Daybreak](https://openai.com/index/daybreak-securing-the-world/)) solve the same
+find → validate → reachable? → patch → verify loop from the opposite end; AI
+PatchLab is the path for code that can't be sent to a third party. See
+[Daybreak, Patch the Planet, and why local-first still matters](https://elfrost.github.io/ai-patchlab/daybreak-and-local-first).
+
 Public scan write-ups: [elfrost.github.io/ai-patchlab](https://elfrost.github.io/ai-patchlab/).
 
 ## Quick Start

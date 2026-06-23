@@ -69,7 +69,7 @@ This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.
 - `PRPs/` — Product Requirements Prompts (actifs)
 - `PRPs/done/` — PRPs complétés (archive — `2026-05-12-trivy-integration.md`, `20260513-phase-3-ai-review-behavior.md`)
 - `PRPs/templates/` — Templates PRP réutilisables (`prp_base.md`)
-- `docs/` — GitHub Pages site (Jekyll, theme `cayman`): `_config.yml`, `index.md` (landing + scan log), `scans/` (per-scan write-ups), `templates/scan-post.md` (template, excluded from publish)
+- `docs/` — GitHub Pages site (Jekyll, theme `cayman`): `_config.yml`, `index.md` (landing + scan log), `scans/` (per-scan write-ups), top-level pages (`work-with-me.md` conversion funnel, `daybreak-and-local-first.md` positioning essay vs OpenAI Daybreak), `templates/scan-post.md` (template, excluded from publish)
 - `logs/` — Log files (gitignored except .gitkeep)
 - `AGENTS.md` — Codex/OpenAI runtime instructions (kept in parity with this file)
 - `.agents/skills/` — Codex skills for repeatable workflows (one folder per skill — kickoff, generate-prp, execute-prp, fix-issue, pipeline, tdd, review-code, refactor, retrospective, next, upgrade-status, status, audit-project, housekeeping, cleanup, security-scan, dependency-check, performance, document, monitor-setup, rollback, create-skill, daily, ez-project-workflow)
