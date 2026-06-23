@@ -21,6 +21,10 @@ remediation and confidence rules to normalize the findings.
 > security review of AI agents, MCP servers, and LLM apps —
 > [**work with me →**]({{ '/work-with-me' | relative_url }}). 33 scans, 9 confirmed fixes, methodology in the open.
 
+> **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
+> Same remediation loop, opposite trade-off: their path is a cloud frontier model;
+> this one keeps your code on your disk. [Why local-first still matters →]({{ '/daybreak-and-local-first' | relative_url }})
+
 ## How these scans work
 
 - Each scan targets a public repository at a specific commit.
