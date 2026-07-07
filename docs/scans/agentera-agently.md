@@ -134,6 +134,20 @@ concrete escape, and credits the existing `_`-attr guard.
 - 2026-07-03 — scan run
 - 2026-07-03 — issue [#312](https://github.com/AgentEra/Agently/issues/312)
   filed (PythonSandbox escape); public post (this page)
+- 2026-07-07 — **maintainer confirmed and fixed** (in dev). Maplemx: *"We
+  confirmed the issue: the in-process restricted `exec` path should not be
+  treated as an isolation boundary for model-supplied or otherwise untrusted
+  Python code."* The fix is comprehensive rather than a denylist patch:
+  `agent.enable_python/​shell/​nodejs` now default to `sandbox="auto"`, which uses
+  **Docker-backed execution and fails closed** (structured diagnostics) when
+  Docker is unavailable; the old in-process runner is retained only behind an
+  explicit `sandbox="trusted_local"` opt-in. A new
+  `agent.enable_code_runtime(language=...)` adds Docker-backed runtimes for
+  ~15 languages, with `provisioning_profile` (strict/developer/ci) and image-pull
+  controls. Validation: pyright clean, 145-test sandbox regression suite green,
+  a real Docker Node smoke test. Merged to their dev line (`39a2e75c`); the
+  maintainer is holding the issue open until the public branch/release ships.
+  *(This page will move to ✅ resolved once the fix is public.)*
 
 ## Reproduce
 
