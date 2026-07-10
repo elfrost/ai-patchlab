@@ -147,7 +147,14 @@ concrete escape, and credits the existing `_`-attr guard.
   controls. Validation: pyright clean, 145-test sandbox regression suite green,
   a real Docker Node smoke test. Merged to their dev line (`39a2e75c`); the
   maintainer is holding the issue open until the public branch/release ships.
-  *(This page will move to ✅ resolved once the fix is public.)*
+- 2026-07-08 — ✅ **RESOLVED — publicly released** in
+  [`agently 4.1.4.1`](https://github.com/AgentEra/Agently/blob/main/docs/en/development/release-notes-4.1.4.1.md)
+  on PyPI (`pip install -U "agently==4.1.4.1"`). Maplemx: *"This issue is resolved
+  in 4.1.4.1"* — verified the Docker-backed default (`sandbox="auto"`, fail-closed)
+  and the `trusted_local` opt-in directly in the published wheel; the sandbox
+  contract is recorded in the `4.1.4.1` compatibility manifest. ~5 days
+  filing→release. The maintainer implemented the *structural* fix the report
+  recommended (OS-level isolation) rather than a denylist patch.
 
 ## Reproduce
 
