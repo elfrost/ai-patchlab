@@ -11,7 +11,7 @@ If you're shipping an agent framework, an MCP server, a RAG pipeline, or anythin
 
 ## The proof is public
 
-Everything I'd do for you, I've done in the open — [44 curated scans]({{ '/' | relative_url }}) of well-known AI/agent projects, with **10 confirmed fixes** where maintainers acted on the findings, and a documented methodology behind each one.
+Everything I'd do for you, I've done in the open — [45 curated scans]({{ '/' | relative_url }}) of well-known AI/agent projects, with **10 confirmed fixes** where maintainers acted on the findings, and a documented methodology behind each one.
 
 - **Real findings, not scanner noise.** A typical scan starts at hundreds of raw findings and ends at a handful that matter — because the rest are false positives, by-design patterns, or vendored third-party code. The curation is the value.
 - **Reachability over rule-count.** A `subprocess(shell=True)` that's safe under operator trust can become a multi-tenant sandbox escape once you trace who reaches it — and a scary-looking SQL string can be fully gated by a five-character allowlist. The verdict goes wherever the *code* goes, which means reading the code, not the rule.
