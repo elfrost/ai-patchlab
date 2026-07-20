@@ -9,7 +9,7 @@ date: 2026-07-19
 **Repository:** [vitali87/code-graph-rag](https://github.com/vitali87/code-graph-rag)
 **Commit scanned:** `6f3da01fb2495b5b6f1c33c2449defb43dcca6a3`
 **Scan date:** 2026-07-19
-**Disclosure status:** disclosed — focused issue filed
+**Disclosure status:** ✅ resolved — fix merged upstream ([PR #809](https://github.com/vitali87/code-graph-rag/pull/809), 2026-07-19)
 
 ## Summary
 
@@ -128,6 +128,7 @@ the shipped package.
 - 2026-07-19 — scan run
 - 2026-07-19 — focused issue filed upstream ([#808](https://github.com/vitali87/code-graph-rag/issues/808)) — mcp CVE reachability + fix
 - 2026-07-19 — public post (this page)
+- 2026-07-19 — ✅ **resolved (~same day):** maintainer verified all three claims ("accurate on every point, including the honest triage that only CVE-2026-52869 is live here") and merged [PR #809](https://github.com/vitali87/code-graph-rag/pull/809) implementing the full suggested fix — `mcp>=1.28.1` with the lock regenerated **and** `MCP_HTTP_HOST` defaulting to `127.0.0.1` so an external bind becomes an explicit operator choice
 
 ## Reproduce
 
