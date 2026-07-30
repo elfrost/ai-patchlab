@@ -116,12 +116,24 @@ Trivy reported **89 dependency findings**. Their distribution:
 | Dockerfiles | 8 |
 | **`backend/python/` (the shipped product)** | **0** |
 
-That last row is not a clean bill of health — it is a **blind spot**.
+That last row is not a clean bill of health — it is a **blind spot**, and both
+of the scanner's Python dependency paths missed it for *different* reasons.
+
 `backend/python/` declares its dependencies in `pyproject.toml` with **no
 lockfile at all**. There is a `package-lock.json` in that directory, but it locks
-*npm* packages, not Python ones. So the ~69 pinned Python dependencies that make
-up the actual shipped backend were resolved by **no scanner in this run**:
-Trivy had nothing to parse, and pip-audit produced no output either.
+*npm* packages, not Python ones. So Trivy had nothing to parse.
+
+pip-audit should have covered the gap, and did not — because AI PatchLab's own
+runner resolves its target **only at the repository root** (`repo_path /
+"pyproject.toml"`, root-level `requirements*.txt`, root `pylock.*.toml`).
+PipesHub has no root-level Python manifest; its backend lives one directory
+down. pip-audit was installed and ran, found nothing to audit, and reported that
+as an `info` finding — which `--min-severity medium` then filtered out of the
+report entirely.
+
+So the ~69 pinned Python dependencies that make up the actual shipped backend
+were analysed by **nothing**, and the report said so nowhere. That is my bug, not
+PipesHub's.
 
 The 49 findings against `integration-tests/uv.lock` are real, but that file
 locks the **test harness**. Finding #2 above was surfaced only because the
@@ -322,10 +334,18 @@ dominated almost every prior scan produced exactly **one** hit here.
   should raise an explicit *coverage* warning, in the same family as the
   [0-byte Semgrep report](dataelement-clawith.html) check. "Zero findings" and
   "not scanned" must never render identically.
-- **pip-audit produced nothing at all,** and because its meta findings are `info`
-  severity they were filtered out by `--min-severity medium`. This is the exact
-  gap flagged in the [Clawith](dataelement-clawith.html) write-up and still open:
-  scanner-infrastructure findings should be exempt from severity filtering.
+- **pip-audit's target discovery is root-only,** which makes it a no-op on any
+  monorepo whose Python project sits in a subdirectory — exactly the layout of
+  this target, and of a growing share of the projects in this series. It should
+  walk for `pyproject.toml` / `requirements*.txt` below the root (bounded, and
+  skipping vendored trees) rather than checking the root and giving up.
+- **And the no-op was silent,** because pip-audit's meta findings are `info`
+  severity and `--min-severity medium` filtered them out. This is the exact gap
+  flagged in the [Clawith](dataelement-clawith.html) write-up and still open:
+  scanner-infrastructure findings should be exempt from severity filtering. Two
+  independent bugs stacked here to turn "we analysed none of the shipped Python
+  dependencies" into a silent, invisible pass — which is precisely the failure
+  mode the 0-byte-report check was introduced to prevent.
 - **Grade the guard, then grade what the guard depends on.** The retrieval seam
   above was found by asking "what drops the unverified chunk?" and following the
   answer to a filter with an unrelated purpose. A rule that flags *security
