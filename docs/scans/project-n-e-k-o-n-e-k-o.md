@@ -9,7 +9,7 @@ date: 2026-07-29
 **Repository:** [Project-N-E-K-O/N.E.K.O](https://github.com/Project-N-E-K-O/N.E.K.O)
 **Commit scanned:** `35073e400bf9`
 **Scan date:** 2026-07-29
-**Disclosure status:** disclosed — focused issue filed upstream
+**Disclosure status:** ✅ **resolved** — fixed upstream in [PR #2559](https://github.com/Project-N-E-K-O/N.E.K.O/pull/2559), merged ~14 hours after filing
 
 ## Summary
 
@@ -271,6 +271,51 @@ screen-capture image handling), pypdf, Tornado, `python-multipart`, plus a
 - 2026-07-29 — scan run
 - 2026-07-29 — issue [#2558](https://github.com/Project-N-E-K-O/N.E.K.O/issues/2558) filed upstream
 - 2026-07-29 — public post (this page)
+- 2026-07-30 — **resolved.** [PR #2559](https://github.com/Project-N-E-K-O/N.E.K.O/pull/2559)
+  merged (+2043 / −101 across 22 files), closing #2558 roughly **14 hours** after
+  it was filed.
+
+## Resolution
+
+The maintainer ([@MingTianSang](https://github.com/MingTianSang)) fixed both
+halves and took the structural option on each.
+
+**The masking gap.** All 32 sensitive fields returned by
+`GET /api/config/core_api` are now replaced with a fixed sentinel rather than
+plaintext. The interesting part is what that forced: because the front end can no
+longer read the real key, the PR also had to make the *write* path
+sentinel-aware — a masked value posted back must mean "keep what's stored", an
+explicit empty must mean "clear it", and a provider switch must not cross-wire
+one provider's key into another. The connectivity-test button now detects a
+masked key and asks for re-entry instead of shipping the sentinel to a provider
+as if it were a credential. That is the whole reason a redaction change touched
+244 lines of `core_config.py` and 175 of `api_key_settings.js`: masking a
+read-back field is only safe once round-tripping is safe.
+
+**The missing boundary.** Rather than bolting a `Host` check onto the one leaking
+route, the PR adds `utils/host_origin_guard.py` (360 new lines) and registers it
+as middleware on **all four** servers — `main_server/__init__.py`,
+`memory_server/runtime.py`, `agent_server/api_shared.py`, and
+`plugin/server/http_app.py` — with WebSocket `Origin` rejection alongside the
+`Host` allowlist. Untrusted `Host` now returns `400`. Custom domains and mDNS
+names are opted in through `NEKO_TRUSTED_HOSTS` / `NEKO_TRUSTED_ORIGINS`
+(documented in `docs/config/environment-vars.md`), and `docker/entrypoint.sh`
+auto-allows the existing `SSL_DOMAIN` so reverse-proxy deployments don't break.
+Loopback and bare IPs are unaffected.
+
+This is the outcome the [intra-repo differential](#notes-on-the-tool) framing was
+arguing for. The report's recommendation was not "add a check here" —
+it was "you already wrote this guard three times in this repo, promote it to
+app-wide middleware." That is precisely what shipped, and it now also covers the
+WebSocket `Origin` surface, which the report had only raised as a secondary item.
+
+Three new test files came with it — `tests/unit/test_host_origin_guard.py` (311
+lines), `tests/unit/test_core_config_secret_redaction.py` (513 lines), and
+`tests/frontend/api_key_secret_masking.test.cjs` (286 lines) — and the PR
+reports a **main-branch control run**: on `main`, the config endpoint still
+returned plaintext, a forged `Host` still returned `200`, and a hostile
+WebSocket `Origin` still connected. An independent confirmation that the issue
+reproduced as described, which is a more useful artifact than any severity label.
 
 ## Reproduce
 
