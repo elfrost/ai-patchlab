@@ -230,19 +230,22 @@ different times.
 
 Every item here maps to a backlog entry in AI PatchLab.
 
-- **`wildcard-cors` needs a severity that depends on the auth posture of the same
-  app.** Semgrep rated the CORS finding medium in isolation, which is right for a
-  service behind authentication and materially under-rated for one whose default
-  deployment has none. The two facts are ~400 lines apart in the same package.
-  This is a cross-file correlation the scanner should attempt: when a wildcard
-  CORS policy and a no-op auth dependency coexist, escalate.
-- **Empirical confirmation beat reading the code.** Rather than reasoning about
-  what Starlette does with `allow_origins=["*"]` plus `allow_credentials=True` —
-  which is genuinely subtle, and where I would probably have hedged — I
-  reconstructed the exact middleware config locally and read the response
-  headers. It took one command and turned "I believe this is exploitable" into a
-  transcript. Worth making a routine step for any CORS or auth-middleware
-  finding.
+- **A permissive-configuration rule needs a severity that depends on the security
+  posture of the same application.** One of the withheld findings was rated
+  *medium* by a rule that judged the setting in isolation — correct for an
+  application with one posture, materially under-rated for the posture this one
+  actually ships with. The two facts live in the same package, a few hundred
+  lines apart, and no single-file rule joins them. This is the cross-file
+  correlation the scanner should attempt: when a permissive setting and the
+  condition that makes it dangerous coexist in one app, escalate rather than
+  rating each alone.
+- **Empirical confirmation beat reading the code.** Rather than reasoning from
+  documentation about how a middleware behaves in a subtle configuration — where
+  I would probably have hedged — I reconstructed the exact configuration locally
+  and read the actual response headers. It took one command and turned "I believe
+  this is exploitable" into a transcript. Worth making a routine step for any
+  middleware-level finding, and it is what let me report finding #1 as confirmed
+  rather than suspected.
 - **The docstring-versus-code oracle worked again, on a second project.**
   Yesterday's finding was confirmed because a function's docstring documented the
   opposite of what it did. The same technique confirmed finding #2 here: the
