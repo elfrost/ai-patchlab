@@ -9,7 +9,7 @@ date: 2026-05-15
 **Repository:** [msoedov/agentic_security](https://github.com/msoedov/agentic_security) — 1.9k★, Apache-2.0, an Agentic LLM vulnerability scanner / AI red-teaming kit (i.e. a dynamic-behavior security tool, complementary to AI PatchLab's static-code focus).
 **Commit scanned:** `2aabcef` (HEAD of `main` at scan time)
 **Scan date:** 2026-05-15
-**Disclosure status:** Two findings filed as a public courtesy issue on the agentic_security repo. **One additional finding was reported privately** via GitHub's Private Vulnerability Reporting (active on this repo) and will be added to this write-up after the maintainer's response.
+**Disclosure status:** Two findings filed as a public courtesy issue on the agentic_security repo — **both resolved** in commit [`dd59704`](https://github.com/msoedov/agentic_security/commit/dd59704f) with regression tests; [issue #298](https://github.com/msoedov/agentic_security/issues/298) closed 2026-07-31. **One additional finding was reported privately** via GitHub's Private Vulnerability Reporting (active on this repo); it remains in triage and will be added to this write-up after the maintainer's response.
 
 ## Summary
 
@@ -125,7 +125,21 @@ New items from this scan:
 - **2026-05-15** — Scan run, top findings curated.
 - **2026-05-15** — One finding disclosed privately via GitHub Private Vulnerability Reporting on agentic_security; awaiting maintainer response.
 - **2026-05-15** — Public courtesy issue filed on agentic_security with the two publishable items (CORS + path-traversal); this post published.
-- **TBD** — This page updated with the resolution of the privately-disclosed finding.
+- **2026-06-22** — Both public items fixed in commit [`dd59704`](https://github.com/msoedov/agentic_security/commit/dd59704f) by contributor Devam Shah, with regression tests for each (`tests/unit/test_cors_middleware.py`, `tests/integration/routes/test_static_icon_validation.py` — traversal, encoded slash, null byte, trailing newline, wrong extension).
+- **2026-07-31** — [Issue #298](https://github.com/msoedov/agentic_security/issues/298) closed as completed.
+- **TBD** — This page updated with the resolution of the privately-disclosed finding (still in triage as of 2026-08-02).
+
+### What the fix corrected in *our* analysis
+
+Worth recording, because the maintainer-side fix was **more accurate than the report that prompted it**. The write-up above describes the wildcard-CORS item as a spec violation whose practical effect is that *"any origin may make unauthenticated requests, and credentials silently disappear cross-origin"* — i.e. annoying, not dangerous. The commit message rejects that framing:
+
+> CORS: drop `allow_credentials=True`. With `allow_origins=['*']` Starlette **reflects the request Origin** and emits `Access-Control-Allow-Credentials: true` on any credentialed request — a reflect-any-origin hole.
+
+That is correct, and it matters. Starlette's `CORSMiddleware` only sends the literal `Access-Control-Allow-Origin: *` when `allow_all_origins and not allow_credentials`; with credentials enabled it falls through to the explicit-origin path and echoes back whatever `Origin` the caller sent. The browser therefore never sees the illegal `*` + credentials pairing that would have triggered its own protection — it sees a well-formed, fully-credentialed grant to the attacker's origin. **The spec violation the scanner rule is named after never actually occurs; what occurs is the vulnerability the spec exists to prevent.**
+
+The general lesson for curation: for a permissive-config finding, the severity depends on *what the framework does with the illegal combination*, not on the combination being illegal. Reading the middleware source (or reproducing the response headers, which is one command) converts a hygiene note into an exploitability claim — the technique that has since become routine in this series.
+
+The path-traversal item landed as filed: strict allowlist (`re.fullmatch(r"[A-Za-z0-9._-]+\.png")`) **plus** a `resolve()` / `is_relative_to(ICONS_DIR)` containment check, guarding both the local write and the outbound npmmirror fetch (CWE-22 and CWE-73), with the rationale written into the endpoint's docstring.
 
 ## Reproduce
 
