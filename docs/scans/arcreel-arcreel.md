@@ -11,7 +11,11 @@ date: 2026-08-04
 **Scan date:** 2026-08-04
 **Disclosure status:** withheld — one real finding filed privately as
 [GHSA-5r36-2f3p-5q87](https://github.com/ArcReel/ArcReel/security/advisories/GHSA-5r36-2f3p-5q87),
-embargoed pending maintainer response
+still embargoed. **Accepted by the maintainers on 2026-08-06**: the submitted
+report was converted into a draft advisory (`submission.accepted: true`,
+state `triage` → `draft`), the **High** severity was kept as filed, CWE-200 and
+CWE-862 were assigned, and the reporter was credited. No patched version is
+published yet, so the finding stays withheld here.
 
 ## Summary
 
