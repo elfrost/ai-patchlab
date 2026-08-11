@@ -10,8 +10,10 @@ date: 2026-08-09
 **Commit scanned:** `62c30a0b`
 **Scan date:** 2026-08-09
 **Disclosure status:** withheld — one real finding filed privately as
-[GHSA-7pxm-9qpm-xfgf](https://github.com/NeptuneHub/AudioMuse-AI/security/advisories/GHSA-7pxm-9qpm-xfgf),
-embargoed pending maintainer response
+[GHSA-7pxm-9qpm-xfgf](https://github.com/NeptuneHub/AudioMuse-AI/security/advisories/GHSA-7pxm-9qpm-xfgf).
+**The advisory was closed unaccepted 41 minutes after filing** (see
+[timeline](#disclosure-timeline)); no reason is visible to me and the finding
+remains withheld regardless
 
 ## Summary
 
@@ -347,6 +349,27 @@ report as generated is not self-contained.
   (state `triage`, accepted on first attempt). No public issue and no pull
   request, per `SECURITY.md`.
 - **2026-08-09** — This write-up published with the finding withheld.
+- **2026-08-09** — **The advisory was closed 41 minutes after it was filed**
+  (13:16:35Z → 13:57:16Z), with `submission.accepted` remaining `false`. That is
+  a declined report, not a resolved one. GitHub's advisory API does not expose
+  the private comment thread, so I cannot see whether a reason was given, and I
+  am not going to guess at one: the honest statement is that the report was
+  closed without being accepted and I do not know why.
+- **2026-08-11** — Re-checked upstream. Both deployment files still carry the
+  mapping the report was about, unchanged since the scan, so this was not a
+  quiet fix followed by a cleanup close.
+- **2026-08-11** — **The finding stays withheld, and that is not a bargaining
+  position.** `SECURITY.md` here forbids public issues *and* public pull
+  requests; a declined private report does not convert into permission to
+  publish one. The standing offer to pull this page in its entirety, made in the
+  report itself, also stands — a maintainer who did not want the disclosure is
+  not thereby signed up for a write-up about it. This entry exists because the
+  series documents rejections rather than deleting them, and a declined report
+  is a real outcome worth recording; it is not a complaint. A single-maintainer
+  project working in their free time is entitled to triage a stranger's
+  unsolicited report however they see fit, and the assessment in this write-up —
+  that the authentication layer here is among the most careful in the series —
+  is unchanged by the response to it.
 
 ## Reproduce
 
