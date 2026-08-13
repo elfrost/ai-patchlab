@@ -9,7 +9,10 @@ date: 2026-08-12
 **Repository:** [jgravelle/jcodemunch-mcp](https://github.com/jgravelle/jcodemunch-mcp)
 **Commit scanned:** `9cfa6d21`
 **Scan date:** 2026-08-12
-**Disclosure status:** disclosed — [issue #444](https://github.com/jgravelle/jcodemunch-mcp/issues/444) (quality pass, filed on the project's own multi-finding template), fix in [PR #443](https://github.com/jgravelle/jcodemunch-mcp/pull/443)
+**Disclosure status:** disclosed — [issue #444](https://github.com/jgravelle/jcodemunch-mcp/issues/444) (quality pass, filed on the project's own multi-finding template), fix in [PR #443](https://github.com/jgravelle/jcodemunch-mcp/pull/443).
+**Outcome (2026-08-12/13):** all three accepted, split one-per-issue; ✅ **items 2 and 3 shipped in
+[v1.108.274](https://github.com/jgravelle/jcodemunch-mcp/releases/tag/v1.108.274) the same evening**;
+item 1 open on the PR pending a CLA signature. See [Outcome](#outcome--triage-two-corrections-and-a-repro-that-did-not-reproduce).
 
 ## Summary
 
@@ -257,6 +260,69 @@ something falsifiable, and it invites a stranger to check. This project also
 ships an issue template that says adversarial multi-part reviews are *"some of
 the most valuable things this project receives."* Both of those are choices, and
 they are the reason a scan of a well-built repository produced anything at all.
+
+## Outcome — triage, two corrections, and a repro that did not reproduce
+
+Triaged the same day. **All three findings accepted as real**, and split
+one-per-issue per the project's own policy that a three-finding issue closes only
+when the last item settles: [#447](https://github.com/jgravelle/jcodemunch-mcp/issues/447)
+(the `install-pack` guard), [#448](https://github.com/jgravelle/jcodemunch-mcp/issues/448)
+(response-level redaction absent from `SECURITY.md`),
+[#449](https://github.com/jgravelle/jcodemunch-mcp/issues/449) (the stale
+"only route that accepts writes" sentence).
+
+**Both documentation items shipped in
+[v1.108.274](https://github.com/jgravelle/jcodemunch-mcp/releases/tag/v1.108.274)
+that evening**, on PyPI the same night. `SECURITY.md` gained a Response-Level
+Secret Redaction section and a controls-table row naming the three exempt tools
+and the reasoning; the remote-write paragraph now enumerates all four routes with
+their separate gates, and states the property I had singled out as worth keeping
+— with `JCODEMUNCH_HTTP_TOKEN` unset those routes return **503 rather than
+running unauthenticated**. The more durable half is that the release also added
+`tests/test_security_disclosure.py`, which asserts the document against the tree.
+My finding was the *second* instance of this failure mode in this project, so the
+fix they chose was not to correct two sentences but to make the next drift fail
+CI instead of waiting for a stranger.
+
+**Two corrections came back, and the second one is mine to record.** Both came
+from the maintainer re-deriving my evidence rather than reading it.
+
+**The repro I filed does not reproduce.** `_install_pack` strips one leading
+`<pack-id>/` segment from every member before the join, and my three evidence
+rows never survive it: `C:\Windows\Temp\evil2.txt` and `\\server\share\evil.txt`
+contain no `/` at all, so they hit `len(parts) < 2` and are skipped, and
+`C:/Windows/Temp/evil.txt` loses `C:` to the strip and lands harmlessly under the
+base. The escaping member is `pack/C:/Windows/Temp/evil.txt` — the drive-absolute
+name has to be in the **second** segment. The vulnerability is real and the patch
+does catch it, because the stripped remainder reaches the guard as
+`C:/Windows/…`; what I got wrong was which member escapes. And since every real
+pack archive carries a `<pack-id>/` prefix, **the true shape is more natural than
+the one I filed**, not less.
+
+The cause is worth naming because it is a general one: I tested the helper at the
+level the helper lives at, and never ran a member through the function that calls
+it. Unit-testing a guard in isolation cannot see a transformation applied to its
+input one frame up. My tests would not have caught a later reordering of the
+strip ahead of the confinement check either — that gap is now closed by an
+end-to-end case, [verified red without the production
+change](https://github.com/jgravelle/jcodemunch-mcp/pull/443), where the install
+reports **success** and writes outside the base.
+
+**My tests were also Windows-only green.** All three parametrized names are
+absolute on Windows and *relative* on POSIX, so on Linux `base / member` stays
+under the base, the helper correctly returns a path rather than refusing one, and
+`assert ... is None` fails — four of the nine CI legs. I could not have seen it
+(first-time-contributor runs are held at `action_required`, so nothing had
+executed), but "passed locally" meant "passed on one platform" and I reported it
+as though it meant more. Now gated on `os.name == "nt"`, with the POSIX behaviour
+deliberately *not* asserted, since resolving those names under the base is
+correct there.
+
+**Still open:** the code fix, on the PR, blocked on a CLA signature — the one
+step this pipeline cannot take, since it needs a human on my side. The maintainer
+set a 2026-08-26 timebox to land the change themselves with authorship and credit
+preserved if the CLA has not been signed by then. That is the right call and I
+said so on the PR: the fix landing matters more than who lands it.
 
 ---
 
