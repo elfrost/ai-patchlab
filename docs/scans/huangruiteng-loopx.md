@@ -9,9 +9,56 @@ date: 2026-08-07
 **Repository:** [huangruiteng/loopx](https://github.com/huangruiteng/loopx)
 **Commit scanned:** `af8c7678`
 **Scan date:** 2026-08-07
-**Disclosure status:** withheld — one real finding filed privately as
+**Disclosure status:** ✅ **resolved** — filed privately as
 [GHSA-p7c9-q3rc-f4f5](https://github.com/huangruiteng/loopx/security/advisories/GHSA-p7c9-q3rc-f4f5),
-embargoed pending maintainer response
+fixed in [v0.4.5](https://github.com/huangruiteng/loopx/releases/tag/v0.4.5) and
+**published by the maintainers on 2026-08-12**. The embargo has lifted; the
+specifics are below.
+
+## Update — 2026-08-12: fixed and published
+
+The advisory is public, so this page no longer needs to talk around the finding.
+
+**[GHSA-p7c9-q3rc-f4f5](https://github.com/huangruiteng/loopx/security/advisories/GHSA-p7c9-q3rc-f4f5)**
+— *`serve-status` sends `Access-Control-Allow-Origin: *` on unauthenticated read
+endpoints, letting any website read local goal state and private Markdown.*
+Moderate, CWE-200 / CWE-346 / CWE-942, vulnerable `>= 0.0.1, < 0.4.5`, patched in
+**0.4.5**, credited to [@elfrost](https://github.com/elfrost) as reporter.
+
+The component was `loopx serve-status` — the local status server, default
+`127.0.0.1:8765`, no flags required. It returned `Access-Control-Allow-Origin: *`
+on every response, and its two **read** endpoints performed no origin check,
+while its two **write** endpoints already called `is_loopback_origin` and
+correctly rejected the same request. Two cross-origin requests chained: `GET
+/status.json` to enumerate — which even on an empty registry returns
+`runtime_root`, `registry`, `contract.checks[]` and other absolute local paths
+containing the operator's OS username — then `GET /review-material?goal_id=…` to
+retrieve full Markdown content plus its absolute path. `resolve_review_material_path`
+is itself well built and bounds the reachable set correctly; the set it bounds to
+includes `<runtime_root>/goals/<goal_id>/`, which the project's own
+`docs/public-private-boundary.md` names as where raw sub-agent prompts and traces
+live.
+
+The suggested fix was to echo the request `Origin` only when
+`is_loopback_origin(origin)` holds — reusing the check already in the file rather
+than adopting a new one. **v0.4.5 is a security-hardening release fixing five
+privately reported advisories across four PRs**, of which this was one; the
+release notes state that `serve-status` no longer sends
+`Access-Control-Allow-Origin: *` to foreign origins, and list
+`tests/test_status_server_cors.py` among the suites a verifier should run.
+
+Two things worth recording about the shape of the outcome. **The maintainers
+published the advisory rather than closing it silently** — of the private filings
+in this series, this is the first to be publicly disclosed by the project with
+the reporter credited, which is the outcome the private channel is supposed to
+produce and rarely does. And **the fix shipped as one of five**: the report went
+into a release that also closed a path traversal on the same server, a launcher
+command injection, and an arbitrary write through `refresh-state --state-file`.
+A single filing landing inside a broader hardening pass is a better result than a
+single filing landing alone, and none of those other four were mine.
+
+The original class-level write-up is kept below unedited, as the record of what
+this page said while the embargo held.
 
 ## Summary
 
@@ -313,6 +360,14 @@ available.
   [GHSA-p7c9-q3rc-f4f5](https://github.com/huangruiteng/loopx/security/advisories/GHSA-p7c9-q3rc-f4f5)
   (state `triage`, accepted on first attempt). No public issue, per `SECURITY.md`.
 - **2026-08-07** — This write-up published with the finding withheld.
+- **2026-08-12** — **Fixed in [v0.4.5](https://github.com/huangruiteng/loopx/releases/tag/v0.4.5)**,
+  a security-hardening release closing five privately reported advisories across
+  four fix PRs. `serve-status` no longer sends `Access-Control-Allow-Origin: *`
+  to foreign origins.
+- **2026-08-12** — **Advisory published** by the maintainers with
+  [@elfrost](https://github.com/elfrost) credited as reporter, CWE-200 / CWE-346 /
+  CWE-942, patched range `0.4.5`. Embargo lifted.
+- **2026-08-13** — This page updated with the full detail, five days after filing.
 
 ## Reproduce
 
@@ -323,9 +378,10 @@ python scanner/run_scan.py \
   --min-severity medium
 ```
 
-The scanner output is reproducible from the command above. The finding is not
-reproducible from this page by design — it is described at class level only
-until the embargo lifts.
+The scanner output is reproducible from the command above. The finding itself is
+now reproducible from the [published
+advisory](https://github.com/huangruiteng/loopx/security/advisories/GHSA-p7c9-q3rc-f4f5),
+against a version **before 0.4.5**. Current releases are fixed.
 
 ---
 
