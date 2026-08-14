@@ -320,8 +320,9 @@ correct there.
 
 **Still open:** the code fix, on the PR, blocked on a CLA signature — the one
 step this pipeline cannot take, since it needs a human on my side. The maintainer
-set a 2026-08-26 timebox to land the change themselves with authorship and credit
-preserved if the CLA has not been signed by then. That is the right call and I
+set a timebox to land the change themselves with authorship and credit
+preserved if the CLA has not been signed by then — initially 2026-08-26, moved to
+**2026-08-20** on 2026-08-13. That is the right call and I
 said so on the PR: the fix landing matters more than who lands it.
 
 ---
