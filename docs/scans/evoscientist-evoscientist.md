@@ -9,7 +9,7 @@ date: 2026-07-28
 **Repository:** [EvoScientist/EvoScientist](https://github.com/EvoScientist/EvoScientist)
 **Commit scanned:** `10c032450e0e`
 **Scan date:** 2026-07-28
-**Disclosure status:** disclosed — focused issue filed upstream
+**Disclosure status:** disclosed — **resolved upstream** (PR [#401](https://github.com/EvoScientist/EvoScientist/pull/401) merged 2026-08-14)
 
 ## Summary
 
@@ -173,6 +173,41 @@ a sandbox that overpromises.
 - 2026-07-28 — scan run
 - 2026-07-28 — issue [#392](https://github.com/EvoScientist/EvoScientist/issues/392) filed upstream
 - 2026-07-28 — public post (this page)
+- 2026-08-03 — PR [#401](https://github.com/EvoScientist/EvoScientist/pull/401) opened by a third-party
+  contributor ([@NkAntony777](https://github.com/NkAntony777)), fixing the conditional-verification
+  bypass on both channels and leaving the policy half explicitly to the maintainers
+- 2026-08-14 — PR #401 **merged** by maintainer [@X-iZhang](https://github.com/X-iZhang); issue #392
+  closed as completed (**resolved**, 17 days)
+
+### What shipped
+
+Both channels now verify-then-branch instead of branch-then-verify — the shape the report
+asked for:
+
+- **WeChat** `_handle_message`: the condition inverted from `if encrypt and self._crypto:` to
+  `if self._crypto:` with an inner `if not encrypt: return 403`. The caller's body can no longer
+  decide whether the signature is checked; when `encoding_aes_key` + `token` are configured, a
+  POST with no `<Encrypt>` element is rejected before `_safe_process_message` is reached.
+- **Feishu** `_handle_event`: same inversion on `encrypt_key`, plus an `isinstance(body, dict)`
+  guard so a non-dict JSON body (list, string, int) is rejected rather than reaching `.get`.
+- Both rejections log a warning naming the bypass, so a deployment being probed leaves a trace.
+- 9 regression tests across `tests/test_feishu_channel.py` and `tests/test_wechat_channel.py`,
+  including the no-regression case that plaintext mode still works when no key is configured.
+  The contributor reported reproducing the bypass against `main` on both channels **before**
+  writing the fix, and a full-suite run (3045 passed / 13 skipped).
+
+**What was deliberately not fixed, and correctly so:** the policy half — whether a channel with
+credentials *entirely unset* should fail closed at startup or keep accepting unsigned traffic with
+a loud warning. That is a behaviour change for existing plaintext deployments, and the contributor
+declined to make it unilaterally. Splitting the ask that way is what let the uncontroversial half
+land; it is the same dynamic as the [semantic-router](aurelio-labs-semantic-router.html)
+filing, where a separable ask let the useful half ship without the contested half blocking it —
+except here the maintainer closed the issue as completed, so the residual is a decision on record
+rather than an open thread.
+
+**Third-party authorship is the notable part.** The fix was not written by me and not written by
+a maintainer — a passer-by read a public issue, reproduced it, and patched it. That is the second
+time in this series a filing concrete enough to be *adopted* outlived my own attention on it.
 
 ## Reproduce
 
