@@ -167,6 +167,11 @@ Recurring backlog items confirmed on this scan:
 
 - **2026-05-19** — Scan run at commit `28d74af02215`, findings curated.
 - **2026-05-19** — Public courtesy issue filed on guardrails-ai/guardrails with the three publishable items. No finding rose to the level requiring private coordination.
+- **2026-06-19** — **Item 1 fixed.** `cac65a45` bumped litellm to 1.89.2 and `42d7ab44` adopted the published `guardrails-api` 0.4.3 ("resolves litellm vulns"), following [#1484](https://github.com/guardrails-ai/guardrails/pull/1484). The pin now reads `litellm>=1.82.5,<2.0.0` — the upper bound no longer excludes the patched releases.
+- **2026-07-27** — **Item 3 fixed.** [#1585](https://github.com/guardrails-ai/guardrails/pull/1585) routed `package_directory` and `validator_id` through `env:` and quoted them as shell variables, closing the template-injection path. The maintainers' own PR describes it as CWE-78 / CWE-74 and rates it critical.
+- **2026-08-17** — **Item 2 still open.** Both `get_jwt_token` copies remain byte-identical at `hub_client.py:97` and `token.py:46`. A stale bot moved to auto-close the issue; [commented](https://github.com/guardrails-ai/guardrails/issues/1485#issuecomment-5316413918) with the state above so the close would not read as "all three addressed". Two community PRs ([#1494](https://github.com/guardrails-ai/guardrails/pull/1494), [#1451](https://github.com/guardrails-ai/guardrails/pull/1451)) remain open.
+
+**Outcome: partial (2 of 3).** Both fixed items were resolved by maintainer work on their own schedule rather than by a PR from this series — the filing's contribution was naming them, not fixing them. The third is the one this scan wrote the most about, and it is the one still standing.
 
 ## Reproduce
 
