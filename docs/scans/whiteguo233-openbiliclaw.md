@@ -306,8 +306,9 @@ of them helped me toward a **wrong** conclusion before the code corrected me. A
 project that documents its reasoning gives an auditor more to work with and more
 to be wrong about, and the second half of that is the price of the first.
 
-**Twenty-ninth clean scan by the tools' own accounting** — and the one thing they
-found between them, they found by contradicting each other.
+**Zero of 373 rules fired correctly on first-party code** — this is not a clean
+scan, because one finding is real, but nothing in the report pointed at it. The
+one thing the tools found between them, they found by contradicting each other.
 
 ## Disclosure timeline
 
