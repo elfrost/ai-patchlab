@@ -314,7 +314,7 @@ found between them, they found by contradicting each other.
 - 2026-08-20 — scan run at `d8f63745`
 - 2026-08-20 — curation; one real finding confirmed by reading the install path
   and the image pipeline
-- 2026-08-20 — public courtesy issue filed; this post published
+- 2026-08-20 — public courtesy issue filed as [#201](https://github.com/whiteguo233/OpenBiliClaw/issues/201); this post published
 
 ## Reproduce
 
