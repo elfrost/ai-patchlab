@@ -7,6 +7,7 @@ from contextlib import contextmanager
 from pathlib import Path
 
 import pytest
+
 from fingerprint.config import FingerprintConfig
 from fingerprint.git_seeds import SeedEntry
 from fingerprint.repo_index import (
@@ -15,7 +16,6 @@ from fingerprint.repo_index import (
     write_fingerprint,
 )
 from fingerprint.run_index import main
-
 from scanner.git_source import GitCloneError, GitCloneResult
 
 

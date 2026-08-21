@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import httpx
 import pytest
+
 from fingerprint.config import FingerprintConfig
 from fingerprint.web_probe import fetch_target
 

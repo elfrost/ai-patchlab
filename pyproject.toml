@@ -28,7 +28,7 @@ dev = [
 [tool.ruff]
 target-version = "py311"
 line-length = 100
-src = ["src", "scanner", "tests"]
+src = ["src", "scanner", "fingerprint", "tests"]
 
 [tool.ruff.lint]
 select = [
@@ -45,7 +45,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["scanner", "src"]
+known-first-party = ["fingerprint", "scanner", "src"]
 
 [tool.black]
 line-length = 100
@@ -65,4 +65,4 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["scanner*", "src*"]
+include = ["fingerprint*", "scanner*", "src*"]

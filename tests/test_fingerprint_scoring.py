@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import pytest
+
 from fingerprint.models import MatchSignal, band_for_score
 from fingerprint.scoring import WEIGHT_VALUES, score_signals
 

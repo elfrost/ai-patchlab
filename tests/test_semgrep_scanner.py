@@ -214,9 +214,7 @@ def test_semgrep_env_forces_utf8_io(tmp_path: Path, monkeypatch) -> None:
     assert env["PYTHONIOENCODING"] == "utf-8"
 
 
-def test_semgrep_empty_output_with_success_code_is_scan_error(
-    tmp_path: Path, monkeypatch
-) -> None:
+def test_semgrep_empty_output_with_success_code_is_scan_error(tmp_path: Path, monkeypatch) -> None:
     """A 0-byte output file is never a valid Semgrep result (even an empty scan
     writes `{"results": []}`). If Semgrep exits 0/1 but leaves an empty file
     (e.g. it crashed mid-write), the adapter must surface a scan-error finding

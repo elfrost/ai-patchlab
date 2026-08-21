@@ -8,6 +8,7 @@ from pathlib import Path
 
 import httpx
 import pytest
+
 from fingerprint.config import FingerprintConfig
 from fingerprint.models import MatchResult, MatchSignal
 from fingerprint.report import (
