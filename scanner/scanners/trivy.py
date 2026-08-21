@@ -42,6 +42,7 @@ def scan_trivy(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 line=None,
                 recommendation="Install Trivy, ensure it is available on PATH, and re-run the scan from PowerShell.",
                 confidence=confidence_for_meta_finding("not-installed"),
+                is_meta=True,
             )
         ]
 
@@ -59,6 +60,7 @@ def scan_trivy(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 line=None,
                 recommendation="Re-run Trivy and inspect the raw JSON report for truncation or invalid output.",
                 confidence=confidence_for_meta_finding("json-parse-error"),
+                is_meta=True,
             )
         ]
 
@@ -75,6 +77,7 @@ def scan_trivy(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 line=None,
                 recommendation="Review the Trivy error output, fix the scanner setup, and re-run the scan.",
                 confidence=confidence_for_meta_finding("scan-error"),
+                is_meta=True,
             )
         ]
 

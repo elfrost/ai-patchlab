@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "the-momentum/open-wearables: security scan"
+description: "Security scan of the-momentum/open-wearables: 145 findings (134 above the medium floor), 2 real. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-03
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "VRSEN/agency-swarm: security scan"
+description: "Security scan of VRSEN/agency-swarm: 48 findings, auth-tier dep concentration that fits the project's shape: authlib 1 critical + 3 auth-bypass highs and"
 date: 2026-06-02
 ---
 

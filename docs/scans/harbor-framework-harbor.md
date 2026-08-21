@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "harbor-framework/harbor: security scan"
+description: "Security scan of harbor-framework/harbor: 570 findings, and the count means almost the opposite of what it looks like: 464/570 (81%) and all 10 criticals are"
 date: 2026-06-15
 ---
 

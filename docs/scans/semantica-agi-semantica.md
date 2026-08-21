@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "semantica-agi/Semantica: security scan"
+description: "Security scan of semantica-agi/Semantica: 60 findings (60 above the medium floor), 1 real — withheld. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-11
 ---
 

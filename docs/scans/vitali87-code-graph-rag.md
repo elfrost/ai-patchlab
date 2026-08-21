@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "vitali87/code-graph-rag: security scan"
+description: "Security scan of vitali87/code-graph-rag: 22 findings, 1 real, reachable — a graph-RAG that parses codebases with Tree-sitter and ships an MCP server with"
 date: 2026-07-19
 ---
 

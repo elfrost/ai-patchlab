@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "HolmesGPT/holmesgpt: security scan"
+description: "Security scan of HolmesGPT/holmesgpt: 2,143 findings, 93% are an SRE agent's deliberately-broken Kubernetes test fixtures"
 date: 2026-05-21
 ---
 

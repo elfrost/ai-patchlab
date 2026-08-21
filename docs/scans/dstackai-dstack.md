@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "dstackai/dstack: security scan"
+description: "Security scan of dstackai/dstack: 163 findings, 3 real critical Go CVEs in the runner (SSH PublicKeyCallback auth-bypass, Moby AuthZ bypass"
 date: 2026-05-26
 ---
 

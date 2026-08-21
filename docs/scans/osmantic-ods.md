@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Osmantic/ODS: security scan"
+description: "Security scan of Osmantic/ODS: 73 findings, 0 real — 23rd clean scan, and one of the richer appliance surfaces in the series: the Osmantic Deployment System"
 date: 2026-07-25
 ---
 

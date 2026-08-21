@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "aurelio-labs/semantic-router: security scan"
+description: "Security scan of aurelio-labs/semantic-router: 116 findings, cleanest two-person-team scan in the series. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-05-27
 ---
 

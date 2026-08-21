@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "mnemosyne-oss/mnemosyne: security scan"
+description: "Security scan of mnemosyne-oss/mnemosyne: 195 findings, 0 real — 17th clean scan, and the largest SQL cluster in the series: a zero-dependency SQLite-backed"
 date: 2026-07-15
 ---
 

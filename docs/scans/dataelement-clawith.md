@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "dataelement/Clawith: security scan"
+description: "Security scan of dataelement/Clawith: 54 findings, and the scan that caught a silent-failure bug in AI PatchLab's own scanner: Semgrep crashed mid-write"
 date: 2026-06-11
 ---
 

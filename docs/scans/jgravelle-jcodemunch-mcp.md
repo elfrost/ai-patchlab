@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "jgravelle/jcodemunch-mcp: security scan"
+description: "Security scan of jgravelle/jcodemunch-mcp: 49 findings (47 above the medium floor), zero real. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-12
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "SuanmoSuanyangTechnology/MemoryBear: security scan"
+description: "Security scan of SuanmoSuanyangTechnology/MemoryBear: 196 findings, 3 named critical CVEs in a stale api/uv.lock (pytorch RCE-class, fastmcp SSRF"
 date: 2026-06-01
 ---
 

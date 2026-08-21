@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "ag2ai/ag2: security scan"
+description: "Security scan of ag2ai/ag2: 73 findings, 0 real/reachable/undefended — AG2 (formerly AutoGen), the canonical 'agents that write and run code' framework"
 date: 2026-06-26
 ---
 

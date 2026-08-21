@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "zilliztech/memsearch: security scan"
+description: "Security scan of zilliztech/memsearch: 90 findings (90 above the medium floor), 1 real — Zilliz's semantic-memory layer for AI coding agents (2.5k★, MIT"
 date: 2026-08-17
 ---
 

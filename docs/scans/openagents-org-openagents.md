@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "openagents-org/openagents: security scan"
+description: "Security scan of openagents-org/openagents: 680 findings, 0 real first-party — the harbor pattern again. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-06-30
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "lightseekorg/tokenspeed: security scan"
+description: "Security scan of lightseekorg/tokenspeed: 181 findings (181 above the medium floor), 1 real — withheld in full"
 date: 2026-08-13
 ---
 

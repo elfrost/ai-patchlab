@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "pipeshub-ai/pipeshub-ai: security scan"
+description: "Security scan of pipeshub-ai/pipeshub-ai: 389 findings, 2 real — both withheld — an enterprise AI context layer (3.1k★"
 date: 2026-07-30
 ---
 

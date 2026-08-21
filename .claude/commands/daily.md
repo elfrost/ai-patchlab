@@ -14,12 +14,21 @@ Runs the full AI PatchLab public-scan workflow end-to-end, once per day, without
 3. **Strict-norm repo detection.** If the target has a real SECURITY.md (beyond GitHub's default), commercial backing, or a visible security team → post-only, or one-vuln-per-issue. Never a grouped "review" issue.
 4. **De-branded issue text.** No "scanned by [tool]" header. A single public-write-up link in a footer line at most. Lead with the finding and where the affected API is actually called in the repo.
 5. **Never rescan.** Dedup every candidate against existing slugs in `docs/scans/`.
-6. **Kill switch.** If `.daily-paused` exists in the repo root, abort immediately with a one-line note. (Create/remove it to pause/resume without code changes.)
+6. **Manual-disclosure backlog is a blocking warning.** Count the `pending_private_disclosure*` entries in the state file. If any has been pending **more than 7 days**, print a loud banner at the top of the run naming each one (repo, severity, days waiting) before doing anything else. If any is **High or Critical and pending more than 14 days**, do not start a new scan — run status-only and tell the user the queue needs clearing first. Rationale: on 2026-08-21 six reports were found sitting unsent, the oldest 22 days, including an unauthenticated-admin finding. Nothing in the pipeline had surfaced them, because every phase only looked forward at the next scan. A report that is written but never sent is worse than one never written: the maintainer does not know, and the series has already published that something was found.
+7. **Kill switch.** If `.daily-paused` exists in the repo root, abort immediately with a one-line note. (Create/remove it to pause/resume without code changes.)
 
 ## State & rate-limit
-- State file: `reports/.daily_state.json` (under gitignored `reports/`). Shape: `{"last_run": "YYYY-MM-DD", "last_slug": "...", "runs": [...]}`.
+- State file: `reports/.daily_state.json` (under gitignored `reports/`).
+- Scalar keys: `last_run` (`YYYY-MM-DD`), `last_slug`, `scans_count`, `clean_scans_count`, `resolved_count`, `acknowledged_count`, `filed_open_count`.
+- Run history lives in **`runs_recent`** (a rolling list of the last ~15 runs). The `runs` key is a vestigial empty list from an earlier shape — read `runs_recent`, and do not start writing to `runs` again.
+- Ad-hoc keys follow four families; a new entry must join one rather than invent a fifth:
+  - `pending_private_disclosure*` — a report drafted but not yet delivered (**this is what guardrail 6 counts**)
+  - `withheld_finding_*` — filed privately, detail withheld from the public post
+  - `excluded_repos` / `excluded_note` — targets deliberately never to be scanned again
+  - `*_note` — a durable lesson worth carrying into later runs
 - At start: read it. If `last_run == today`, treat as rate-limited → `--status-only` behavior.
-- At end of a successful scan: write `last_run = today`, append the slug.
+- At end of a successful scan: write `last_run = today`, append the slug to `runs_recent`.
+- Drafted disclosure emails live in `reports/disclosures/` (gitignored). When one is sent, replace its `pending_private_disclosure*` entry with a `sent` record carrying the date and channel, so the backlog count drops and Phase 1 starts polling it.
 
 ---
 

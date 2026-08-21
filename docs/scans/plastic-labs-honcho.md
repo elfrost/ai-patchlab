@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "plastic-labs/honcho: security scan"
+description: "Security scan of plastic-labs/honcho: 315 findings, real cluster on the MCP server's Hono framework (~9 CVEs incl"
 date: 2026-05-25
 ---
 

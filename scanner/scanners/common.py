@@ -25,4 +25,5 @@ def placeholder_finding(
         line=None,
         recommendation="Wire this placeholder to the real scanner and map results into the normalized finding schema.",
         confidence=confidence_for_placeholder(),
+        is_meta=True,
     )

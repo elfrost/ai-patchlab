@@ -1,6 +1,7 @@
 """Tests for the real Semgrep integration."""
 
 import json
+import os
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -135,6 +136,11 @@ def test_semgrep_runner_uses_json_report_command(tmp_path: Path, monkeypatch) ->
     repo_path = tmp_path / "repo"
     raw_report_path = tmp_path / "reports" / "raw" / "semgrep.json"
     repo_path.mkdir()
+    # Build the fake executable path with the host separator. Hardcoding a
+    # Windows path made this assert vacuously against `os.path.dirname`, which
+    # returns "" for a backslash path on POSIX.
+    scripts_dir = tmp_path / "python-scripts"
+    executable = str(scripts_dir / ("semgrep.exe" if os.name == "nt" else "semgrep"))
     captured: dict[str, object] = {}
 
     def fake_run(command: list[str], **kwargs) -> SimpleNamespace:
@@ -143,9 +149,7 @@ def test_semgrep_runner_uses_json_report_command(tmp_path: Path, monkeypatch) ->
         raw_report_path.write_text('{"results": []}', encoding="utf-8")
         return SimpleNamespace(returncode=0, stdout="", stderr="")
 
-    monkeypatch.setattr(
-        semgrep_runner, "find_semgrep_executable", lambda: "C:\\Python313\\Scripts\\semgrep.exe"
-    )
+    monkeypatch.setattr(semgrep_runner, "find_semgrep_executable", lambda: executable)
     monkeypatch.setattr(semgrep_runner.subprocess, "run", fake_run)
 
     result = run_semgrep(repo_path=repo_path, raw_report_path=raw_report_path)
@@ -153,7 +157,7 @@ def test_semgrep_runner_uses_json_report_command(tmp_path: Path, monkeypatch) ->
     assert result.installed is True
     assert result.returncode == 0
     assert captured["command"] == [
-        "C:\\Python313\\Scripts\\semgrep.exe",
+        executable,
         "scan",
         "--config",
         "auto",
@@ -171,7 +175,7 @@ def test_semgrep_runner_uses_json_report_command(tmp_path: Path, monkeypatch) ->
         "env": captured["kwargs"]["env"],
     }
     assert captured["kwargs"] == expected_kwargs
-    assert "C:\\Python313\\Scripts" in captured["kwargs"]["env"]["PATH"]
+    assert str(scripts_dir) in captured["kwargs"]["env"]["PATH"]
 
 
 def test_semgrep_lookup_uses_python_scripts_fallback_when_path_lookup_fails(
@@ -214,9 +218,7 @@ def test_semgrep_env_forces_utf8_io(tmp_path: Path, monkeypatch) -> None:
     assert env["PYTHONIOENCODING"] == "utf-8"
 
 
-def test_semgrep_empty_output_with_success_code_is_scan_error(
-    tmp_path: Path, monkeypatch
-) -> None:
+def test_semgrep_empty_output_with_success_code_is_scan_error(tmp_path: Path, monkeypatch) -> None:
     """A 0-byte output file is never a valid Semgrep result (even an empty scan
     writes `{"results": []}`). If Semgrep exits 0/1 but leaves an empty file
     (e.g. it crashed mid-write), the adapter must surface a scan-error finding

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "roflcoopter/viseron: security scan"
+description: "Security scan of roflcoopter/viseron: 399 findings (399 above the medium floor), 1 real — withheld. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-18
 ---
 

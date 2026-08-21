@@ -33,6 +33,7 @@ def scan_gitleaks(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 line=None,
                 recommendation="Install Gitleaks and re-run the scan from PowerShell.",
                 confidence=confidence_for_meta_finding("not-installed"),
+                is_meta=True,
             )
         ]
 
@@ -48,6 +49,7 @@ def scan_gitleaks(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 line=None,
                 recommendation="Review the Gitleaks error output, fix the scanner setup, and re-run the scan.",
                 confidence=confidence_for_meta_finding("scan-error"),
+                is_meta=True,
             )
         ]
 
@@ -65,6 +67,7 @@ def scan_gitleaks(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 line=None,
                 recommendation="Re-run Gitleaks and inspect the raw JSON report for truncation or invalid output.",
                 confidence=confidence_for_meta_finding("json-parse-error"),
+                is_meta=True,
             )
         ]
 
@@ -106,6 +109,10 @@ def _map_gitleaks_finding(record: dict[str, Any]) -> Finding:
         default="Gitleaks detected a potential secret.",
     )
 
+    # The matched text is read only to grade confidence (placeholder vs real
+    # credential) and is deliberately never written into the finding.
+    matched_secret = _get_string(record, "Secret", "secret", "Match", "match", default="")
+
     return Finding(
         id=finding_id,
         tool="gitleaks",
@@ -115,7 +122,7 @@ def _map_gitleaks_finding(record: dict[str, Any]) -> Finding:
         file=file_path,
         line=line,
         recommendation="Rotate the exposed secret, remove it from the repository, and rewrite git history if the secret was committed.",
-        confidence=confidence_for_gitleaks_finding(),
+        confidence=confidence_for_gitleaks_finding(rule_id, matched_secret),
     )
 
 

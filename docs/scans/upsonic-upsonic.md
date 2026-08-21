@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Upsonic/Upsonic: security scan"
+description: "Security scan of Upsonic/Upsonic: 40 findings, 4 real items across SSL/SQL/subprocess/pickle, ~36 false positives or by-design patterns"
 date: 2026-05-15
 ---
 

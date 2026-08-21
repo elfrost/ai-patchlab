@@ -21,6 +21,16 @@ from scanner.tools.pip_audit_runner import (
     run_pip_audit,
 )
 
+# Lockfiles that pin an exact dependency set but that pip-audit cannot read.
+# `pylock.*.toml` is deliberately absent: pip-audit audits it directly via
+# `--locked`, so it is covered rather than missed.
+UNAUDITED_LOCKFILE_NAMES = (
+    "uv.lock",
+    "poetry.lock",
+    "pdm.lock",
+    "Pipfile.lock",
+)
+
 
 def scan_dependencies(repo_path: Path, reports_dir: Path) -> list[Finding]:
     """Run pip-audit and map dependency vulnerabilities into the normalized schema."""
@@ -37,6 +47,7 @@ def scan_dependencies(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 line=None,
                 recommendation="Add a supported Python dependency manifest or skip dependency auditing for this repository.",
                 confidence=confidence_for_meta_finding("no-supported-manifest"),
+                is_meta=True,
             )
         ]
 
@@ -59,6 +70,7 @@ def scan_dependencies(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 line=None,
                 recommendation="Install pip-audit with `python -m pip install pip-audit` and re-run the scan from PowerShell.",
                 confidence=confidence_for_meta_finding("not-installed"),
+                is_meta=True,
             )
         ]
 
@@ -76,6 +88,7 @@ def scan_dependencies(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 line=None,
                 recommendation="Re-run pip-audit and inspect the raw JSON report for truncation or invalid output.",
                 confidence=confidence_for_meta_finding("json-parse-error"),
+                is_meta=True,
             )
         ]
 
@@ -92,10 +105,105 @@ def scan_dependencies(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 line=None,
                 recommendation="Review the pip-audit error output, fix the dependency scanner setup, and re-run the scan.",
                 confidence=confidence_for_meta_finding("scan-error"),
+                is_meta=True,
             )
         ]
 
-    return apply_patch_suggestions(enrich_findings(findings))
+    enriched = apply_patch_suggestions(enrich_findings(findings))
+
+    coverage = _unaudited_lockfile_finding(repo_path, audit_input)
+    if coverage is not None:
+        enriched.append(coverage)
+    return enriched
+
+
+def _unaudited_lockfile_finding(
+    repo_path: Path,
+    audit_input: PipAuditInput,
+) -> Finding | None:
+    """Warn when the repository ships a lockfile pip-audit never opened.
+
+    A project that ships both a lockfile and open version floors has two real
+    install paths that resolve to different dependency sets, and pip-audit only
+    reads one of them. Reporting a single merged verdict is wrong for at least
+    one of the project's own users: in the worst observed case the containerised
+    deployment (floors, current releases) was clean while the README's
+    recommended host install (lockfile, stale pins) carried 36 HIGH advisories,
+    from the same commit.
+    """
+    unread = _find_unaudited_lockfiles(repo_path)
+    if not unread:
+        return None
+
+    audited = _describe_audited_input(audit_input)
+    names = ", ".join(sorted(path.name for path in unread))
+    relative = ", ".join(sorted(_relative_path(path, repo_path) for path in unread))
+
+    return Finding(
+        id="dependency-scan-unaudited-lockfile",
+        tool="dependency-scan",
+        severity="info",
+        title="A shipped lockfile was not covered by the dependency scan",
+        description=(
+            f"pip-audit resolved dependencies from {audited}, but this repository also "
+            f"ships {names} ({relative}), which pip-audit does not read. These are two "
+            "separate install paths that can resolve to different versions, so the "
+            "dependency result above describes only one of them. Findings from the "
+            "lockfile path - if the project's own install instructions use it - are "
+            "not represented here."
+        ),
+        file=str(audit_input.display_path),
+        line=None,
+        recommendation=(
+            "Determine which install path the project actually recommends (README, "
+            "Dockerfile, CI), then audit the lockfile with a tool that reads it "
+            "(e.g. Trivy) and compare the two dependency sets before drawing a "
+            "conclusion about the project's dependency posture."
+        ),
+        confidence=confidence_for_meta_finding("partial-coverage"),
+        is_meta=True,
+    )
+
+
+def _find_unaudited_lockfiles(repo_path: Path) -> list[Path]:
+    """Return lockfiles pip-audit cannot read, at the root or one level down.
+
+    One level down catches the common monorepo layout where the Python service
+    lives in `backend/` or `server/` while the repository root holds JS tooling.
+    """
+    found: list[Path] = []
+    search_roots = [repo_path, *(child for child in _safe_iterdir(repo_path) if child.is_dir())]
+    for root in search_roots:
+        for name in UNAUDITED_LOCKFILE_NAMES:
+            candidate = root / name
+            if candidate.is_file():
+                found.append(candidate)
+    return found
+
+
+def _safe_iterdir(path: Path) -> list[Path]:
+    """List a directory, tolerating permission errors on scanned trees."""
+    try:
+        return sorted(path.iterdir())
+    except OSError:
+        return []
+
+
+def _relative_path(path: Path, repo_path: Path) -> str:
+    """Return a repo-relative POSIX path for display."""
+    try:
+        return path.relative_to(repo_path).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+def _describe_audited_input(audit_input: PipAuditInput) -> str:
+    """Describe what pip-audit actually read, for the coverage message."""
+    if audit_input.kind == "requirements":
+        return ", ".join(path.name for path in audit_input.paths)
+    if audit_input.kind == "locked-project":
+        return "the project's pylock file"
+    return "pyproject.toml (declared version floors)"
 
 
 def _read_pip_audit_dependencies(raw_report_path: Path) -> list[dict[str, Any]]:

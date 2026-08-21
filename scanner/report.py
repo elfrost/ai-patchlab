@@ -20,11 +20,21 @@ def filter_by_min_severity(findings: list[Finding], min_severity: str) -> list[F
 
     Severity order (most to least severe): critical, high, medium, low, info.
     Passing `"info"` keeps everything.
+
+    Findings flagged `is_meta` are always kept regardless of the floor. They
+    describe the state of the scan itself (tool missing, crash, timeout,
+    partial coverage) and are emitted at `info` severity, so any floor above
+    `info` would silently turn a failed scan into a clean-looking report.
+    They are still excluded from `select_top_findings`.
     """
     if min_severity not in _SEVERITY_RANK:
         raise ValueError(f"Unsupported severity: {min_severity}")
     threshold = _SEVERITY_RANK[min_severity]
-    return [finding for finding in findings if _SEVERITY_RANK[finding.severity] <= threshold]
+    return [
+        finding
+        for finding in findings
+        if finding.is_meta or _SEVERITY_RANK[finding.severity] <= threshold
+    ]
 
 
 def select_top_findings(

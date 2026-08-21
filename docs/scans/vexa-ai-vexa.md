@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Vexa-ai/vexa: security scan"
+description: "Security scan of Vexa-ai/vexa: 297 findings (270 above the medium floor), 1 real — withheld. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-05
 ---
 

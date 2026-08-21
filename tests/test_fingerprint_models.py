@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 import pytest
+
 from fingerprint.git_seeds import (
     SEEDS_DEFAULT_PATH,
     SeedEntry,

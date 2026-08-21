@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "sooperset/mcp-atlassian: security scan"
+description: "Security scan of sooperset/mcp-atlassian: 71 findings, 0 novel code — the popular (5.5k★) Jira/Confluence MCP server"
 date: 2026-07-10
 ---
 

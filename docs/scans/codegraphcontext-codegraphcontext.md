@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "CodeGraphContext/CodeGraphContext: security scan"
+description: "Security scan of CodeGraphContext/CodeGraphContext: 112 findings, 0 real — 24th clean scan. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-07-26
 ---
 

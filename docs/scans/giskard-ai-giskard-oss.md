@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Giskard-AI/giskard-oss: security scan"
+description: "Security scan of Giskard-AI/giskard-oss: 27 findings, all false positives — first clean scan in the series"
 date: 2026-05-20
 ---
 

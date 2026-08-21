@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "guardrails-ai/guardrails: security scan"
+description: "Security scan of guardrails-ai/guardrails: 17 findings, first dep-scan hits in the series (7 known CVEs on a pinned litellm upper bound) + 2× duplicated"
 date: 2026-05-19
 ---
 

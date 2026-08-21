@@ -10,7 +10,7 @@
 ## Phase 0 - Bootstrap
 - [x] Project scaffolded from EzProject v4 template - Project mode (2026-05-12)
 - [x] Stack finalized as `data` (2026-05-12)
-- [ ] Virtual environment + dependencies installed
+- [x] Virtual environment + dependencies installed (2026/08/21) - `.venv` created after a shared user-site downgrade of pydantic/httpx broke every import
 - [ ] `.env` configured
 - [x] `/kickoff` interview completed (2026-05-12)
 - [x] `INITIAL.md` populated with MVP v0.1 scanner foundation spec (2026-05-12)
@@ -35,13 +35,13 @@
 - [x] Keep AI review local or explicitly user-configured (2026/05/13)
 
 ## Phase 3.5 - Public scans & reputation
-- [-] Set up GitHub Pages scan log under `docs/` (2026/05/14)
+- [x] Set up GitHub Pages scan log under `docs/` (2026/05/14, restructured into a hub + archive 2026/08/21)
 - [x] Add `--from-git-url` to scan a public repo with one command (2026-05-14)
 - [x] Add `--min-severity` filter to keep public reports focused (2026-05-14)
 - [x] Add a "Top findings" summary block at the top of `security_report.md` (2026-05-14)
 - [x] Rebase finding paths to repo-relative posix when scanning so reports survive temp-dir cleanup (2026-05-14)
 - [ ] Show the public URL (not the temp clone path) in the report's `Repository:` header when scanning from `--from-git-url`
-- [ ] First public scan published
+- [x] First public scan published (2026/05/14) - 83 scans published as of 2026/08/20, 16 confirmed fixes
 
 ## Phase 4 - Template Fingerprinting
 - [x] Curated seed list committed (`fingerprint/seeds/repos.json`) (2026-05-14)
@@ -51,13 +51,24 @@
 - [x] JSON + Markdown match report with mandatory disclaimer (2026-05-14)
 - [x] ADR-012 logged (2026-05-14)
 
+## Phase 4.6 - Field-driven curation (from the public scan series)
+- [x] Meta findings exempt from `--min-severity` (2026/08/21)
+- [x] Semgrep partial-coverage finding built from the `errors` array, not `paths.skipped` (2026/08/21)
+- [x] Unaudited-lockfile coverage warning when a repo ships both a lockfile and open version floors (2026/08/21)
+- [x] SQL-identifier rule cluster + mutable-action-tag downgraded to low confidence (2026/08/21) - 49% of historical Semgrep output
+- [x] Gitleaks confidence keyed on rule id and placeholder shape (2026/08/21) - 93% of historical hits leave the `high` tier
+- [ ] Rule applicability check: suppress a framework-specific rule when the framework is not a declared dependency (`sqlalchemy-execute-raw-query` fired 157 times on a project with no SQLAlchemy)
+- [ ] Report lockfile and open-floor dependency sets as separate rows naming the install path, rather than one merged verdict
+- [ ] Timeouts on the semgrep, trivy and gitleaks runners (pip-audit done; the others share the same hang risk)
+- [ ] Exempt meta findings from `--ignore-file` suppression as well as `--min-severity`
+
 ## Phase 4.5 - Polish & Stabilize
 - [ ] Add integration tests with sample vulnerable repositories
-- [ ] Add clear scanner failure handling and partial-report behavior
+- [x] Add clear scanner failure handling and partial-report behavior (2026/08/21) - `Finding.is_meta` exempts scanner-infrastructure findings from `--min-severity`, Semgrep reports partial coverage from its `errors` array, pip-audit has a 300s timeout
 - [ ] Add release checklist
 
 ## Phase 5 - Scaling & CI/CD
-- [ ] CI/CD pipeline - GitHub Actions for lint and tests
+- [x] CI/CD pipeline - GitHub Actions for lint and tests (2026/08/21) - ruff + black + pytest on Python 3.11 and 3.13
 - [ ] Performance profiling - Identify slow scanner steps
 - [ ] Optional cache strategy for repeated scans
 

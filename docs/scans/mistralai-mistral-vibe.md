@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "mistralai/mistral-vibe: security scan"
+description: "Security scan of mistralai/mistral-vibe: 21 findings, a clean coding-agent scan: the git wiring is safe-by-construction (GitPython argv API, no shell"
 date: 2026-06-12
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "ModelEngine-Group/nexent: security scan"
+description: "Security scan of ModelEngine-Group/nexent: 115 findings, 0 real — 19th clean scan, and one of the widest surfaces in the series: a zero-code AI-agent"
 date: 2026-07-20
 ---
 

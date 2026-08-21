@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "dograh-hq/dograh: security scan"
+description: "Security scan of dograh-hq/dograh: 69 findings, one dominant cluster (outdated Next.js across two front-ends, incl"
 date: 2026-05-21
 ---
 

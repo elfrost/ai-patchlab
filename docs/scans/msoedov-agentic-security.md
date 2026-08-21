@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "msoedov/agentic_security: security scan"
+description: "Security scan of msoedov/agentic_security: 9 findings, 2 real best-practice items + 1 disclosed privately"
 date: 2026-05-15
 ---
 

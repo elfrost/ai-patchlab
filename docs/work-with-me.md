@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Work with me — AI agent & LLM security review
+description: "Independent security review of AI agents, MCP servers and LLM applications. 83 public scans and 16 confirmed fixes as the proof; first-look engagements from $750."
 ---
 
 # Work with me

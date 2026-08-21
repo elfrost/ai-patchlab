@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "MinishLab/semble: security scan"
+description: "Security scan of MinishLab/semble: 2 findings, second clean scan in the series (after Giskard); a small focused library with two hyper-responsive maintainers"
 date: 2026-05-25
 ---
 

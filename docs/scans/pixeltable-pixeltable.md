@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "pixeltable/pixeltable: security scan"
+description: "Security scan of pixeltable/pixeltable: 67 findings, first scan to surface a CVE-2007-4559-shape tarfile.extractall finding on a code path that imports"
 date: 2026-05-27
 ---
 

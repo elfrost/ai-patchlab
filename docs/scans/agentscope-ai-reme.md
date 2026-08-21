@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "agentscope-ai/ReMe: security scan"
+description: "Security scan of agentscope-ai/ReMe: 159 findings, 3 concrete items filed (wildcard CORS + credentials on both HTTP-service entrypoints, chromadb CVE"
 date: 2026-06-04
 ---
 

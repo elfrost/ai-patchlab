@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "LazyAGI/LazyLLM: security scan"
+description: "Security scan of LazyAGI/LazyLLM: 121 findings, series record for the pullrequesttarget cluster (16 sites in one workflow)"
 date: 2026-06-06
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "MervinPraison/PraisonAI: security scan"
+description: "Security scan of MervinPraison/PraisonAI: 489 raw findings (largest scan yet), 5 real items. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-05-16
 ---
 

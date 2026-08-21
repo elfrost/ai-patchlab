@@ -6,6 +6,16 @@ description: >-
 theme: jekyll-theme-cayman
 markdown: kramdown
 show_downloads: false
+lang: en
+author: Elfrost
+
+# The cayman layout already carries {% seo %}, so jekyll-seo-tag emits the
+# title/description/canonical/Open Graph block that this site has never had.
+# jekyll-sitemap publishes /sitemap.xml - there was no sitemap at all, which
+# is most of why 141k words of scan write-ups draw ~1 search visitor a fortnight.
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
 
 exclude:
   - templates/

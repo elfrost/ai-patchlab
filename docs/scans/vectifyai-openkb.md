@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "VectifyAI/OpenKB: security scan"
+description: "Security scan of VectifyAI/OpenKB: 23 findings, 0 real — 14th clean scan: a CLI that compiles documents into a wiki-style LLM knowledge base"
 date: 2026-07-09
 ---
 

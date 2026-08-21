@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "confident-ai/deepteam: security scan"
+description: "Security scan of confident-ai/deepteam: 48 findings, zero real in-scope runtime items; 5th clean scan in the series"
 date: 2026-06-09
 ---
 

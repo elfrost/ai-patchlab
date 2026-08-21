@@ -14,6 +14,8 @@ Runs the full public-scan workflow once per day without the user driving it. Mod
 4. **De-branded issue text** — finding-first, code-path note, one footer link max.
 5. **Never rescan** — dedup candidates against `docs/scans/` slugs.
 6. **Kill switch** — if `.daily-paused` exists at repo root, abort.
+7. **Manual-disclosure backlog is a blocking warning.** Count the `pending_private_disclosure*` entries in `reports/.daily_state.json`. Any entry pending more than 7 days gets a loud banner at the top of the run (repo, severity, days waiting). Any High/Critical entry pending more than 14 days blocks a new scan entirely — run status-only and tell the user to clear the queue. On 2026-08-21 six drafted reports were found unsent, the oldest 22 days, including an unauthenticated-admin finding; nothing surfaced them because every phase only looked forward at the next scan.
+8. **State shape.** Run history lives in `runs_recent`; the `runs` key is a vestigial empty list — do not write to it. Ad-hoc keys join one of four families: `pending_private_disclosure*`, `withheld_finding_*`, `excluded_repos`/`excluded_note`, `*_note`. Drafted disclosure emails live in `reports/disclosures/` (gitignored); when one is sent, swap its pending entry for a `sent` record with date and channel.
 
 ## State
 `reports/.daily_state.json` (gitignored): `{"last_run":"YYYY-MM-DD","last_slug":"...","runs":[...]}`. If `last_run == today`, rate-limit to status-only.

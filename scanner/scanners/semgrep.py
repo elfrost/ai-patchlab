@@ -21,6 +21,10 @@ SEMGREP_SEVERITY_MAP = {
     "INFO": "low",
 }
 
+# Cap on how many `rule -> file` pairs a coverage finding lists before it is
+# truncated. Keeps the report readable on runs with hundreds of errors.
+MAX_COVERAGE_PAIRS = 20
+
 
 def scan_semgrep(repo_path: Path, reports_dir: Path) -> list[Finding]:
     """Run Semgrep and map JSON findings into the normalized schema."""
@@ -39,6 +43,7 @@ def scan_semgrep(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 line=None,
                 recommendation="Install Semgrep and re-run the scan from PowerShell.",
                 confidence=confidence_for_meta_finding("not-installed"),
+                is_meta=True,
             )
         ]
 
@@ -67,6 +72,7 @@ def scan_semgrep(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 line=None,
                 recommendation="Review the Semgrep error output, fix the scanner setup, and re-run the scan.",
                 confidence=confidence_for_meta_finding("scan-error"),
+                is_meta=True,
             )
         ]
 
@@ -84,29 +90,143 @@ def scan_semgrep(repo_path: Path, reports_dir: Path) -> list[Finding]:
                 line=None,
                 recommendation="Re-run Semgrep and inspect the raw JSON report for truncation or invalid output.",
                 confidence=confidence_for_meta_finding("json-parse-error"),
+                is_meta=True,
             )
         ]
 
-    return apply_patch_suggestions(
+    findings = apply_patch_suggestions(
         enrich_findings([_map_semgrep_finding(record) for record in records])
     )
+
+    coverage = _coverage_finding(_read_semgrep_errors(raw_report_path), repo_path)
+    if coverage is not None:
+        findings.append(coverage)
+    return findings
+
+
+def _read_semgrep_payload(raw_report_path: Path) -> dict[str, Any]:
+    """Read the full Semgrep JSON payload from disk."""
+    if not raw_report_path.exists():
+        return {}
+
+    raw_text = raw_report_path.read_text(encoding="utf-8", errors="replace").strip()
+    if not raw_text:
+        return {}
+
+    data = json.loads(raw_text)
+    return data if isinstance(data, dict) else {}
 
 
 def _read_semgrep_records(raw_report_path: Path) -> list[dict[str, Any]]:
     """Read Semgrep JSON records from disk."""
-    if not raw_report_path.exists():
-        return []
-
-    raw_text = raw_report_path.read_text(encoding="utf-8", errors="replace").strip()
-    if not raw_text:
-        return []
-
-    data = json.loads(raw_text)
-    if isinstance(data, dict):
-        results = data.get("results") or []
-        if isinstance(results, list):
-            return [record for record in results if isinstance(record, dict)]
+    results = _read_semgrep_payload(raw_report_path).get("results") or []
+    if isinstance(results, list):
+        return [record for record in results if isinstance(record, dict)]
     return []
+
+
+def _read_semgrep_errors(raw_report_path: Path) -> list[dict[str, Any]]:
+    """Read the Semgrep `errors` array from disk.
+
+    `errors` - not `paths.skipped` - is where a rule that failed to run on a
+    file shows up. Across the scan series `paths.skipped` has been empty on
+    every run where rules timed out, so reading only `skipped` reports a scan
+    with real coverage gaps as a complete one.
+    """
+    try:
+        errors = _read_semgrep_payload(raw_report_path).get("errors") or []
+    except json.JSONDecodeError:
+        return []
+    if isinstance(errors, list):
+        return [record for record in errors if isinstance(record, dict)]
+    return []
+
+
+def _coverage_finding(errors: list[dict[str, Any]], repo_path: Path) -> Finding | None:
+    """Build a partial-coverage finding when Semgrep reported per-file errors.
+
+    A timeout means the rule never ran on that file. The (rule, file) pair is
+    the actionable part: it names exactly which check was not performed where,
+    so curation knows what still needs a hand review.
+    """
+    if not errors:
+        return None
+
+    timeouts = [error for error in errors if "timeout" in _error_type(error).lower()]
+    other = [error for error in errors if error not in timeouts]
+
+    lines = [
+        f"Semgrep reported {len(errors)} error(s) while scanning, "
+        f"of which {len(timeouts)} were rule timeouts. "
+        "A timed-out rule did not run on that file, so its absence from the "
+        "results is not evidence that the file is clean."
+    ]
+    if timeouts:
+        lines.append("")
+        lines.append("Rules that did not complete (rule -> file):")
+        lines.extend(f"- {pair}" for pair in _summarize_pairs(timeouts))
+    if other:
+        lines.append("")
+        lines.append("Other scan errors (type -> file):")
+        lines.extend(f"- {pair}" for pair in _summarize_pairs(other, use_type=True))
+
+    return Finding(
+        id="semgrep-partial-coverage",
+        tool="semgrep",
+        severity="info",
+        title="Semgrep did not cover every file it was pointed at",
+        description="\n".join(lines),
+        file=str(repo_path),
+        line=None,
+        recommendation=(
+            "Hand-review the files listed above for the rules that timed out, or re-run "
+            "Semgrep with a higher --timeout so the missing checks actually execute."
+        ),
+        confidence=confidence_for_meta_finding("partial-coverage"),
+        is_meta=True,
+    )
+
+
+def _summarize_pairs(
+    errors: list[dict[str, Any]],
+    *,
+    use_type: bool = False,
+    limit: int = MAX_COVERAGE_PAIRS,
+) -> list[str]:
+    """Collapse errors into unique `label -> file` strings, capped for length."""
+    pairs: list[str] = []
+    for error in errors:
+        label = _error_type(error) if use_type else _error_rule(error)
+        path = _error_path(error)
+        pair = f"{label} -> {path}"
+        if pair not in pairs:
+            pairs.append(pair)
+
+    if len(pairs) > limit:
+        hidden = len(pairs) - limit
+        return [*pairs[:limit], f"... and {hidden} more"]
+    return pairs
+
+
+def _error_type(error: dict[str, Any]) -> str:
+    """Return the Semgrep error type."""
+    return _get_string(error, "type", "error_type", "level", default="error")
+
+
+def _error_rule(error: dict[str, Any]) -> str:
+    """Return the rule id an error belongs to."""
+    return _get_string(error, "rule_id", "ruleId", "check_id", default="unknown-rule")
+
+
+def _error_path(error: dict[str, Any]) -> str:
+    """Return the file an error applies to."""
+    path = _get_string(error, "path", "file", default="")
+    if path:
+        return path
+    location = error.get("location")
+    if isinstance(location, dict):
+        return _get_string(location, "path", "file", default="unknown-file")
+    return "unknown-file"
 
 
 def _map_semgrep_finding(record: dict[str, Any]) -> Finding:
