@@ -11,8 +11,13 @@ date: 2026-08-18
 **Commit scanned:** `59b25659` (master at scan time; latest release v3.6.0)
 **Scan date:** 2026-08-18
 **Disclosure status:** **withheld** — one real finding, reported privately
-through GitHub private vulnerability reporting as `GHSA-5r5m-c4m6-jfmf`,
-currently in triage. Described here at class level only.
+through GitHub private vulnerability reporting as `GHSA-5r5m-c4m6-jfmf`.
+**Accepted by the maintainers on 2026-08-21**: the submitted report was
+converted into a draft advisory (`submission.accepted: true`, state
+`triage` → `draft`), the **medium** severity was kept exactly as filed, CWE-863
+(incorrect authorization) was assigned, the affected range was recorded as
+`<= 3.6.0`, and the reporter was credited. No patched version is published yet,
+so the finding stays withheld — described here at class level only.
 
 ## Summary
 
@@ -240,6 +245,11 @@ decided in the maintainer's favour.
 - 2026-08-18 — finding reported privately via GitHub private vulnerability
   reporting: `GHSA-5r5m-c4m6-jfmf` (state: triage)
 - 2026-08-18 — public post (this page), finding withheld
+- 2026-08-21 — **accepted**: advisory moved `triage` → `draft` with
+  `submission.accepted: true`, severity kept at medium as filed, CWE-863
+  assigned, affected range set to `<= 3.6.0`, reporter credited. Acceptance is
+  not resolution — no patched version yet, so this stays withheld and the row
+  on the index stays *private*.
 
 ## Reproduce
 
