@@ -152,6 +152,7 @@ def _disabled_finding(repo_path: Path) -> Finding:
             "local command JSON contract."
         ),
         confidence=confidence_for_meta_finding("disabled"),
+        is_meta=True,
     )
 
 
@@ -172,6 +173,7 @@ def _not_configured_finding(repo_path: Path) -> Finding:
             "to the absolute path of your local AI review executable."
         ),
         confidence=confidence_for_meta_finding("not-configured"),
+        is_meta=True,
     )
 
 
@@ -189,6 +191,7 @@ def _command_error_finding(repo_path: Path, result: AiReviewResult) -> Finding:
             "the scan from PowerShell."
         ),
         confidence=confidence_for_meta_finding("command-error"),
+        is_meta=True,
     )
 
 
@@ -210,6 +213,7 @@ def _empty_result_finding(repo_path: Path, result: AiReviewResult) -> Finding:
             "JSON contract to the configured output path or stdout."
         ),
         confidence=confidence_for_meta_finding("no-findings"),
+        is_meta=True,
     )
 
 
@@ -230,6 +234,7 @@ def _json_parse_error_finding(repo_path: Path, raw_report_path: Path) -> Finding
             "invalid formatting."
         ),
         confidence=confidence_for_meta_finding("json-parse-error"),
+        is_meta=True,
     )
 
 

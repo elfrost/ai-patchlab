@@ -79,7 +79,10 @@ def test_gitleaks_json_findings_map_to_normalized_schema(tmp_path: Path, monkeyp
     )
     assert finding.patch_before == 'STRIPE_API_KEY = "sk_live_redacted"'
     assert finding.patch_after == 'STRIPE_API_KEY = os.environ["STRIPE_API_KEY"]'
-    assert finding.confidence == "high"
+    # `generic-api-key` is entropy-based rather than provider-specific and is
+    # 85% of the series' Gitleaks volume, mostly placeholders in .env.example
+    # files and docs. Medium, not high, until the matched text says otherwise.
+    assert finding.confidence == "medium"
 
 
 def test_gitleaks_runner_uses_json_report_command(tmp_path: Path, monkeypatch) -> None:

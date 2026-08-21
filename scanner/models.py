@@ -18,6 +18,7 @@ FINDING_FIELDS = (
     "patch_before",
     "patch_after",
     "remediation_explanation",
+    "is_meta",
 )
 
 
@@ -37,6 +38,13 @@ class Finding:
     patch_before: str = ""
     patch_after: str = ""
     remediation_explanation: str = ""
+    is_meta: bool = False
+    """True for scanner-infrastructure findings (tool missing, crashed, timed
+    out, partial coverage) rather than defects in the scanned code.
+
+    Meta findings are exempt from `--min-severity` filtering: they are emitted
+    at `info` severity, and dropping them makes "the scanner crashed" render
+    identically to "the scanner found nothing"."""
 
     def __post_init__(self) -> None:
         """Validate normalized values early."""

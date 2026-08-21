@@ -103,6 +103,8 @@ def test_pip_audit_runner_uses_requirements_json_report_command(
         "encoding": "utf-8",
         "errors": "replace",
         "check": False,
+        # pip-audit has no internal time bound and has hung entire scans.
+        "timeout": pip_audit_runner.DEFAULT_TIMEOUT_SECONDS,
     }
 
 

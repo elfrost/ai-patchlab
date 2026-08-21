@@ -9,6 +9,12 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
+# pip-audit has no internal time bound: resolving a `project` input builds the
+# full dependency graph and has been observed running indefinitely on large
+# pyproject repositories, hanging the entire scan. Five minutes is well past a
+# normal run (seconds to low tens of seconds) while keeping the scan finite.
+DEFAULT_TIMEOUT_SECONDS = 300
+
 
 @dataclass(frozen=True)
 class PipAuditInput:
@@ -46,8 +52,18 @@ def run_pip_audit(
     repo_path: Path,
     raw_report_path: Path,
     audit_input: PipAuditInput,
+    timeout_seconds: int = DEFAULT_TIMEOUT_SECONDS,
 ) -> PipAuditResult:
-    """Run pip-audit against supported Python dependency manifests."""
+    """Run pip-audit against supported Python dependency manifests.
+
+    Args:
+        repo_path: Repository being scanned.
+        raw_report_path: Where the raw pip-audit JSON is written.
+        audit_input: The resolved manifest or locked project to audit.
+        timeout_seconds: Hard bound on the subprocess. On expiry an empty raw
+            report is written and a `124` return code is reported, so the
+            adapter surfaces a scan error instead of the scan hanging.
+    """
     command_prefix = find_pip_audit_command()
     if command_prefix is None:
         return PipAuditResult(
@@ -66,6 +82,20 @@ def run_pip_audit(
             encoding="utf-8",
             errors="replace",
             check=False,
+            timeout=timeout_seconds,
+        )
+    except subprocess.TimeoutExpired as exc:
+        # pip-audit resolves a `project` input by building the dependency graph,
+        # which on a heavy pyproject can run indefinitely. Without a timeout the
+        # whole scan hangs and produces no report at all; with one, the scan
+        # completes and the missing dependency coverage is stated explicitly.
+        raw_report_path.write_text("[]", encoding="utf-8")
+        return PipAuditResult(
+            installed=True,
+            raw_report_path=raw_report_path,
+            audit_input=audit_input,
+            returncode=124,
+            stderr=f"pip-audit timed out after {exc.timeout} seconds.",
         )
     except OSError as exc:
         raw_report_path.write_text("[]", encoding="utf-8")
