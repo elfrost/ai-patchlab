@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "83 curated security scans of open-source AI agents, MCP servers and LLM apps - 16 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "83 curated security scans of open-source AI agents, MCP servers and LLM apps - 17 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 83 scans, 16 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 83 scans, 17 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -57,7 +57,9 @@ tools disagree, the disagreement is the finding.* Trivy read the lockfile and
 reported 63 advisories; pip-audit resolved the same project's declared version
 floors and reported zero. Both were right. The project ships both as real
 install paths, so the containerised deployment was clean and the recommended
-host install was not — from the same commit.
+host install was not — from the same commit. Fixed and merged the same day, as
+the single-package bump the issue asked for rather than a blanket lockfile
+refresh.
 
 **[TracecatHQ/tracecat](scans/tracecathq-tracecat.html)** — *a negative result,
 published.* A security-automation platform, scanned the same way as everything
@@ -91,7 +93,7 @@ entire job.
 
 | Date | Repository | Findings | Real | Outcome |
 |---|---|---:|---|---|
-| 2026-08-20 | [whiteguo233/OpenBiliClaw](scans/whiteguo233-openbiliclaw.html) | 373 | 1 real | — |
+| 2026-08-20 | [whiteguo233/OpenBiliClaw](scans/whiteguo233-openbiliclaw.html) | 373 | 1 real | **fixed** |
 | 2026-08-19 | [Mai-with-u/MaiBot](scans/mai-with-u-maibot.html) | 373 | 1 real — withheld | private |
 | 2026-08-18 | [roflcoopter/viseron](scans/roflcoopter-viseron.html) | 399 | 1 real — withheld | private |
 | 2026-08-17 | [zilliztech/memsearch](scans/zilliztech-memsearch.html) | 90 | 1 real | — |

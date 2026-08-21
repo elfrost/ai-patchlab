@@ -14,6 +14,10 @@ date: 2026-08-20
 issue. No `SECURITY.md` in the root, `.github/`, `docs/`, or on the published
 docs site, and private vulnerability reporting is disabled, so a public issue is
 the only channel the project offers.
+**Outcome (2026-08-20):** ✅ **fixed the same day** in
+[PR #202](https://github.com/whiteguo233/OpenBiliClaw/pull/202) — Pillow bumped
+`12.1.1 → 12.3.0` in `uv.lock` via a targeted `uv lock --upgrade-package pillow`,
+about six hours after the issue was filed.
 
 ## Summary
 
@@ -317,6 +321,19 @@ one thing the tools found between them, they found by contradicting each other.
 - 2026-08-20 — curation; one real finding confirmed by reading the install path
   and the image pipeline
 - 2026-08-20 — public courtesy issue filed as [#201](https://github.com/whiteguo233/OpenBiliClaw/issues/201); this post published
+- 2026-08-20 — **fixed and merged** in
+  [PR #202](https://github.com/whiteguo233/OpenBiliClaw/pull/202) (~6h after
+  filing). The maintainer took the narrow fix the issue argued for — a
+  single-package `uv lock --upgrade-package pillow` rather than a full
+  `uv lock --upgrade`, explicitly to avoid the `starlette 0.52→1.6`,
+  `openai 2.28→3.3` and `google-genai 1.67→2.19` major jumps a blanket refresh
+  would have pulled in. Verified upstream with `uv lock --check`, 97 passing
+  tests across the image path, and a live end-to-end run: six real Bilibili
+  cover images (JPEG + PNG) fetched, decoded, resized; three real `videoshot`
+  calls; the image cache re-checked against the live CDN. `Dockerfile` was
+  deliberately left alone — that path resolves from `pyproject.toml` at build
+  time and never reads the lockfile, which is exactly the split the write-up
+  described. Issue #201 closed as completed.
 
 ## Reproduce
 
