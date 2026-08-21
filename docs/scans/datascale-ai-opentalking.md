@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "datascale-ai/OpenTalking: security scan"
+description: "Security scan of datascale-ai/OpenTalking: 93 findings (93 above the medium floor), 1 real. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-10
 ---
 

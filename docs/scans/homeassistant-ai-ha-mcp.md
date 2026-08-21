@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "homeassistant-ai/ha-mcp: security scan"
+description: "Security scan of homeassistant-ai/ha-mcp: 65 findings, zero real in-scope items; a strict-norm repo whose maintainer published a precise threat model"
 date: 2026-05-29
 ---
 

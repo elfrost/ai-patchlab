@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "gpustack/gpustack: security scan"
+description: "Security scan of gpustack/gpustack: 136 findings, 0 real — 22nd clean scan: a GPU cluster manager for AI model serving (5.4k★, Apache-2.0"
 date: 2026-07-24
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Q00/ouroboros: security scan"
+description: "Security scan of Q00/ouroboros: 34 findings, third 'deps-are-the-thing' scan in a row (after MemoryBear & agency-swarm)"
 date: 2026-06-03
 ---
 

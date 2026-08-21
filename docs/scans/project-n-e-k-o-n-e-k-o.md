@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Project-N-E-K-O/N.E.K.O: security scan"
+description: "Security scan of Project-N-E-K-O/N.E.K.O: 783 findings, 1 real — the first consumer desktop AI companion in the series (2.3k★, Apache-2.0"
 date: 2026-07-29
 ---
 

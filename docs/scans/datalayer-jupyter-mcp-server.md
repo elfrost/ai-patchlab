@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "datalayer/jupyter-mcp-server: security scan"
+description: "Security scan of datalayer/jupyter-mcp-server: 37 findings (37 above the medium floor), zero real. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-14
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "potpie-ai/potpie: security scan"
+description: "Security scan of potpie-ai/potpie: 96 findings, 0 real — 15th clean scan: a code-context-graph SDLC platform (FastAPI + a subprocess sandbox + repo"
 date: 2026-07-13
 ---
 

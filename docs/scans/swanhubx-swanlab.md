@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "SwanHubX/SwanLab: security scan"
+description: "Security scan of SwanHubX/SwanLab: 32 findings, 0 code-level — 10th clean scan, and an unusual one: the interesting result is the absence of findings"
 date: 2026-06-28
 ---
 

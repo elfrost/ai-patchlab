@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Daybreak, Patch the Planet, and why local-first still matters
+description: "OpenAI's Daybreak and AI PatchLab solve the same find-validate-patch loop from opposite ends. Why a local-first scanner still matters for code that cannot leave your disk."
 date: 2026-06-23
 ---
 

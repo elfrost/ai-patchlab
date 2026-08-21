@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "dimensionalOS/dimos: security scan"
+description: "Security scan of dimensionalOS/dimos: 280 findings, 0 real — 25th clean scan, and the first agentic OS for physical robots in the series: dimOS (~3.8k★"
 date: 2026-07-27
 ---
 

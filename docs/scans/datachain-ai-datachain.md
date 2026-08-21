@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "datachain-ai/datachain: security scan"
+description: "Security scan of datachain-ai/datachain: 35 findings, 0 real — 16th clean scan: a Python 'context layer' for unstructured data (DVC/Iterative team"
 date: 2026-07-14
 ---
 

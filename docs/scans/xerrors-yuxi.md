@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "xerrors/Yuxi: security scan"
+description: "Security scan of xerrors/Yuxi: 70 findings, a well-built multi-tenant harness: a sharp reachability discipline traced three tenant/agent sinks (agent-SQL"
 date: 2026-06-19
 ---
 

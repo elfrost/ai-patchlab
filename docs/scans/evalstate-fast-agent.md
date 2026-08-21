@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "evalstate/fast-agent: security scan"
+description: "Security scan of evalstate/fast-agent: 36 findings, near-clean scan where the maintainer already hand-rolled the hard mitigations (a tar-traversal guard"
 date: 2026-05-28
 ---
 

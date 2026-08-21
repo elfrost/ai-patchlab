@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "EverMind-AI/Raven: security scan"
+description: "Security scan of EverMind-AI/Raven: 87 findings, 0 real — 21st clean scan: a memory-first, self-improving agent harness (2.5k★, Apache-2.0"
 date: 2026-07-23
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "nottelabs/notte: security scan"
+description: "Security scan of nottelabs/notte: 226 findings (206 above the medium floor), 1 real — withheld. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-06
 ---
 

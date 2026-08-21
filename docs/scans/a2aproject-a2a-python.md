@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "a2aproject/a2a-python: security scan"
+description: "Security scan of a2aproject/a2a-python: 20 findings, 0 real — the official Agent2Agent protocol SDK (Google/Linux Foundation)"
 date: 2026-07-16
 ---
 

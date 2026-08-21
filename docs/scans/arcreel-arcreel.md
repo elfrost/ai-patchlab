@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "ArcReel/ArcReel: security scan"
+description: "Security scan of ArcReel/ArcReel: 82 findings (77 above the medium floor), 1 real — withheld. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-04
 ---
 

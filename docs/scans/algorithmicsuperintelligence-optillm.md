@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "algorithmicsuperintelligence/optillm: security scan"
+description: "Security scan of algorithmicsuperintelligence/optillm: 57 findings, 1 real residual — an OpenAI-compatible optimizing inference proxy (4.2k★) whose"
 date: 2026-07-18
 ---
 

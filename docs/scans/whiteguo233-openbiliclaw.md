@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "whiteguo233/OpenBiliClaw: security scan"
+description: "Security scan of whiteguo233/OpenBiliClaw: 373 findings (373 above the medium floor), 1 real. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-20
 ---
 

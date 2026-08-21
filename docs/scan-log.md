@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Full scan log
+description: "The complete AI PatchLab scan log: every public repository scanned since May 2026, newest first, with the write-up summary from the day of each scan."
 ---
 
 # Full scan log

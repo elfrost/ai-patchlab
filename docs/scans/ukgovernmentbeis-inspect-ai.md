@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "UKGovernmentBEIS/inspect_ai: security scan"
+description: "Security scan of UKGovernmentBEIS/inspect_ai: 161 findings, 0 real — 12th clean scan: the UK AI Security Institute's LLM-eval framework"
 date: 2026-07-02
 ---
 

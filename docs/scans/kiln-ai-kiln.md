@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Kiln-AI/Kiln: security scan"
+description: "Security scan of Kiln-AI/Kiln: 150 findings, 0 real/reachable/undefended — and the sharpest reachability-illusion in the series: trivy returns 4 critical /"
 date: 2026-06-25
 ---
 

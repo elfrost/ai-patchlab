@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Observal/Observal: security scan"
+description: "Security scan of Observal/Observal: 1,117 findings (216 above the medium floor), 1 real — withheld. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-02
 ---
 

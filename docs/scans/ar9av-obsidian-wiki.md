@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Ar9av/obsidian-wiki: security scan"
+description: "Security scan of Ar9av/obsidian-wiki: 0 findings literally (sixth clean scan in the series, and the cleanest in raw count)"
 date: 2026-06-10
 ---
 

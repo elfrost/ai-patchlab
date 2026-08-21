@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Soju06/codex-lb: security scan"
+description: "Security scan of Soju06/codex-lb: 76 findings, 0 real — 11th clean scan, and the most credential-dense target yet: a ChatGPT/Codex-account load balancer +"
 date: 2026-07-01
 ---
 

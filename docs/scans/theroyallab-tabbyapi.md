@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "theroyallab/tabbyAPI: security scan"
+description: "Security scan of theroyallab/tabbyAPI: 18 findings (18 above the medium floor), 2 real — the official API server for ExLlamaV3 (1.3k★, AGPL-3.0"
 date: 2026-08-08
 ---
 

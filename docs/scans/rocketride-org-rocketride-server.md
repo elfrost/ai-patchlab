@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "rocketride-org/rocketride-server: security scan"
+description: "Security scan of rocketride-org/rocketride-server: 268 findings, 1 real — withheld — an AI pipeline engine (5.5k★, MIT"
 date: 2026-07-31
 ---
 

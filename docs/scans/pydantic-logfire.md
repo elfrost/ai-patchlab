@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "pydantic/logfire: security scan"
+description: "Security scan of pydantic/logfire: 27 findings, third clean scan in the series; every eval/exec/pickle finding is a deliberate language-feature use that an"
 date: 2026-05-26
 ---
 

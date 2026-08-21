@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "huangruiteng/loopx: security scan"
+description: "Security scan of huangruiteng/loopx: 57 findings (57 above the medium floor), 1 real — withheld. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-07
 ---
 

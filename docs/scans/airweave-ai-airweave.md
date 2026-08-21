@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "airweave-ai/airweave: security scan"
+description: "Security scan of airweave-ai/airweave: 46 findings, ~4 publishable best-practice items + 1 disclosed privately via SECURITY.md email channel"
 date: 2026-05-19
 ---
 

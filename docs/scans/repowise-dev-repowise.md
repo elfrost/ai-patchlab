@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "repowise-dev/repowise: security scan"
+description: "Security scan of repowise-dev/repowise: 86 findings, 2 real — both withheld — a codebase intelligence layer for AI coding agents (4.5k★"
 date: 2026-08-01
 ---
 

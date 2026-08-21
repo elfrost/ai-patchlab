@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "atilaahmettaner/tradingview-mcp: security scan"
+description: "Security scan of atilaahmettaner/tradingview-mcp: 28 findings, 0 real — 13th clean scan: a market-data MCP server (~30 tools for Claude/Cursor)"
 date: 2026-07-07
 ---
 

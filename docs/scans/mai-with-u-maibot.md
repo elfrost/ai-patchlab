@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Mai-with-u/MaiBot: security scan"
+description: "Security scan of Mai-with-u/MaiBot: 373 findings (373 above the medium floor), 1 real — withheld. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-19
 ---
 

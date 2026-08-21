@@ -1,6 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
+description: "83 curated security scans of open-source AI agents, MCP servers and LLM apps - 16 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans

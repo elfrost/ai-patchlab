@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "gptme/gptme: security scan"
+description: "Security scan of gptme/gptme: 57 findings, 3 best-practice improvements filed with the maintainer · ✅ All three resolved in PR #2399 (merged 2026-05-15)"
 date: 2026-05-14
 ---
 

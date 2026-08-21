@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "maziyarpanahi/openmed: security scan"
+description: "Security scan of maziyarpanahi/openmed: 44 findings, 0 real/reachable/undefended — 9th clean scan. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-06-24
 ---
 

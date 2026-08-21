@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "AgentEra/Agently: security scan"
+description: "Security scan of AgentEra/Agently: 25 findings, 1 real — a GenAI framework that runs model-generated Python through a component named PythonSandbox"
 date: 2026-07-03
 ---
 

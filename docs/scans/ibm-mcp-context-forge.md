@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "IBM/mcp-context-forge: security scan"
+description: "Security scan of IBM/mcp-context-forge: 946 findings, 0 real — 18th clean scan, and the richest attack surface in the series: an AI gateway / registry /"
 date: 2026-07-17
 ---
 

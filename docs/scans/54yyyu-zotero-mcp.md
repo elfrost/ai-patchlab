@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "54yyyu/zotero-mcp: security scan"
+description: "Security scan of 54yyyu/zotero-mcp: 4 scanner findings → 6 confirmed-real curated items, only 1 of which came from the scanner"
 date: 2026-06-08
 ---
 

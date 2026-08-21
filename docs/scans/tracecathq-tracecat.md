@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "TracecatHQ/tracecat: security scan"
+description: "Security scan of TracecatHQ/tracecat: 212 findings (212 above the medium floor), zero real. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-15
 ---
 

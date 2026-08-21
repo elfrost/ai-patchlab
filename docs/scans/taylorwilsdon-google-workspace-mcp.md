@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "taylorwilsdon/google_workspace_mcp: security scan"
+description: "Security scan of taylorwilsdon/google_workspace_mcp: 16 findings, all FP/by-design — 7th clean scan in the series"
 date: 2026-06-21
 ---
 

@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Klavis-AI/klavis: security scan"
+description: "Security scan of Klavis-AI/klavis: 1,556 findings (largest scan in the series), 22 critical dependency CVEs incl"
 date: 2026-05-20
 ---
 

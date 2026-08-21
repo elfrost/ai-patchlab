@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "EvoScientist/EvoScientist: security scan"
+description: "Security scan of EvoScientist/EvoScientist: 39 findings, 1 real — and no tool ranked it. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-07-28
 ---
 

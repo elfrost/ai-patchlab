@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "ucbepic/docetl: security scan"
+description: "Security scan of ucbepic/docetl: 124 findings, 1 real — and no tool ranked it — an agentic map-reduce / document-ETL engine (3.9k★"
 date: 2026-07-21
 ---
 

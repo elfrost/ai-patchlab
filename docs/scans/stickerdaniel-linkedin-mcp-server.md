@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "stickerdaniel/linkedin-mcp-server: security scan"
+description: "Security scan of stickerdaniel/linkedin-mcp-server: 6 findings, 0 real after curation — 8th clean scan. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-06-23
 ---
 

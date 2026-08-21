@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "NeptuneHub/AudioMuse-AI: security scan"
+description: "Security scan of NeptuneHub/AudioMuse-AI: 265 findings (265 above the medium floor), 1 real — withheld. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-09
 ---
 

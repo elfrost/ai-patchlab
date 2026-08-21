@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "traceloop/openllmetry: security scan"
+description: "Security scan of traceloop/openllmetry: 33 findings, 25 false-positive secrets in test cassettes, 1 best-practice item filed with the maintainer"
 date: 2026-05-14
 ---
 

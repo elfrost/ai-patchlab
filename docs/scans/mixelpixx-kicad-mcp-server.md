@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "mixelpixx/KiCAD-MCP-Server: security scan"
+description: "Security scan of mixelpixx/KiCAD-MCP-Server: 29 findings, 0 real — 20th clean scan: an MCP server (1.6k★, MIT) that drives KiCAD for AI-assisted PCB design"
 date: 2026-07-22
 ---
 

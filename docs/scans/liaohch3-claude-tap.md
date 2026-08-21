@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "liaohch3/claude-tap: security scan"
+description: "Security scan of liaohch3/claude-tap: 104 findings (104 above the medium floor), 1 real — withheld. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-08-16
 ---
 
