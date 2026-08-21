@@ -51,7 +51,7 @@ This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.
 - `scanner/git_source.py` — Shallow-clone a public git URL into a temp directory via the `cloned_repo` context manager; cleanup-on-exit, `shell=False`, no remote API calls
 - `scanner/paths.py` — `rebase_finding_paths(findings, repo_root)` rewrites each finding's `file` (and `id` when it embeds the same path) to a repo-relative POSIX path so reports survive temp-dir cleanup
 - `scanner/ignore.py` — `apply_ignore(findings, patterns)` + `load_ignore_patterns(path)` provide `.gitignore`-style path suppression of findings (used by the `--ignore-file` CLI flag). Empty-file findings are never suppressed. `DEFAULT_SAMPLE_IGNORE_PATTERNS` holds the demo/sample/example subtree patterns opted into via the `--ignore-samples` flag
-- `scanner/models.py` — Normalized `Finding` dataclass + severity/confidence enums + `FINDING_FIELDS`
+- `scanner/models.py` — Normalized `Finding` dataclass + severity/confidence enums + `FINDING_FIELDS`; `Finding.is_meta` flags scanner-infrastructure findings that `--min-severity` must never drop
 - `scanner/recommendations.py` — Deterministic keyword-based recommendation enrichment
 - `scanner/confidence.py` — Centralized `Finding.confidence` rules (one function per scanner + `confidence_for_meta_finding` for shared `not-installed` / `scan-error` / etc.)
 - `scanner/report.py` — JSON + Markdown report writers (severity-grouped, "Top Findings" highlight block, patch suggestion blocks); also exposes `filter_by_min_severity` and `select_top_findings`
@@ -63,13 +63,15 @@ This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.
 - `reports/raw/` — Raw scanner JSON outputs (`semgrep.json`, `gitleaks.json`, `trivy.json`, `pip-audit.json`, `ai-review.json` when enabled)
 - `src/` — Legacy scaffold entry point (kept for template parity)
 - `src/main.py` — Legacy point d'entrée (`python -m src.main`) — currently a loguru-wired async stub with TODOs
-- `tests/` — Tests pytest (`test_scanner_foundation.py`, `test_semgrep_scanner.py`, `test_gitleaks_scanner.py`, `test_trivy_scanner.py`, `test_dependency_scan.py`, `test_ai_review.py`, `test_patch_suggestions.py`, `test_recommendations.py`)
+- `.github/workflows/ci.yml` — CI: ruff + black + pytest on Python 3.11 and 3.13 (the 3.13 leg catches stdlib removals such as PEP 594 dropping `cgi`)
+- `reports/disclosures/` — Drafted private disclosure emails awaiting a manual send (gitignored with the rest of `reports/`)
+- `tests/` — Tests pytest (`test_scanner_foundation.py`, `test_semgrep_scanner.py`, `test_gitleaks_scanner.py`, `test_trivy_scanner.py`, `test_dependency_scan.py`, `test_ai_review.py`, `test_patch_suggestions.py`, `test_recommendations.py`, `test_meta_findings.py`, `test_confidence_field_rules.py`)
 - `tests/conftest.py` — Fixtures partagées (`mock_db`, `mock_http_client`, `mock_discord`, `test_config`, session `event_loop`)
 - `examples/` — Code de référence — LIRE AVANT D'IMPLÉMENTER (api_client, config, discord_alert, mysql, playwright_scraper, scheduler, service)
 - `PRPs/` — Product Requirements Prompts (actifs)
 - `PRPs/done/` — PRPs complétés (archive — `2026-05-12-trivy-integration.md`, `20260513-phase-3-ai-review-behavior.md`)
 - `PRPs/templates/` — Templates PRP réutilisables (`prp_base.md`)
-- `docs/` — GitHub Pages site (Jekyll, theme `cayman`): `_config.yml`, `index.md` (landing + scan log), `scans/` (per-scan write-ups), top-level pages (`work-with-me.md` conversion funnel, `daybreak-and-local-first.md` positioning essay vs OpenAI Daybreak), `templates/scan-post.md` (template, excluded from publish)
+- `docs/` — GitHub Pages site (Jekyll, theme `cayman`): `_config.yml`, `index.md` (landing: intro, six featured scans, compact 83-row table), `scan-log.md` (full prose archive of every scan entry), `scans/` (per-scan write-ups), top-level pages (`work-with-me.md` conversion funnel, `daybreak-and-local-first.md` positioning essay vs OpenAI Daybreak), `templates/scan-post.md` (template, excluded from publish)
 - `logs/` — Log files (gitignored except .gitkeep)
 - `AGENTS.md` — Codex/OpenAI runtime instructions (kept in parity with this file)
 - `.agents/skills/` — Codex skills for repeatable workflows (one folder per skill — kickoff, generate-prp, execute-prp, fix-issue, pipeline, tdd, review-code, refactor, retrospective, next, upgrade-status, status, audit-project, housekeeping, cleanup, security-scan, dependency-check, performance, document, monitor-setup, rollback, create-skill, daily, ez-project-workflow)
@@ -111,6 +113,7 @@ This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.
 - Each adapter pipes its findings through `apply_patch_suggestions(enrich_findings(...))` before returning
 - Each external tool runner lives in `scanner/tools/<tool>_runner.py`, returns a frozen `*Result` dataclass, writes the raw JSON to `reports/raw/<tool>.json`, and uses `subprocess.run(..., shell=False, check=False)` with captured stdout/stderr
 - New scanners must follow the same registry + runner split — do not call subprocesses directly from `scanner/scanners/*`
+- Any finding built with `confidence_for_meta_finding(...)` must also set `is_meta=True` so `--min-severity` cannot drop it
 - `Finding.confidence` values come from `scanner/confidence.py` — never inline `confidence="high"` / `"medium"` / `"low"` in a scanner adapter; add or reuse a rule function instead
 
 ### Fingerprint adapter contract
@@ -198,7 +201,7 @@ python fingerprint/run_index.py --rebuild                                 # Rebu
 python fingerprint/run_match.py --target https://example.com              # Probe a single live URL against the local DB
 
 # Setup (nouveau projet)
-python -m venv .venv && source .venv/bin/activate
+python -m venv .venv && source .venv/bin/activate   # REQUIRED - never run off the global interpreter
 pip install -e ".[dev]"                  # Install deps from pyproject.toml
 pip install -e ".[scraping]"             # Optional Playwright extra
 cp .env.example .env                     # Configure environment
@@ -274,9 +277,12 @@ $env:AI_PATCHLAB_AI_REVIEW_COMMAND  = "C:\tools\ai-review-wrapper.cmd"
 - Before making a structural decision, check DECISIONS.md for precedent
 - Use the architect agent (`/architect` or Task tool) for complex decisions
 - Format: ADR (Architecture Decision Record) — date, decision, context, consequences
-- Current ADRs of record: ADR-001 scaffold, ADR-002 data stack, ADR-003 placeholder adapters, ADR-004 Gitleaks, ADR-005 Semgrep, ADR-006 recommendation enrichment, ADR-007 patch suggestions, ADR-008 Trivy, ADR-009 pip-audit, ADR-010 disabled-by-default AI review boundary, ADR-011 centralized scanner confidence rules, ADR-012 probabilistic web template fingerprinting boundary
+- Current ADRs of record: ADR-001 scaffold, ADR-002 data stack, ADR-003 placeholder adapters, ADR-004 Gitleaks, ADR-005 Semgrep, ADR-006 recommendation enrichment, ADR-007 patch suggestions, ADR-008 Trivy, ADR-009 pip-audit, ADR-010 disabled-by-default AI review boundary, ADR-011 centralized scanner confidence rules, ADR-012 probabilistic web template fingerprinting boundary, ADR-013 meta findings exempt from severity filtering, ADR-014 field-derived confidence tiers
 
 ## Known Gotchas
+- ALWAYS run through `.venv` (`.venv/Scripts/python.exe` on Windows). The project ran for three months off the shared user-site and on 2026-08-20 an unrelated `pip install` downgraded pydantic to 1.x and httpx to 0.21: `scanner`, `fingerprint` and every test stopped importing, while the scan pipeline had passed hours earlier. A global interpreter is a shared mutable dependency
+- Meta findings (`Finding.is_meta=True`) survive `--min-severity` but are NOT yet exempt from `--ignore-file` suppression - a path pattern can still hide a coverage warning. Any new finding built with `confidence_for_meta_finding(...)` must also set `is_meta=True`; the two always travel together
+- Semgrep coverage comes from the `errors` array, never `paths.skipped`. Across the scan series `skipped` has been empty on every run where rules timed out - including a run where both subprocess-injection rules timed out on the 20k-line file that was the whole API surface. `scan_semgrep` emits `semgrep-partial-coverage` naming each `rule -> file` pair that did not run
 - `ai-patchlab` and `2026-05-12` are template placeholders replaced by ez-new-project.ps1 — do not remove from template source files
 - aiomysql: toujours fermer le pool avec `await db.disconnect()` dans le finally
 - Playwright: `wait_until="networkidle"` peut timeout sur les SPA — utiliser `"domcontentloaded"` si nécessaire
@@ -287,7 +293,7 @@ $env:AI_PATCHLAB_AI_REVIEW_COMMAND  = "C:\tools\ai-review-wrapper.cmd"
 - AI review must remain disabled by default and local-first. Never add a default remote provider, default endpoint, default model, or default token variable. Any future remote/paid provider requires explicit configuration and a new ADR.
 - Scanner subprocess invocations MUST use `shell=False` and an explicit argv list — `shell=True` is the exact anti-pattern the patch engine warns about (see `scanner/remediation/patch_suggestions.py:SUBPROCESS_SHELL_SUGGESTION`)
 - Semgrep on Windows: when not on `PATH`, the runner falls back to `Path.home() / AppData/Roaming/Python/Python313/Scripts/semgrep.exe` (see `scanner/tools/semgrep_runner.py:PIP_USER_SEMGREP_PATH`). The Python minor version is hardcoded — if the user installs under a different Python version, the runner will silently skip Semgrep until the constant is updated
-- Semgrep UTF-8 output (Windows, 2026-06-11 fix): Semgrep writes its `--output` JSON via Python's default text codec, which on Windows is the locale codepage (cp1252). A repo with non-Latin-1 source content (Chinese/Japanese/Korean comments, emoji) crashes Semgrep mid-write with `UnicodeEncodeError`, leaving a **0-byte report** and exit code 2. `_build_semgrep_env` now forces `PYTHONUTF8=1` + `PYTHONIOENCODING=utf-8` in the child env to prevent this. As defense-in-depth, `scan_semgrep` treats an empty/0-byte report as a `semgrep-scan-error` finding (not silently zero findings). NOTE: the scan-error finding is `info` severity, so a run with `--min-severity medium` still filters it from the report — a future improvement should exempt scanner-infrastructure meta findings from `--min-severity`
+- Semgrep UTF-8 output (Windows, 2026-06-11 fix): Semgrep writes its `--output` JSON via Python's default text codec, which on Windows is the locale codepage (cp1252). A repo with non-Latin-1 source content (Chinese/Japanese/Korean comments, emoji) crashes Semgrep mid-write with `UnicodeEncodeError`, leaving a **0-byte report** and exit code 2. `_build_semgrep_env` now forces `PYTHONUTF8=1` + `PYTHONIOENCODING=utf-8` in the child env to prevent this. As defense-in-depth, `scan_semgrep` treats an empty/0-byte report as a `semgrep-scan-error` finding (not silently zero findings). NOTE: the scan-error finding is `info` severity, so a run with `--min-severity medium` still filters it from the report — RESOLVED 2026-08-21: scanner-infrastructure findings now carry `is_meta=True` and are exempt from `--min-severity`
 - All external scanners are optional — if a tool is missing, the adapter emits a normalized `info` finding (e.g. `semgrep-not-installed`, `gitleaks-not-installed`, `trivy-not-installed`, `pip-audit-not-installed`, `ai-review-disabled`) instead of failing
 - pip-audit supports requirements files, `pyproject.toml` projects, or `pylock.*.toml` locked projects — the runner picks the first match in that order
 - AI review timeouts default to 120s (`AI_PATCHLAB_AI_REVIEW_TIMEOUT_SECONDS`); on timeout the runner writes `[]` to `reports/raw/ai-review.json` and emits a normalized error finding so the report still completes

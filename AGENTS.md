@@ -67,7 +67,9 @@ AI PatchLab is an AI-assisted security remediation toolkit. The MVP focuses on a
 - `reports/raw/` - Raw scanner JSON outputs (`semgrep.json`, `gitleaks.json`, `trivy.json`, `pip-audit.json`, `ai-review.json` when enabled)
 - `src/` - Legacy scaffold entry point (kept for template parity)
 - `src/main.py` - Legacy entry point (`python -m src.main`) - currently a loguru-wired async stub with TODOs
-- `tests/` - pytest tests (one module per scanner: `test_scanner_foundation.py`, `test_semgrep_scanner.py`, `test_gitleaks_scanner.py`, `test_trivy_scanner.py`, `test_dependency_scan.py`, `test_ai_review.py`, `test_patch_suggestions.py`, `test_recommendations.py`)
+- `.github/workflows/ci.yml` - CI: ruff + black + pytest on Python 3.11 and 3.13
+- `reports/disclosures/` - Drafted private disclosure emails awaiting a manual send (gitignored)
+- `tests/` - pytest tests (one module per scanner: `test_scanner_foundation.py`, `test_semgrep_scanner.py`, `test_gitleaks_scanner.py`, `test_trivy_scanner.py`, `test_dependency_scan.py`, `test_ai_review.py`, `test_patch_suggestions.py`, `test_recommendations.py`, `test_meta_findings.py`, `test_confidence_field_rules.py`)
 - `tests/conftest.py` - Shared fixtures (`mock_db`, `mock_http_client`, `mock_discord`, `test_config`, session `event_loop`)
 - `examples/` - Reference patterns to read before implementing
 - `PRPs/` - Active Product Requirements Prompts
@@ -169,6 +171,7 @@ export AI_PATCHLAB_AI_REVIEW_COMMAND=/path/to/ai-review-wrapper
 - Each scanner in `scanner/scanners/` exposes one `scan_<name>(repo_path: Path, reports_dir: Path) -> list[Finding]` function and is registered in `scanner/scanners/__init__.py:SCANNERS`
 - Scanners must never raise on a missing or failing external tool - emit a normalized `info` finding instead so the report still completes
 - Each adapter pipes its findings through `apply_patch_suggestions(enrich_findings(...))` before returning
+- Any finding built with `confidence_for_meta_finding(...)` must also set `is_meta=True` so `--min-severity` cannot drop it
 - Each external tool runner lives in `scanner/tools/<tool>_runner.py`, returns a frozen `*Result` dataclass, writes raw JSON to `reports/raw/<tool>.json`, and uses `subprocess.run(..., shell=False, check=False)` with captured stdout/stderr
 - Do not call subprocesses directly from `scanner/scanners/*` - go through the runner module
 - `Finding.confidence` values come from `scanner/confidence.py` - never inline `confidence="high"` / `"medium"` / `"low"` in a scanner adapter; add or reuse a rule function instead
@@ -223,9 +226,12 @@ export AI_PATCHLAB_AI_REVIEW_COMMAND=/path/to/ai-review-wrapper
 - Log architectural decisions in `DECISIONS.md`
 - Check existing ADRs before making structural changes
 - Record date, decision, context, and consequences
-- Current ADRs of record: ADR-001 scaffold, ADR-002 data stack, ADR-003 placeholder adapters, ADR-004 Gitleaks, ADR-005 Semgrep, ADR-006 recommendation enrichment, ADR-007 patch suggestions, ADR-008 Trivy, ADR-009 pip-audit, ADR-010 disabled-by-default AI review boundary, ADR-011 centralized scanner confidence rules, ADR-012 probabilistic web template fingerprinting boundary
+- Current ADRs of record: ADR-001 scaffold, ADR-002 data stack, ADR-003 placeholder adapters, ADR-004 Gitleaks, ADR-005 Semgrep, ADR-006 recommendation enrichment, ADR-007 patch suggestions, ADR-008 Trivy, ADR-009 pip-audit, ADR-010 disabled-by-default AI review boundary, ADR-011 centralized scanner confidence rules, ADR-012 probabilistic web template fingerprinting boundary, ADR-013 meta findings exempt from severity filtering, ADR-014 field-derived confidence tiers
 
 ## Known Gotchas
+- ALWAYS run through `.venv` (`.venv/Scripts/python.exe` on Windows). The project ran three months off the shared user-site; on 2026-08-20 an unrelated `pip install` downgraded pydantic to 1.x and httpx to 0.21 and every import broke, hours after a scan had passed
+- Meta findings survive `--min-severity` but are NOT yet exempt from `--ignore-file` suppression
+- Semgrep coverage comes from the `errors` array, never `paths.skipped` - `skipped` has been empty on every series run where rules timed out. `scan_semgrep` emits `semgrep-partial-coverage` naming each `rule -> file` pair that did not run
 - `ai-patchlab` and `2026-05-12` are template placeholders replaced during scaffolding
 - `aiomysql` pools must be closed explicitly with `await db.disconnect()` in `finally`
 - Playwright `networkidle` can time out on SPAs; use `domcontentloaded` when needed
@@ -236,7 +242,7 @@ export AI_PATCHLAB_AI_REVIEW_COMMAND=/path/to/ai-review-wrapper
 - AI review must remain disabled by default and local-first. Never add a default remote provider, default endpoint, default model, or default token variable. Any future remote/paid provider requires explicit configuration and a new ADR.
 - Scanner subprocess invocations MUST use `shell=False` and an explicit argv list - `shell=True` is the exact anti-pattern the patch engine warns about (see `scanner/remediation/patch_suggestions.py:SUBPROCESS_SHELL_SUGGESTION`)
 - Semgrep on Windows: when not on `PATH`, the runner falls back to `Path.home() / AppData/Roaming/Python/Python313/Scripts/semgrep.exe` (see `scanner/tools/semgrep_runner.py:PIP_USER_SEMGREP_PATH`). The Python minor version is hardcoded - if the user installs under a different Python version, the runner will silently skip Semgrep until the constant is updated
-- Semgrep UTF-8 output (Windows, 2026-06-11 fix): Semgrep writes its `--output` JSON via Python's default codec (cp1252 on Windows). A repo with non-Latin-1 source (Chinese/Japanese/Korean/emoji) crashes Semgrep mid-write with `UnicodeEncodeError`, leaving a 0-byte report + exit 2. `_build_semgrep_env` forces `PYTHONUTF8=1` + `PYTHONIOENCODING=utf-8`; `scan_semgrep` treats an empty report as a `semgrep-scan-error`. The scan-error is `info` severity, so `--min-severity medium` still filters it (future: exempt meta findings from min-severity)
+- Semgrep UTF-8 output (Windows, 2026-06-11 fix): Semgrep writes its `--output` JSON via Python's default codec (cp1252 on Windows). A repo with non-Latin-1 source (Chinese/Japanese/Korean/emoji) crashes Semgrep mid-write with `UnicodeEncodeError`, leaving a 0-byte report + exit 2. `_build_semgrep_env` forces `PYTHONUTF8=1` + `PYTHONIOENCODING=utf-8`; `scan_semgrep` treats an empty report as a `semgrep-scan-error`. The scan-error is `info` severity, so `--min-severity medium` still filters it (RESOLVED 2026-08-21: meta findings carry `is_meta=True` and are exempt from `--min-severity`)
 - All external scanners are optional - if a tool is missing, the adapter emits a normalized `info` finding (`semgrep-not-installed`, `gitleaks-not-installed`, `trivy-not-installed`, `pip-audit-not-installed`, `ai-review-disabled`) instead of failing
 - pip-audit input resolution order: root `requirements*.txt` first, then `pylock.*.toml` (with `--locked`), then `pyproject.toml`
 - AI review timeouts default to 120s (`AI_PATCHLAB_AI_REVIEW_TIMEOUT_SECONDS`); on timeout the runner writes `[]` to `reports/raw/ai-review.json` and emits a normalized error finding so the report still completes
