@@ -34,7 +34,7 @@ Update outcomes ONLY after upstream merge/close, never on open. Stop here if `--
 `gh search repos --language=python --stars=1500..6000 --sort=updated` filtered to AI/agent/LLM/RAG/inference. Drop already-scanned slugs. Responsiveness check (recent closed issues + merged PRs from ≥2 contributors). Strict-norm detection → publication mode. Pick ONE; record why.
 
 ## Phase 3 — Scan
-`python scanner/run_scan.py --from-git-url "<url>" --reports-dir reports/<slug> --min-severity medium` (`--ignore-file` for obvious sample/demo subtrees).
+`.venv/Scripts/python.exe scanner/run_scan.py --from-git-url "<url>" --reports-dir reports/<slug> --min-severity medium` (`--ignore-file` for obvious sample/demo subtrees).
 
 ## Phase 4 — Curate
 Group by rule family; auto-flag tests/sample/examples/demos/fixtures as candidate-FP. Inspect top 5 real candidates in-repo via `gh api .../contents/<path>`. Write per-finding verdicts. Evaluate the quality gate boolean.

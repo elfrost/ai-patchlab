@@ -38,16 +38,16 @@ This project can optionally include a parallel Codex/OpenAI runtime via `AGENTS.
 - `fingerprint/seeds/repos.json` — Curated seed list (committed; expand via PR only)
 - `fingerprint/extractors/` — Pure functions over a cloned repo: `favicon.py`, `static_assets.py`, `html_signatures.py`
 - `fingerprint/repo_index.py` — Clones a seed via `scanner.git_source.cloned_repo`, runs extractors, writes `fingerprint/db/<slug>.json`
-- `fingerprint/run_index.py` — CLI: `python fingerprint/run_index.py --rebuild` / `--repo-url <url>`
+- `fingerprint/run_index.py` — CLI: `.venv/Scripts/python.exe fingerprint/run_index.py --rebuild` / `--repo-url <url>`
 - `fingerprint/web_probe.py` — Sync `httpx.Client` probe with robots.txt respect, scheme allowlist, hard bytes/asset caps; optional `transport=` param for tests
 - `fingerprint/matchers/` — `asset_hash.py`, `html_regex.py`; registered in `fingerprint/matchers/__init__.py:MATCHERS`
 - `fingerprint/scoring.py` — Bounded weighted score (`WEIGHT_VALUES`) — single source of truth, tested directly
-- `fingerprint/run_match.py` — CLI: `python fingerprint/run_match.py --target <url>` → writes `reports/fingerprint/match_<host>_<UTC>.json` + `.md`; always exits 0
+- `fingerprint/run_match.py` — CLI: `.venv/Scripts/python.exe fingerprint/run_match.py --target <url>` → writes `reports/fingerprint/match_<host>_<UTC>.json` + `.md`; always exits 0
 - `fingerprint/report.py` — JSON + Markdown writer for match results; disclaimer block is mandatory
 - `fingerprint/db/` — Per-repo fingerprint JSONs (gitignored except `.gitkeep`; regenerable from seeds)
 - `reports/fingerprint/` — Generated match reports
 - `scanner/` — Scanner CLI, finding model, recommendation enrichment, report generation, scanner registry
-- `scanner/run_scan.py` — CLI entry point (`python scanner/run_scan.py --repo <path>` or `--from-git-url <url>`)
+- `scanner/run_scan.py` — CLI entry point (`.venv/Scripts/python.exe scanner/run_scan.py --repo <path>` or `--from-git-url <url>`)
 - `scanner/git_source.py` — Shallow-clone a public git URL into a temp directory via the `cloned_repo` context manager; cleanup-on-exit, `shell=False`, no remote API calls
 - `scanner/paths.py` — `rebase_finding_paths(findings, repo_root)` rewrites each finding's `file` (and `id` when it embeds the same path) to a repo-relative POSIX path so reports survive temp-dir cleanup
 - `scanner/ignore.py` — `apply_ignore(findings, patterns)` + `load_ignore_patterns(path)` provide `.gitignore`-style path suppression of findings (used by the `--ignore-file` CLI flag). Empty-file findings are never suppressed. `DEFAULT_SAMPLE_IGNORE_PATTERNS` holds the demo/sample/example subtree patterns opted into via the `--ignore-samples` flag
@@ -185,20 +185,20 @@ Mirror of slash commands for the Codex runtime: kickoff, generate-prp, execute-p
 ## Common Commands
 ```bash
 # Dev
-python scanner/run_scan.py --repo "C:\path\to\repo"  # Run scanner foundation
-python scanner/run_scan.py --repo "." --reports-dir reports  # Self-scan
+.venv/Scripts/python.exe scanner/run_scan.py --repo "C:\path\to\repo"  # Run scanner foundation
+.venv/Scripts/python.exe scanner/run_scan.py --repo "." --reports-dir reports  # Self-scan
 python -m src.main                                   # Legacy entry point
-python -m pytest tests/ -v                            # Run all tests
-python -m pytest tests/ -v -k "test_name"             # Run specific test
+.venv/Scripts/python.exe -m pytest tests/ -v                            # Run all tests
+.venv/Scripts/python.exe -m pytest tests/ -v -k "test_name"             # Run specific test
 
 # Lint & Format
-ruff check scanner src/ tests/ fingerprint/          # Lint
-ruff check scanner src/ tests/ fingerprint/ --fix    # Auto-fix lint issues
-python -m black scanner src/ tests/ fingerprint/      # Format
+.venv/Scripts/ruff.exe check scanner src/ tests/ fingerprint/          # Lint
+.venv/Scripts/ruff.exe check scanner src/ tests/ fingerprint/ --fix    # Auto-fix lint issues
+.venv/Scripts/python.exe -m black scanner src/ tests/ fingerprint/      # Format
 
 # Web template fingerprinting (experimental)
-python fingerprint/run_index.py --rebuild                                 # Rebuild local DB from seed list (real git clones)
-python fingerprint/run_match.py --target https://example.com              # Probe a single live URL against the local DB
+.venv/Scripts/python.exe fingerprint/run_index.py --rebuild                                 # Rebuild local DB from seed list (real git clones)
+.venv/Scripts/python.exe fingerprint/run_match.py --target https://example.com              # Probe a single live URL against the local DB
 
 # Setup (nouveau projet)
 python -m venv .venv && source .venv/bin/activate   # REQUIRED - never run off the global interpreter
@@ -210,7 +210,7 @@ cp .env.example .env                     # Configure environment
 semgrep --version
 gitleaks version
 trivy --version
-python -m pip install pip-audit && pip-audit --version
+.venv/Scripts/python.exe -m pip install pip-audit && pip-audit --version
 
 # Optional AI review (disabled by default — see scanner/config.py)
 $env:AI_PATCHLAB_AI_REVIEW_ENABLED = "true"
