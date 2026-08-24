@@ -15,7 +15,8 @@ Runs the full AI PatchLab public-scan workflow end-to-end, once per day, without
 4. **De-branded issue text.** No "scanned by [tool]" header. A single public-write-up link in a footer line at most. Lead with the finding and where the affected API is actually called in the repo.
 5. **Never rescan.** Dedup every candidate against existing slugs in `docs/scans/`.
 6. **Manual-disclosure backlog is a blocking warning.** Count the `pending_private_disclosure*` entries in the state file. If any has been pending **more than 7 days**, print a loud banner at the top of the run naming each one (repo, severity, days waiting) before doing anything else. If any is **High or Critical and pending more than 14 days**, do not start a new scan — run status-only and tell the user the queue needs clearing first. Rationale: on 2026-08-21 six reports were found sitting unsent, the oldest 22 days, including an unauthenticated-admin finding. Nothing in the pipeline had surfaced them, because every phase only looked forward at the next scan. A report that is written but never sent is worse than one never written: the maintainer does not know, and the series has already published that something was found.
-7. **Kill switch.** If `.daily-paused` exists in the repo root, abort immediately with a one-line note. (Create/remove it to pause/resume without code changes.)
+7. **Always the venv interpreter, never bare `python`.** The project ran three months off the shared user-site and an unrelated `pip install` downgraded pydantic to 1.x, after which `import scanner` raised ImportError. A bare `python` here silently scans with a broken interpreter or not at all.
+8. **Kill switch.** If `.daily-paused` exists in the repo root, abort immediately with a one-line note. (Create/remove it to pause/resume without code changes.)
 
 ## State & rate-limit
 - State file: `reports/.daily_state.json` (under gitignored `reports/`).
@@ -34,8 +35,10 @@ Runs the full AI PatchLab public-scan workflow end-to-end, once per day, without
 
 ## Phase 0 — Preconditions
 1. If `.daily-paused` exists → print `daily: paused (.daily-paused present)` and STOP.
-2. Read `reports/.daily_state.json` (create with empty defaults if missing).
-3. Compute `today` (local date). If `last_run == today` and mode is not `--status-only`, downgrade to status-only and note it.
+2. **Interpreter preflight.** Run `.venv/Scripts/python.exe -c "import scanner.run_scan"`. If it fails, STOP and report it — do not fall back to bare `python`, and do not scan. A broken interpreter must abort the run, not silently produce an empty report.
+3. **Tool preflight.** Run `semgrep --version`, `gitleaks version` and `trivy --version`. Any tool that cannot report a version WILL produce an empty raw report that reads as "no findings" — name it in the run summary and in the published post, and treat the scan as partial coverage. **Semgrep is a Python program installed on the user-site interpreter**, so it breaks whenever that interpreter does, independently of this project's venv (2026-08-20 to 2026-08-24: a pydantic downgrade killed semgrep — 52% of the series' historical output — and nothing surfaced it because no scan ran in that window).
+4. Read `reports/.daily_state.json` (create with empty defaults if missing).
+5. Compute `today` (local date). If `last_run == today` and mode is not `--status-only`, downgrade to status-only and note it.
 
 ## Phase 1 — Status sweep (always runs)
 1. `gh search prs --author=elfrost --json repository,number,title,state,url,updatedAt` and `gh search issues --author=elfrost --json repository,number,title,state,url,updatedAt` (filter out `elfrost/ai-patchlab`).
@@ -58,7 +61,7 @@ If mode is `--status-only`, STOP here after pushing doc updates.
 
 ## Phase 3 — Scan
 ```bash
-python scanner/run_scan.py --from-git-url "<url>" --reports-dir reports/<slug> --min-severity medium
+.venv/Scripts/python.exe scanner/run_scan.py --from-git-url "<url>" --reports-dir reports/<slug> --min-severity medium
 ```
 Use `--ignore-file` if the repo has obvious sample/example/demo subtrees (until those are shipped as defaults).
 
