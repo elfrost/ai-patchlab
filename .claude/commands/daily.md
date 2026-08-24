@@ -36,8 +36,9 @@ Runs the full AI PatchLab public-scan workflow end-to-end, once per day, without
 ## Phase 0 — Preconditions
 1. If `.daily-paused` exists → print `daily: paused (.daily-paused present)` and STOP.
 2. **Interpreter preflight.** Run `.venv/Scripts/python.exe -c "import scanner.run_scan"`. If it fails, STOP and report it — do not fall back to bare `python`, and do not scan. A broken interpreter must abort the run, not silently produce an empty report.
-3. Read `reports/.daily_state.json` (create with empty defaults if missing).
-4. Compute `today` (local date). If `last_run == today` and mode is not `--status-only`, downgrade to status-only and note it.
+3. **Tool preflight.** Run `semgrep --version`, `gitleaks version` and `trivy --version`. Any tool that cannot report a version WILL produce an empty raw report that reads as "no findings" — name it in the run summary and in the published post, and treat the scan as partial coverage. **Semgrep is a Python program installed on the user-site interpreter**, so it breaks whenever that interpreter does, independently of this project's venv (2026-08-20 to 2026-08-24: a pydantic downgrade killed semgrep — 52% of the series' historical output — and nothing surfaced it because no scan ran in that window).
+4. Read `reports/.daily_state.json` (create with empty defaults if missing).
+5. Compute `today` (local date). If `last_run == today` and mode is not `--status-only`, downgrade to status-only and note it.
 
 ## Phase 1 — Status sweep (always runs)
 1. `gh search prs --author=elfrost --json repository,number,title,state,url,updatedAt` and `gh search issues --author=elfrost --json repository,number,title,state,url,updatedAt` (filter out `elfrost/ai-patchlab`).

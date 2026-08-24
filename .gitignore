@@ -46,3 +46,6 @@ fingerprint/db/*
 *.p12
 *.pfx
 secrets/
+
+# Scratch artifacts left by an interrupted /daily run
+.scratch_*
