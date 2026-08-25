@@ -120,6 +120,14 @@ Every flagged line logs **metadata** — `token_url`, `client_id` (the public OA
 
 - **2026-05-21** — Scan run at commit `46b0a93a6dfe`; `tests/**/fixtures/**` + `docs/**` suppressed; findings curated.
 - **2026-05-21** — Public courtesy issue filed on HolmesGPT/holmesgpt. All findings trace to published CVEs or best-practice patterns; no private coordination required.
+- **2026-08-23** — **A third party re-checked this report against a later commit** ([`3d1da39`](https://github.com/HolmesGPT/holmesgpt/commit/3d1da39a46bde48955237f575fb901fa0695629e)) and posted the result on the issue. Not a maintainer — GitHub reports the commenter's association as `NONE`, and no HolmesGPT maintainer has responded. Their conclusion, which we re-verified independently against the current default branch rather than taking on trust:
+  - **Retired.** The Dockerfile has moved to `python:3.11-alpine` at both stages, so the three `apt-get --no-install-recommends` items and the stale-cache layer item in finding #5 no longer describe any line in the file. Confirmed: `FROM python:3.11-alpine` at lines 14 and 102, zero `apt-get` invocations.
+  - **Retired.** `pyproject.toml` now pins `litellm = "1.89.0"` with the CVE floors written into comments beside the pin (including CVE-2026-49468, the auth-bypass this report's finding #3 was about). Confirmed. This is a better outcome than the pin we asked for — they documented *why*, so the next person to bump it knows what the floor protects.
+  - **Still open.** The `USER` directive is still absent from the final stage — confirmed, no `USER` line anywhere in the Dockerfile. The remaining half of finding #5 stands.
+  - **Still open.** Workflow context values are still interpolated into `run:` blocks (finding #1), and mutable action tags (`actions/checkout@v4` and friends) remain the concrete supply-chain gap, with `scorecard-analysis.yml` already showing the SHA-pinned pattern in-repo.
+  - **Correctly challenged.** They note the `~45 advisories` count in finding #2 was read off lockfile entries and never re-audited, so it should not be carried forward as a live number without a fresh run. That is a fair hit on this write-up, and it is the kind of number this series should stop quoting without a date attached.
+
+  The report was two of five items stale after three months. That is what a courtesy issue that sits open looks like, and the honest reading is that **an un-actioned report decays** — the repo moved, the findings didn't. The suggestion to split it into independently verifiable follow-ups (pinning policy / workflow shell boundary / non-root decision) is the right shape, and matches what the series learned elsewhere: one issue per verifiable claim beats one issue per scan.
 
 ## Reproduce
 
