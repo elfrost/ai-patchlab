@@ -11,6 +11,7 @@ from scanner.confidence import (
     confidence_for_semgrep_finding,
 )
 from scanner.models import Finding
+from scanner.paths import rebase_finding_path
 from scanner.recommendations import enrich_findings
 from scanner.remediation import apply_patch_suggestions
 from scanner.tools.semgrep_runner import run_semgrep
@@ -164,11 +165,11 @@ def _coverage_finding(errors: list[dict[str, Any]], repo_path: Path) -> Finding 
     if timeouts:
         lines.append("")
         lines.append("Rules that did not complete (rule -> file):")
-        lines.extend(f"- {pair}" for pair in _summarize_pairs(timeouts))
+        lines.extend(f"- {pair}" for pair in _summarize_pairs(timeouts, repo_path))
     if other:
         lines.append("")
         lines.append("Other scan errors (type -> file):")
-        lines.extend(f"- {pair}" for pair in _summarize_pairs(other, use_type=True))
+        lines.extend(f"- {pair}" for pair in _summarize_pairs(other, repo_path, use_type=True))
 
     return Finding(
         id="semgrep-partial-coverage",
@@ -189,6 +190,7 @@ def _coverage_finding(errors: list[dict[str, Any]], repo_path: Path) -> Finding 
 
 def _summarize_pairs(
     errors: list[dict[str, Any]],
+    repo_path: Path,
     *,
     use_type: bool = False,
     limit: int = MAX_COVERAGE_PAIRS,
@@ -197,7 +199,7 @@ def _summarize_pairs(
     pairs: list[str] = []
     for error in errors:
         label = _error_type(error) if use_type else _error_rule(error)
-        path = _error_path(error)
+        path = _error_path(error, repo_path)
         pair = f"{label} -> {path}"
         if pair not in pairs:
             pairs.append(pair)
@@ -218,15 +220,22 @@ def _error_rule(error: dict[str, Any]) -> str:
     return _get_string(error, "rule_id", "ruleId", "check_id", default="unknown-rule")
 
 
-def _error_path(error: dict[str, Any]) -> str:
-    """Return the file an error applies to."""
+def _error_path(error: dict[str, Any], repo_path: Path) -> str:
+    """Return the repo-relative file an error applies to.
+
+    Semgrep reports absolute paths, and when the scan target is a temp clone
+    those embed the local user directory. This description is published, so the
+    path is rebased the same way `Finding.file` is - a report must never carry
+    the operator's filesystem layout off the machine.
+    """
     path = _get_string(error, "path", "file", default="")
-    if path:
-        return path
-    location = error.get("location")
-    if isinstance(location, dict):
-        return _get_string(location, "path", "file", default="unknown-file")
-    return "unknown-file"
+    if not path:
+        location = error.get("location")
+        if isinstance(location, dict):
+            path = _get_string(location, "path", "file", default="")
+    if not path:
+        return "unknown-file"
+    return rebase_finding_path(path, repo_path)
 
 
 def _map_semgrep_finding(record: dict[str, Any]) -> Finding:

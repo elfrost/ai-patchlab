@@ -304,3 +304,62 @@ class TestPipAuditTimeout:
         scan_dependencies(repo_path=tmp_path, reports_dir=tmp_path / "reports")
         assert captured["timeout"] == DEFAULT_TIMEOUT_SECONDS
         assert captured["check"] is False
+
+
+class TestCoverageFindingLeaksNoLocalPaths:
+    """The coverage description is published. It must never carry the
+    operator's filesystem layout, which Semgrep reports as absolute paths and
+    which, on a `--from-git-url` scan, embed the local temp clone directory.
+    """
+
+    def _run(self, tmp_path: Path, monkeypatch, errors: list[dict]) -> list[Finding]:
+        raw_dir = tmp_path / "reports" / "raw"
+        raw_dir.mkdir(parents=True)
+        (raw_dir / "semgrep.json").write_text(
+            json.dumps({"results": [], "errors": errors}), encoding="utf-8"
+        )
+
+        def fake_run_semgrep(repo_path: Path, raw_report_path: Path) -> SemgrepResult:
+            return SemgrepResult(installed=True, raw_report_path=raw_report_path, returncode=0)
+
+        monkeypatch.setattr("scanner.scanners.semgrep.run_semgrep", fake_run_semgrep)
+        return scan_semgrep(repo_path=tmp_path, reports_dir=tmp_path / "reports")
+
+    def test_absolute_paths_are_rebased_to_repo_relative(self, tmp_path: Path, monkeypatch) -> None:
+        target = tmp_path / "custom_components" / "openrag" / "multimodal.py"
+        target.parent.mkdir(parents=True)
+        target.write_text("x = 1\n", encoding="utf-8")
+
+        findings = self._run(
+            tmp_path,
+            monkeypatch,
+            [{"type": "Timeout", "rule_id": "r.request-with-http", "path": str(target)}],
+        )
+        description = next(f for f in findings if f.id == "semgrep-partial-coverage").description
+
+        assert "custom_components/openrag/multimodal.py" in description
+        assert str(tmp_path) not in description
+
+    def test_no_windows_drive_or_temp_dir_survives(self, tmp_path: Path, monkeypatch) -> None:
+        target = tmp_path / "app.py"
+        target.write_text("x = 1\n", encoding="utf-8")
+
+        findings = self._run(
+            tmp_path,
+            monkeypatch,
+            [{"type": "Timeout", "rule_id": "r", "path": str(target)}],
+        )
+        description = next(f for f in findings if f.id == "semgrep-partial-coverage").description
+
+        for leak in ("AppData", "ai-patchlab-clone", r"C:\Users", "/tmp/"):
+            assert leak not in description, f"leaked {leak!r}"
+
+    def test_a_path_outside_the_repo_is_still_reported(self, tmp_path: Path, monkeypatch) -> None:
+        """Rebasing must not silently drop an error it cannot make relative."""
+        findings = self._run(
+            tmp_path,
+            monkeypatch,
+            [{"type": "SyntaxError", "path": "<unknown>", "message": "bad"}],
+        )
+        description = next(f for f in findings if f.id == "semgrep-partial-coverage").description
+        assert "<unknown>" in description
