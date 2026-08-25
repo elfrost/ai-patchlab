@@ -325,9 +325,7 @@ class TestCoverageFindingLeaksNoLocalPaths:
         monkeypatch.setattr("scanner.scanners.semgrep.run_semgrep", fake_run_semgrep)
         return scan_semgrep(repo_path=tmp_path, reports_dir=tmp_path / "reports")
 
-    def test_absolute_paths_are_rebased_to_repo_relative(
-        self, tmp_path: Path, monkeypatch
-    ) -> None:
+    def test_absolute_paths_are_rebased_to_repo_relative(self, tmp_path: Path, monkeypatch) -> None:
         target = tmp_path / "custom_components" / "openrag" / "multimodal.py"
         target.parent.mkdir(parents=True)
         target.write_text("x = 1\n", encoding="utf-8")
@@ -356,9 +354,7 @@ class TestCoverageFindingLeaksNoLocalPaths:
         for leak in ("AppData", "ai-patchlab-clone", r"C:\Users", "/tmp/"):
             assert leak not in description, f"leaked {leak!r}"
 
-    def test_a_path_outside_the_repo_is_still_reported(
-        self, tmp_path: Path, monkeypatch
-    ) -> None:
+    def test_a_path_outside_the_repo_is_still_reported(self, tmp_path: Path, monkeypatch) -> None:
         """Rebasing must not silently drop an error it cannot make relative."""
         findings = self._run(
             tmp_path,
