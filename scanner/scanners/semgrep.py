@@ -176,7 +176,7 @@ def _coverage_finding(errors: list[dict[str, Any]], repo_path: Path) -> Finding 
         tool="semgrep",
         severity="info",
         title="Semgrep did not cover every file it was pointed at",
-        description="\n".join(lines),
+        description=_strip_scan_root("\n".join(lines), repo_path),
         file=str(repo_path),
         line=None,
         recommendation=(
@@ -186,6 +186,33 @@ def _coverage_finding(errors: list[dict[str, Any]], repo_path: Path) -> Finding 
         confidence=confidence_for_meta_finding("partial-coverage"),
         is_meta=True,
     )
+
+
+def _strip_scan_root(text: str, repo_path: Path) -> str:
+    """Remove the scan root from free text, whatever spelling it arrives in.
+
+    Defence in depth, deliberately kept after the per-field rebasing rather
+    than instead of it. Semgrep's error payloads have now leaked an absolute
+    path twice through two different shapes, so the description is scrubbed
+    once more on the way out: this text is published, and it must never carry
+    the operator's filesystem layout off the machine.
+    """
+    root = str(repo_path)
+    if not root:
+        return text
+    variants = {
+        root,
+        root.replace("\\", "/"),
+        root.replace("\\", "\\\\"),
+        str(repo_path.resolve()),
+        str(repo_path.resolve()).replace("\\", "/"),
+        str(repo_path.resolve()).replace("\\", "\\\\"),
+    }
+    for variant in sorted(variants, key=len, reverse=True):
+        if variant:
+            text = text.replace(variant + "\\\\", "").replace(variant + "\\", "")
+            text = text.replace(variant + "/", "").replace(variant, "")
+    return text
 
 
 def _summarize_pairs(
@@ -211,8 +238,21 @@ def _summarize_pairs(
 
 
 def _error_type(error: dict[str, Any]) -> str:
-    """Return the Semgrep error type."""
-    return _get_string(error, "type", "error_type", "level", default="error")
+    """Return the Semgrep error type name.
+
+    Semgrep does not always give `type` as a plain string. `PartialParsing`
+    arrives as `["PartialParsing", [{"path": ..., "start": ...}, ...]]`, and
+    stringifying the whole value drags absolute file paths into a description
+    that gets published. Only the leading name is ever wanted here; the file is
+    reported separately by `_error_path`.
+    """
+    for key in ("type", "error_type", "level"):
+        value = error.get(key)
+        while isinstance(value, (list, tuple)) and value:
+            value = value[0]
+        if value is not None and str(value).strip():
+            return str(value)
+    return "error"
 
 
 def _error_rule(error: dict[str, Any]) -> str:

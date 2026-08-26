@@ -363,3 +363,72 @@ class TestCoverageFindingLeaksNoLocalPaths:
         )
         description = next(f for f in findings if f.id == "semgrep-partial-coverage").description
         assert "<unknown>" in description
+
+
+class TestSemgrepNonStringErrorTypes:
+    """Semgrep does not always report `type` as a plain string.
+
+    `PartialParsing` arrives as `["PartialParsing", [{"path": ...}, ...]]`.
+    Stringifying the whole value put absolute paths in a published description
+    even after the per-path rebasing was added, because the path rode in on the
+    *label* rather than the path field.
+    """
+
+    def _run(self, tmp_path: Path, monkeypatch, errors: list[dict]) -> list[Finding]:
+        raw_dir = tmp_path / "reports" / "raw"
+        raw_dir.mkdir(parents=True)
+        (raw_dir / "semgrep.json").write_text(
+            json.dumps({"results": [], "errors": errors}), encoding="utf-8"
+        )
+
+        def fake_run_semgrep(repo_path: Path, raw_report_path: Path) -> SemgrepResult:
+            return SemgrepResult(installed=True, raw_report_path=raw_report_path, returncode=0)
+
+        monkeypatch.setattr("scanner.scanners.semgrep.run_semgrep", fake_run_semgrep)
+        return scan_semgrep(repo_path=tmp_path, reports_dir=tmp_path / "reports")
+
+    def _description(self, findings: list[Finding]) -> str:
+        return next(f for f in findings if f.id == "semgrep-partial-coverage").description
+
+    def test_partial_parsing_label_is_just_the_name(self, tmp_path: Path, monkeypatch) -> None:
+        workflow = tmp_path / ".github" / "workflows" / "deploy.yaml"
+        workflow.parent.mkdir(parents=True)
+        workflow.write_text("on: push\n", encoding="utf-8")
+
+        description = self._description(
+            self._run(
+                tmp_path,
+                monkeypatch,
+                [
+                    {
+                        "type": ["PartialParsing", [{"path": str(workflow), "start": 1}]],
+                        "path": str(workflow),
+                    }
+                ],
+            )
+        )
+        assert "PartialParsing -> .github/workflows/deploy.yaml" in description
+        assert "'start'" not in description
+        assert str(tmp_path) not in description
+
+    def test_nested_list_type_is_flattened(self, tmp_path: Path, monkeypatch) -> None:
+        target = tmp_path / "a.py"
+        target.write_text("x = 1\n", encoding="utf-8")
+        description = self._description(
+            self._run(tmp_path, monkeypatch, [{"type": [["Deep", 1], 2], "path": str(target)}])
+        )
+        assert "Deep -> a.py" in description
+
+    def test_scan_root_is_scrubbed_from_any_surviving_text(
+        self, tmp_path: Path, monkeypatch
+    ) -> None:
+        """Belt and braces: an unknown Semgrep shape must not leak either."""
+        description = self._description(
+            self._run(
+                tmp_path,
+                monkeypatch,
+                [{"type": "weird " + str(tmp_path) + " trailing", "path": "<unknown>"}],
+            )
+        )
+        assert str(tmp_path) not in description
+        assert "AppData" not in description
