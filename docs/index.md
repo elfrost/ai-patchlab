@@ -27,7 +27,8 @@ remediation and confidence rules to normalize the findings.
 > this one keeps your code on your disk. [Why local-first still matters →]({{ '/daybreak-and-local-first' | relative_url }})
 
 > **New — the whole series, read end to end.**
-> Across 83 scans the four tools produced **10,635 findings**; **56** were real.
+> Measured across the first 83 scans: the four tools produced **10,635
+> findings**; **56** were real.
 > Here is what they reliably get wrong, the six classes of bug no rule can see,
 > and why half the scans found nothing.
 > [**10,635 findings, 56 that mattered →**]({{ '/what-83-scans-found' | relative_url }})
