@@ -76,7 +76,10 @@ Use `--ignore-file` if the repo has obvious sample/example/demo subtrees (until 
 2. **If quality gate TRUE and repo not strict-norm:** file a focused courtesy issue on the target (de-branded, with code-path note + concrete fix). If a finding has a clean one-line/one-file fix, also fork → branch → PR referencing the issue.
 3. **If repo strict-norm:** post-only, or one issue per critical finding — no grouped issue.
 4. **If quality gate FALSE:** post-only (clean-scan write-up). File nothing upstream.
-5. Open the `docs:` PR on `elfrost/ai-patchlab`, merge it, verify the Pages build succeeds (`gh api repos/elfrost/ai-patchlab/pages/builds/latest --jq .status` → `built`) and the new post returns HTTP 200.
+5. Open the `docs:` PR on `elfrost/ai-patchlab`, merge it, then verify publication with **two** checks, in this order:
+   - `gh run list --workflow=pages-build-deployment --limit 1` → `success` for the merge commit. This repo publishes through GitHub Actions (`dynamic` source), so this is the authoritative signal.
+   - `curl -s -o /dev/null -w '%{http_code}'` on the new post → `200`, and confirm the page actually serves the new text.
+   **Do NOT gate on `gh api .../pages/builds/latest`.** On an Actions-published site that legacy endpoint reports the old build API and returns `errored` with `duration: 0` even when the deployment succeeded — observed 2026-08-26, where it said `errored` six polls running while the workflow was green and the page was serving the new content. Treat it as advisory at most; a red status there with a green workflow and a 200 is not an incident.
 
 ## Phase 6 — Record
 1. Update `reports/.daily_state.json` (`last_run`, append slug).
