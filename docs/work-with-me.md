@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Work with me — AI agent & LLM security review
-description: "Independent security review of AI agents, MCP servers and LLM applications. 83 public scans and 17 confirmed fixes as the proof; first-look engagements from $750."
+description: "Independent security review of AI agents, MCP servers and LLM applications. 88 public scans and 18 confirmed fixes as the proof; first-look engagements from $750."
 ---
 
 # Work with me
@@ -12,7 +12,7 @@ If you're shipping an agent framework, an MCP server, a RAG pipeline, or anythin
 
 ## The proof is public
 
-Everything I'd do for you, I've done in the open — [83 curated scans]({{ '/' | relative_url }}) of well-known AI/agent projects, with **17 confirmed fixes** where maintainers acted on the findings, and a documented methodology behind each one.
+Everything I'd do for you, I've done in the open — [88 curated scans]({{ '/' | relative_url }}) of well-known AI/agent projects, with **18 confirmed fixes** where maintainers acted on the findings, and a documented methodology behind each one.
 
 - **Real findings, not scanner noise.** A typical scan starts at hundreds of raw findings and ends at a handful that matter — because the rest are false positives, by-design patterns, or vendored third-party code. The curation is the value.
 - **Reachability over rule-count.** A `subprocess(shell=True)` that's safe under operator trust can become a multi-tenant sandbox escape once you trace who reaches it — and a scary-looking SQL string can be fully gated by a five-character allowlist. The verdict goes wherever the *code* goes, which means reading the code, not the rule.

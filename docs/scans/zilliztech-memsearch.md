@@ -14,6 +14,11 @@ date: 2026-08-17
 as a single focused issue (no working private channel: private vulnerability
 reporting is disabled and there is no `SECURITY.md` at the repo, `.github`, or org
 level). A fix PR accompanies the issue.
+**Outcome (2026-08-28):** ✅ **fixed** —
+[PR #682](https://github.com/zilliztech/memsearch/pull/682) merged and
+[issue #681](https://github.com/zilliztech/memsearch/issues/681) closed as
+completed, eleven days after filing. The `execSync` shell string became
+`execFileSync` with an argv array, matching the `dsh` and `openclaw` siblings.
 
 ## Summary
 
@@ -181,6 +186,9 @@ decided entirely by what the tool claims to do.
   referencing it. No working private channel exists (PVR disabled, no `SECURITY.md`
   anywhere), so a single de-branded public issue is the only courtesy channel — one
   finding, not a grouped review.
+- **2026-08-28** — PR #682 merged; issue #681 closed as completed. The fix
+  shipped as submitted — the one-line switch to `execFileSync` with an argv
+  array, no shell.
 
 ## Reproduce
 

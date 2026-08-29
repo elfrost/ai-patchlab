@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "87 curated security scans of open-source AI agents, MCP servers and LLM apps - 17 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "88 curated security scans of open-source AI agents, MCP servers and LLM apps - 18 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 87 scans, 17 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 88 scans, 18 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -94,12 +94,13 @@ login and static assets. Fifty-two flagged, none reported.
 
 ## All scans
 
-87 scans, newest first. **Findings** is the raw count the tools produced;
+88 scans, newest first. **Findings** is the raw count the tools produced;
 **Real** is what survived curation. The gap between those two columns is the
 entire job.
 
 | Date | Repository | Findings | Real | Outcome |
 |---|---|---:|---|---|
+| 2026-08-29 | [ginlix-ai/LangAlpha](scans/ginlix-ai-langalpha.html) | 372 | 1 real | open |
 | 2026-08-28 | [Ontos-AI/knowhere](scans/ontos-ai-knowhere.html) | 129 | 1 real — withheld | private |
 | 2026-08-27 | [Zleap-AI/SAG](scans/zleap-ai-sag.html) | 60 | 1 real | open |
 | 2026-08-26 | [ascending-llc/jarvis-registry](scans/ascending-llc-jarvis-registry.html) | 235 | 1 real — withheld | private |
@@ -107,7 +108,7 @@ entire job.
 | 2026-08-20 | [whiteguo233/OpenBiliClaw](scans/whiteguo233-openbiliclaw.html) | 373 | 1 real | **fixed** |
 | 2026-08-19 | [Mai-with-u/MaiBot](scans/mai-with-u-maibot.html) | 373 | 1 real — withheld | private |
 | 2026-08-18 | [roflcoopter/viseron](scans/roflcoopter-viseron.html) | 399 | 1 real — withheld | private |
-| 2026-08-17 | [zilliztech/memsearch](scans/zilliztech-memsearch.html) | 90 | 1 real | — |
+| 2026-08-17 | [zilliztech/memsearch](scans/zilliztech-memsearch.html) | 90 | 1 real | **fixed** |
 | 2026-08-16 | [liaohch3/claude-tap](scans/liaohch3-claude-tap.html) | 104 | 1 real — withheld | private |
 | 2026-08-15 | [TracecatHQ/tracecat](scans/tracecathq-tracecat.html) | 212 | 0 real | — |
 | 2026-08-14 | [datalayer/jupyter-mcp-server](scans/datalayer-jupyter-mcp-server.html) | 37 | 0 real | private |
