@@ -144,6 +144,24 @@ it.
 
 - 2026-08-27 — scan run; auth bypass reproduced against the real code
 - 2026-08-27 — public courtesy issue filed (no private channel advertised)
+- 2026-08-30 — **fixed.** [PR #156](https://github.com/Zleap-AI/SAG/pull/156)
+  merged ("Closes #153") and the issue closed as completed, three days after
+  filing. The maintainers took the question the report actually asked — *is this
+  login a credential check?* — and answered it with an explicit deployment mode
+  rather than a patch. `SAG_AUTH_MODE` is now `local | password`. In `password`
+  mode, `POST /auth/login` routes to `authenticate(email, password)`, which calls
+  `verify_password` unconditionally; the name lookup and the
+  `order_by(created_at.asc()).limit(1)` first-user fallback are both gone from
+  that path, and JWTs issued under the old local identity are rejected after the
+  mode switch. The default stays `local`, preserving the shipped single-user
+  name-only experience — which is the honest outcome: the personal-app UX was
+  never the bug. The bug was that a deployment had no way to say
+  "authentication is a boundary here," so the registration password and
+  `SAG_ALLOW_REGISTRATION` were guarding a door that login left open. Now the
+  three controls agree with each other. The PR also lands regression tests
+  naming this issue: name bypass, missing password, wrong password, first
+  credential bootstrap, old-token invalidation, and local-mode compatibility
+  (616 backend tests passing).
 
 ## Reproduce
 
