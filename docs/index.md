@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "88 curated security scans of open-source AI agents, MCP servers and LLM apps - 18 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "90 curated security scans of open-source AI agents, MCP servers and LLM apps - 19 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 89 scans, 19 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 90 scans, 19 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -94,12 +94,13 @@ login and static assets. Fifty-two flagged, none reported.
 
 ## All scans
 
-89 scans, newest first. **Findings** is the raw count the tools produced;
+90 scans, newest first. **Findings** is the raw count the tools produced;
 **Real** is what survived curation. The gap between those two columns is the
 entire job.
 
 | Date | Repository | Findings | Real | Outcome |
 |---|---|---:|---|---|
+| 2026-08-31 | [shy3130/tick-stock-panel](scans/shy3130-tick-stock-panel.html) | 77 | 1 real | open |
 | 2026-08-30 | [SenteLabsAI/OpenExecutive](scans/sentelabsai-openexecutive.html) | 124 | 1 real — withheld | private |
 | 2026-08-29 | [ginlix-ai/LangAlpha](scans/ginlix-ai-langalpha.html) | 372 | 1 real | open |
 | 2026-08-28 | [Ontos-AI/knowhere](scans/ontos-ai-knowhere.html) | 129 | 1 real — withheld | private |
