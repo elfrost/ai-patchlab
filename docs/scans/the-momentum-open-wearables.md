@@ -10,7 +10,7 @@ date: 2026-08-03
 **Repository:** [the-momentum/open-wearables](https://github.com/the-momentum/open-wearables)
 **Commit scanned:** `87f589316f26`
 **Scan date:** 2026-08-03
-**Disclosure status:** disclosed — [issue #1380](https://github.com/the-momentum/open-wearables/issues/1380)
+**Disclosure status:** ✅ resolved — [issue #1380](https://github.com/the-momentum/open-wearables/issues/1380) closed as completed; fixed in [PR #1507](https://github.com/the-momentum/open-wearables/pull/1507) (2026-09-01)
 
 ## Summary
 
@@ -211,6 +211,7 @@ acquitted the API key.
 - 2026-08-03 — scan run
 - 2026-08-03 — [issue #1380](https://github.com/the-momentum/open-wearables/issues/1380) filed publicly (private vulnerability reporting is disabled on the repo and there is no `SECURITY.md` in the root, `.github/`, or `docs/` — a public issue was the only channel available)
 - 2026-08-03 — public post (this page)
+- 2026-09-01 — **resolved.** Maintainer merged [PR #1507](https://github.com/the-momentum/open-wearables/pull/1507) (`fix(backend): verify webhook garmin-client-id against configured value`) and closed the issue as completed, addressing both items: the Garmin webhook header is now compared against the configured `settings.garmin_client_id` in constant time and **fails closed when the value is unset**, with a regression test in `backend/tests/api/v1/test_garmin_webhooks.py`; `docker-compose.prod.yml` had already been removed from the repository.
 
 ## Reproduce
 
