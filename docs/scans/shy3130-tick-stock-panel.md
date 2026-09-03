@@ -130,6 +130,15 @@ connections that never read files — those can and should turn it off.
 ## Disclosure timeline
 
 - 2026-08-31 — scan run, exploit primitive verified, issue [#224](https://github.com/shy3130/tick-stock-panel/issues/224) filed (public; no SECURITY.md, PVR disabled, personal MIT project)
+- 2026-09-03 — fixed and closed by the maintainer in `e89ea9b`, three days after filing. The
+  screener's isolated in-memory connection is now created with
+  `config={"enable_external_access": False}`, so an injected `read_parquet` /
+  `COPY` raises instead of touching the filesystem; view data is injected through
+  `con.register`, which the switch does not affect, so normal filtering is
+  unchanged. The maintainer added a regression test with a **positive and negative
+  control** — an unhardened connection is shown to read an arbitrary parquet file
+  through the same injected SQL (confirming the attack surface was real), and the
+  hardened one rejects it. 592 tests pass.
 
 ## Reproduce
 
