@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "92 curated security scans of open-source AI agents, MCP servers and LLM apps - 20 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "94 curated security scans of open-source AI agents, MCP servers and LLM apps - 21 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 93 scans, 21 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 94 scans, 21 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -100,6 +100,7 @@ entire job.
 
 | Date | Repository | Findings | Real | Outcome |
 |---|---|---:|---|---|
+| 2026-09-04 | [basicmachines-co/basic-memory](scans/basicmachines-co-basic-memory.html) | 270 | 0 real | — |
 | 2026-09-03 | [samuelgursky/davinci-resolve-mcp](scans/samuelgursky-davinci-resolve-mcp.html) | 97 | 1 real — withheld | private |
 | 2026-09-02 | [HKUDS/OpenOPC](scans/hkuds-openopc.html) | 56 | 1 real — withheld | private |
 | 2026-09-01 | [future-agi/future-agi](scans/future-agi-future-agi.html) | 1227 | 1 real — withheld | private |
