@@ -72,7 +72,7 @@ Use `--ignore-file` if the repo has obvious sample/example/demo subtrees (until 
 4. **Evaluate the quality gate:** is there ≥1 real, exploitability-shaped, high-confidence item? Record the boolean — it decides Phase 5 filing.
 
 ## Phase 5 — Publish (gated)
-1. **Always:** write `docs/scans/<slug>.md` from `docs/templates/scan-post.md`; prepend a new line to the Scans list in `docs/index.md`.
+1. **Always:** write `docs/scans/<slug>.md` from `docs/templates/scan-post.md`; prepend a new row to the Scans table in `docs/index.md` **and** a new bullet to `docs/scan-log.md` (the full prose archive), and bump the scan counts in both headers. Three files, every time — on 2026-09-06 the log was found eight entries behind the index because this step only named `index.md`.
 2. **If quality gate TRUE and repo not strict-norm:** file a focused courtesy issue on the target (de-branded, with code-path note + concrete fix). If a finding has a clean one-line/one-file fix, also fork → branch → PR referencing the issue.
 3. **If repo strict-norm:** post-only, or one issue per critical finding — no grouped issue.
 4. **If quality gate FALSE:** post-only (clean-scan write-up). File nothing upstream.

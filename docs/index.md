@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 95 scans, 21 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 96 scans, 21 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -94,12 +94,13 @@ login and static assets. Fifty-two flagged, none reported.
 
 ## All scans
 
-94 scans, newest first. **Findings** is the raw count the tools produced;
+96 scans, newest first. **Findings** is the raw count the tools produced;
 **Real** is what survived curation. The gap between those two columns is the
 entire job.
 
 | Date | Repository | Findings | Real | Outcome |
 |---|---|---:|---|---|
+| 2026-09-06 | [ApodexAI/FrontierAgent](scans/apodexai-frontieragent.html) | 58 | 1 real — withheld | private |
 | 2026-09-05 | [doobidoo/mcp-memory-service](scans/doobidoo-mcp-memory-service.html) | 176 | 0 real | — |
 | 2026-09-04 | [basicmachines-co/basic-memory](scans/basicmachines-co-basic-memory.html) | 270 | 0 real | — |
 | 2026-09-03 | [samuelgursky/davinci-resolve-mcp](scans/samuelgursky-davinci-resolve-mcp.html) | 97 | 1 real — withheld | private |

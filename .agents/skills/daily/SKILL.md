@@ -40,7 +40,7 @@ Update outcomes ONLY after upstream merge/close, never on open. Stop here if `--
 Group by rule family; auto-flag tests/sample/examples/demos/fixtures as candidate-FP. Inspect top 5 real candidates in-repo via `gh api .../contents/<path>`. Write per-finding verdicts. Evaluate the quality gate boolean.
 
 ## Phase 5 — Publish (gated)
-Always: write `docs/scans/<slug>.md` + prepend `docs/index.md`. If gate TRUE and not strict-norm: file focused de-branded courtesy issue (+ PR for clean one-line fixes). If strict-norm: post-only or one-issue-per-critical. If gate FALSE: post-only. Open `docs:` PR on `elfrost/ai-patchlab`, merge, verify publication via `gh run list --workflow=pages-build-deployment --limit 1` = `success` AND the post returns 200 serving the new text. Do NOT gate on `pages/builds/latest` — on this Actions-published site it reports `errored` even when the deploy succeeded (2026-08-26).
+Always: write `docs/scans/<slug>.md` + prepend a row to `docs/index.md` + a bullet to `docs/scan-log.md` (bump both scan counts). If gate TRUE and not strict-norm: file focused de-branded courtesy issue (+ PR for clean one-line fixes). If strict-norm: post-only or one-issue-per-critical. If gate FALSE: post-only. Open `docs:` PR on `elfrost/ai-patchlab`, merge, verify publication via `gh run list --workflow=pages-build-deployment --limit 1` = `success` AND the post returns 200 serving the new text. Do NOT gate on `pages/builds/latest` — on this Actions-published site it reports `errored` even when the deploy succeeded (2026-08-26).
 
 ## Phase 6 — Record
 Update `reports/.daily_state.json`; update memory on resolutions/lessons; print a 3-line summary.
