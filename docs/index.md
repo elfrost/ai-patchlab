@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "97 curated security scans of open-source AI agents, MCP servers and LLM apps - 21 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "97 curated security scans of open-source AI agents, MCP servers and LLM apps - 23 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 97 scans, 21 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 97 scans, 23 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -104,7 +104,7 @@ entire job.
 | 2026-09-06 | [ApodexAI/FrontierAgent](scans/apodexai-frontieragent.html) | 58 | 1 real — withheld | private |
 | 2026-09-05 | [doobidoo/mcp-memory-service](scans/doobidoo-mcp-memory-service.html) | 176 | 0 real | — |
 | 2026-09-04 | [basicmachines-co/basic-memory](scans/basicmachines-co-basic-memory.html) | 270 | 0 real | — |
-| 2026-09-03 | [samuelgursky/davinci-resolve-mcp](scans/samuelgursky-davinci-resolve-mcp.html) | 97 | 1 real — withheld | private |
+| 2026-09-03 | [samuelgursky/davinci-resolve-mcp](scans/samuelgursky-davinci-resolve-mcp.html) | 97 | 1 real | **fixed** |
 | 2026-09-02 | [HKUDS/OpenOPC](scans/hkuds-openopc.html) | 56 | 1 real — withheld | private |
 | 2026-09-01 | [future-agi/future-agi](scans/future-agi-future-agi.html) | 1227 | 1 real — withheld | private |
 | 2026-08-31 | [shy3130/tick-stock-panel](scans/shy3130-tick-stock-panel.html) | 77 | 1 real | **fixed** |
@@ -126,7 +126,7 @@ entire job.
 | 2026-08-11 | [semantica-agi/Semantica](scans/semantica-agi-semantica.html) | 60 | 1 real — withheld | private |
 | 2026-08-10 | [datascale-ai/OpenTalking](scans/datascale-ai-opentalking.html) | 93 | 1 real | — |
 | 2026-08-09 | [NeptuneHub/AudioMuse-AI](scans/neptunehub-audiomuse-ai.html) | 265 | 1 real — withheld | private |
-| 2026-08-08 | [theroyallab/tabbyAPI](scans/theroyallab-tabbyapi.html) | 18 | 2 real | — |
+| 2026-08-08 | [theroyallab/tabbyAPI](scans/theroyallab-tabbyapi.html) | 18 | 2 real | **fixed** |
 | 2026-08-07 | [huangruiteng/loopx](scans/huangruiteng-loopx.html) | 57 | 1 real — withheld | **fixed** |
 | 2026-08-06 | [nottelabs/notte](scans/nottelabs-notte.html) | 226 | 1 real — withheld | private |
 | 2026-08-05 | [Vexa-ai/vexa](scans/vexa-ai-vexa.html) | 297 | 1 real — withheld | private |

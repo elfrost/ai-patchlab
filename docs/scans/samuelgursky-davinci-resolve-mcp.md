@@ -9,7 +9,12 @@ date: 2026-09-03
 **Repository:** [samuelgursky/davinci-resolve-mcp](https://github.com/samuelgursky/davinci-resolve-mcp)
 **Commit scanned:** `619d473`
 **Scan date:** 2026-09-03
-**Disclosure status:** reported privately — detail withheld pending a coordinated fix
+**Disclosure status:** ✅ **resolved** — reported privately by email; fixed by the maintainer in
+[v2.212.1](https://github.com/samuelgursky/davinci-resolve-mcp/releases/tag/v2.212.1) with a
+published advisory
+([GHSA-8f4v-j8rq-hj47](https://github.com/samuelgursky/davinci-resolve-mcp/security/advisories/GHSA-8f4v-j8rq-hj47),
+Low, patched `2.212.1`) and a regression test, **twelve minutes after the report was read**. The
+maintainer has cleared the mechanism for publication; the finding below is now in full.
 
 ## Summary
 
@@ -25,22 +30,69 @@ date: 2026-09-03
 
 ## Top findings
 
-### 1. A credential-handling weakness in the opt-in networked transport — withheld
+### 1. The networked transport's bearer token was written in cleartext to `logs/server.log` — fixed in v2.212.1
 
 - **Tool:** semgrep — raised at medium, promoted by curation
 - **Confidence:** high — mechanism executed against the real module
-- **Status:** reported privately to the maintainer on 2026-09-03
+- **Class:** CWE-532, insertion of sensitive information into a log file
+- **Status:** reported privately 2026-09-03, delivered 2026-09-08, fixed the same hour
 
-SECURITY.md asks that exploit detail not be published before a coordinated fix, and that
-request is being honoured: the file, the line and the mechanism are not in this post. What
-can be said without helping anyone is the scope. It affects only the opt-in networked
-transport, not the default stdio mode, and only for users who did not pin their own token. It
-is a local exposure — it gives nothing to a remote attacker, and needs someone who already
-shares the machine or the checkout. The fix is one line, and the repository already contains
-the pattern it should follow.
+`src/utils/mcp_transport.py:127` logged the generated bearer token verbatim when the opt-in
+networked transport (`--transport sse` or `--transport streamable-http`) was started without
+`$DAVINCI_MCP_TOKEN` pinned:
 
-This entry will be filled in once a fix ships, or dropped entirely if the maintainer would
-rather it stayed private.
+```python
+if generated:
+    logger.info("Generated bearer token (set $DAVINCI_MCP_TOKEN to pin it): %s", token)
+```
+
+That logger has no handler of its own, so the record propagates to the root logger — which
+`src/server.py:167-171` had already configured at import time with a
+`logging.FileHandler(<project_dir>/logs/server.log)`. `run_networked` is called from that same
+module, so the token that is the transport's only access control was appended to a log file.
+
+**Why it mattered even as a local-only exposure: the same secret already had a carefully
+protected copy, and the log copy was worse on both axes.** `write_transport_state` stores the
+token through `src/utils/private_state.py`, which opens with an explicit `0o600`, re-chmods on
+POSIX, runs `icacls /inheritance:r` on Windows, and lives under a `0700` per-user directory
+whose docstring says *"never in a shared tempdir"*. `logging.FileHandler` does none of that —
+default mode, `0644` under the usual umask, world-readable. And the durability was inverted:
+`run_networked`'s `finally:` clears the protected copy at shutdown, while the log line is
+appended forever. Every token any networked session ever generated accumulated in
+`server.log` and outlived the process.
+
+**The sibling differential was the whole argument.** The control panel's token, in the same
+`server.py`, is handled against exactly this threat — *"Passed via the environment (never argv,
+which `ps` would show to every local user)"* and *"The token travels in the URL fragment —
+browsers never send fragments, so it stays out of every request line and log."* Two tokens,
+one threat model, opposite handling. The report pointed at the rule the project had already
+written down, and at the claim in `SECURITY.md` that the pidfile and the state file were the
+only on-disk copies: there was a third.
+
+**Verified by execution, not by reading.** A script imported the real module, installed the
+same root-logger configuration `server.py` installs, stubbed `uvicorn.run`, and called the real
+`run_networked`: token present in `server.log`, state file absent after shutdown. The POSIX
+mode contrast was read from code (the run was on Windows) and the report said so.
+
+**What limited it.** Opt-in transport only; the default stdio mode never reaches the code.
+`logs/` is gitignored. A pinned token never hit the `if generated:` branch. Graded Low on a
+single-user desktop, Medium on a shared host or an agent-readable checkout.
+
+**Fix, as shipped in `9f955ab5` / v2.212.1.** The maintainer took the report's primary
+suggestion — the log line now names the state file's path instead of the value — and added an
+`isatty`-guarded echo of a generated token to an interactive stderr for hand-launched
+operators, so a redirected stderr gets nothing. `SECURITY.md` now states the rule outright: the
+pidfile and the transport state file are the only on-disk copies of either token, and neither
+is ever written to `logs/server.log`. The module docstring no longer describes the token as
+"logged at startup". A regression test runs the real `run_networked` against a root
+`FileHandler` configured the way `server.py` configures it and asserts the token never reaches
+the file — against the previous code it fails with the token found in the log, which is this
+finding reproduced in the suite. The advisory's workaround section tells existing users to
+treat any token in `server.log` as exposed, truncate the log, and restart.
+
+**And the channel.** The report opened with a process note: `SECURITY.md` named a GitHub
+security advisory as its first channel, but private vulnerability reporting was disabled, so
+the endpoint answered `403` to an outside reporter. It is enabled now.
 
 ### Everything else — 96 findings, none of them real
 
@@ -161,7 +213,39 @@ out to be wired into twenty privileged routes as a second layer beneath the toke
 - 2026-09-03 — reported privately by email to the maintainer, per SECURITY.md. GitHub private
   vulnerability reporting is the first channel that policy names, but it is disabled on the
   repository, so an outside reporter cannot use it; the report notes this alongside the finding.
-- Detail withheld from this page pending a coordinated fix.
+- 2026-09-03 — this page published with the finding withheld
+- 2026-09-08 00:37 UTC — private report delivered by email to the address `SECURITY.md`
+  points to. The draft had sat unsent for five days; the send is a manual step in this
+  pipeline, and the delay was on the reporting side, not the maintainer's
+- 2026-09-08 00:49 UTC — **fixed** in `9f955ab5` and released as
+  [v2.212.1](https://github.com/samuelgursky/davinci-resolve-mcp/releases/tag/v2.212.1),
+  twelve minutes after the email; regression test included
+- 2026-09-08 00:55 UTC — advisory
+  [GHSA-8f4v-j8rq-hj47](https://github.com/samuelgursky/davinci-resolve-mcp/security/advisories/GHSA-8f4v-j8rq-hj47)
+  published (Low, `< 2.212.1`); private vulnerability reporting switched on for the repository
+- 2026-09-08 01:16 UTC — maintainer's reply: *"The report was exact, and the reproduction
+  matched what I found in the code."* Mechanism cleared for publication
+- 2026-09-08 — this page updated with the full detail
+
+## Resolution
+
+Thirty-nine minutes from the email leaving to the maintainer's reply, with a fix, a release, an
+advisory and a regression test in between — the fastest resolution in the series by a wide
+margin, and the clearest case yet that the slow part of coordinated disclosure was the
+reporter. The report was written on 2026-09-03 and delivered on 2026-09-08; the maintainer
+needed twelve minutes.
+
+Three things about the fix are worth recording. It adopted the report's *pointer-in-the-log*
+suggestion rather than the alternative the report also offered, and then solved the usability
+question the report had deliberately left to the maintainer (how does a hand-launching operator
+see the token?) with an `isatty` guard — a better answer than either option as written. The
+regression test does not merely assert the new behaviour; it reproduces the finding against the
+old code, which means the suite now carries the negative control. And the documentation was
+corrected in the same release, so the `SECURITY.md` claim this post used as an oracle is true
+again — the third on-disk copy is gone, and the policy now says so explicitly.
+
+The advisory credits *"an external security researcher"*; the maintainer offered a named
+credit, which is the reporter's call and has not been taken up as of this update.
 
 ## Reproduce
 

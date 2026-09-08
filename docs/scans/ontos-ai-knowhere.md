@@ -168,6 +168,9 @@ forty that have one.
 - 2026-08-28 — scan run; one Medium finding curated and verified by execution.
 - 2026-08-28 — private disclosure drafted for the maintainers (PVR disabled; routed to the
   maintainer contact per SECURITY.md's fallback). Detail withheld from this page.
+- 2026-09-08 — private report delivered by email to the active maintainer's commit address,
+  eleven days after drafting; the delay was on the reporting side. Detail stays withheld
+  pending a fix or the 90-day window.
 
 ## Reproduce
 

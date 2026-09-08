@@ -10,7 +10,12 @@ date: 2026-08-08
 **Repository:** [theroyallab/tabbyAPI](https://github.com/theroyallab/tabbyAPI)
 **Commit scanned:** `c50f0d2b`
 **Scan date:** 2026-08-08
-**Disclosure status:** disclosed — [issue #448](https://github.com/theroyallab/tabbyAPI/issues/448)
+**Disclosure status:** ✅ **resolved** — [issue #448](https://github.com/theroyallab/tabbyAPI/issues/448)
+closed as completed on 2026-09-07 by the maintainer, 30 days after filing, via
+[PR #449](https://github.com/theroyallab/tabbyAPI/pull/449) (CORS allowlist knob, credentialed
+wildcard dropped) plus a maintainer follow-up commit that warns at startup when auth is disabled
+and the origin list is still `["*"]`. The second item (the `image_url` server-side fetch) was
+explicitly left for a separate change and is unchanged. See *Resolution* below.
 
 ## Summary
 
@@ -264,6 +269,53 @@ away.
 - 2026-08-08 — CORS and SSRF primitives verified against the resolved dependency versions
 - 2026-08-08 — [issue #448](https://github.com/theroyallab/tabbyAPI/issues/448) filed
 - 2026-08-08 — public post (this page)
+- 2026-08-14 — [PR #449](https://github.com/theroyallab/tabbyAPI/pull/449) opened by a contributor
+  (`Anai-Guo`), scoped to "the CORS portion of #448" and crediting the write-up and repro
+- 2026-09-07 — PR #449 merged by the maintainer (`turboderp`) in `3d2f4c43`; issue #448 closed
+  as completed in the same second. Follow-up commit `45a9d282` the same day: startup warning
+  when `disable_auth` is on and `allowed_origins` still contains `"*"`, and the config help
+  text now says that web pages open in a browser on this machine count as local callers
+- 2026-09-08 — this page updated. The `image_url` fetch (second item) is unchanged as of
+  `common/image_util.py` at HEAD
+
+## Resolution
+
+Thirty days from filing to close, the longest turnaround in the series so far, and a
+resolution that lands the composite finding exactly where the differential said it had to land.
+
+**What changed.** `endpoints/server.py` now reads its origin list from a new
+`network.allowed_origins` config key and sets `allow_credentials=False`, with a comment
+naming the reflection behaviour this post described. `config_sample.yml` documents the key.
+The maintainer's follow-up commit adds a warning in `common/auth.py` at the moment auth is
+disabled: *"With authentication disabled and `allowed_origins` left at ["*"], any website
+open in a browser on this machine can send requests to this instance and read the responses,
+including admin endpoints."* The line in the config help that this post quoted — *"Turn on
+this option if you are ONLY connecting from localhost"* — is gone, replaced by *"web pages
+open in a browser on this machine also count as local callers; restrict allowed_origins
+below if you disable auth."* That sentence is the finding, restated by the project in its own
+documentation.
+
+**What did not change, and why that is consistent with this post.** The default stays
+`["*"]`; the PR author kept it permissive to avoid breaking existing browser front-ends and
+offered to flip it, and the maintainer chose the warning instead of the flip. The
+differential in this post showed that dropping `allow_credentials` alone does not close the
+`disable_auth` case — a non-credentialed cross-origin `fetch()` still reads responses under a
+literal `*` — so the operator-facing fix for that deployment is the new allowlist, and the
+startup warning is what now points the operator at it. That is a reasonable trade for a
+project whose users run browser UIs against it, and it is an honest one: the hole is closed
+for anyone who reads the warning, and named for anyone who does not.
+
+**Left open.** The `image_url` server-side fetch has no scheme or host policy and
+`disable_fetch_requests` still defaults to `False`; the PR says so explicitly and leaves it
+for a separate change. `common/image_util.py` has not been touched since the scan.
+
+**A note on who wrote the fix.** PR #449 was authored by a contributor rather than the
+maintainer, generated with an AI coding tool, and scoped and worded with unusual care — the
+body reproduces the reflection mechanism correctly and states the limits of its own testing.
+The maintainer then wrote the part a contributor could not decide: the product-level answer
+to "should the default change". That split — contributor ships the knob, maintainer decides
+the policy — is the same shape as [SAG #153](zleap-ai-sag.html), where posing the product
+question beat proposing the patch.
 
 ## Reproduce
 
