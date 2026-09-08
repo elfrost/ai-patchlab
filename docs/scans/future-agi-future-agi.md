@@ -231,8 +231,12 @@ grouped issue.
   dossier + reproduction attached
 - 2026-09-01 — this page published with the finding **withheld** (class only)
 
+- 2026-09-08 — private report **delivered** by email to `security@futureagi.com`,
+  seven days after drafting; the delay was on the reporting side. The policy's
+  24-hour acknowledgement window runs from here. Detail stays withheld
+
 *The private email is a manual step this pipeline does not take automatically;
-the dossier is drafted and staged, and the send is the operator's action.*
+the dossier was drafted and staged on 2026-09-01 and sent by the operator on 2026-09-08.*
 
 ## Reproduce
 

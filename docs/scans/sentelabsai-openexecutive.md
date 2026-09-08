@@ -209,6 +209,9 @@ were 100% of the scanner's output.
   vulnerability reporting) is disabled, and the policy directs reporters away from email, so
   the report is being routed to the organisation's published contact address with a note
   about the closed channel.
+- 2026-09-08 — private report delivered by email to the organisation's published contact
+  address (cc the top committer), nine days after drafting; the delay was on the reporting
+  side. Detail stays withheld pending a fix or the 90-day window.
 
 ## Reproduce
 
