@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "101 curated security scans of open-source AI agents, MCP servers and LLM apps - 23 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "102 curated security scans of open-source AI agents, MCP servers and LLM apps - 23 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 101 scans, 23 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 102 scans, 23 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -94,12 +94,13 @@ login and static assets. Fifty-two flagged, none reported.
 
 ## All scans
 
-101 scans, newest first. **Findings** is the raw count the tools produced;
+102 scans, newest first. **Findings** is the raw count the tools produced;
 **Real** is what survived curation. The gap between those two columns is the
 entire job.
 
 | Date | Repository | Findings | Real | Outcome |
 | --- | --- | ---: | --- | --- |
+| 2026-09-12 | [langroid/langroid](scans/langroid-langroid.html) | 132 | 0 real | — |
 | 2026-09-11 | [mljar/mercury](scans/mljar-mercury.html) | 140 | 1 real — withheld | private |
 | 2026-09-10 | [Datus-ai/Datus-agent](scans/datus-ai-datus-agent.html) | 291 | 1 real | open |
 | 2026-09-09 | [mims-harvard/ToolUniverse](scans/mims-harvard-tooluniverse.html) | 284 | 1 real — withheld | private |
