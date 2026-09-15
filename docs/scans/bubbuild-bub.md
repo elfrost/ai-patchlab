@@ -166,6 +166,15 @@ This is the [mitigation gate](aurelio-labs-semantic-router.html) doing the job i
 - 2026-09-13 — curation complete: 1 real finding, quality gate met
 - 2026-09-13 — reported publicly ([bubbuild/bub#305](https://github.com/bubbuild/bub/issues/305)) — no `SECURITY.md` at root, in `.github/`, in `docs/` or on the docs site, and private vulnerability reporting is disabled, so no private channel exists
 - 2026-09-13 — public post (this page)
+- 2026-09-15 — **closed by the maintainer as won't-fix** (maintainer `frostming`), 2 days after filing:
+
+> Accepting usernames is mainly for convenience, and it is also used in other agents. Agent administrators are responsible for assessing security risks and handling them properly.
+>
+> Therefore, we will not make this fix.
+
+**The question was answered, and the answer is the maintainer's to give.** The report deliberately did not propose a patch — it argued that dropping `@username` support would break a documented convenience feature, and that *which* of ergonomics or identifier stability the project wants is a product call, not a security bug with an obvious fix. The maintainer made that call: usernames stay, and the operator owns the risk. That is a coherent position, and it is the same one several other agent frameworks have taken.
+
+What remains unresolved is narrower than the issue, and worth stating plainly: the project's reference table still documents the setting as holding "user IDs" while `env.example` and three operator-facing docs show `your_username`. If operators are the ones assessing this risk, the documentation is what they will assess it from, and it currently teaches the permissive form without naming the trade-off. That is a docs question rather than a code one, and it was not what the issue asked, so it is recorded here rather than re-litigated upstream.
 
 Reported in the open because there was nowhere private to report it, and because every fact it rests on — the code, `env.example`, and four published documents — was already public. Nothing in the issue tells an attacker anything the project's own documentation does not.
 
