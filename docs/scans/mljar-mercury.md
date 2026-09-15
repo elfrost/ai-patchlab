@@ -129,8 +129,13 @@ promise rather than in a public issue.
 - 2026-09-11 — reported privately via GitHub private vulnerability reporting
   (GHSA-8hq5-94w5-f4ff), including a runnable reproduction with positive and negative
   controls; state: triage
-- *pending* — maintainer response
-- *pending* — public detail, once fixed or after a reasonable window
+- 2026-09-14 — **report accepted by the maintainers** (`submission.accepted: true`); the
+  advisory moved out of triage into a draft advisory on the repository, crediting this
+  report as reporter. Accepted is not the same as fixed — a draft advisory means the
+  maintainers agree there is something to advise on, and the fix and publication are
+  still theirs to schedule.
+- *pending* — fix and advisory publication
+- *pending* — public detail here, once fixed or after a reasonable window
 
 ## Reproduce
 
