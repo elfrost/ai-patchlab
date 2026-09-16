@@ -23,8 +23,8 @@ Runs the full AI PatchLab public-scan workflow end-to-end, once per day, without
 - Scalar keys: `last_run` (`YYYY-MM-DD`), `last_slug`, `scans_count`, `clean_scans_count`, `resolved_count`, `acknowledged_count`, `filed_open_count`.
 - Run history lives in **`runs_recent`** (a rolling list of the last ~15 runs). The `runs` key is a vestigial empty list from an earlier shape — read `runs_recent`, and do not start writing to `runs` again.
 - Ad-hoc keys follow four families; a new entry must join one rather than invent a fifth:
-  - `pending_private_disclosure*` — a report drafted but not yet delivered (**this is what guardrail 6 counts**)
-  - `withheld_finding_*` — filed privately, detail withheld from the public post
+  - `pending_private_disclosure*` — a report drafted but not yet delivered (**this is what guardrail 6 counts**). **A post published with its finding withheld while the private send is still pending is THIS family, even if no email/channel is reachable yet — key it `pending_private_disclosure_*`, never `withheld_finding_*`.** On 2026-09-16 a 31-day-old undelivered High (liaohch3/claude-tap) was found mis-filed under `withheld_finding_*` and had silently evaded this banner for ~20 runs. If a channel is genuinely user-only (no PVR, no email — e.g. Twitter-DM-only), it is still pending; stage the most actionable artifact you can (a paste-ready DM in `reports/disclosures/`) and surface it, and remember there is no Gmail-Sent evidence source for a DM, so ask the user whether they've already reached out rather than assuming.
+  - `withheld_finding_*` — a report **already delivered privately** (e.g. via GHSA/PVR), detail withheld from the public post. NOT for a report still awaiting its first delivery — that is `pending_private_disclosure_*` above.
   - `excluded_repos` / `excluded_note` — targets deliberately never to be scanned again
   - `*_note` — a durable lesson worth carrying into later runs
 - At start: read it. If `last_run == today`, treat as rate-limited → `--status-only` behavior.
