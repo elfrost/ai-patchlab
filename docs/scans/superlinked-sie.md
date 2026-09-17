@@ -10,7 +10,7 @@ date: 2026-09-14
 **Repository:** [superlinked/sie](https://github.com/superlinked/sie) — 3.3k★, Apache-2.0, an open-source inference server and production cluster "for all the models your agent needs." A polyglot monorepo: a Python model server (306 non-test modules, 113k lines), a Rust gateway (180 `.rs` files), a TypeScript SDK, a Helm chart, and an MCP edge that fronts the cluster for claude.ai connectors.
 **Commit scanned:** `394df63` (HEAD of `main` at scan time)
 **Scan date:** 2026-09-14
-**Disclosure status:** One real finding, reported in full in a public issue on the day of the scan. No `SECURITY.md` exists at the repository root, in `.github/`, in `docs/`, or on the published site, and private vulnerability reporting is **disabled** — so no private channel exists to use. Every fact below rests on the project's own committed source and documentation.
+**Disclosure status:** ✅ **resolved** — one real finding, reported in full in a public issue on the day of the scan and fixed by the maintainer three days later in [superlinked/sie#292](https://github.com/superlinked/sie/pull/292), shipping both proposed fixes. No `SECURITY.md` exists at the repository root, in `.github/`, in `docs/`, or on the published site, and private vulnerability reporting is **disabled** — so no private channel exists to use. Every fact below rests on the project's own committed source and documentation.
 
 ## Summary
 
@@ -167,6 +167,8 @@ The finding that survived is the one no rule could reach. It is not a dangerous 
 - 2026-09-14 — differential built and executed against the project's own OAuth routes
 - 2026-09-14 — public issue filed: [superlinked/sie#275](https://github.com/superlinked/sie/issues/275) (no `SECURITY.md` anywhere, private vulnerability reporting disabled — no private channel exists)
 - 2026-09-14 — public post (this page)
+- 2026-09-17 — **fixed** in [#292](https://github.com/superlinked/sie/pull/292) (`f5c4451`) and the issue closed as completed, three days after filing. Both proposed pieces shipped, and the fix went further than either. `base_url` no longer reads `X-Forwarded-*` at all: unpinned, it uses the request's own `Host` only when that host is loopback or listed in the existing `SIE_MCP_ALLOWED_HOSTS`, and otherwise the metadata routes return **503** and the challenge is omitted. A proxy-set scheme is now honoured only through uvicorn's `FORWARDED_ALLOW_IPS` trust list — so the operator control this page called silently ineffective now actually applies. The Helm chart renders `SIE_MCP_PUBLIC_URL` from the ingress host it already requires, the edge logs a startup warning when OAuth runs unpinned, and `mise run mcp-serve` keeps working. The docs now give the **security** reason for pinning — the reframing this page called the deliverable. And the maintainer turned the differential into regression tests: forged forwarded headers sent through the real OAuth routes and auth middleware, all four failing against the previous `base_url`.
+- 2026-09-17 — re-verified by serving the merged `auth.py` and `oauth.py` under uvicorn: the `X-Forwarded-Host` differential no longer reflects, and a foreign `Host` receives the 503
 
 ## Reproduce
 
