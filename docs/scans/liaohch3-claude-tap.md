@@ -10,9 +10,11 @@ date: 2026-08-16
 **Repository:** [liaohch3/claude-tap](https://github.com/liaohch3/claude-tap)
 **Commit scanned:** `901b856f` (main at scan time)
 **Scan date:** 2026-08-16
-**Disclosure status:** withheld — strict-norm repo (`SECURITY.md` forbids public
-vulnerability issues), one real finding described here at class level only. The
-private report is a manual step this pipeline cannot take — see the channel note.
+**Disclosure status:** withheld — **reported channel unavailable.** The
+maintainer's stated private channel (GitHub private vulnerability reporting) is
+disabled, and no other private contact could be found. The one real finding stays
+described here at class level only, and the full report is held for the moment a
+channel opens — see the channel note.
 
 ## Summary
 
@@ -270,6 +272,22 @@ with a count and a representative location.
 - **2026-08-16** — Public post (this page), finding withheld at class level.
   Private disclosure to the maintainer is a manual step (PVR disabled, no
   published email); it has not yet been made.
+- **2026-09-16** — Finding re-verified still present on `main` (`a05e5582`); no
+  routing change had shipped. Channel re-checked: still no private route.
+- **2026-09-18** — **Closed as undeliverable.** Every sanctioned channel was
+  checked and none exists: private vulnerability reporting returns
+  `{"enabled":false}` (checked on three separate days), no email address appears
+  in `SECURITY.md`, `README.md`, `FUNDING.yml`, the maintainer's profile or the
+  organisation profile (commit authorship is the GitHub `noreply` alias), and the
+  project's own `SECURITY.md` forbids a public issue — which would in any case
+  disclose the finding. The only remaining contact is a social account this
+  reporter does not hold.
+
+  **The detail stays withheld.** A High-severity issue with no fix shipped and no
+  maintainer aware of it serves an attacker before it serves a user, so nothing
+  further is published here. The full report — mechanism, attack chain, and a
+  proposed fix — is written and held. **If private reporting is enabled on the
+  repository, or an address is published anywhere, it will be sent the same day.**
 
 ## Reproduce
 

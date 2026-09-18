@@ -134,6 +134,35 @@ Pour les dÃ©cisions qui requiÃ¨rent un round de discussion avant `accepted`.
 
 <!-- Ajouter les nouvelles dÃ©cisions en haut (plus rÃ©cent en premier) -->
 
+### ADR-015: Coverage is a report artifact, not a finding
+
+**Date:** 2026-09-17
+**Status:** accepted
+
+**Context:** `cloudflare/security-audit-skill` (MIT, published 2026-06-18) is an agent skill, not a scanner - 220 KB of methodology plus two zero-dependency JSON validators, with no analysis code of its own. It orchestrates isolated sub-agents through six phases and is the seed of Cloudflare's internal vulnerability harness. Its published design principles converge almost exactly on the curation doctrine this project derived independently from 105 public scans: adversarial validation by a fresh agent, "defense-in-depth gaps are not vulnerabilities", "severity requires impact", and an explicit `needs_validation` verdict for facts that are not visible in source. That convergence is evidence the doctrine is right; it is not a reason to adopt the mechanism, which is non-deterministic, un-CI-able, priced per run, and refuses to execute target code without an OS-enforced sandbox. Two of its structural ideas do not exist here and are cheap to port.
+
+**Decision Drivers:**
+- Must not weaken determinism or reproducibility - they are the only properties this project has that an LLM auditor cannot copy (must-have)
+- Must address a failure mode already observed in the field, not a hypothetical one (must-have)
+- Must fit MVP discipline: no new dependencies, no agent orchestration, files under 300 lines (must-have)
+- Should convert per-scan curation judgement into an accumulating asset instead of discarding it (should-have)
+
+**Considered Options:**
+- **A - Adopt the skill as the pipeline.** Pros: far deeper reasoning than any SAST, free, strong brand. Cons: not reproducible, cannot gate CI, needs a sandbox most environments lack, no published precision data at three months old. Rejected as a replacement; retained as a complementary point-in-time tool.
+- **B - Ignore it.** Pros: zero cost. Cons: forfeits two structural ideas that answer a documented recurring failure. Rejected.
+- **C - Adapt two ideas, drop the rest.** Port (1) coverage as a first-class artifact and (2) deterministic rejection records with a retained reason. Discard the six phases, sub-agent isolation, the artifact-promotion procedure, `coverage_id` encoding, and agent budgets - none apply to a synchronous subprocess pipeline. **Selected.**
+- **D - Build a competing agent skill.** Pros: plays to the curated FP corpus. Cons: head-on competition with a Cloudflare-branded 10k-star MIT skill on distribution, and it abandons determinism to fight on their ground. Rejected now; revisit only as a *curation* layer over any scanner's output once the rejection corpus from (2) exists.
+
+**Decision:** Take option C. Coverage stops being inferred from `info`-severity meta findings scattered through the findings list and becomes `reports/coverage.json` plus a coverage block rendered **before** the findings in `security_report.md`, carrying an explicit `complete: bool`. Rejection records follow as a separate change: anything the scanner suppresses itself (ignore patterns, secrets baselines, a framework rule fired against a project that does not declare the framework) is retained with a machine-readable reason instead of being deleted.
+
+**Consequences:**
+- Positive: the honesty that ADR-013 bought at the `Finding` level is promoted to the report level. `is_meta` already marks every ingredient and every adapter already emits them, so this is a rendering and reconciliation change, not new detection. A reader can no longer mistake "nothing was looked at" for "nothing was found" - the exact confusion behind the three field incidents: Semgrep silently losing 52% of coverage after an unrelated pydantic downgrade, tracecat's two core files drawing zero rules with `paths.skipped` empty, and `scan_dependency` reading root-only so a monorepo with no top-level manifest rendered as clean.
+- Positive: it is a real product differentiator. Scanners report findings; almost none report what they failed to examine.
+- Negative: reports get longer and some will now open by announcing they are incomplete. That is the intended cost.
+- Negative: rejection records grow the report surface and need their own suppression discipline, or they become the noise they were meant to remove.
+- Risks: scope creep toward porting more of the skill. The mitigation is this ADR - anything beyond the two named ports needs its own decision. Per-tool unit counts (files scanned, manifests audited) are deliberately excluded from v1 because they would couple the coverage module to runner internals; they are a follow-up once the artifact exists.
+- Relates to ADR-013 (meta findings exempt from severity filtering) and ADR-014 (field-derived confidence tiers); both are prerequisites that made this cheap.
+
 ### ADR-014: Field-derived confidence tiers, measured not guessed
 **Date:** 2026-08-21
 **Status:** accepted

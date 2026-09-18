@@ -9,6 +9,7 @@ from pathlib import Path
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from scanner.coverage import build_coverage
 from scanner.git_source import GitCloneError, cloned_repo
 from scanner.ignore import (
     DEFAULT_SAMPLE_IGNORE_PATTERNS,
@@ -48,10 +49,20 @@ def run_scan(
         ignore_patterns = [*DEFAULT_SAMPLE_IGNORE_PATTERNS, *ignore_patterns]
 
     findings = collect_findings(resolved_repo, reports_dir)
+    # Coverage reflects what the scanners reported, before any suppression:
+    # `--ignore-file` does not yet exempt meta findings, so a pattern matching
+    # the repository root could otherwise hide the finding that says a tool
+    # never ran.
+    coverage = build_coverage(findings)
     findings = rebase_finding_paths(findings, resolved_repo)
     findings = apply_ignore(findings, ignore_patterns)
     findings = filter_by_min_severity(findings, min_severity)
-    return write_reports(repo_path=resolved_repo, findings=findings, reports_dir=reports_dir)
+    return write_reports(
+        repo_path=resolved_repo,
+        findings=findings,
+        reports_dir=reports_dir,
+        coverage=coverage,
+    )
 
 
 def run_scan_from_url(
@@ -143,6 +154,8 @@ def main(argv: list[str] | None = None) -> int:
 
     print(f"JSON report: {report_paths['json']}")
     print(f"Markdown report: {report_paths['markdown']}")
+    if "coverage" in report_paths:
+        print(f"Coverage report: {report_paths['coverage']}")
     return 0
 
 

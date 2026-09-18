@@ -7,6 +7,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from scanner.coverage import ToolCoverage, coverage_payload
 from scanner.models import CONFIDENCES, FINDING_FIELDS, SEVERITIES, Finding
 
 DEFAULT_TOP_FINDINGS_LIMIT = 5
@@ -67,19 +68,34 @@ def group_findings_by_severity(findings: list[Finding]) -> dict[str, list[dict[s
     return grouped
 
 
-def build_report(repo_path: Path, findings: list[Finding]) -> dict[str, Any]:
-    """Build the complete JSON report payload."""
+def build_report(
+    repo_path: Path,
+    findings: list[Finding],
+    coverage: tuple[ToolCoverage, ...] | None = None,
+) -> dict[str, Any]:
+    """Build the complete JSON report payload.
+
+    Args:
+        repo_path: Scanned repository root.
+        findings: Findings to report, already filtered.
+        coverage: Per-scanner coverage rows from `scanner.coverage`. Omitted
+            entirely from the payload when `None`, so callers that do not
+            supply it keep their previous output.
+    """
     grouped = group_findings_by_severity(findings)
     summary = {severity: len(grouped[severity]) for severity in SEVERITIES}
     top = [finding.to_dict() for finding in select_top_findings(findings)]
 
-    return {
+    report: dict[str, Any] = {
         "repository": str(repo_path.resolve()),
         "generated_at": datetime.now(UTC).isoformat(),
         "summary": summary,
         "top_findings": top,
         "findings_by_severity": grouped,
     }
+    if coverage is not None:
+        report["coverage"] = coverage_payload(coverage)
+    return report
 
 
 def write_json_report(report: dict[str, Any], report_path: Path) -> None:
@@ -95,11 +111,28 @@ def write_markdown_report(report: dict[str, Any], report_path: Path) -> None:
         f"Repository: `{report['repository']}`",
         f"Generated at: `{report['generated_at']}`",
         "",
-        "## Summary",
-        "",
-        "| Severity | Findings |",
-        "| --- | ---: |",
     ]
+
+    coverage = report.get("coverage")
+    if coverage and not coverage["complete"]:
+        lines.extend(
+            [
+                f"> **Incomplete scan.** {coverage['incomplete_tool_count']} of "
+                f"{coverage['tool_count']} tools did not examine what they were pointed at. "
+                "A low finding count below does not mean this repository is clean - "
+                "see Scan Coverage.",
+                "",
+            ]
+        )
+
+    lines.extend(
+        [
+            "## Summary",
+            "",
+            "| Severity | Findings |",
+            "| --- | ---: |",
+        ]
+    )
 
     for severity in SEVERITIES:
         lines.append(f"| {severity.title()} | {report['summary'][severity]} |")
@@ -120,6 +153,23 @@ def write_markdown_report(report: dict[str, Any], report_path: Path) -> None:
                     "",
                 ]
             )
+
+    if coverage:
+        lines.extend(
+            [
+                "## Scan Coverage",
+                "",
+                "One row per configured scanner. A tool that did not run reports "
+                "nothing, which is indistinguishable from a clean result unless it "
+                "is stated here.",
+                "",
+                "| Tool | Status | Detail |",
+                "| --- | --- | --- |",
+            ]
+        )
+        for row in coverage["tools"]:
+            lines.append(f"| `{row['tool']}` | `{row['status']}` | {row['detail']} |")
+        lines.append("")
 
     lines.extend(["## Findings", ""])
 
@@ -192,14 +242,43 @@ def _indent_code_block(value: str) -> str:
     return "\n".join(f"  {line}" for line in value.splitlines())
 
 
-def write_reports(repo_path: Path, findings: list[Finding], reports_dir: Path) -> dict[str, Path]:
-    """Create the reports directory and write JSON plus Markdown reports."""
+def write_reports(
+    repo_path: Path,
+    findings: list[Finding],
+    reports_dir: Path,
+    coverage: tuple[ToolCoverage, ...] | None = None,
+) -> dict[str, Path]:
+    """Create the reports directory and write the JSON, Markdown and coverage reports.
+
+    Args:
+        repo_path: Scanned repository root.
+        findings: Findings to report, already filtered.
+        reports_dir: Directory the reports are written to.
+        coverage: Per-scanner coverage rows. When supplied, `coverage.json` is
+            written beside the reports and returned under the `"coverage"` key.
+
+    Returns:
+        Mapping of report kind to written path.
+    """
     reports_dir.mkdir(parents=True, exist_ok=True)
-    report = build_report(repo_path=repo_path, findings=findings)
+    report = build_report(repo_path=repo_path, findings=findings, coverage=coverage)
 
     json_path = reports_dir / "security_report.json"
     markdown_path = reports_dir / "security_report.md"
     write_json_report(report, json_path)
     write_markdown_report(report, markdown_path)
+    paths = {"json": json_path, "markdown": markdown_path}
 
-    return {"json": json_path, "markdown": markdown_path}
+    if coverage is not None:
+        coverage_path = reports_dir / "coverage.json"
+        write_json_report(
+            {
+                "repository": report["repository"],
+                "generated_at": report["generated_at"],
+                **report["coverage"],
+            },
+            coverage_path,
+        )
+        paths["coverage"] = coverage_path
+
+    return paths

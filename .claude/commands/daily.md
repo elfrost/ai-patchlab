@@ -14,9 +14,28 @@ Runs the full AI PatchLab public-scan workflow end-to-end, once per day, without
 3. **Strict-norm repo detection.** If the target has a real SECURITY.md (beyond GitHub's default), commercial backing, or a visible security team → post-only, or one-vuln-per-issue. Never a grouped "review" issue.
 4. **De-branded issue text.** No "scanned by [tool]" header. A single public-write-up link in a footer line at most. Lead with the finding and where the affected API is actually called in the repo.
 5. **Never rescan.** Dedup every candidate against existing slugs in `docs/scans/`.
-6. **Manual-disclosure backlog is a blocking warning.** Count the `pending_private_disclosure*` entries in the state file. If any has been pending **more than 7 days**, print a loud banner at the top of the run naming each one (repo, severity, days waiting) before doing anything else. If any is **High or Critical and pending more than 14 days**, do not start a new scan — run status-only and tell the user the queue needs clearing first. Rationale: on 2026-08-21 six reports were found sitting unsent, the oldest 22 days, including an unauthenticated-admin finding. Nothing in the pipeline had surfaced them, because every phase only looked forward at the next scan. A report that is written but never sent is worse than one never written: the maintainer does not know, and the series has already published that something was found.
+6. **Manual-disclosure backlog is a blocking warning.** Count the `pending_private_disclosure*` entries in the state file. If any has been pending **more than 7 days**, print a loud banner at the top of the run naming each one (repo, severity, days waiting) before doing anything else. If any is **High or Critical and pending more than 14 days**, do not start a new scan — run status-only and tell the user the queue needs clearing first. Rationale: on 2026-08-21 six reports were found sitting unsent, the oldest 22 days, including an unauthenticated-admin finding. Nothing in the pipeline had surfaced them, because every phase only looked forward at the next scan. A report that is written but never sent is worse than one never written: the maintainer does not know, and the series has already published that something was found. **If the report genuinely cannot be delivered by any channel, do not sit on the block — apply guardrail 8 (`unreachable`) instead of losing a scan every day.**
 7. **Always the venv interpreter, never bare `python`.** The project ran three months off the shared user-site and an unrelated `pip install` downgraded pydantic to 1.x, after which `import scanner` raised ImportError. A bare `python` here silently scans with a broken interpreter or not at all.
-8. **Kill switch.** If `.daily-paused` exists in the repo root, abort immediately with a one-line note. (Create/remove it to pause/resume without code changes.)
+8. **`unreachable` is the only way to clear an undeliverable report.** A `pending_private_disclosure*`
+   entry may be closed WITHOUT delivery only when every channel is provably absent. All four pieces of
+   evidence are required, and all four go in the state entry:
+   - `gh api repos/{o}/{r}/private-vulnerability-reporting` → `{"enabled":false}`, checked on **two
+     separate days** (a maintainer may switch it on after a nudge);
+   - no email in `SECURITY.md` (root, `.github/`, `docs/`, published docs site), `README`,
+     `FUNDING.yml`, the maintainer's profile, or the org profile — commit `noreply` aliases do not count;
+   - a public issue is forbidden by the project's own SECURITY.md, **or** would itself disclose the finding;
+   - any remaining contact sits on a platform the operator does not use, **and the operator has said so**.
+     Never assume this — ask, and record the answer.
+
+   Then re-key the entry to `unreachable_disclosure_<slug>` (guardrail 6 stops counting it) and add one
+   honest line to the public post: *"Reported channel unavailable — the maintainer's stated private
+   channel is disabled and no other private contact could be found. Detail remains withheld."*
+
+   **Keep the detail withheld.** Do not publish a High with no fix and no maintainer aware of it; that
+   serves attackers before users. `unreachable` records a failed delivery, it is not a licence to
+   disclose. If a channel opens later, re-key it back and send.
+
+9. **Kill switch.** If `.daily-paused` exists in the repo root, abort immediately with a one-line note. (Create/remove it to pause/resume without code changes.)
 
 ## State & rate-limit
 - State file: `reports/.daily_state.json` (under gitignored `reports/`).
@@ -57,13 +76,43 @@ If mode is `--status-only`, STOP here after pushing doc updates.
 2. Drop any repo whose slug already exists in `docs/scans/` (`<owner>-<name>.md`).
 3. Responsiveness pre-check on the top few: recent *closed* issues + *merged* PRs from ≥2 distinct contributors in the last ~60 days → signals a maintainer who answers. Skip ghost repos.
 4. Strict-norm detection: check for `SECURITY.md`, commercial backing in README, named security reviewers. Record the publication mode this implies.
-5. Pick exactly ONE best candidate. Record why (stars, activity, focus, norm mode).
+5. **Channel-viability pre-check — adaptive.** Before committing to a candidate, resolve how a
+   finding would actually reach the maintainer, and weigh that against the current manual queue
+   depth (count the `pending_private_disclosure*` entries in the state file):
+
+   ```
+   gh api repos/{owner}/{repo}/private-vulnerability-reporting --jq .enabled
+   ```
+
+   plus an email in `SECURITY.md` (root, `.github/`, `docs/`, published docs site), `README`,
+   `FUNDING.yml`, the maintainer's profile, or the org profile. Commit `noreply` aliases do not count.
+
+   | Manual queue depth | Rule |
+   |---|---|
+   | 0–2 | Any channel is acceptable, including email-only. |
+   | 3 or more | **Require an autonomous channel** — PVR enabled, or a finding that can honestly go in a public issue. Skip email-only candidates and record why in the run summary. |
+   | any | **Never pick a candidate with no channel at all** — PVR disabled *and* no email anywhere *and* a SECURITY.md forbidding public issues. That exact combination produced the only permanent deadlock in the series. |
+
+   *Measured 2026-09-18:* 14 disclosures went through an autonomous channel, 12 needed a human send.
+   **Every pipeline stoppage came from the human-gated half** — the six-report backlog (25 days, 4
+   scans lost) and claude-tap (33 days, 3 scans lost). The autonomous half has never stopped a run.
+   This is a structural mismatch, not bad luck: roughly half of all targets land on a channel the
+   pipeline cannot use, and they accumulate until one crosses guardrail 6.
+
+   **The preference is adaptive on purpose, never absolute.** PVR-enabled repos skew mature and
+   commercially backed; a permanent preference would bias the series toward that profile and quietly
+   drop the small projects that most need the review. When the queue is clear, a PVR-off project is a
+   fair target — that is precisely what the tiering protects.
+
+6. Pick exactly ONE best candidate. Record why (stars, activity, focus, norm mode, channel).
 
 ## Phase 3 — Scan
 ```bash
 .venv/Scripts/python.exe scanner/run_scan.py --from-git-url "<url>" --reports-dir reports/<slug> --min-severity medium
 ```
 Use `--ignore-file` if the repo has obvious sample/example/demo subtrees (until those are shipped as defaults).
+
+Then read `reports/<slug>/coverage.json`. It is the authoritative record of what the scan examined, written on every run from the scanners' own meta findings and derived **before** `--ignore-file` suppression, so no pattern can hide it. If `complete` is `false`, the finding count is not a clean bill of health: carry the rows verbatim into the post's **Scan coverage** section and say in one sentence what was not examined. This replaces transcribing the Phase 1 preflight by hand — the preflight still runs, because catching a broken Semgrep *before* burning a scan is worth more than reporting it afterwards.
 
 ## Phase 4 — Curate
 1. Group findings by rule family. Auto-flag `tests/`, `sample/`, `examples/`, `demos/`, fixtures, placeholders as candidate-FP.
@@ -72,7 +121,7 @@ Use `--ignore-file` if the repo has obvious sample/example/demo subtrees (until 
 4. **Evaluate the quality gate:** is there ≥1 real, exploitability-shaped, high-confidence item? Record the boolean — it decides Phase 5 filing.
 
 ## Phase 5 — Publish (gated)
-1. **Always:** write `docs/scans/<slug>.md` from `docs/templates/scan-post.md`; prepend a new row to the Scans table in `docs/index.md` **and** a new bullet to `docs/scan-log.md` (the full prose archive), and bump the scan counts in both headers. Three files, every time — on 2026-09-06 the log was found eight entries behind the index because this step only named `index.md`.
+1. **Always:** write `docs/scans/<slug>.md` from `docs/templates/scan-post.md` — including the **Scan coverage** block, copied from `reports/<slug>/coverage.json` and never hand-written; prepend a new row to the Scans table in `docs/index.md` **and** a new bullet to `docs/scan-log.md` (the full prose archive), and bump the scan counts in both headers. Three files, every time — on 2026-09-06 the log was found eight entries behind the index because this step only named `index.md`.
 2. **If quality gate TRUE and repo not strict-norm:** file a focused courtesy issue on the target (de-branded, with code-path note + concrete fix). If a finding has a clean one-line/one-file fix, also fork → branch → PR referencing the issue.
 3. **If repo strict-norm:** post-only, or one issue per critical finding — no grouped issue.
 4. **If quality gate FALSE:** post-only (clean-scan write-up). File nothing upstream.

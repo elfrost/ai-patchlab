@@ -23,6 +23,23 @@ date: YYYY-MM-DD
 
 **Total findings:** N (M of interest after curation)
 
+## Scan coverage
+
+<Copy the rows from `reports/<slug>/coverage.json` - never hand-write them.
+A tool that did not run reports nothing, which reads identically to a clean
+result unless it is stated here. If `complete` is false, say in one sentence
+what was not examined, and say it before the findings.>
+
+| Tool | Status | Detail |
+| --- | --- | --- |
+| `semgrep` | `ran` | |
+| `gitleaks` | `ran` | |
+| `trivy` | `ran` | |
+| `dependency-scan` | `ran` | |
+| `ai-security-review` | `not_run` | disabled by default (ADR-010) |
+
+**Coverage complete:** yes / no
+
 ## Top findings
 
 ### 1. <short title>
