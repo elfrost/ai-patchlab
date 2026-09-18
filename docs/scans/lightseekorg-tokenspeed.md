@@ -353,3 +353,13 @@ maintainers have had the report and a chance to act on it.
 *Scanned locally with [AI PatchLab](https://github.com/elfrost/ai-patchlab).
 No source code left this machine, no AI provider was contacted, and no paid API
 was called.*
+
+---
+
+## More from this series
+
+- **Next scan:** [datalayer/jupyter-mcp-server](datalayer-jupyter-mcp-server.html) — 2026-08-14, 0 real
+- **Previous scan:** [jgravelle/jcodemunch-mcp](jgravelle-jcodemunch-mcp.html) — 2026-08-12, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

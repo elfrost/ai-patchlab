@@ -156,3 +156,13 @@ developer into loosening permissions on their own secrets.
 git clone https://github.com/stickerdaniel/linkedin-mcp-server /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/stickerdaniel-linkedin-mcp-server --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [maziyarpanahi/openmed](maziyarpanahi-openmed.html) — 2026-06-24, 0 real
+- **Previous scan:** [taylorwilsdon/google_workspace_mcp](taylorwilsdon-google-workspace-mcp.html) — 2026-06-21, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

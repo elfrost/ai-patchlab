@@ -141,3 +141,13 @@ python scanner/run_scan.py \
 ```
 
 External tools (Semgrep, Gitleaks, Trivy, pip-audit) need to be installed separately — see the [project README](https://github.com/elfrost/ai-patchlab#readme).
+
+---
+
+## More from this series
+
+- **Next scan:** [pixeltable/pixeltable](pixeltable-pixeltable.html) — 2026-05-27, see write-up
+- **Previous scan:** [pydantic/logfire](pydantic-logfire.html) — 2026-05-26, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

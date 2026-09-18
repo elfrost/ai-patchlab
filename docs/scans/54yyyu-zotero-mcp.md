@@ -167,3 +167,13 @@ python scanner/run_scan.py \
 ```
 
 External tools (Semgrep, Gitleaks, Trivy, pip-audit) need to be installed separately — see the [project README](https://github.com/elfrost/ai-patchlab#readme). The MCP-surface completeness sweep that surfaced findings 1–5 was performed via the project's parallel-agent workflow (described in [Notes on the tool](#notes-on-the-tool)) rather than the scanner CLI.
+
+---
+
+## More from this series
+
+- **Next scan:** [confident-ai/deepteam](confident-ai-deepteam.html) — 2026-06-09, 0 real
+- **Previous scan:** [LazyAGI/LazyLLM](lazyagi-lazyllm.html) — 2026-06-06, see write-up
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

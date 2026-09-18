@@ -191,3 +191,13 @@ vulnerability reporting anyway (see disclosure note).
 git clone https://github.com/EverMind-AI/Raven /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/evermind-ai-raven --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [gpustack/gpustack](gpustack-gpustack.html) — 2026-07-24, 0 real
+- **Previous scan:** [mixelpixx/KiCAD-MCP-Server](mixelpixx-kicad-mcp-server.html) — 2026-07-22, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

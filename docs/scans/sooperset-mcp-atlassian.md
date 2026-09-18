@@ -144,3 +144,13 @@ python scanner/run_scan.py --repo /tmp/scan-target \
   --reports-dir ./reports/sooperset-mcp-atlassian \
   --min-severity medium --ignore-samples
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [potpie-ai/potpie](potpie-ai-potpie.html) — 2026-07-13, 0 real
+- **Previous scan:** [VectifyAI/OpenKB](vectifyai-openkb.html) — 2026-07-09, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

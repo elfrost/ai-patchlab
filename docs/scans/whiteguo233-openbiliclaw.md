@@ -348,3 +348,13 @@ python scanner/run_scan.py --repo /tmp/scan-target \
 *Scanned locally with [AI PatchLab](https://github.com/elfrost/ai-patchlab).
 No source code left this machine, no AI provider was contacted, and no paid API
 was called.*
+
+---
+
+## More from this series
+
+- **Next scan:** [langflow-ai/openrag](langflow-ai-openrag.html) — 2026-08-25, 1 real — withheld
+- **Previous scan:** [Mai-with-u/MaiBot](mai-with-u-maibot.html) — 2026-08-19, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

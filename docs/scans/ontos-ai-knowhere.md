@@ -179,3 +179,13 @@ git -c core.longpaths=true clone https://github.com/Ontos-AI/knowhere /tmp/knowh
 python scanner/run_scan.py --repo /tmp/knowhere --reports-dir ./reports/ontos-ai-knowhere \
   --min-severity medium --ignore-samples
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [ginlix-ai/LangAlpha](ginlix-ai-langalpha.html) — 2026-08-29, 1 real
+- **Previous scan:** [Zleap-AI/SAG](zleap-ai-sag.html) — 2026-08-27, 1 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

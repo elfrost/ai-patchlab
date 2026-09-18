@@ -245,3 +245,13 @@ git clone https://github.com/future-agi/future-agi /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target \
   --reports-dir ./reports/future-agi-future-agi --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [HKUDS/OpenOPC](hkuds-openopc.html) — 2026-09-02, 1 real — withheld
+- **Previous scan:** [shy3130/tick-stock-panel](shy3130-tick-stock-panel.html) — 2026-08-31, 1 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

@@ -258,3 +258,13 @@ git clone https://github.com/roflcoopter/viseron /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target \
   --reports-dir ./reports/roflcoopter-viseron --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [Mai-with-u/MaiBot](mai-with-u-maibot.html) — 2026-08-19, 1 real — withheld
+- **Previous scan:** [zilliztech/memsearch](zilliztech-memsearch.html) — 2026-08-17, 1 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

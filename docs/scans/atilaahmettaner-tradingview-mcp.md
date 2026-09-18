@@ -136,3 +136,13 @@ python scanner/run_scan.py --repo /tmp/scan-target \
   --reports-dir ./reports/atilaahmettaner-tradingview-mcp \
   --min-severity medium --ignore-samples
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [VectifyAI/OpenKB](vectifyai-openkb.html) — 2026-07-09, 0 real
+- **Previous scan:** [AgentEra/Agently](agentera-agently.html) — 2026-07-03, 1 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

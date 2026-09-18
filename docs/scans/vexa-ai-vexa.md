@@ -301,3 +301,13 @@ GIT_LFS_SKIP_SMUDGE=1 python scanner/run_scan.py \
   --reports-dir reports/vexa-ai-vexa \
   --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [nottelabs/notte](nottelabs-notte.html) — 2026-08-06, 1 real — withheld
+- **Previous scan:** [ArcReel/ArcReel](arcreel-arcreel.html) — 2026-08-04, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

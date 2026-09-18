@@ -145,3 +145,13 @@ python scanner/run_scan.py --repo /tmp/scan-target \
   --reports-dir ./reports/a2aproject-a2a-python \
   --min-severity medium --ignore-samples
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [IBM/mcp-context-forge](ibm-mcp-context-forge.html) — 2026-07-17, 0 real
+- **Previous scan:** [mnemosyne-oss/mnemosyne](mnemosyne-oss-mnemosyne.html) — 2026-07-15, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

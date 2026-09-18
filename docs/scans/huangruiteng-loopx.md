@@ -388,3 +388,13 @@ against a version **before 0.4.5**. Current releases are fixed.
 
 *Part of the [AI PatchLab public scan log](../index.html). Findings are curated
 by hand; scanner output is a starting point, not a verdict.*
+
+---
+
+## More from this series
+
+- **Next scan:** [theroyallab/tabbyAPI](theroyallab-tabbyapi.html) — 2026-08-08, 2 real
+- **Previous scan:** [nottelabs/notte](nottelabs-notte.html) — 2026-08-06, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

@@ -114,3 +114,13 @@ python scanner/run_scan.py \
 The `.aipatchlabignore` used (`docs/**`, `examples/**`, `LLM.md`) is in the report directory; without it the raw scan reports 1,556 findings.
 
 External tools (Semgrep, Gitleaks, Trivy, pip-audit) need to be installed separately — see the [project README](https://github.com/elfrost/ai-patchlab#readme).
+
+---
+
+## More from this series
+
+- **Next scan:** [dograh-hq/dograh](dograh-hq-dograh.html) — 2026-05-21, see write-up
+- **Previous scan:** [Giskard-AI/giskard-oss](giskard-ai-giskard-oss.html) — 2026-05-20, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

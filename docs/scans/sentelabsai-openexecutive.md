@@ -227,3 +227,13 @@ cd /tmp/scan-target/packages/core && pip-audit .
 # infrastructure, so send a request rather than reading the policy file:
 gh api repos/SenteLabsAI/OpenExecutive/private-vulnerability-reporting
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [shy3130/tick-stock-panel](shy3130-tick-stock-panel.html) — 2026-08-31, 1 real
+- **Previous scan:** [ginlix-ai/LangAlpha](ginlix-ai-langalpha.html) — 2026-08-29, 1 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

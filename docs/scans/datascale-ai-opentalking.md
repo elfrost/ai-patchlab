@@ -341,3 +341,13 @@ print(c.get("/runtime-config", headers={"Origin": "https://evil.tld"}
 print(c.get("/runtime-config", headers={"Origin": "https://evil.tld",
      "Cookie": "session=x"}).headers.get("access-control-allow-origin"))  # -> https://evil.tld
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [semantica-agi/Semantica](semantica-agi-semantica.html) — 2026-08-11, 1 real — withheld
+- **Previous scan:** [NeptuneHub/AudioMuse-AI](neptunehub-audiomuse-ai.html) — 2026-08-09, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

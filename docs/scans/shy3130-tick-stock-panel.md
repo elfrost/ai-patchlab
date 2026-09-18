@@ -146,3 +146,13 @@ connections that never read files — those can and should turn it off.
 git clone https://github.com/shy3130/tick-stock-panel /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/shy3130-tick-stock-panel --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [future-agi/future-agi](future-agi-future-agi.html) — 2026-09-01, 1 real — withheld
+- **Previous scan:** [SenteLabsAI/OpenExecutive](sentelabsai-openexecutive.html) — 2026-08-30, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

@@ -160,3 +160,13 @@ python scanner/run_scan.py \
 ```
 
 External tools (Semgrep, Gitleaks, Trivy, pip-audit) need to be installed separately — see the [project README](https://github.com/elfrost/ai-patchlab#readme).
+
+---
+
+## More from this series
+
+- **Next scan:** [guardrails-ai/guardrails](guardrails-ai-guardrails.html) — 2026-05-19, see write-up
+- **Previous scan:** [MervinPraison/PraisonAI](mervinpraison-praisonai.html) — 2026-05-16, 5 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

@@ -109,3 +109,13 @@ python scanner/run_scan.py \
 ```
 
 External tools (Semgrep, Gitleaks, Trivy, pip-audit) need to be installed separately — see the [project README](https://github.com/elfrost/ai-patchlab#readme).
+
+---
+
+## More from this series
+
+- **Next scan:** [taylorwilsdon/google_workspace_mcp](taylorwilsdon-google-workspace-mcp.html) — 2026-06-21, 0 real
+- **Previous scan:** [harbor-framework/harbor](harbor-framework-harbor.html) — 2026-06-15, see write-up
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

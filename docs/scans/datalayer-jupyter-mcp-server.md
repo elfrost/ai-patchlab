@@ -209,3 +209,13 @@ than one that survives because nobody did.
 *Scanned locally with [AI PatchLab](https://github.com/elfrost/ai-patchlab).
 No source code left this machine, no AI provider was contacted, and no paid API
 was called.*
+
+---
+
+## More from this series
+
+- **Next scan:** [TracecatHQ/tracecat](tracecathq-tracecat.html) — 2026-08-15, 0 real
+- **Previous scan:** [lightseekorg/tokenspeed](lightseekorg-tokenspeed.html) — 2026-08-13, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

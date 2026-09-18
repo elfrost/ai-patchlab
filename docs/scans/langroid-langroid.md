@@ -172,3 +172,13 @@ git clone https://github.com/langroid/langroid /tmp/scan-target
   --reports-dir ./reports/langroid-langroid \
   --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [bubbuild/bub](bubbuild-bub.html) — 2026-09-13, 1 real
+- **Previous scan:** [mljar/mercury](mljar-mercury.html) — 2026-09-11, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were
