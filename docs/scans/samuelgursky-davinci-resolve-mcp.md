@@ -253,3 +253,13 @@ credit, which is the reporter's call and has not been taken up as of this update
 git clone https://github.com/samuelgursky/davinci-resolve-mcp /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/samuelgursky-davinci-resolve-mcp --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [basicmachines-co/basic-memory](basicmachines-co-basic-memory.html) — 2026-09-04, 0 real
+- **Previous scan:** [HKUDS/OpenOPC](hkuds-openopc.html) — 2026-09-02, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

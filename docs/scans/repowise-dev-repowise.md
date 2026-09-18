@@ -287,3 +287,13 @@ cd /tmp/scan-target && git checkout 5a09ff3cf9fc
 python scanner/run_scan.py --repo /tmp/scan-target \
   --reports-dir ./reports/repowise-dev-repowise --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [Observal/Observal](observal-observal.html) — 2026-08-02, 1 real — withheld
+- **Previous scan:** [rocketride-org/rocketride-server](rocketride-org-rocketride-server.html) — 2026-07-31, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

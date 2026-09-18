@@ -145,3 +145,13 @@ python scanner/run_scan.py \
 The `.aipatchlabignore` used (`tests/**/fixtures/**`, `docs/**`) is in the report directory; without it the raw scan reports 2,143 findings, ~2,000 of them deliberately-broken Kubernetes test fixtures.
 
 External tools (Semgrep, Gitleaks, Trivy, pip-audit) need to be installed separately — see the [project README](https://github.com/elfrost/ai-patchlab#readme).
+
+---
+
+## More from this series
+
+- **Next scan:** [plastic-labs/honcho](plastic-labs-honcho.html) — 2026-05-25, see write-up
+- **Previous scan:** [dograh-hq/dograh](dograh-hq-dograh.html) — 2026-05-21, see write-up
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

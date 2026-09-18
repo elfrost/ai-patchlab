@@ -341,3 +341,13 @@ python scanner/run_scan.py \
   --reports-dir reports/observal-observal \
   --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [the-momentum/open-wearables](the-momentum-open-wearables.html) — 2026-08-03, 2 real
+- **Previous scan:** [repowise-dev/repowise](repowise-dev-repowise.html) — 2026-08-01, 2 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

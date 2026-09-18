@@ -183,3 +183,13 @@ python scanner/run_scan.py \
   --reports-dir ./reports/ibm-mcp-context-forge \
   --min-severity medium --ignore-samples
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [algorithmicsuperintelligence/optillm](algorithmicsuperintelligence-optillm.html) — 2026-07-18, 1 real
+- **Previous scan:** [a2aproject/a2a-python](a2aproject-a2a-python.html) — 2026-07-16, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

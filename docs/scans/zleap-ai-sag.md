@@ -171,3 +171,13 @@ python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/zleap
 # dependency surface the root-only scan missed:
 cd /tmp/scan-target/apps/api && pip-audit .
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [Ontos-AI/knowhere](ontos-ai-knowhere.html) — 2026-08-28, 1 real — withheld
+- **Previous scan:** [ascending-llc/jarvis-registry](ascending-llc-jarvis-registry.html) — 2026-08-26, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

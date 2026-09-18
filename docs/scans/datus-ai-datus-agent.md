@@ -199,3 +199,13 @@ code path and the concrete fail-closed fix, and offering a PR.
 git clone https://github.com/Datus-ai/Datus-agent /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/datus-ai-datus-agent --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [mljar/mercury](mljar-mercury.html) — 2026-09-11, 1 real — withheld
+- **Previous scan:** [mims-harvard/ToolUniverse](mims-harvard-tooluniverse.html) — 2026-09-09, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

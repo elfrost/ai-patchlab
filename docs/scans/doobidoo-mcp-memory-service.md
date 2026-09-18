@@ -174,3 +174,13 @@ python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/doobi
 The four fixed advisories are public at
 [github.com/doobidoo/mcp-memory-service/security/advisories](https://github.com/doobidoo/mcp-memory-service/security/advisories);
 compare them against the finding list above to see the gap for yourself.
+
+---
+
+## More from this series
+
+- **Next scan:** [ApodexAI/FrontierAgent](apodexai-frontieragent.html) — 2026-09-06, 1 real — withheld
+- **Previous scan:** [basicmachines-co/basic-memory](basicmachines-co-basic-memory.html) — 2026-09-04, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

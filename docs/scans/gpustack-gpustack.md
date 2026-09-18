@@ -202,3 +202,13 @@ lint, not reachable risk.
 git clone https://github.com/gpustack/gpustack /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/gpustack-gpustack --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [Osmantic/ODS](osmantic-ods.html) — 2026-07-25, 0 real
+- **Previous scan:** [EverMind-AI/Raven](evermind-ai-raven.html) — 2026-07-23, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

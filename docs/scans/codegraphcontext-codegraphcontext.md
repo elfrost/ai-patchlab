@@ -200,3 +200,13 @@ python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/codeg
 curation, not a security audit or a guarantee. Findings are dispositioned in
 good faith; a "0 real" result means nothing rose above the noise floor on this
 commit, not that the code is free of vulnerabilities.*
+
+---
+
+## More from this series
+
+- **Next scan:** [dimensionalOS/dimos](dimensionalos-dimos.html) — 2026-07-27, 0 real
+- **Previous scan:** [Osmantic/ODS](osmantic-ods.html) — 2026-07-25, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

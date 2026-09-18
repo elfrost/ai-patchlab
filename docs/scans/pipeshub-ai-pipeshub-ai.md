@@ -372,3 +372,13 @@ dominated almost every prior scan produced exactly **one** hit here.
 GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/pipeshub-ai/pipeshub-ai /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/pipeshub-ai-pipeshub-ai --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [rocketride-org/rocketride-server](rocketride-org-rocketride-server.html) — 2026-07-31, 1 real — withheld
+- **Previous scan:** [Project-N-E-K-O/N.E.K.O](project-n-e-k-o-n-e-k-o.html) — 2026-07-29, 1 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

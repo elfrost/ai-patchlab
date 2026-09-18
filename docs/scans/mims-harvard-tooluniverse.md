@@ -140,3 +140,13 @@ not compliance with an outside standard.
 git clone https://github.com/mims-harvard/ToolUniverse /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/mims-harvard-tooluniverse --min-severity medium --ignore-samples
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [Datus-ai/Datus-agent](datus-ai-datus-agent.html) — 2026-09-10, 1 real
+- **Previous scan:** [chigwell/telegram-mcp](chigwell-telegram-mcp.html) — 2026-09-08, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

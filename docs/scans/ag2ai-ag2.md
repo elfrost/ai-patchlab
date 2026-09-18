@@ -174,3 +174,13 @@ python scanner/run_scan.py --repo /tmp/scan-target \
   --reports-dir ./reports/ag2ai-ag2 \
   --min-severity medium --ignore-samples
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [SwanHubX/SwanLab](swanhubx-swanlab.html) — 2026-06-28, 0 real
+- **Previous scan:** [Kiln-AI/Kiln](kiln-ai-kiln.html) — 2026-06-25, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

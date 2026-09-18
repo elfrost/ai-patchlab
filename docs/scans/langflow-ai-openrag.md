@@ -95,3 +95,13 @@ python scanner/run_scan.py \
 ```
 
 External tools (Semgrep, Gitleaks, Trivy, pip-audit) install separately — see the [project README](https://github.com/elfrost/ai-patchlab#readme). The scanner output reproduces the 213 findings above; the one finding that matters is a manual deployment-default read, not a scanner hit, and its detail stays with the maintainers until they resolve and notify.
+
+---
+
+## More from this series
+
+- **Next scan:** [ascending-llc/jarvis-registry](ascending-llc-jarvis-registry.html) — 2026-08-26, 1 real — withheld
+- **Previous scan:** [whiteguo233/OpenBiliClaw](whiteguo233-openbiliclaw.html) — 2026-08-20, 1 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

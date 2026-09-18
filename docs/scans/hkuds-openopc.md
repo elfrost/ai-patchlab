@@ -67,3 +67,13 @@ python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/hkuds
 ```
 
 *The scan is reproducible; the finding detail is withheld until the maintainers resolve or a 90-day window elapses, per the project's security policy.*
+
+---
+
+## More from this series
+
+- **Next scan:** [samuelgursky/davinci-resolve-mcp](samuelgursky-davinci-resolve-mcp.html) — 2026-09-03, 1 real
+- **Previous scan:** [future-agi/future-agi](future-agi-future-agi.html) — 2026-09-01, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

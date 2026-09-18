@@ -140,3 +140,13 @@ python scanner/run_scan.py --repo /tmp/scan-target \
   --reports-dir ./reports/datachain-ai-datachain \
   --min-severity medium --ignore-samples
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [mnemosyne-oss/mnemosyne](mnemosyne-oss-mnemosyne.html) — 2026-07-15, 0 real
+- **Previous scan:** [potpie-ai/potpie](potpie-ai-potpie.html) — 2026-07-13, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

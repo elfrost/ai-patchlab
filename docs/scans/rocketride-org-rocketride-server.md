@@ -337,3 +337,13 @@ messaging, where both ends are extension-controlled.
 GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/rocketride-org/rocketride-server /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/rocketride-org-rocketride-server --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [repowise-dev/repowise](repowise-dev-repowise.html) — 2026-08-01, 2 real — withheld
+- **Previous scan:** [pipeshub-ai/pipeshub-ai](pipeshub-ai-pipeshub-ai.html) — 2026-07-30, 2 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

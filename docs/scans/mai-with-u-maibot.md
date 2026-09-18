@@ -311,3 +311,13 @@ python scanner/run_scan.py --repo /tmp/scan-target \
 
 The scan is reproducible. The curation is not automated, and on this repository
 the gap between the two was the entire report.
+
+---
+
+## More from this series
+
+- **Next scan:** [whiteguo233/OpenBiliClaw](whiteguo233-openbiliclaw.html) — 2026-08-20, 1 real
+- **Previous scan:** [roflcoopter/viseron](roflcoopter-viseron.html) — 2026-08-18, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

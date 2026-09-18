@@ -300,3 +300,13 @@ GIT_LFS_SKIP_SMUDGE=1 python scanner/run_scan.py \
   --reports-dir reports/liaohch3-claude-tap \
   --min-severity medium --ignore-samples
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [zilliztech/memsearch](zilliztech-memsearch.html) — 2026-08-17, 1 real
+- **Previous scan:** [TracecatHQ/tracecat](tracecathq-tracecat.html) — 2026-08-15, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

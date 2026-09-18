@@ -138,3 +138,13 @@ python scanner/run_scan.py --repo /tmp/scan-target \
   --reports-dir ./reports/potpie-ai-potpie \
   --min-severity medium --ignore-samples
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [datachain-ai/datachain](datachain-ai-datachain.html) — 2026-07-14, 0 real
+- **Previous scan:** [sooperset/mcp-atlassian](sooperset-mcp-atlassian.html) — 2026-07-10, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

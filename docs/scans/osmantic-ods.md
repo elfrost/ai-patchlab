@@ -169,3 +169,13 @@ leaks" — are the three questions above, each answered correctly in the code.
 git clone https://github.com/Osmantic/ODS /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/osmantic-ods --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [CodeGraphContext/CodeGraphContext](codegraphcontext-codegraphcontext.html) — 2026-07-26, 0 real
+- **Previous scan:** [gpustack/gpustack](gpustack-gpustack.html) — 2026-07-24, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

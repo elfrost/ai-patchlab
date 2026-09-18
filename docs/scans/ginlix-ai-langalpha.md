@@ -198,3 +198,13 @@ The one real finding was not produced by the scanner. It came from listing every
 router registered in `src/server/app/setup.py`, keeping the four the comments
 mark as unauthenticated, and tabulating which session accessor each one calls.
 Four call `get_session_if_ready`. One calls `get_session_for_workspace`.
+
+---
+
+## More from this series
+
+- **Next scan:** [SenteLabsAI/OpenExecutive](sentelabsai-openexecutive.html) — 2026-08-30, 1 real — withheld
+- **Previous scan:** [Ontos-AI/knowhere](ontos-ai-knowhere.html) — 2026-08-28, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

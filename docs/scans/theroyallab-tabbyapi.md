@@ -324,3 +324,13 @@ git clone https://github.com/theroyallab/tabbyAPI /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target \
   --reports-dir ./reports/theroyallab-tabbyapi --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [NeptuneHub/AudioMuse-AI](neptunehub-audiomuse-ai.html) — 2026-08-09, 1 real — withheld
+- **Previous scan:** [huangruiteng/loopx](huangruiteng-loopx.html) — 2026-08-07, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

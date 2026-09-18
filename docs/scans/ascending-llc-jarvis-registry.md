@@ -165,3 +165,13 @@ python scanner/run_scan.py \
 ```
 
 External tools (Semgrep, Gitleaks, Trivy, pip-audit) install separately — see the [project README](https://github.com/elfrost/ai-patchlab#readme). The scanner output reproduces the 235 findings above. The one finding that matters is not among them: it came from reading two adjacent route handlers against each other, and its detail stays with the maintainers.
+
+---
+
+## More from this series
+
+- **Next scan:** [Zleap-AI/SAG](zleap-ai-sag.html) — 2026-08-27, 1 real
+- **Previous scan:** [langflow-ai/openrag](langflow-ai-openrag.html) — 2026-08-25, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

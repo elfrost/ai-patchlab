@@ -231,3 +231,12 @@ git clone https://github.com/experientiallabs/experiential /tmp/scan-target
   --reports-dir ./reports/experientiallabs-experiential \
   --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Previous scan:** [superlinked/sie](superlinked-sie.html) — 2026-09-14, 1 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

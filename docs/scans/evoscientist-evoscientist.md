@@ -217,3 +217,13 @@ git clone https://github.com/EvoScientist/EvoScientist /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target \
   --reports-dir ./reports/evoscientist-evoscientist --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [Project-N-E-K-O/N.E.K.O](project-n-e-k-o-n-e-k-o.html) — 2026-07-29, 1 real
+- **Previous scan:** [dimensionalOS/dimos](dimensionalos-dimos.html) — 2026-07-27, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

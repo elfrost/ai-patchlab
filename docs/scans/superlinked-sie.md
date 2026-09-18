@@ -179,3 +179,13 @@ git clone https://github.com/superlinked/sie /tmp/scan-target
 .venv/Scripts/python.exe scanner/run_scan.py --repo /tmp/scan-target \
   --reports-dir ./reports/superlinked-sie --min-severity medium --ignore-samples
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [experientiallabs/experiential](experientiallabs-experiential.html) — 2026-09-15, 1 real — withheld
+- **Previous scan:** [bubbuild/bub](bubbuild-bub.html) — 2026-09-13, 1 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

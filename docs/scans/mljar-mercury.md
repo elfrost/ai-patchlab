@@ -143,3 +143,13 @@ promise rather than in a public issue.
 git clone https://github.com/mljar/mercury /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/mljar-mercury --min-severity medium --ignore-samples
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [langroid/langroid](langroid-langroid.html) — 2026-09-12, 0 real
+- **Previous scan:** [Datus-ai/Datus-agent](datus-ai-datus-agent.html) — 2026-09-10, 1 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

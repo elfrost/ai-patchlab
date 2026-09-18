@@ -51,6 +51,12 @@
 - [x] JSON + Markdown match report with mandatory disclaimer (2026-05-14)
 - [x] ADR-012 logged (2026-05-14)
 
+## Phase 4.8 - Site navigability
+- [x] Prev/next navigation on all 105 scan posts (2026/09/18) - was 1 post in 105 linking to another
+- [x] `docs/fixed.md` (24) and `docs/clean.md` (40), generated from the curated index table (2026/09/18)
+- [x] Keyword classification of posts evaluated and REJECTED - 3/9 families wrong, klavis over-tagged 6x (2026/09/18)
+- [ ] Topical grouping done properly, by reading each post rather than matching it
+
 ## Phase 4.7 - Disclosure throughput (the pipeline's measured bottleneck)
 - [x] Channel viability is a target-selection criterion, tiered on manual-queue depth (2026/09/18)
 - [x] `unreachable` disposition with four written evidence criteria, closing the deadlock class (2026/09/18)

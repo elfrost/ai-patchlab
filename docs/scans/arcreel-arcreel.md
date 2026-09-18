@@ -298,3 +298,13 @@ through to the opposite outcome.
 *Scanned with [AI PatchLab](https://github.com/elfrost/ai-patchlab). Findings are
 curated by hand; scanner output alone is not a vulnerability report. This page
 will be updated with full technical detail once the advisory resolves.*
+
+---
+
+## More from this series
+
+- **Next scan:** [Vexa-ai/vexa](vexa-ai-vexa.html) — 2026-08-05, 1 real — withheld
+- **Previous scan:** [the-momentum/open-wearables](the-momentum-open-wearables.html) — 2026-08-03, 2 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

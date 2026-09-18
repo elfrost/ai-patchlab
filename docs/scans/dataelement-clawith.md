@@ -149,3 +149,13 @@ python scanner/run_scan.py \
 ```
 
 The UTF-8 output fix is required to reproduce the full 54-finding count on Windows — earlier revisions of the scanner silently drop the Semgrep findings on this target. External tools (Semgrep, Gitleaks, Trivy, pip-audit) need to be installed separately — see the [project README](https://github.com/elfrost/ai-patchlab#readme).
+
+---
+
+## More from this series
+
+- **Next scan:** [mistralai/mistral-vibe](mistralai-mistral-vibe.html) — 2026-06-12, 0 real
+- **Previous scan:** [Ar9av/obsidian-wiki](ar9av-obsidian-wiki.html) — 2026-06-10, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

@@ -93,3 +93,13 @@ It is also the clearest case yet of the **active-harm false positive**. Five fin
 git clone https://github.com/realiti4/claude-swap /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/realiti4-claude-swap --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [chigwell/telegram-mcp](chigwell-telegram-mcp.html) — 2026-09-08, 0 real
+- **Previous scan:** [ApodexAI/FrontierAgent](apodexai-frontieragent.html) — 2026-09-06, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

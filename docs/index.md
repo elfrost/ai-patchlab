@@ -33,6 +33,14 @@ remediation and confidence rules to normalize the findings.
 > and why half the scans found nothing.
 > [**10,635 findings, 56 that mattered →**]({{ '/what-83-scans-found' | relative_url }})
 
+## Two shorter ways in
+
+- [**Findings a maintainer fixed**]({{ '/fixed' | relative_url }}) — the 24 that resolved
+  upstream. The shortest version of the argument: a report is only worth writing if someone
+  can act on it.
+- [**Scans that found nothing**]({{ '/clean' | relative_url }}) — 40 of them, published as
+  they ran. A method that can only return "yes" is not a method.
+
 ## Six scans worth reading
 
 If you only read a handful, read these. Each one shows a different part of the

@@ -160,3 +160,13 @@ python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/apode
 ```
 
 *The scan is reproducible; the finding detail is withheld until the maintainers resolve or a 90-day window elapses, per the project's security policy.*
+
+---
+
+## More from this series
+
+- **Next scan:** [realiti4/claude-swap](realiti4-claude-swap.html) — 2026-09-07, 0 real
+- **Previous scan:** [doobidoo/mcp-memory-service](doobidoo-mcp-memory-service.html) — 2026-09-05, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

@@ -192,3 +192,13 @@ loopback dev interface; the one honest code change is swapping in `defusedxml`.
 GIT_LFS_SKIP_SMUDGE=1 git clone --depth 1 https://github.com/dimensionalOS/dimos /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/dimensionalos-dimos --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [EvoScientist/EvoScientist](evoscientist-evoscientist.html) — 2026-07-28, 1 real
+- **Previous scan:** [CodeGraphContext/CodeGraphContext](codegraphcontext-codegraphcontext.html) — 2026-07-26, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

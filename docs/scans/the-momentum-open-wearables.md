@@ -220,3 +220,13 @@ git clone https://github.com/the-momentum/open-wearables /tmp/scan-target
 python scanner/run_scan.py --repo /tmp/scan-target \
   --reports-dir ./reports/the-momentum-open-wearables --min-severity medium
 ```
+
+---
+
+## More from this series
+
+- **Next scan:** [ArcReel/ArcReel](arcreel-arcreel.html) — 2026-08-04, 1 real — withheld
+- **Previous scan:** [Observal/Observal](observal-observal.html) — 2026-08-02, 1 real — withheld
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were

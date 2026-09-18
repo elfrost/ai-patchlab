@@ -290,3 +290,13 @@ The route enumeration referenced above is an AST pass over `tracecat/`
 collecting every `@router.<method>` decorator and its handler signature, then
 filtering for signatures with no role dependency — 511 routes, 76 to read by
 hand once the differently-named role types are accounted for.
+
+---
+
+## More from this series
+
+- **Next scan:** [liaohch3/claude-tap](liaohch3-claude-tap.html) — 2026-08-16, 1 real — withheld
+- **Previous scan:** [datalayer/jupyter-mcp-server](datalayer-jupyter-mcp-server.html) — 2026-08-14, 0 real
+- [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were
