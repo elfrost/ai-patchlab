@@ -51,6 +51,13 @@
 - [x] JSON + Markdown match report with mandatory disclaimer (2026-05-14)
 - [x] ADR-012 logged (2026-05-14)
 
+## Phase 4.7 - Disclosure throughput (the pipeline's measured bottleneck)
+- [x] Channel viability is a target-selection criterion, tiered on manual-queue depth (2026/09/18)
+- [x] `unreachable` disposition with four written evidence criteria, closing the deadlock class (2026/09/18)
+- [x] Outcome column on the public index documented, and every value in use covered by the legend (2026/09/18)
+- [ ] Track the autonomous/human-gated split per month, to see whether the tiering actually moves it
+- [ ] Re-key sweep: assert at startup that no `withheld_finding_*` entry lacks a delivery record (the claude-tap mis-key evaded guardrail 6 for ~20 runs)
+
 ## Phase 4.6 - Field-driven curation (from the public scan series)
 - [x] Meta findings exempt from `--min-severity` (2026/08/21)
 - [x] Semgrep partial-coverage finding built from the `errors` array, not `paths.skipped` (2026/08/21)
@@ -61,6 +68,8 @@
 - [ ] Report lockfile and open-floor dependency sets as separate rows naming the install path, rather than one merged verdict
 - [ ] Timeouts on the semgrep, trivy and gitleaks runners (pip-audit done; the others share the same hang risk)
 - [ ] Exempt meta findings from `--ignore-file` suppression as well as `--min-severity`
+- [x] Coverage manifest: `reports/coverage.json` + a `## Scan Coverage` block rendered before the findings, so "never ran" cannot render as "found nothing" (2026/09/18) - ADR-015; published posts carry it via `docs/templates/scan-post.md`
+- [ ] Retain deterministic rejection records with a machine-readable reason instead of deleting suppressed findings - builds the curation corpus (ADR-015, second half; needs its own PRP)
 
 ## Phase 4.5 - Polish & Stabilize
 - [ ] Add integration tests with sample vulnerable repositories

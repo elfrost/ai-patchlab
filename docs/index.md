@@ -89,7 +89,8 @@ login and static assets. Fifty-two flagged, none reported.
 - Critical issues are reported to maintainers under responsible disclosure
   before being published here in full detail.
 - Where a project's security policy forbids public vulnerability reports, the
-  finding is withheld from this page too — those rows read *private*.
+  finding is withheld from this page too — those rows read *private*, or
+  *undelivered* where no private channel turned out to exist.
 - Posts focus on patterns and lessons — not exploit walkthroughs.
 
 ## All scans
@@ -97,6 +98,15 @@ login and static assets. Fifty-two flagged, none reported.
 105 scans, newest first. **Findings** is the raw count the tools produced;
 **Real** is what survived curation. The gap between those two columns is the
 entire job.
+
+**Outcome** reads: **fixed** — the maintainer shipped a fix; *accepted* — a private
+advisory was accepted into triage but no fix has shipped yet; *open* — reported
+publicly and still open; *declined* — the maintainer considered it and said no, and
+the write-up quotes their reasoning; *private* — reported through a private channel
+and withheld here until it resolves; *undelivered* — no private channel existed at
+all, so the report could not be delivered and the detail stays withheld
+indefinitely; *partial* — only part of a multi-item report landed; — — nothing was
+filed, which is the usual outcome of a clean scan.
 
 | Date | Repository | Findings | Real | Outcome |
 | --- | --- | ---: | --- | --- |
@@ -126,7 +136,7 @@ entire job.
 | 2026-08-19 | [Mai-with-u/MaiBot](scans/mai-with-u-maibot.html) | 373 | 1 real — withheld | private |
 | 2026-08-18 | [roflcoopter/viseron](scans/roflcoopter-viseron.html) | 399 | 1 real — withheld | private |
 | 2026-08-17 | [zilliztech/memsearch](scans/zilliztech-memsearch.html) | 90 | 1 real | **fixed** |
-| 2026-08-16 | [liaohch3/claude-tap](scans/liaohch3-claude-tap.html) | 104 | 1 real — withheld | private |
+| 2026-08-16 | [liaohch3/claude-tap](scans/liaohch3-claude-tap.html) | 104 | 1 real — withheld | undelivered |
 | 2026-08-15 | [TracecatHQ/tracecat](scans/tracecathq-tracecat.html) | 212 | 0 real | — |
 | 2026-08-14 | [datalayer/jupyter-mcp-server](scans/datalayer-jupyter-mcp-server.html) | 37 | 0 real | private |
 | 2026-08-13 | [lightseekorg/tokenspeed](scans/lightseekorg-tokenspeed.html) | 181 | 1 real — withheld | private |
@@ -139,7 +149,7 @@ entire job.
 | 2026-08-06 | [nottelabs/notte](scans/nottelabs-notte.html) | 226 | 1 real — withheld | private |
 | 2026-08-05 | [Vexa-ai/vexa](scans/vexa-ai-vexa.html) | 297 | 1 real — withheld | private |
 | 2026-08-04 | [ArcReel/ArcReel](scans/arcreel-arcreel.html) | 82 | 1 real — withheld | private |
-| 2026-08-03 | [the-momentum/open-wearables](scans/the-momentum-open-wearables.html) | 145 | 2 real | ✅ |
+| 2026-08-03 | [the-momentum/open-wearables](scans/the-momentum-open-wearables.html) | 145 | 2 real | **fixed** |
 | 2026-08-02 | [Observal/Observal](scans/observal-observal.html) | 1,117 | 1 real — withheld | private |
 | 2026-08-01 | [repowise-dev/repowise](scans/repowise-dev-repowise.html) | 86 | 2 real — withheld | private |
 | 2026-07-31 | [rocketride-org/rocketride-server](scans/rocketride-org-rocketride-server.html) | 268 | 1 real — withheld | private |
