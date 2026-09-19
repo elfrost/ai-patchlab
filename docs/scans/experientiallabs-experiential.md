@@ -236,6 +236,7 @@ git clone https://github.com/experientiallabs/experiential /tmp/scan-target
 
 ## More from this series
 
+- **Next scan:** [hydropix/TranslateBooksWithLLMs](hydropix-translatebookswithllms.html) — 2026-09-19, 1 real — withheld
 - **Previous scan:** [superlinked/sie](superlinked-sie.html) — 2026-09-14, 1 real
 - [Every scan in the series]({{ '/' | relative_url }}) — 105 repositories, newest first
 - [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved

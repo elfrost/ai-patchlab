@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "105 curated security scans of open-source AI agents, MCP servers and LLM apps - 24 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "106 curated security scans of open-source AI agents, MCP servers and LLM apps - 24 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 105 scans, 24 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 106 scans, 24 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -103,7 +103,7 @@ login and static assets. Fifty-two flagged, none reported.
 
 ## All scans
 
-105 scans, newest first. **Findings** is the raw count the tools produced;
+106 scans, newest first. **Findings** is the raw count the tools produced;
 **Real** is what survived curation. The gap between those two columns is the
 entire job.
 
@@ -118,6 +118,7 @@ filed, which is the usual outcome of a clean scan.
 
 | Date | Repository | Findings | Real | Outcome |
 | --- | --- | ---: | --- | --- |
+| 2026-09-19 | [hydropix/TranslateBooksWithLLMs](scans/hydropix-translatebookswithllms.html) | 55 | 1 real — withheld | private |
 | 2026-09-15 | [experientiallabs/experiential](scans/experientiallabs-experiential.html) | 77 | 1 real — withheld | private |
 | 2026-09-14 | [superlinked/sie](scans/superlinked-sie.html) | 156 | 1 real | **fixed** |
 | 2026-09-13 | [bubbuild/bub](scans/bubbuild-bub.html) | 72 | 1 real | declined |
