@@ -74,7 +74,8 @@ python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/hydro
 
 ## More from this series
 
+- **Next scan:** [TencentCloud/Octop](tencentcloud-octop.html) — 2026-09-20, 1 real — withheld
 - **Previous scan:** [experientiallabs/experiential](experientiallabs-experiential.html) — 2026-09-15, 1 real — withheld
-- [Every scan in the series]({{ '/' | relative_url }}) — 106 repositories, newest first
+- [Every scan in the series]({{ '/' | relative_url }}) — 107 repositories, newest first
 - [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 24 that resolved
 - [Scans that found nothing]({{ '/clean' | relative_url }}) — 40 of them, published as they were
