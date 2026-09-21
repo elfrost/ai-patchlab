@@ -134,6 +134,35 @@ Pour les dÃ©cisions qui requiÃ¨rent un round de discussion avant `accepted`.
 
 <!-- Ajouter les nouvelles dÃ©cisions en haut (plus rÃ©cent en premier) -->
 
+### ADR-016: Dismissals are recorded as counted rule families, not discarded
+
+**Date:** 2026-09-21
+**Status:** accepted
+
+**Context:** A scan produces on the order of 77 findings of which roughly one is real. The other 76 dismissals are argued once, compressed into a paragraph of post prose, and then gone. The same rule families are re-triaged on the next repository, by hand, from zero. ADR-014 showed what the recorded version is worth: mining 87 archived reports turned informal votes ("13th appearance of the SQL-identifier FP") into 1,802 hits across 26 repositories and justified two mechanized confidence tiers. The raw findings were already archived under `reports/<slug>/raw/`; what was missing was the **verdicts**. Separately, `--ignore-file`, `--ignore-samples` and `--min-severity` drop findings silently, which is the same dishonesty ADR-015 removed for coverage.
+
+**Decision Drivers:**
+- Must produce a corpus that can be counted, because counting is what converted judgement into rules in ADR-014 (must-have)
+- Must not become per-finding bureaucracy that nobody fills in or reads (must-have)
+- Must not land in `reports/.daily_state.json`, already a flat bag of ~100 ad-hoc keys where one mis-keyed entry evaded a guardrail for about 20 runs (must-have)
+- Should use one schema for both producers so the corpus is unified (should-have)
+
+**Considered Options:**
+- **A - Scanner-emitted only.** Record what the scanner itself suppressed. Pros: deterministic, testable, ships immediately. Cons: path patterns and severity floors are not the 76 judgements; it would miss the whole point.
+- **B - Curation-emitted only.** Persist the `/daily` Phase 4 verdicts. Pros: captures the valuable half. Cons: leaves mechanical suppression silent, and an LLM-filled file with no deterministic sibling has nothing holding its shape.
+- **C - One schema, two producers, rows counted per rule family.** **Selected.**
+- **D - Per-finding verdict rows.** Rejected: a severity floor can drop hundreds of findings in one scan, and Phase 4 already groups by rule family, so per-finding rows would be both enormous and a worse fit for the workflow that produces them.
+
+**Decision:** Take option C. `reports/<slug>/verdicts.json` holds rows of `{source, reason_code, tool, rule, count, verdict, detail}`. The scanner writes its own rows on every scan by diffing the finding list across each suppression step, grouped by `(tool, rule)` with a count. `/daily` Phase 4 appends judgement rows in the same shape, one per rule family it triaged, drawn from a closed `reason_code` vocabulary so the corpus stays countable. The Markdown report renders a Dismissed section only when rows exist. `verdicts.json` is never written into `.daily_state.json`.
+
+**Consequences:**
+- Positive: the corpus that ADR-014 had to reconstruct by hand is now produced as a by-product of the work that generates it. A future mechanization measurement becomes a `sum()` over the closed vocabulary rather than an archaeology project.
+- Positive: `--ignore-samples` and `--min-severity` stop removing findings silently, which closes the last place where the report hides its own edits.
+- Negative: the closed vocabulary is a guess made from the curation memory and will be wrong in places. Adding a code is cheap; the risk is drift into a long tail of one-off codes that cannot be counted, which defeats the purpose.
+- Negative: the curation half depends on `/daily` filling it in. If the rows go stale or empty, the file is worse than nothing because it looks authoritative. The scanner rows are the deterministic floor that keeps the file honest even when the judgement rows are missing.
+- Risks: scope creep into a query CLI or a dashboard. The MVP ships a loader and a counter, nothing else; anything more needs its own decision.
+- Builds on ADR-015 (coverage as an artifact) and ADR-014 (measure before mechanizing).
+
 ### ADR-015: Coverage is a report artifact, not a finding
 
 **Date:** 2026-09-17

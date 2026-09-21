@@ -75,7 +75,7 @@
 - [ ] Timeouts on the semgrep, trivy and gitleaks runners (pip-audit done; the others share the same hang risk)
 - [ ] Exempt meta findings from `--ignore-file` suppression as well as `--min-severity`
 - [x] Coverage manifest: `reports/coverage.json` + a `## Scan Coverage` block rendered before the findings, so "never ran" cannot render as "found nothing" (2026/09/18) - ADR-015; published posts carry it via `docs/templates/scan-post.md`
-- [ ] Retain deterministic rejection records with a machine-readable reason instead of deleting suppressed findings - builds the curation corpus (ADR-015, second half; needs its own PRP)
+- [x] Retain dismissal records with a machine-readable reason instead of deleting suppressed findings (2026/09/21) - ADR-016; `reports/<slug>/verdicts.json`, scanner rows deterministic, curation rows appended by `/daily` Phase 4 from a closed reason vocabulary
 
 ## Phase 4.5 - Polish & Stabilize
 - [ ] Add integration tests with sample vulnerable repositories

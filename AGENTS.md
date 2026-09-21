@@ -58,6 +58,8 @@ AI PatchLab is an AI-assisted security remediation toolkit. The MVP focuses on a
 - `scanner/models.py` - Normalized `Finding` dataclass + severity/confidence enums + `FINDING_FIELDS`
 - `scanner/recommendations.py` - Deterministic keyword-based recommendation enrichment
 - `scanner/coverage.py` - Per-scanner coverage derived from meta findings (`ToolCoverage`, `build_coverage`, `EXPECTED_TOOLS`, `is_complete`); feeds `reports/coverage.json` and the report's Scan Coverage block
+- `scanner/verdicts.py` - Dismissal records (`VerdictRecord`, `summarize_removed`, `count_by_reason`, `load_records`) with closed `SCANNER_REASON_CODES` / `CURATION_REASON_CODES` vocabularies; feeds `reports/verdicts.json` and the report's Dismissed section
+- `scanner/report_markdown.py` - Markdown rendering, split out of `report.py` to stay under the 300-line ceiling (`write_markdown_report` is still re-exported from `scanner.report`)
 - `scanner/confidence.py` - Centralized `Finding.confidence` rules (one function per scanner + `confidence_for_meta_finding` for shared `not-installed` / `scan-error` / etc.)
 - `scanner/report.py` - JSON + Markdown report writers (severity-grouped, "Top Findings" highlight block, patch suggestion blocks); also exposes `filter_by_min_severity` and `select_top_findings`
 - `scanner/config.py` - Disabled-by-default AI review configuration loaded from environment / `.env` (`AI_PATCHLAB_*`)
@@ -65,13 +67,14 @@ AI PatchLab is an AI-assisted security remediation toolkit. The MVP focuses on a
 - `scanner/scanners/` - Scanner adapters (`semgrep.py`, `gitleaks.py`, `trivy.py`, `dependency_scan.py`, `ai_review.py`) plus `common.py` placeholder helper and `__init__.py` registry (`SCANNERS`)
 - `scanner/tools/` - External scanner process runners (`semgrep_runner.py`, `gitleaks_runner.py`, `trivy_runner.py`, `pip_audit_runner.py`, `ai_review_runner.py`)
 - `reports/` - Generated security reports (`security_report.json`, `security_report.md`)
+- `reports/verdicts.json` - Dismissal corpus: one row per rule family removed, with a reason code and a count
 - `reports/coverage.json` - Per-scanner coverage manifest written on every scan (what each tool actually examined, plus a `complete` flag)
 - `reports/raw/` - Raw scanner JSON outputs (`semgrep.json`, `gitleaks.json`, `trivy.json`, `pip-audit.json`, `ai-review.json` when enabled)
 - `src/` - Legacy scaffold entry point (kept for template parity)
 - `src/main.py` - Legacy entry point (`python -m src.main`) - currently a loguru-wired async stub with TODOs
 - `.github/workflows/ci.yml` - CI: ruff + black + pytest on Python 3.11 and 3.13
 - `reports/disclosures/` - Drafted private disclosure emails awaiting a manual send (gitignored)
-- `tests/` - pytest tests (one module per scanner: `test_scanner_foundation.py`, `test_semgrep_scanner.py`, `test_gitleaks_scanner.py`, `test_trivy_scanner.py`, `test_dependency_scan.py`, `test_ai_review.py`, `test_patch_suggestions.py`, `test_recommendations.py`, `test_meta_findings.py`, `test_confidence_field_rules.py`, `test_coverage.py`)
+- `tests/` - pytest tests (one module per scanner: `test_scanner_foundation.py`, `test_semgrep_scanner.py`, `test_gitleaks_scanner.py`, `test_trivy_scanner.py`, `test_dependency_scan.py`, `test_ai_review.py`, `test_patch_suggestions.py`, `test_recommendations.py`, `test_meta_findings.py`, `test_confidence_field_rules.py`, `test_coverage.py`, `test_verdicts.py`)
 - `tests/conftest.py` - Shared fixtures (`mock_db`, `mock_http_client`, `mock_discord`, `test_config`, session `event_loop`)
 - `examples/` - Reference patterns to read before implementing
 - `PRPs/` - Active Product Requirements Prompts
@@ -176,6 +179,8 @@ export AI_PATCHLAB_AI_REVIEW_COMMAND=/path/to/ai-review-wrapper
 - Any finding built with `confidence_for_meta_finding(...)` must also set `is_meta=True` so `--min-severity` cannot drop it
 - Each external tool runner lives in `scanner/tools/<tool>_runner.py`, returns a frozen `*Result` dataclass, writes raw JSON to `reports/raw/<tool>.json`, and uses `subprocess.run(..., shell=False, check=False)` with captured stdout/stderr
 - Do not call subprocesses directly from `scanner/scanners/*` - go through the runner module
+- Every suppression step in `run_scan` records what it removed via `summarize_removed(before, after, reason_code)` - a narrower report must never shrink its own numbers silently (ADR-016)
+- `reason_code` values are a closed vocabulary in `scanner/verdicts.py`; add a code to the module rather than inventing one at a call site, or the corpus stops being countable
 - Coverage is derived from the raw `collect_findings` output **before** `apply_ignore` (`scanner/run_scan.py`) - `--ignore-file` does not exempt meta findings, so deriving it later would let a path pattern hide the fact that a tool never ran
 - Adding a scanner to `SCANNERS` requires adding its `Finding.tool` value to `scanner/coverage.py:EXPECTED_TOOLS`; `tests/test_coverage.py::TestRegistryDrift` fails until you do
 - `Finding.confidence` values come from `scanner/confidence.py` - never inline `confidence="high"` / `"medium"` / `"low"` in a scanner adapter; add or reuse a rule function instead
@@ -230,7 +235,7 @@ export AI_PATCHLAB_AI_REVIEW_COMMAND=/path/to/ai-review-wrapper
 - Log architectural decisions in `DECISIONS.md`
 - Check existing ADRs before making structural changes
 - Record date, decision, context, and consequences
-- Current ADRs of record: ADR-001 scaffold, ADR-002 data stack, ADR-003 placeholder adapters, ADR-004 Gitleaks, ADR-005 Semgrep, ADR-006 recommendation enrichment, ADR-007 patch suggestions, ADR-008 Trivy, ADR-009 pip-audit, ADR-010 disabled-by-default AI review boundary, ADR-011 centralized scanner confidence rules, ADR-012 probabilistic web template fingerprinting boundary, ADR-013 meta findings exempt from severity filtering, ADR-014 field-derived confidence tiers, ADR-015 coverage is a report artifact
+- Current ADRs of record: ADR-001 scaffold, ADR-002 data stack, ADR-003 placeholder adapters, ADR-004 Gitleaks, ADR-005 Semgrep, ADR-006 recommendation enrichment, ADR-007 patch suggestions, ADR-008 Trivy, ADR-009 pip-audit, ADR-010 disabled-by-default AI review boundary, ADR-011 centralized scanner confidence rules, ADR-012 probabilistic web template fingerprinting boundary, ADR-013 meta findings exempt from severity filtering, ADR-014 field-derived confidence tiers, ADR-015 coverage is a report artifact, ADR-016 dismissals recorded as counted rule families
 
 ## Known Gotchas
 - **Do not tag scan posts by keyword inference.** A classifier over post bodies was built and rejected 2026-09-18: validated against 9 posts of known ground truth it gave klavis **6** finding classes where the real finding was dependency CVEs, and got 3 of 9 project families wrong (OpenBiliClaw as "developer tooling", tracecat as "MCP server"). Post bodies discuss false positives and credited defences at length, so matching them tags a clean scan with the class it *dismissed*. On a site whose whole argument is that pattern-matching produces plausible-but-wrong results, publishing plausible-but-wrong tags is self-refuting. Grouping pages are generated from the **curated index table** instead — hand-maintained, verified data
