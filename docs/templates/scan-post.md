@@ -52,6 +52,16 @@ what was not examined, and say it before the findings.>
 
 <repeat for top 3-7 findings; redact details if pre-disclosure>
 
+## Why the rest were dismissed
+
+<Copy the `by_reason` counts from `reports/<slug>/verdicts.json`. A scan that
+reports 1 real finding out of 77 is only credible if the other 76 are accounted
+for. Keep it to the table plus one sentence on the largest family.>
+
+| Reason | Findings |
+| --- | ---: |
+| `sql-identifier-fp` | 0 |
+
 ## Patterns observed
 
 <2-4 paragraphs about what was common, what surprised you, what the

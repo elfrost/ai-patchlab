@@ -22,6 +22,7 @@ from scanner.recommendations import enrich_findings
 from scanner.remediation import apply_patch_suggestions
 from scanner.report import filter_by_min_severity, write_reports
 from scanner.scanners import SCANNERS
+from scanner.verdicts import summarize_removed
 
 
 def collect_findings(repo_path: Path, reports_dir: Path) -> list[Finding]:
@@ -55,13 +56,33 @@ def run_scan(
     # never ran.
     coverage = build_coverage(findings)
     findings = rebase_finding_paths(findings, resolved_repo)
+
+    # Each suppression step records what it removed, so a narrower report
+    # cannot quietly shrink the numbers it presents (ADR-016).
+    before_ignore = findings
     findings = apply_ignore(findings, ignore_patterns)
+    verdicts = summarize_removed(
+        before_ignore,
+        findings,
+        "ignore-pattern",
+        detail="Suppressed by an ignore pattern.",
+    )
+
+    before_severity = findings
     findings = filter_by_min_severity(findings, min_severity)
+    verdicts += summarize_removed(
+        before_severity,
+        findings,
+        "below-min-severity",
+        detail=f"Below the --min-severity floor ({min_severity}).",
+    )
+
     return write_reports(
         repo_path=resolved_repo,
         findings=findings,
         reports_dir=reports_dir,
         coverage=coverage,
+        verdicts=verdicts,
     )
 
 
@@ -156,6 +177,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Markdown report: {report_paths['markdown']}")
     if "coverage" in report_paths:
         print(f"Coverage report: {report_paths['coverage']}")
+    if "verdicts" in report_paths:
+        print(f"Dismissed report: {report_paths['verdicts']}")
     return 0
 
 

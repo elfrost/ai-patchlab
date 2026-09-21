@@ -117,7 +117,9 @@ Then read `reports/<slug>/coverage.json`. It is the authoritative record of what
 ## Phase 4 — Curate
 1. Group findings by rule family. Auto-flag `tests/`, `sample/`, `examples/`, `demos/`, fixtures, placeholders as candidate-FP.
 2. Inspect the top 5 real candidates in the actual repo via `gh api repos/<owner>/<name>/contents/<path>` — read the call site, confirm the threat path.
-3. Write per-finding verdicts (real / by-design / FP, with the *why*).
+3. Write per-finding verdicts (real / by-design / FP, with the *why*), then **append them to `reports/<slug>/verdicts.json`** as `source: "curation"` rows — one row per rule family with its count, not one per finding. The scanner has already written its own deterministic rows there (what `--ignore-file` and `--min-severity` removed); add yours beside them.
+   `reason_code` comes from the closed vocabulary in `scanner/verdicts.py:CURATION_REASON_CODES` — `sql-identifier-fp`, `test-or-fixture-path`, `sample-or-demo`, `vendored-code`, `not-reachable`, `mitigated-in-app`, `by-design`, `product-surface`, `domain-noun-collision`, `placeholder-secret`, `active-harm-fp`, `credited-defense`, `confirmed-real`. Reuse a code or add one to the module; never invent one inline, because a long tail of one-off codes counts to one and the corpus stops being countable.
+   This is the file ADR-014 had to reconstruct by hand from 87 archived reports. Writing it as you go is what turns "13th appearance of this FP" into a number that justifies mechanizing the rule.
 4. **Evaluate the quality gate:** is there ≥1 real, exploitability-shaped, high-confidence item? Record the boolean — it decides Phase 5 filing.
 
 ## Phase 5 — Publish (gated)
