@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "108 curated security scans of open-source AI agents, MCP servers and LLM apps - 24 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "109 curated security scans of open-source AI agents, MCP servers and LLM apps - 24 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 108 scans, 24 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 109 scans, 24 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -103,7 +103,7 @@ login and static assets. Fifty-two flagged, none reported.
 
 ## All scans
 
-108 scans, newest first. **Findings** is the raw count the tools produced;
+109 scans, newest first. **Findings** is the raw count the tools produced;
 **Real** is what survived curation. The gap between those two columns is the
 entire job.
 
@@ -118,6 +118,7 @@ filed, which is the usual outcome of a clean scan.
 
 | Date | Repository | Findings | Real | Outcome |
 | --- | --- | ---: | --- | --- |
+| 2026-09-22 | [overwirehq/claude-code-telegram](scans/overwirehq-claude-code-telegram.html) | 54 | 0 first-party — dependency | — |
 | 2026-09-21 | [HarnessRouter/harnessrouter](scans/harnessrouter-harnessrouter.html) | 117 | 1 real — dependency | — |
 | 2026-09-20 | [TencentCloud/Octop](scans/tencentcloud-octop.html) | 300 | 1 real — withheld | private |
 | 2026-09-19 | [hydropix/TranslateBooksWithLLMs](scans/hydropix-translatebookswithllms.html) | 55 | 1 real — withheld | private |
