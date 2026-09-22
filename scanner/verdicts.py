@@ -47,6 +47,7 @@ CURATION_REASON_CODES = (
     "placeholder-secret",
     "active-harm-fp",
     "credited-defense",
+    "dependency-currency",
     "confirmed-real",
 )
 """Closed vocabulary for judgement rows.
@@ -55,6 +56,13 @@ Closed on purpose. The corpus is only worth keeping if it can be counted, and a
 long tail of one-off codes counts to one. Each code here is a curation pattern
 the scan series has hit repeatedly; adding one is cheap, inventing one per scan
 defeats the file.
+
+`confirmed-real` is **first-party only**: a defect in the scanned project's own
+code, established rather than suspected. An upstream dependency that is merely
+behind a fixed version is `dependency-currency`. Scan #109 collapsed the two and
+reported 13 `confirmed-real` under a headline of zero real findings; counting
+them together across scans would mix "demonstrated vulnerability" with "version
+is old", which is the distinction the whole series turns on.
 """
 
 REASON_CODES = SCANNER_REASON_CODES + CURATION_REASON_CODES
@@ -86,6 +94,12 @@ class VerdictRecord:
             raise ValueError(f"Unsupported verdict: {self.verdict}")
         if self.count < 1:
             raise ValueError(f"A verdict record counts at least one finding: {self.count}")
+        if not self.rule.strip():
+            # Rule identity is what makes the corpus actionable. ADR-014 needed
+            # "sqlalchemy-execute-raw-query fired 157 times", not "some semgrep
+            # rules were dismissed"; a row without it can be counted but never
+            # acted on.
+            raise ValueError(f"A verdict record names a rule family: {self!r}")
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-serializable verdict row."""

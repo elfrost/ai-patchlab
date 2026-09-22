@@ -75,6 +75,7 @@
 - [ ] Timeouts on the semgrep, trivy and gitleaks runners (pip-audit done; the others share the same hang risk)
 - [ ] Exempt meta findings from `--ignore-file` suppression as well as `--min-severity`
 - [x] Coverage manifest: `reports/coverage.json` + a `## Scan Coverage` block rendered before the findings, so "never ran" cannot render as "found nothing" (2026/09/18) - ADR-015; published posts carry it via `docs/templates/scan-post.md`
+- [x] Enforce the dismissal schema where rows are actually written, and commit the corpus (2026/09/22) - ADR-017; `run_verdict_check.py --check` gates `/daily` Phase 4, `corpus/verdicts/` is versioned
 - [x] Retain dismissal records with a machine-readable reason instead of deleting suppressed findings (2026/09/21) - ADR-016; `reports/<slug>/verdicts.json`, scanner rows deterministic, curation rows appended by `/daily` Phase 4 from a closed reason vocabulary
 
 ## Phase 4.5 - Polish & Stabilize

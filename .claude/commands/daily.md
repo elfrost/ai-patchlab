@@ -119,8 +119,15 @@ Then read `reports/<slug>/coverage.json`. It is the authoritative record of what
 2. Inspect the top 5 real candidates in the actual repo via `gh api repos/<owner>/<name>/contents/<path>` — read the call site, confirm the threat path.
 3. Write per-finding verdicts (real / by-design / FP, with the *why*), then **append them to `reports/<slug>/verdicts.json`** as `source: "curation"` rows — one row per rule family with its count, not one per finding. The scanner has already written its own deterministic rows there (what `--ignore-file` and `--min-severity` removed); add yours beside them.
    `reason_code` comes from the closed vocabulary in `scanner/verdicts.py:CURATION_REASON_CODES` — `sql-identifier-fp`, `test-or-fixture-path`, `sample-or-demo`, `vendored-code`, `not-reachable`, `mitigated-in-app`, `by-design`, `product-surface`, `domain-noun-collision`, `placeholder-secret`, `active-harm-fp`, `credited-defense`, `confirmed-real`. Reuse a code or add one to the module; never invent one inline, because a long tail of one-off codes counts to one and the corpus stops being countable.
+   `rule` is REQUIRED on every row — name the rule family (`github-actions-mutable-action-tag`, `sqlalchemy-execute-raw-query`, the CVE id). A row without it can be counted but never acted on, which defeats the file. `verdict` is one of `false-positive` / `by-design` / `not-applicable` / `hardening` / `real`, or omitted — **your sentence goes in `detail`, never in `verdict`**. `confirmed-real` is first-party only; an upstream dependency merely behind a fixed version is `dependency-currency`.
+4. **Validate the file before publishing.** It is hand-written JSON, so nothing else enforces the schema:
+   ```bash
+   .venv/Scripts/python.exe scanner/run_verdict_check.py --check reports/<slug>/verdicts.json
+   ```
+   Exit 0 or fix what it lists and re-run. On 2026-09-22 the first run wrote six rows with an empty `rule` and free prose in `verdict`, and nothing caught it — a closed vocabulary is only closed if something closes it.
+5. Copy the validated file to `corpus/verdicts/<slug>.json` and commit it with the post. `reports/` is gitignored, so a corpus left there lives on one machine and does not survive a clone; `corpus/` is the durable half.
    This is the file ADR-014 had to reconstruct by hand from 87 archived reports. Writing it as you go is what turns "13th appearance of this FP" into a number that justifies mechanizing the rule.
-4. **Evaluate the quality gate:** is there ≥1 real, exploitability-shaped, high-confidence item? Record the boolean — it decides Phase 5 filing.
+6. **Evaluate the quality gate:** is there ≥1 real, exploitability-shaped, high-confidence item? Record the boolean — it decides Phase 5 filing.
 
 ## Phase 5 — Publish (gated)
 1. **Always:** write `docs/scans/<slug>.md` from `docs/templates/scan-post.md` — including the **Scan coverage** block, copied from `reports/<slug>/coverage.json` and never hand-written; prepend a new row to the Scans table in `docs/index.md` **and** a new bullet to `docs/scan-log.md` (the full prose archive), and bump the scan counts in both headers. Three files, every time — on 2026-09-06 the log was found eight entries behind the index because this step only named `index.md`.
