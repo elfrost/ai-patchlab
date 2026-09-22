@@ -1,10 +1,12 @@
-﻿{
-    "template_version":  "4",
+{
     "mode":  "project",
     "stack":  "data",
+    "created":  "2026-05-12",
+    "template_version":  "4",
+    "template_sha":  "7119537",
+    "template_synced":  "2026-09-22",
     "runtimes":  [
                      "claude",
                      "codex"
-                 ],
-    "created":  "2026-05-12"
+                 ]
 }
