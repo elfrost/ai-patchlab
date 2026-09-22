@@ -1,0 +1,88 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(*)",
+      "Write(*)",
+      "Bash(python*)",
+      "Bash(pytest*)",
+      "Bash(ruff*)",
+      "Bash(black*)",
+      "Bash(git*)",
+      "Bash(pip*)",
+      "Bash(npm*)",
+      "Bash(npx*)",
+      "Bash(cat*)",
+      "Bash(ls*)",
+      "Bash(mkdir*)",
+      "Bash(cp*)",
+      "Bash(mv*)",
+      "Bash(rm*)",
+      "Bash(find*)",
+      "Bash(grep*)",
+      "Bash(head*)",
+      "Bash(tail*)",
+      "Bash(wc*)",
+      "Bash(sort*)",
+      "Bash(curl*)",
+      "Bash(test*)",
+      "Bash(echo*)",
+      "Bash(date*)",
+      "Bash(playwright*)",
+      "Bash(powershell -ExecutionPolicy Bypass -NoProfile -File \"./ez-launcher.ps1\")",
+      "Bash(powershell -ExecutionPolicy Bypass -NoProfile -Command \"Add-Type -AssemblyName System.Windows.Forms; Write-Host ''WinForms OK''\")",
+      "Bash(powershell -ExecutionPolicy Bypass -NoProfile -Command \":*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Read(./**/*.key)",
+      "Read(./**/*.pem)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/post-write-lint.py\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/secret-commit-guard.py\""
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/vague-verb-check.py\""
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"${CLAUDE_PROJECT_DIR}/.claude/hooks/session-start.py\""
+          }
+        ]
+      }
+    ]
+  },
+  "enableAllProjectMcpServers": true
+}
