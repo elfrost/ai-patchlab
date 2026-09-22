@@ -58,6 +58,9 @@ AI PatchLab is an AI-assisted security remediation toolkit. The MVP focuses on a
 - `scanner/models.py` - Normalized `Finding` dataclass + severity/confidence enums + `FINDING_FIELDS`
 - `scanner/recommendations.py` - Deterministic keyword-based recommendation enrichment
 - `scanner/coverage.py` - Per-scanner coverage derived from meta findings (`ToolCoverage`, `build_coverage`, `EXPECTED_TOOLS`, `is_complete`); feeds `reports/coverage.json` and the report's Scan Coverage block
+- `scanner/verdict_corpus.py` - Corpus validation and aggregation (`validate_payload` reports every problem in one pass, `load_corpus` reads `corpus/verdicts/`)
+- `scanner/run_verdict_check.py` - CLI: `--check <verdicts.json>` (exit 2 on any problem, required by `/daily` Phase 4) and `--summary` (count the whole corpus)
+- `corpus/verdicts/` - Committed dismissal corpus, one file per scan; the durable half, since `reports/` is gitignored
 - `scanner/verdicts.py` - Dismissal records (`VerdictRecord`, `summarize_removed`, `count_by_reason`, `load_records`) with closed `SCANNER_REASON_CODES` / `CURATION_REASON_CODES` vocabularies; feeds `reports/verdicts.json` and the report's Dismissed section
 - `scanner/report_markdown.py` - Markdown rendering, split out of `report.py` to stay under the 300-line ceiling (`write_markdown_report` is still re-exported from `scanner.report`)
 - `scanner/confidence.py` - Centralized `Finding.confidence` rules (one function per scanner + `confidence_for_meta_finding` for shared `not-installed` / `scan-error` / etc.)
@@ -74,7 +77,7 @@ AI PatchLab is an AI-assisted security remediation toolkit. The MVP focuses on a
 - `src/main.py` - Legacy entry point (`python -m src.main`) - currently a loguru-wired async stub with TODOs
 - `.github/workflows/ci.yml` - CI: ruff + black + pytest on Python 3.11 and 3.13
 - `reports/disclosures/` - Drafted private disclosure emails awaiting a manual send (gitignored)
-- `tests/` - pytest tests (one module per scanner: `test_scanner_foundation.py`, `test_semgrep_scanner.py`, `test_gitleaks_scanner.py`, `test_trivy_scanner.py`, `test_dependency_scan.py`, `test_ai_review.py`, `test_patch_suggestions.py`, `test_recommendations.py`, `test_meta_findings.py`, `test_confidence_field_rules.py`, `test_coverage.py`, `test_verdicts.py`)
+- `tests/` - pytest tests (one module per scanner: `test_scanner_foundation.py`, `test_semgrep_scanner.py`, `test_gitleaks_scanner.py`, `test_trivy_scanner.py`, `test_dependency_scan.py`, `test_ai_review.py`, `test_patch_suggestions.py`, `test_recommendations.py`, `test_meta_findings.py`, `test_confidence_field_rules.py`, `test_coverage.py`, `test_verdicts.py`, `test_verdict_corpus.py`)
 - `tests/conftest.py` - Shared fixtures (`mock_db`, `mock_http_client`, `mock_discord`, `test_config`, session `event_loop`)
 - `examples/` - Reference patterns to read before implementing
 - `PRPs/` - Active Product Requirements Prompts
@@ -181,6 +184,8 @@ export AI_PATCHLAB_AI_REVIEW_COMMAND=/path/to/ai-review-wrapper
 - Do not call subprocesses directly from `scanner/scanners/*` - go through the runner module
 - Every suppression step in `run_scan` records what it removed via `summarize_removed(before, after, reason_code)` - a narrower report must never shrink its own numbers silently (ADR-016)
 - `reason_code` values are a closed vocabulary in `scanner/verdicts.py`; add a code to the module rather than inventing one at a call site, or the corpus stops being countable
+- Curation rows are hand-written JSON, so the dataclass never runs on them - `/daily` Phase 4 MUST get exit 0 from `scanner/run_verdict_check.py --check` before publishing (ADR-017). `rule` is required on every row; `verdict` takes one of five values and the sentence goes in `detail`
+- `confirmed-real` is first-party only; an upstream dependency merely behind a fixed version is `dependency-currency`
 - Coverage is derived from the raw `collect_findings` output **before** `apply_ignore` (`scanner/run_scan.py`) - `--ignore-file` does not exempt meta findings, so deriving it later would let a path pattern hide the fact that a tool never ran
 - Adding a scanner to `SCANNERS` requires adding its `Finding.tool` value to `scanner/coverage.py:EXPECTED_TOOLS`; `tests/test_coverage.py::TestRegistryDrift` fails until you do
 - `Finding.confidence` values come from `scanner/confidence.py` - never inline `confidence="high"` / `"medium"` / `"low"` in a scanner adapter; add or reuse a rule function instead
@@ -235,7 +240,7 @@ export AI_PATCHLAB_AI_REVIEW_COMMAND=/path/to/ai-review-wrapper
 - Log architectural decisions in `DECISIONS.md`
 - Check existing ADRs before making structural changes
 - Record date, decision, context, and consequences
-- Current ADRs of record: ADR-001 scaffold, ADR-002 data stack, ADR-003 placeholder adapters, ADR-004 Gitleaks, ADR-005 Semgrep, ADR-006 recommendation enrichment, ADR-007 patch suggestions, ADR-008 Trivy, ADR-009 pip-audit, ADR-010 disabled-by-default AI review boundary, ADR-011 centralized scanner confidence rules, ADR-012 probabilistic web template fingerprinting boundary, ADR-013 meta findings exempt from severity filtering, ADR-014 field-derived confidence tiers, ADR-015 coverage is a report artifact, ADR-016 dismissals recorded as counted rule families
+- Current ADRs of record: ADR-001 scaffold, ADR-002 data stack, ADR-003 placeholder adapters, ADR-004 Gitleaks, ADR-005 Semgrep, ADR-006 recommendation enrichment, ADR-007 patch suggestions, ADR-008 Trivy, ADR-009 pip-audit, ADR-010 disabled-by-default AI review boundary, ADR-011 centralized scanner confidence rules, ADR-012 probabilistic web template fingerprinting boundary, ADR-013 meta findings exempt from severity filtering, ADR-014 field-derived confidence tiers, ADR-015 coverage is a report artifact, ADR-016 dismissals recorded as counted rule families, ADR-017 a closed vocabulary needs a closer
 
 ## Known Gotchas
 - **Do not tag scan posts by keyword inference.** A classifier over post bodies was built and rejected 2026-09-18: validated against 9 posts of known ground truth it gave klavis **6** finding classes where the real finding was dependency CVEs, and got 3 of 9 project families wrong (OpenBiliClaw as "developer tooling", tracecat as "MCP server"). Post bodies discuss false positives and credited defences at length, so matching them tags a clean scan with the class it *dismissed*. On a site whose whole argument is that pattern-matching produces plausible-but-wrong results, publishing plausible-but-wrong tags is self-refuting. Grouping pages are generated from the **curated index table** instead — hand-maintained, verified data

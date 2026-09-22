@@ -134,6 +134,36 @@ Pour les dÃ©cisions qui requiÃ¨rent un round de discussion avant `accepted`.
 
 <!-- Ajouter les nouvelles dÃ©cisions en haut (plus rÃ©cent en premier) -->
 
+### ADR-017: A closed vocabulary needs a closer
+
+**Date:** 2026-09-22
+**Status:** accepted
+
+**Context:** ADR-016 shipped the dismissal corpus on 2026-09-21. Its first production run, scan #109 (overwirehq/claude-code-telegram) on 2026-09-22, produced a `verdicts.json` with 7 scanner rows and 6 curation rows — the plumbing worked — and every one of the curation rows was invalid. All six had an empty `rule`, and all six carried free prose in `verdict` (`"by-design not-reachable"`, `"FP - parameterized"`, `"real - lockfile refresh"`). Three causes, none of which ADR-016 anticipated: the curation half is hand-written JSON, so `VerdictRecord.__post_init__` never runs and nothing enforces the closed vocabularies; `rule` was documented as part of the family key but never required; and `confirmed-real` was used for 13 dependency-currency findings under a headline of zero real findings. A fourth problem is structural rather than a drift: `reports/` is gitignored, so the corpus lived on one machine and would not survive a clone — ADR-014's measurement only worked because the archived reports happened to still be on disk.
+
+**Decision Drivers:**
+- The corpus is worthless unless it can be counted years later, which is the entire premise of ADR-016 (must-have)
+- Enforcement must run where the rows are actually written, not only where the dataclass is constructed (must-have)
+- The durable copy must be committed, without un-ignoring `reports/`, which holds raw dumps and unsent private disclosure drafts (must-have)
+- A repair list should cost one run, not one run per defect (should-have)
+
+**Considered Options:**
+- **A - Document the rules harder in `/daily`.** Rejected: the instruction already said "one row per rule family" and the first run ignored it. Prose is not enforcement.
+- **B - Have the scanner write the curation rows too.** Rejected: the judgement is not available to a subprocess pipeline; only the curating agent has it.
+- **C - A validator the daily run must pass, plus a committed corpus directory.** **Selected.**
+- **D - Un-ignore `reports/*/verdicts.json` with a negation rule.** Rejected: git does not descend into an ignored directory, so the negation needs a fragile `reports/*` + `!reports/*/` ladder that also risks exposing `reports/disclosures/`.
+
+**Decision:** Add `scanner/verdict_corpus.py` (`validate_payload`, `load_corpus`) and the `scanner/run_verdict_check.py` CLI. `--check <file>` reports every problem in every row in one pass and exits 2; `/daily` Phase 4 must see exit 0 before publishing. `rule` becomes required on every record. `dependency-currency` joins the vocabulary and `confirmed-real` is documented as first-party only. The validated file is copied to `corpus/verdicts/<slug>.json`, which is committed; `reports/` stays ignored and `reports/<slug>/verdicts.json` remains the per-run artifact. `scanner/verdicts.py` reached 296 of the 300-line ceiling, so validation and corpus loading moved to the new module.
+
+**Consequences:**
+- Positive: the failure mode was caught on day one by looking at the first real output rather than trusting the green test suite. The unit tests all passed while the production file was entirely invalid, because the tests exercised the constructor and production did not.
+- Positive: `--summary` makes the ADR-014 measurement a command instead of an archaeology project.
+- Negative: `/daily` gains a step that can fail and block publication. That is intended, but it means a malformed corpus now stops a scan post rather than quietly degrading.
+- Negative: the corpus is duplicated — the run artifact under `reports/` and the committed copy under `corpus/`. A copy step can be skipped; the validator cannot detect a file that was never archived.
+- Risks: `verdict` is still free-form enough to attract prose, since it duplicates what `reason_code` already says. If the next few runs keep fighting it, remove the field rather than keep validating it.
+- The six invalid rows from scan #109 are left as they are. Rewriting them would mean inventing rule identities that were never recorded, and a corpus with one fabricated entry is worth less than one with a known hole. Scan #110 is the first valid entry.
+- Amends ADR-016; does not supersede it.
+
 ### ADR-016: Dismissals are recorded as counted rule families, not discarded
 
 **Date:** 2026-09-21
