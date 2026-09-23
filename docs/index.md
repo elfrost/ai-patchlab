@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "109 curated security scans of open-source AI agents, MCP servers and LLM apps - 24 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "109 curated security scans of open-source AI agents, MCP servers and LLM apps - 25 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 109 scans, 24 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 109 scans, 25 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -35,7 +35,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Two shorter ways in
 
-- [**Findings a maintainer fixed**]({{ '/fixed' | relative_url }}) — the 24 that resolved
+- [**Findings a maintainer fixed**]({{ '/fixed' | relative_url }}) — the 25 that resolved
   upstream. The shortest version of the argument: a report is only worth writing if someone
   can act on it.
 - [**Scans that found nothing**]({{ '/clean' | relative_url }}) — 40 of them, published as
@@ -160,7 +160,7 @@ filed, which is the usual outcome of a clean scan.
 | 2026-08-07 | [huangruiteng/loopx](scans/huangruiteng-loopx.html) | 57 | 1 real — withheld | **fixed** |
 | 2026-08-06 | [nottelabs/notte](scans/nottelabs-notte.html) | 226 | 1 real — withheld | private |
 | 2026-08-05 | [Vexa-ai/vexa](scans/vexa-ai-vexa.html) | 297 | 1 real — withheld | private |
-| 2026-08-04 | [ArcReel/ArcReel](scans/arcreel-arcreel.html) | 82 | 1 real — withheld | private |
+| 2026-08-04 | [ArcReel/ArcReel](scans/arcreel-arcreel.html) | 82 | 1 real — withheld | **fixed** |
 | 2026-08-03 | [the-momentum/open-wearables](scans/the-momentum-open-wearables.html) | 145 | 2 real | **fixed** |
 | 2026-08-02 | [Observal/Observal](scans/observal-observal.html) | 1,117 | 1 real — withheld | private |
 | 2026-08-01 | [repowise-dev/repowise](scans/repowise-dev-repowise.html) | 86 | 2 real — withheld | private |
