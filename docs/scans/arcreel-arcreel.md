@@ -10,13 +10,118 @@ date: 2026-08-04
 **Repository:** [ArcReel/ArcReel](https://github.com/ArcReel/ArcReel)
 **Commit scanned:** `a7e78bdb`
 **Scan date:** 2026-08-04
-**Disclosure status:** withheld — one real finding filed privately as
+**Disclosure status:** ✅ **resolved** — filed privately as
 [GHSA-5r36-2f3p-5q87](https://github.com/ArcReel/ArcReel/security/advisories/GHSA-5r36-2f3p-5q87),
-still embargoed. **Accepted by the maintainers on 2026-08-06**: the submitted
-report was converted into a draft advisory (`submission.accepted: true`,
-state `triage` → `draft`), the **High** severity was kept as filed, CWE-200 and
-CWE-862 were assigned, and the reporter was credited. No patched version is
-published yet, so the finding stays withheld here.
+accepted on 2026-08-06, fixed in
+[v0.31.0](https://github.com/ArcReel/ArcReel/releases/tag/v0.31.0) and
+**published by the maintainers on 2026-09-23**, fifty days after filing. The
+embargo has lifted; the specifics are below.
+
+## Update — 2026-09-23: fixed and published
+
+The advisory is public, so this page no longer needs to talk around the finding.
+
+**[GHSA-5r36-2f3p-5q87](https://github.com/ArcReel/ArcReel/security/advisories/GHSA-5r36-2f3p-5q87)**
+— *Anonymous project-file endpoint served any file inside a project directory.*
+High (CVSS 3.1 7.5, `AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N`), CWE-200 / CWE-862,
+vulnerable `< 0.31.0`, patched in **0.31.0**, credited to
+[@elfrost](https://github.com/elfrost) as reporter.
+
+**What was withheld.** The reviewed exception was `GET
+/api/v1/files/{project_name}/{path}`, which lives on a separate `public_router`
+mounted with no authentication dependency (`server/app.py:609` at the scanned
+commit). The decision was deliberate and tested, since the route sits in the
+auth-coverage test's `PUBLIC_OPERATIONS` list, and it was justified in writing:
+`<img src>` and `<video src>` cannot carry an `Authorization` header. But the
+route served **any** file inside the project directory, not only media. That
+included the project manifest, the source manuscript, scripts, drafts and agent
+state. The unremarkable default was `CORS_ORIGINS`, which fell back to `*`
+(`server/app.py:479`), so every response carried `Access-Control-Allow-Origin:
+*`. With that header, any web page the operator visited could `fetch()` those
+files from their instance and **read** them, with no credentials and no
+position on their network. The `<img src>` justification never needed that
+header, because images render cross-origin without it; the wildcard only
+granted the programmatic read the exemption was never meant to allow. Neither
+bundled compose file set `CORS_ORIGINS`, and the SPA is served same-origin, so
+the shipped deployment did not need the wildcard at all.
+
+**The fix they shipped is not the one I proposed, and it is stronger where it
+matters.** I offered a one-line default change (an empty CORS allow-list) plus
+two token-based media routes the codebase already used elsewhere.
+[#2601](https://github.com/ArcReel/ArcReel/pull/2601) attacked the other half
+of the composite instead. It narrowed **what** the anonymous route will serve,
+not **who** may read it:
+
+- files only from an allow-list of eleven media directories, their `versions/`
+  snapshot buckets, and the root `style_reference` image;
+- seven media extensions (`png jpg jpeg webp mp4 wav mp3`, case-insensitive);
+- everything else answers with the same 404 as a missing file;
+- `X-Content-Type-Options: nosniff` on every response;
+- the same extension allow-list on the global-assets route.
+
+My one-liner would have closed the cross-origin read and left manuscripts
+readable by anyone who can reach the port, which on the README's Compose path
+means the whole LAN. Theirs closes the content class for **every** anonymous
+reader. It also covers an impact I had not reported, which the advisory
+documents: files were served inline with a type inferred from the name, so HTML
+or SVG placed in a project could run in the ArcReel origin. ADR 0071 and the
+threat model now define exactly which media stays anonymous, and the pull
+request records its own residue (two response fields that still point `source/`
+and `output/` entries at the now-404ing route).
+
+**Re-verified, not assumed.** I lifted `serve_project_file`'s decision logic
+verbatim from v0.31.0 and ran 31 request paths against a synthetic project tree.
+It uses `safe_join` from `lib/infra/path_safety.py` plus the new
+`is_public_media_path`. Before the fix, **14 non-media files** were served:
+
+- nine by their direct path;
+- two through `storyboards/../`;
+- three through Windows filename aliases (`::$DATA`, a trailing dot, a trailing
+  space) that all resolve to `project.json`.
+
+At v0.31.0 the count is **0**, and all six media files are still served. The
+allow-list is evaluated on the **resolved real path**, the same path
+`FileResponse` then opens. There is no gap between how the check parses the
+request and how the file server does, which was the flaw in
+[sie's first Host allowlist](superlinked-sie.html). One case was not run here:
+symlinks, because this machine has neither symlink privilege nor a Linux VM.
+The maintainers' own `test_media_named_symlink_to_non_media_file_returns_404`
+covers exactly that case, and the check works on the resolved path by
+construction.
+
+**A correction to this page.** Below, I described a third element that turned
+"you would have to already know what to ask for" into "you can find out". It
+was the route's two distinguishable 404 bodies: project missing versus file
+missing. The difference is real, and it is still there at v0.31.0. **The
+conclusion I drew from it was overstated.** The UI never sends a project name.
+Identifiers are generated as `<title-slug>-<8 random hex>` (`secrets.token_hex(4)`,
+32 bits), and they were at the scanned commit too. So the oracle confirms a
+guessed identifier but cannot practically find one. Only a name chosen by hand
+through the API is guessable. The real precondition, which the advisory states
+correctly, was **knowing the project identifier**.
+
+**What is unchanged, and why I am not reporting it again.** `CORS_ORIGINS`
+still defaults to `*` (now in `server/cors_config.py`), so the media that ADR
+0071 keeps anonymous by design is also readable cross-origin. Both that and
+the 404 difference sit behind the same 32-bit identifier. I count them as
+hardening, not a residual vulnerability. One reading note on the advisory: it
+says a strictly loopback-only deployment is the default. The README's
+documented install path is Docker Compose, and the README itself says that
+Compose publishes port 1241 on every host interface. Before 0.31.0, the
+wildcard also made even a loopback-only instance readable from a web page,
+given the identifier. Upgrading is the answer either way.
+
+**Timeline.** Filed 2026-08-04 through private vulnerability reporting ·
+accepted 2026-08-06, High kept as filed · still unfixed at `main` on 2026-08-19,
+after two releases · fix merged 2026-09-21 (#2601) · v0.31.0 released and
+advisory published 2026-09-23 · re-verified the same day. The **25th** fix in
+this series. Three advisories in this series had been accepted and left
+unpublished; ArcReel is the first of them to be published, 48 days after
+acceptance and with no nudge. Acceptance is not resolution, but here it
+predicted it.
+
+The rest of this page is the original write-up, unchanged apart from this
+section and the status line, and kept as it was published under embargo.
 
 ## Summary
 
@@ -296,8 +401,8 @@ through to the opposite outcome.
 ---
 
 *Scanned with [AI PatchLab](https://github.com/elfrost/ai-patchlab). Findings are
-curated by hand; scanner output alone is not a vulnerability report. This page
-will be updated with full technical detail once the advisory resolves.*
+curated by hand; scanner output alone is not a vulnerability report. Full
+technical detail was added on 2026-09-23, when the advisory was published.*
 
 ---
 

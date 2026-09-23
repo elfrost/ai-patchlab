@@ -1,12 +1,12 @@
 ---
 layout: default
 title: Findings a maintainer fixed
-description: "The 24 scans in the AI PatchLab series where the maintainer shipped a fix — what was reported, and what landed upstream."
+description: "The 25 scans in the AI PatchLab series where the maintainer shipped a fix — what was reported, and what landed upstream."
 ---
 
 # Findings a maintainer fixed
 
-Of 105 scans, **24** ended with a maintainer shipping a fix. This page is the
+Of 109 scans, **25** ended with a maintainer shipping a fix. This page is the
 short version of the argument: a report is only worth writing if someone can act on it.
 
 The fastest turnaround in the series was about six hours from filing to a merged pull
@@ -26,6 +26,7 @@ release notes.
 | 2026-08-12 | [jgravelle/jcodemunch-mcp](scans/jgravelle-jcodemunch-mcp.html) | 49 | 0 real |
 | 2026-08-08 | [theroyallab/tabbyAPI](scans/theroyallab-tabbyapi.html) | 18 | 2 real |
 | 2026-08-07 | [huangruiteng/loopx](scans/huangruiteng-loopx.html) | 57 | 1 real — withheld |
+| 2026-08-04 | [ArcReel/ArcReel](scans/arcreel-arcreel.html) | 82 | 1 real — withheld |
 | 2026-08-03 | [the-momentum/open-wearables](scans/the-momentum-open-wearables.html) | 145 | 2 real |
 | 2026-07-29 | [Project-N-E-K-O/N.E.K.O](scans/project-n-e-k-o-n-e-k-o.html) | 783 | 1 real |
 | 2026-07-28 | [EvoScientist/EvoScientist](scans/evoscientist-evoscientist.html) | 39 | 1 real |
