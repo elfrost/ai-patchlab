@@ -1,0 +1,106 @@
+{
+  "repository": "C:\\Users\\Elfrost\\AppData\\Local\\Temp\\ai-patchlab-clone-10x7xz2a\\repo",
+  "generated_at": "2026-09-23T13:18:38.997055+00:00",
+  "total_dismissed": 27,
+  "by_reason": {
+    "ignore-pattern": 2,
+    "below-min-severity": 1,
+    "sql-identifier-fp": 8,
+    "by-design": 12,
+    "not-reachable": 2,
+    "product-surface": 1,
+    "confirmed-real": 1
+  },
+  "records": [
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "html.security.audit.missing-integrity.missing-integrity",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "No HEALTHCHECK defined",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.security.sqlalchemy-execute-raw-query / formatted-sql-query",
+      "count": 8,
+      "verdict": "false-positive",
+      "detail": "5 high + 3 medium. Every f-string interpolates only a table or column NAME, all hardcoded literals at the call sites (stats.py _safe_count/_count_since called with 'greet_records'/'apply_records'/'greeted_at'; clean.py _clean_table with literal table names; cache/store.py joins in-code \"col = ?\" strings). Every VALUE is bound as ? — since is a ? param, the crawl_runs UPDATE binds all values. No user input reaches any SQL string. #1 recurring identifier FP."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "typescript.react.security.react-insecure-request",
+      "count": 1,
+      "verdict": "by-design",
+      "detail": "extension/background.js:145 is fetch(http://127.0.0.1:19826/ping) — a loopback health check to the local bridge daemon, not a react render sink. http to loopback is intended."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.compatibility.python37.python37-compatibility-importlib2",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "endpoints_loader.py:2 importlib.resources — a Python 3.7 compatibility rule, not a security finding. Project targets 3.11+."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "github-actions.security.github-actions-mutable-action-tag",
+      "count": 8,
+      "verdict": "hardening",
+      "detail": "8 of 16 mediums, one rule across pages.yml/release.yml/star-history.yml. Unpinned action tags — supply-chain hardening worth a SHA pin, not a vulnerability. Same-rule flood inflates the band."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected",
+      "count": 2,
+      "verdict": "by-design",
+      "detail": "browser_client.py:688 urlopen(cdp_http_url + '/json') is the local Chrome DevTools endpoint the user launched; scripts/update_contributors.py:27 fetches api.github.com in a build script. Neither is an attacker-controlled URL at runtime."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.insecure-hash-algorithm-sha1",
+      "count": 2,
+      "verdict": "by-design",
+      "detail": "zhilian_browser.py:305 and events.py:27 use sha1()[:16] to derive a dedup/reference id from element text; non-security digest, not a password or signature."
+    },
+    {
+      "source": "curation",
+      "reason_code": "product-surface",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.non-literal-import",
+      "count": 1,
+      "verdict": "by-design",
+      "detail": "__init__.py:94 dynamic import is the plugin loader — the extensibility architecture, not an injection sink (import name is not user-supplied)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "confirmed-real",
+      "tool": "manual-review",
+      "rule": "bridge-daemon-loopback-no-origin-host-guard",
+      "count": 1,
+      "verdict": "real",
+      "detail": "Browser Bridge daemon (127.0.0.1:19826, aiohttp, no middleware) exposes POST /command and the /ext WebSocket with NO Origin and NO Host check and no shared secret. Verified server-side against the shipped daemon: foreign Host served (200), text/plain JSON body parsed and forwarded (CORS-simple request, no preflight), hostile Origin not rejected. The extension executes action=exec via chrome.debugger Runtime.evaluate and action=cookies via chrome.cookies.getAll (returns httpOnly) on the *.zhipin.com session; workspace='boss' auto-targets the logged-in tab. Any web page visited while bridge mode is active can blind-CSRF arbitrary JS into the authenticated recruitment tab, and read httpOnly session cookies via DNS rebinding. Desktop-loopback-inversion class. Reported privately (strict-norm: SECURITY.md forbids public issues; PVR enabled)."
+    }
+  ]
+}
