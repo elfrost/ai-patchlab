@@ -1,0 +1,297 @@
+{
+  "repository": "C:\\Users\\Elfrost\\AppData\\Local\\Temp\\ai-patchlab-clone-eb9ea3mu\\repo",
+  "generated_at": "2026-09-24T13:14:23.423309+00:00",
+  "total_dismissed": 99,
+  "by_reason": {
+    "ignore-pattern": 1,
+    "below-min-severity": 3,
+    "by-design": 45,
+    "credited-defense": 6,
+    "sql-identifier-fp": 17,
+    "not-reachable": 19,
+    "active-harm-fp": 4,
+    "domain-noun-collision": 3,
+    "dependency-currency": 1
+  },
+  "records": [
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "generic.unicode.security.bidi.contains-bidirectional-characters",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.dependabot.dependabot-missing-cooldown.dependabot-missing-cooldown",
+      "count": 2,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.uv.uv-missing-dependency-cooldown.uv-missing-dependency-cooldown",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "javascript.vue.security.audit.xss.templates.avoid-v-html",
+      "count": 16,
+      "verdict": "false-positive",
+      "detail": "HelpPage.vue x16: v-html renders window.TREG_TUTORIAL, the project's own static tutorial (web/tutorial.js) - first-party content, no user or upstream data."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "semgrep",
+      "rule": "javascript.vue.security.audit.xss.templates.avoid-v-html",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "App.vue:217 + CopyToolDialog.vue:16: snippet HTML from state/snippets.js + state/skills.js; every interpolated tool field (name, host, path, example, method, org) passes esc(&<>) inside element text before wrapping, and a source comment says why. Attribute values are static literals."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+      "count": 17,
+      "verdict": "false-positive",
+      "detail": "16 in alembic/versions (SET lock_timeout/statement_timeout from module constants + CONCURRENTLY index DDL); 1 in infra/db.py:330, a test-reset TRUNCATE over ORM-metadata table names quoted by the dialect's identifier_preparer. No value is ever interpolated."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.github-actions-mutable-action-tag",
+      "count": 14,
+      "verdict": "hardening",
+      "detail": "Same-rule flood across the workflow files: SHA-pinning third-party actions is supply-chain hardening, not a vulnerability."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "html.security.audit.missing-integrity.missing-integrity",
+      "count": 6,
+      "verdict": "false-positive",
+      "detail": "6 of 8 hits are <link rel=canonical>/preconnect tags (treg.to self-links, pbs.twimg.com) - not resource loads, SRI does not apply."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "html.security.audit.missing-integrity.missing-integrity",
+      "count": 2,
+      "verdict": "hardening",
+      "detail": "landing.html:583/1367 load lenis@1.3.26 CSS+JS from cdn.jsdelivr.net without integrity=; the landing page shares the treg.to origin with the /app dashboard and there is no site-wide CSP, so an integrity hash is worthwhile supply-chain hardening (it only matters after a CDN/npm compromise)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "count": 9,
+      "verdict": "false-positive",
+      "detail": "Operator/dev scripts only (scripts/catalog_drift.py, catalog_fx_update.py, indexnow_submit.py x3, usage_report.py x2, e2e_check.py, one .agents skill script) with operator-configured URLs; none is on a request path. The 2 usage_report.py hits came from the targeted re-run that recovered 5 files lost to a semgrep temp-file error."
+    },
+    {
+      "source": "curation",
+      "reason_code": "active-harm-fp",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.insecure-file-permissions.insecure-file-permissions",
+      "count": 4,
+      "verdict": "false-positive",
+      "detail": "os.chmod(<dir>, 0o700) x4 (cli.py:2836 fsjail dir, localproxy.py:257, shell.py:272/275 session+shim dirs) - the project TIGHTENING permissions; the rule's looser suggestion would weaken them."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.insecure-file-permissions.insecure-file-permissions",
+      "count": 3,
+      "verdict": "false-positive",
+      "detail": "0o755 on executables: cli.py:3049 egress loader + cli.py:3140 runner (root-owned; per the source comment the member cannot modify it), shell.py:148 PATH shims (tool name/route/binary path, no secret)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "semgrep",
+      "rule": "generic.unicode.security.bidi.contains-bidirectional-characters",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "scripts/catalog_ingest.py:103 is the project's own ZERO_WIDTH regex that STRIPS zero-width/bidi characters from ingested catalog text - the rule fired on the sanitizer."
+    },
+    {
+      "source": "curation",
+      "reason_code": "domain-noun-collision",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.logging.logger-credential-leak.python-logger-credential-disclosure",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "application/auth.py:952 logs a refresh-token FAMILY id + revoked count (reuse detection), not a token; application/call/evidence.py:160 logs the exception from the fail-closed credential-masking layer (_secret_renderings), which then replaces the evidence wholesale."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "semgrep",
+      "rule": "python.flask.security.audit.directly-returned-format-string.directly-returned-format-string",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "routers/auth.py:180 _login_callback_base returns https://{host} only when the parsed Host is in PUBLIC_HOST_ALIASES (treg.to, treg.superdesign.dev), built from the parsed value not the raw header; a URL string, not an HTML response."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.flask.security.audit.directly-returned-format-string.directly-returned-format-string",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "routers/billing.py:131 _return_base builds the Stripe return URL from the raw Host header (documented intent: preview/local servers return to themselves). Same-user only - the URL goes back to the requesting admin's own Checkout/portal session - but its login sibling already allowlists Host; reusing PUBLIC_HOST_ALIASES/public_url would align them."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "semgrep",
+      "rule": "python.django.security.injection.tainted-url-host.tainted-url-host",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "routers/auth.py:180 - same site as above: Host allowlisted against PUBLIC_HOST_ALIASES before use."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "web/tutorial.js:514 (+ its dashboard-legacy copy): RegExp compiled from the project's own static highlighter RULES table; no attacker input reaches the pattern."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.insecure-object-assign.insecure-object-assign",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "frontend/src/state/tools.js:19 deep-copies the org's own tool CLI profile into fresh local objects for an edit form; no shared/global prototype is reachable."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "cli.py:1570 sha1(base_url)[:10] names a local catalog cache file per server - non-security identifier."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.correctness.len-all-count.len-all-count",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Correctness/perf lint, not a security rule."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.compatibility.python37.python37-compatibility-importlib2",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Python 3.7 compatibility lint; the project targets modern Python."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "CVE-2026-63374",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "anyio 4.14.1 -> 4.14.2 (uv.lock; the deploy example installs with --locked). IDNA 2003/2008 hostname confusion in connect_tcp/TLSStream.wrap. On the path: treg's async httpx calls go through httpcore's anyio backend. Exploitation needs a network-positioned attacker AND a non-ASCII upstream host whose IDNA 2003/2008 mappings differ. Lock refresh."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "CVE-2026-63349",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "anyio extra_groups bug in run_process/open_process: treg never calls either (only anyio.to_thread in infra/stripe.py)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "CVE-2026-64847",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "anyio process-pool stderr DoS: treg never uses anyio.to_process."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "CVE-2026-84382",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "httpx2 client-side decompression DoS: httpx2 is a transitive dep of the mcp server extra; treg never imports it and mcp.py uses server-side SDK modules only."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "CVE-2026-84379",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "httpx2 client-side multipart header injection: same - no httpx2 client code runs in treg."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "CVE-2026-84380",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "httpx2 client-side request smuggling: same - no httpx2 client code runs in treg."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "CVE-2026-41205",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "mako via alembic: template lookup is used only when generating migration scripts (dev time), never on a request path."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "CVE-2026-44307",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "mako via alembic: same as CVE-2026-41205."
+    },
+    {
+      "source": "curation",
+      "reason_code": "domain-noun-collision",
+      "tool": "gitleaks",
+      "rule": "generic-api-key",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "catalog/anyapi.extended.yaml:6722 is a YouTube API continuationToken - a public pagination cursor in a catalog example request, not a credential."
+    }
+  ]
+}
