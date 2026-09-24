@@ -89,10 +89,22 @@ shipped code rather than reasoning about them:
   one, which exposes the credential material for the logged-in session directly.
 
 The precondition is honest and worth stating plainly: this is only exploitable
-while the bridge component is actively running, which is a bounded window, not an
-always-on service — and the sensitive scope is the one site the tool is built
-around. That is why it is a High and not a Critical, and I graded it that way in
-the report rather than inviting the maintainer to discover the scope themselves.
+while the bridge component is running, and the user has to start it deliberately —
+nothing in the package starts it for them. Once started, though, it stays up for as
+long as the browser side stays connected, so the exposure is the whole browsing
+session rather than a short window — and the sensitive scope is the one site the
+tool is built around. That is why it is a High and not a Critical, and I graded it
+that way in the report rather than inviting the maintainer to discover the scope
+themselves.
+
+*Correction, 2026-09-24:* the first version of this paragraph, and of the private
+report, called the exposure "a bounded window". That was the one claim in the
+report I reasoned about instead of checking, and it was wrong in both directions. I
+had described the bridge as starting on its own: a start routine exists, but
+nothing calls it, and the maintainer has since removed it as dead code. I had also
+described an idle timeout that, read in full, does not fire while the browser side
+is connected. The private report was corrected the same day; the finding, the fix
+and the severity are unchanged.
 
 **No rule described it.** Every scanner here looks for a dangerous *thing that is
 present* — a tainted sink, a bad call, a known-vulnerable version. This is the
