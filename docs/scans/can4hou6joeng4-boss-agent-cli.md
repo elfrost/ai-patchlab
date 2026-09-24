@@ -173,7 +173,8 @@ python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/can4h
 
 ## More from this series
 
+- **Next scan:** [superdesigndev/treg](superdesigndev-treg.html) — 2026-09-24, 1 real — withheld
 - **Previous scan:** [overwirehq/claude-code-telegram](overwirehq-claude-code-telegram.html) — 2026-09-22, 0 first-party
-- [Every scan in the series]({{ '/' | relative_url }}) — 110 repositories, newest first
+- [Every scan in the series]({{ '/' | relative_url }}) — 111 repositories, newest first
 - [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 25 that resolved
 - [Scans that found nothing]({{ '/clean' | relative_url }}) — published as they were
