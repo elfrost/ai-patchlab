@@ -14,8 +14,9 @@ date: 2026-09-24
 project's `SECURITY.md` (which asks that vulnerabilities not be opened as public
 issues; GitHub private vulnerability reporting is disabled on the repo, and the
 policy names an email address, so email is the channel). Detail below is kept at
-class level until the maintainer has had a chance to respond. **The private send
-is the operator's step and had not gone out when this page was published.**
+class level until the maintainer has had a chance to respond. The private send
+was the operator's step and had not gone out when this page was published; it
+went out ten minutes later (see the timeline below).
 
 ## Summary
 
@@ -160,6 +161,17 @@ attacker against a non-ASCII upstream host — hardening, not a first-party vuln
 curated by hand; scanner output alone is not a vulnerability report. This page will be
 updated with full technical detail once the maintainer has responded and a fix has
 shipped.*
+
+## Disclosure timeline
+
+- 2026-09-24 — scan run at `240c595`; finding verified by running treg's own two host
+  guards side by side
+- 2026-09-24 — channel probed: `SECURITY.md` asks that vulnerabilities not be opened as
+  public issues and names an email address; GitHub private vulnerability reporting is
+  disabled (`{"enabled":false}`)
+- 2026-09-24 13:31 UTC — this page published, finding withheld at class level
+- 2026-09-24 13:41 UTC — reported privately by email to the address in `SECURITY.md`
+- 2026-09-26 — no reply yet, no bounce; none of the reported files has changed upstream
 
 ## Reproduce
 

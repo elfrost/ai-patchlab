@@ -9,12 +9,16 @@ date: 2026-08-29
 **Repository:** [ginlix-ai/LangAlpha](https://github.com/ginlix-ai/LangAlpha)
 **Commit scanned:** `f5232fa2` (main at scan time)
 **Scan date:** 2026-08-29
-**Disclosure status:** disclosed — one real finding filed as a single focused
-public issue. No `SECURITY.md` at the repository root, in `.github/`, in
-`docs/`, or at the organisation level, and private vulnerability reporting is
-disabled (confirmed with an empty-payload control request, which returned
-`403 Repository does not have private vulnerability reporting enabled` — it
-files nothing). A public issue is the only channel the project offers.
+**Disclosure status:** ✅ **resolved** — one real finding, filed as a single
+focused public issue on the day of the scan and fixed by the maintainer 27 days
+later in [ginlix-ai/LangAlpha#425](https://github.com/ginlix-ai/LangAlpha/pull/425),
+which closed the issue as completed. The fix went further than the one proposed
+here: it retired the design the finding took as given. No `SECURITY.md` at the
+repository root, in `.github/`, in `docs/`, or at the organisation level, and
+private vulnerability reporting is disabled (confirmed with an empty-payload
+control request, which returned `403 Repository does not have private
+vulnerability reporting enabled` — it files nothing). A public issue is the
+only channel the project offers.
 
 ## Summary
 
@@ -181,6 +185,35 @@ high-severity findings automatically instead of by hand.
   [issue #378](https://github.com/ginlix-ai/LangAlpha/issues/378). One finding,
   not a grouped review. No PR opened: the fix is one file, but choosing 404 vs
   503 for a sleeping sandbox is a product decision the maintainer should make.
+- **2026-09-25** — **fixed** in [#425](https://github.com/ginlix-ai/LangAlpha/pull/425)
+  (`2eab033f`) and the issue closed as completed, 27 days after filing. The
+  maintainer did not adopt the accessor swap proposed above; the fix removes
+  the premise instead. The old `/api/v1/preview/{workspace_id}/{port}` route no
+  longer resolves a signed URL or touches a session at all: it reads the
+  registered preview command from the database, gets or creates the app's one
+  link, and redirects to it. That link opens for the signed-in workspace owner
+  alone, and the owner's path is now the only one that resolves a preview — in
+  the new docstring's words, "a stopped sandbox is started for the owner and for
+  nobody else." This page described the workspace UUID as the route's bearer
+  credential, by design. #425 retired that design: report frames now load under
+  an HMAC-signed grant that expires, and running apps open through the owner's
+  private link. A regression test names #378 — with the workspace manager and
+  the sandbox lookup both patched to raise, the redirect still answers `302`
+  and the manager is never called.
+- **2026-09-26** — re-verified at `2eab033f`, starting with the differential
+  that found the bug. At the scanned commit, five unauthenticated routes touched
+  a workspace session and one called the waking accessor; at the fix, none do,
+  and every remaining caller of `get_session_for_workspace` sits behind an
+  authenticated owner. The redirect was then probed as a new check, because it
+  still answers anyone who holds a UUID. What it hands back is an app link
+  code, and an app link cannot be shared — the migration's `share_links_app_shape`
+  constraint requires `shared_at IS NULL` on every app row — so for anyone but
+  the owner the code opens nothing and returns the same `404` as an unknown one.
+  The public page that does resolve a preview reaches the waking path only past
+  two independent ownership checks (`resolve_link`, then `require_workspace_owner`
+  inside `_get_sandbox`). Nor can the redirect be used to rewrite the owner's
+  link: its insert is `ON CONFLICT DO NOTHING`, and an old URL's page rides along
+  as `?path=` rather than being stored.
 
 ## Reproduce
 
