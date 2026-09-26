@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "111 curated security scans of open-source AI agents, MCP servers and LLM apps - 25 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "111 curated security scans of open-source AI agents, MCP servers and LLM apps - 26 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 111 scans, 25 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 111 scans, 26 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -35,7 +35,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Two shorter ways in
 
-- [**Findings a maintainer fixed**]({{ '/fixed' | relative_url }}) — the 25 that resolved
+- [**Findings a maintainer fixed**]({{ '/fixed' | relative_url }}) — the 26 that resolved
   upstream. The shortest version of the argument: a report is only worth writing if someone
   can act on it.
 - [**Scans that found nothing**]({{ '/clean' | relative_url }}) — 40 of them, published as
@@ -141,7 +141,7 @@ filed, which is the usual outcome of a clean scan.
 | 2026-09-01 | [future-agi/future-agi](scans/future-agi-future-agi.html) | 1227 | 1 real — withheld | private |
 | 2026-08-31 | [shy3130/tick-stock-panel](scans/shy3130-tick-stock-panel.html) | 77 | 1 real | **fixed** |
 | 2026-08-30 | [SenteLabsAI/OpenExecutive](scans/sentelabsai-openexecutive.html) | 124 | 1 real — withheld | private |
-| 2026-08-29 | [ginlix-ai/LangAlpha](scans/ginlix-ai-langalpha.html) | 372 | 1 real | open |
+| 2026-08-29 | [ginlix-ai/LangAlpha](scans/ginlix-ai-langalpha.html) | 372 | 1 real | **fixed** |
 | 2026-08-28 | [Ontos-AI/knowhere](scans/ontos-ai-knowhere.html) | 129 | 1 real — withheld | private |
 | 2026-08-27 | [Zleap-AI/SAG](scans/zleap-ai-sag.html) | 60 | 1 real | **fixed** |
 | 2026-08-26 | [ascending-llc/jarvis-registry](scans/ascending-llc-jarvis-registry.html) | 235 | 1 real — withheld | private |

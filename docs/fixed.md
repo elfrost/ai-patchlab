@@ -1,12 +1,12 @@
 ---
 layout: default
 title: Findings a maintainer fixed
-description: "The 25 scans in the AI PatchLab series where the maintainer shipped a fix — what was reported, and what landed upstream."
+description: "The 26 scans in the AI PatchLab series where the maintainer shipped a fix — what was reported, and what landed upstream."
 ---
 
 # Findings a maintainer fixed
 
-Of 109 scans, **25** ended with a maintainer shipping a fix. This page is the
+Of 111 scans, **26** ended with a maintainer shipping a fix. This page is the
 short version of the argument: a report is only worth writing if someone can act on it.
 
 The fastest turnaround in the series was about six hours from filing to a merged pull
@@ -20,6 +20,7 @@ release notes.
 | 2026-09-14 | [superlinked/sie](scans/superlinked-sie.html) | 156 | 1 real |
 | 2026-09-03 | [samuelgursky/davinci-resolve-mcp](scans/samuelgursky-davinci-resolve-mcp.html) | 97 | 1 real |
 | 2026-08-31 | [shy3130/tick-stock-panel](scans/shy3130-tick-stock-panel.html) | 77 | 1 real |
+| 2026-08-29 | [ginlix-ai/LangAlpha](scans/ginlix-ai-langalpha.html) | 372 | 1 real |
 | 2026-08-27 | [Zleap-AI/SAG](scans/zleap-ai-sag.html) | 60 | 1 real |
 | 2026-08-20 | [whiteguo233/OpenBiliClaw](scans/whiteguo233-openbiliclaw.html) | 373 | 1 real |
 | 2026-08-17 | [zilliztech/memsearch](scans/zilliztech-memsearch.html) | 90 | 1 real |
