@@ -1,0 +1,368 @@
+{
+  "repository": "C:\\Users\\Elfrost\\AppData\\Local\\Temp\\ai-patchlab-clone-l0a0yyml\\repo",
+  "generated_at": "2026-09-28T13:09:40.774067+00:00",
+  "total_dismissed": 177,
+  "by_reason": {
+    "placeholder-secret": 50,
+    "mitigated-in-app": 46,
+    "not-reachable": 40,
+    "by-design": 25,
+    "below-min-severity": 12,
+    "sample-or-demo": 2,
+    "domain-noun-collision": 1,
+    "dependency-currency": 1
+  },
+  "records": [
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.dependabot.dependabot-missing-cooldown.dependabot-missing-cooldown",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "No HEALTHCHECK defined",
+      "count": 2,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "postcss-selector-parser: Postcss: Denial of Service via uncontrolled recursion in AST Serialization",
+      "count": 2,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.uv.uv-missing-dependency-cooldown.uv-missing-dependency-cooldown",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "body-parser: body-parser: Denial of Service via invalid limit option",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "joi: @hapi/joi: joi: Prototype pollution via untrusted input in schema configuration",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "joi: object().rename() with a template target can set the validated object's prototype",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "starlette: Starlette: Information disclosure due to improper HTTP request path validation",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "gitleaks",
+      "rule": "generic-api-key",
+      "count": 49,
+      "verdict": "false-positive",
+      "detail": "One value, 49 times: the CI-only API_KEY_ENCRYPTION_KEY (prefixed `ci-`) set in .github/workflows/tests.yml (x2) and copied into 17 files under docs/plans/ (x47). A test-workflow fixture, not a deployment credential."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "gitleaks",
+      "rule": "generic-api-key",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": ".env.example:14 - JWT_SECRET is empty; the match runs onto the next line's variable name."
+    },
+    {
+      "source": "curation",
+      "reason_code": "mitigated-in-app",
+      "tool": "semgrep",
+      "rule": "python.django.security.django-no-csrf-token.django-no-csrf-token",
+      "count": 45,
+      "verdict": "false-positive",
+      "detail": "Django rule on a FastAPI + Jinja app. Both auth cookies (admin_token, user_token) are set HttpOnly + SameSite=Lax, which browsers withhold on cross-site POST; the admin router's writes are POST (39 routes) or DELETE (1); the developer dashboard adds a double-submit CSRF token checked with secrets.compare_digest. Scope: the rule inspects POST forms only; GET handlers that set cookies or write rows (Lax does not cover top-level GET navigations) were not traced in this curation."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.github-actions-mutable-action-tag",
+      "count": 17,
+      "verdict": "hardening",
+      "detail": "Same-rule flood across six workflows (tests, docs, codeql, bandit, deploy, semgrep): SHA-pinning third-party actions is supply-chain hardening, not a vulnerability."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sample-or-demo",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "website/docs/api/websocket/{booth,captions}.mdx:16 - a ws:// URL in API documentation text, not code."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "html.security.audit.missing-integrity.missing-integrity",
+      "count": 2,
+      "verdict": "hardening",
+      "detail": "home.html:11 + listener-event.html:4 load the Tailwind Play CDN script (cdn.tailwindcss.com), which is unversioned and cannot carry an SRI hash. Vendoring a Tailwind build removes the third-party script; the project already did so for its error pages in #263."
+    },
+    {
+      "source": "curation",
+      "reason_code": "mitigated-in-app",
+      "tool": "semgrep",
+      "rule": "python.flask.security.xss.audit.direct-use-of-jinja2.direct-use-of-jinja2",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "email_sender.py:76 renders email/onboarding.html through Starlette's Jinja2Templates, whose environment uses select_autoescape() (starlette 1.1.0 templating.py:95) - .html templates are escaped."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.performance.performance-improvements.len-all-count",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "webhooks.py:80 - SQLAlchemy performance lint, not a security rule."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "javascript.browser.security.insufficient-postmessage-origin-validation.insufficient-postmessage-origin-validation",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "embed-player.js:189 headless-embed listener: enforces the configured allowed_origins list when set and requires source='voxbento-parent'; it can only play, pause or set the volume of the embedded audio - the control surface an embeddable player is meant to give its host page."
+    },
+    {
+      "source": "curation",
+      "reason_code": "domain-noun-collision",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.logging.logger-credential-leak.python-logger-credential-disclosure",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "tts/worker.py:51 logs 'Deepgram API key not found for Event <id>' - the event id, never the key."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "trivy",
+      "rule": "Image user should not be 'root'",
+      "count": 2,
+      "verdict": "hardening",
+      "detail": "Dockerfile + floor-bot/Dockerfile run as root; a USER line is container hardening, not a vulnerability."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "trivy",
+      "rule": "'apt-get' missing '--no-install-recommends'",
+      "count": 2,
+      "verdict": "hardening",
+      "detail": "Dockerfile + floor-bot/Dockerfile: image-size hygiene."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "CVE-2026-54283",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "starlette 1.1.0 -> 1.3.1 in uv.lock (transitive via fastapi 0.141.1, which requires only starlette>=0.46.0). request.form() limits are ignored for urlencoded bodies; reachable before login through the FastAPI Form() parameters on the auth routes. No open Dependabot PR at scan time (starlette is transitive). Fix: uv lock --upgrade-package starlette."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "CVE-2026-59890",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "setuptools 78.1.1: MANIFEST.in exclusion bypass when building an sdist on macOS APFS/HFS+ - build-time packaging only; the portal never builds an sdist."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "js-yaml",
+      "count": 7,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-53550, CVE-2026-59869, CVE-2026-84375, GHSA-5p4m-2wfm-xmqj."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "fast-uri",
+      "count": 6,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-13676, CVE-2026-16221, CVE-2026-18446, CVE-2026-75899, CVE-2026-75975, CVE-2026-76172."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "brace-expansion",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-13149, CVE-2026-14257, CVE-2026-69152."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "svgo",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-73650, CVE-2026-84369, CVE-2026-84370."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "browserslist",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-73088, CVE-2026-73089."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "image-size",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2025-71329, CVE-2025-71330."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "nanoid",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-67213, CVE-2026-67214."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "postcss",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-69153, CVE-2026-73646."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "qs",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-82417, CVE-2026-82562."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "serialize-javascript",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-34043, GHSA-5c6j-r48x-rmvq."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "webpack-dev-server",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-14620, CVE-2026-14631."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "@swc/html",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-72925."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "baseline-browser-mapping",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-45819."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "colord",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-85062."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "http-proxy-middleware",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-55602."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "shell-quote",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-13311."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "uuid",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "website/package-lock.json - the Docusaurus 3.10.1 docs site. CI runs npm ci + npm run build and publishes website/build as static files (docs.yml -> GitHub Pages); nothing in portal/ imports it, so this package runs only at build time. Advisories: CVE-2026-41907."
+    }
+  ]
+}

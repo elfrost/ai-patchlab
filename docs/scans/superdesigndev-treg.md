@@ -184,7 +184,8 @@ python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/super
 
 ## More from this series
 
+- **Next scan:** [fossasia/voxbento](fossasia-voxbento.html) — 2026-09-28, 0 first-party
 - **Previous scan:** [can4hou6joeng4/boss-agent-cli](can4hou6joeng4-boss-agent-cli.html) — 2026-09-23, 1 real — withheld
-- [Every scan in the series]({{ '/' | relative_url }}) — 111 repositories, newest first
-- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 25 that resolved
+- [Every scan in the series]({{ '/' | relative_url }}) — 112 repositories, newest first
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 26 that resolved
 - [Scans that found nothing]({{ '/clean' | relative_url }}) — published as they were
