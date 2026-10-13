@@ -37,6 +37,8 @@ Runs the full AI PatchLab public-scan workflow end-to-end, once per day, without
 
 9. **Kill switch.** If `.daily-paused` exists in the repo root, abort immediately with a one-line note. (Create/remove it to pause/resume without code changes.)
 
+10. **A run records itself before it can fail.** Open the run record the moment Phase 2 picks a target and close it in Phase 6 (see State & rate-limit). Phase 0 runs `scanner/run_orphan_check.py`, which finds any record left `in-progress` by an earlier day and any `reports/<slug>/` with no post and no record; either one pauses the pipeline (`.daily-paused`) until the user has looked. Rationale: from 2026-09-25 to 2026-10-03 seven runs scanned a repo and then ended in curation (a model safety stop) before Phase 6. State was only written there, so `last_run` stayed 2026-09-28, guardrail 1 never fired and every morning spent a fresh scan: seven scans lost, nothing published, and nobody was told for a week.
+
 ## State & rate-limit
 - State file: `reports/.daily_state.json` (under gitignored `reports/`).
 - Scalar keys: `last_run` (`YYYY-MM-DD`), `last_slug`, `scans_count`, `clean_scans_count`, `resolved_count`, `acknowledged_count`, `filed_open_count`.
@@ -47,7 +49,7 @@ Runs the full AI PatchLab public-scan workflow end-to-end, once per day, without
   - `excluded_repos` / `excluded_note` — targets deliberately never to be scanned again
   - `*_note` — a durable lesson worth carrying into later runs
 - At start: read it. If `last_run == today`, treat as rate-limited → `--status-only` behavior.
-- At end of a successful scan: write `last_run = today`, append the slug to `runs_recent`.
+- **Open the run record before scanning, close it at the end.** As soon as Phase 2 picks a target, and before Phase 3 creates any `reports/<slug>/`, set `last_run = today` and append `{"date": today, "slug": slug, "repo": "<owner>/<name>", "outcome": "in-progress"}` to `runs_recent`. Phase 6 updates that SAME entry with the real outcome — never append a second one. Any stop before Phase 6 (a refusal, a tool failure, a decision to halt) must still set `outcome` to `halted: <reason>`: an entry left `in-progress` is the only trace a run that died without a word leaves behind, and Phase 0 reads it. `--dry-run` opens no record.
 - Drafted disclosure emails live in `reports/disclosures/` (gitignored). When one is sent, replace its `pending_private_disclosure*` entry with a `sent` record carrying the date and channel, so the backlog count drops and Phase 1 starts polling it.
 
 ---
@@ -57,7 +59,8 @@ Runs the full AI PatchLab public-scan workflow end-to-end, once per day, without
 2. **Interpreter preflight.** Run `.venv/Scripts/python.exe -c "import scanner.run_scan"`. If it fails, STOP and report it — do not fall back to bare `python`, and do not scan. A broken interpreter must abort the run, not silently produce an empty report.
 3. **Tool preflight.** Run `semgrep --version`, `gitleaks version` and `trivy --version`. Any tool that cannot report a version WILL produce an empty raw report that reads as "no findings" — name it in the run summary and in the published post, and treat the scan as partial coverage. **Semgrep is a Python program installed on the user-site interpreter**, so it breaks whenever that interpreter does, independently of this project's venv (2026-08-20 to 2026-08-24: a pydantic downgrade killed semgrep — 52% of the series' historical output — and nothing surfaced it because no scan ran in that window).
 4. Read `reports/.daily_state.json` (create with empty defaults if missing).
-5. Compute `today` (local date). If `last_run == today` and mode is not `--status-only`, downgrade to status-only and note it.
+5. **Interrupted-run check.** Run `.venv/Scripts/python.exe scanner/run_orphan_check.py --write-pause` (drop `--write-pause` in `--status-only` mode). Exit 0 → continue. Exit 2 → a previous run died without finishing; the script has listed it and created `.daily-paused`. Print `daily: halted — interrupted run(s), see .daily-paused` and STOP. Do not scan, do not pick another target to "make up" the day, do not delete the evidence. In `--status-only` mode print the list at the top of the run summary and carry on: that mode scans nothing, so it cannot add to the pile. The user clears it with `scanner/run_orphan_check.py --acknowledge` after reviewing `reports/<slug>/`, then deletes `.daily-paused`.
+6. Compute `today` (local date). If `last_run == today` and mode is not `--status-only`, downgrade to status-only and note it.
 
 ## Phase 1 — Status sweep (always runs)
 1. `gh search prs --author=elfrost --json repository,number,title,state,url,updatedAt` and `gh search issues --author=elfrost --json repository,number,title,state,url,updatedAt` (filter out `elfrost/ai-patchlab`).
@@ -104,7 +107,7 @@ If mode is `--status-only`, STOP here after pushing doc updates.
    drop the small projects that most need the review. When the queue is clear, a PVR-off project is a
    fair target — that is precisely what the tiering protects.
 
-6. Pick exactly ONE best candidate. Record why (stars, activity, focus, norm mode, channel).
+6. Pick exactly ONE best candidate. Record why (stars, activity, focus, norm mode, channel). **Then open the run record (see State & rate-limit) before anything else** — Phase 3 must never run on a target the state file does not know about.
 
 ## Phase 3 — Scan
 ```bash
@@ -140,7 +143,7 @@ Then read `reports/<slug>/coverage.json`. It is the authoritative record of what
    **Do NOT gate on `gh api .../pages/builds/latest`.** On an Actions-published site that legacy endpoint reports the old build API and returns `errored` with `duration: 0` even when the deployment succeeded — observed 2026-08-26, where it said `errored` six polls running while the workflow was green and the page was serving the new content. Treat it as advisory at most; a red status there with a green workflow and a 200 is not an incident.
 
 ## Phase 6 — Record
-1. Update `reports/.daily_state.json` (`last_run`, append slug).
+1. Close the run record opened in Phase 2: set the real `outcome` (plus counts and notes) on that SAME `runs_recent` entry — do not append a second — and update `last_slug`. A run that stops earlier closes it as `halted: <reason>` and says so in its summary.
 2. Update memory if a disclosure resolved or a new methodology lesson emerged.
 3. Print a 3-line summary: what was swept, what was scanned, what was filed (or why not).
 
@@ -152,3 +155,4 @@ Then read `reports/<slug>/coverage.json`. It is the authoritative record of what
 - ALWAYS keep an honest record of rejections (document, don't delete).
 - In `--dry-run`, take ZERO irreversible public actions.
 - Respect the convention: a scan post's *outcome* is updated only after the upstream PR/issue is merged/closed, not when opened.
+- NEVER leave a run record `in-progress`: if you stop early for any reason, close it as `halted: <reason>`.

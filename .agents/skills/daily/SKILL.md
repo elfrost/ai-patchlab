@@ -20,11 +20,13 @@ Runs the full public-scan workflow once per day without the user driving it. Mod
 9. **Channel viability is a SELECTION criterion, adaptive to queue depth.** Before committing to a candidate, resolve how a finding would reach the maintainer: `gh api repos/{o}/{r}/private-vulnerability-reporting --jq .enabled`, plus an email in SECURITY.md (root/`.github/`/`docs/`/docs site), README, FUNDING.yml, profile or org profile (commit `noreply` aliases do not count). Queue depth 0–2 → any channel is fine. **Depth 3+ → require an autonomous channel** (PVR on, or a finding that can honestly go in a public issue); skip email-only candidates and say why. **At any depth, never pick a candidate with NO channel** (PVR off AND no email anywhere AND SECURITY.md forbids public issues) — that combination is the only permanent deadlock the series has produced. Measured 2026-09-18: 14 disclosures went autonomous, 12 needed a human send, and **every** pipeline stoppage came from the human-gated half (6-report backlog: 25 days, 4 scans lost; claude-tap: 33 days, 3 scans lost). Adaptive on purpose — PVR-on repos skew mature and commercially backed, so a permanent preference would bias the series and drop the small projects that most need the review.
 10. **`unreachable` is the only way to clear an undeliverable report.** Close a `pending_private_disclosure*` without delivery ONLY with all four proofs recorded in the entry: PVR `{"enabled":false}` checked on **two separate days**; no email in any of the locations above; a public issue forbidden by their own SECURITY.md or self-disclosing; and any remaining contact on a platform **the operator has said** they do not use (ask, never assume). Then re-key to `unreachable_disclosure_<slug>` so guardrail 7 stops counting it, and add one line to the public post: *"Reported channel unavailable — the maintainer's stated private channel is disabled and no other private contact could be found. Detail remains withheld."* **Keep the detail withheld** — a High with no fix and no maintainer aware serves attackers first. `unreachable` records a failed delivery; it is not a licence to disclose. If a channel opens later, re-key back and send.
 
+11. **A run records itself before it can fail.** Open the run record (a `runs_recent` entry with `outcome: "in-progress"`) the moment Phase 2 picks a target and close it in Phase 6; Phase 0 runs `scanner/run_orphan_check.py`, which finds records left `in-progress` by an earlier day and `reports/<slug>/` output with no post and no record, and pauses the pipeline (`.daily-paused`) until the user has looked. From 2026-09-25 to 2026-10-03 seven runs ended in curation before Phase 6 wrote any state, so guardrail 1 never fired and every morning spent a fresh scan.
+
 ## State
-`reports/.daily_state.json` (gitignored): `{"last_run":"YYYY-MM-DD","last_slug":"...","runs":[...]}`. If `last_run == today`, rate-limit to status-only.
+`reports/.daily_state.json` (gitignored): `{"last_run":"YYYY-MM-DD","last_slug":"...","runs":[...]}`. If `last_run == today`, rate-limit to status-only. The run record is opened as soon as Phase 2 picks a target and closed in Phase 6 (same `runs_recent` entry, real outcome; `halted: <reason>` on any early stop).
 
 ## Phase 0 — Preconditions
-Abort if `.daily-paused`. Read state. If already ran today → status-only.
+Abort if `.daily-paused`. Read state. If already ran today → status-only. Then run `.venv/Scripts/python.exe scanner/run_orphan_check.py --write-pause` (no flag in `--status-only`): exit 2 means an earlier run died unfinished — STOP (status-only: report it and carry on).
 
 ## Phase 1 — Status sweep (always)
 `gh search prs/issues --author=elfrost` (exclude `elfrost/ai-patchlab`). For each open disclosure updated since `last_run`, read latest comments/reviews and act:
@@ -34,7 +36,7 @@ Abort if `.daily-paused`. Read state. If already ran today → status-only.
 Update outcomes ONLY after upstream merge/close, never on open. Stop here if `--status-only`.
 
 ## Phase 2 — Candidate discovery + pre-check
-`gh search repos --language=python --stars=1500..6000 --sort=updated` filtered to AI/agent/LLM/RAG/inference. Drop already-scanned slugs. Responsiveness check (recent closed issues + merged PRs from ≥2 contributors). Strict-norm detection → publication mode. Pick ONE; record why.
+`gh search repos --language=python --stars=1500..6000 --sort=updated` filtered to AI/agent/LLM/RAG/inference. Drop already-scanned slugs. Responsiveness check (recent closed issues + merged PRs from ≥2 contributors). Strict-norm detection → publication mode. Pick ONE; record why. Then open the run record before Phase 3.
 
 ## Phase 3 — Scan
 `.venv/Scripts/python.exe scanner/run_scan.py --from-git-url "<url>" --reports-dir reports/<slug> --min-severity medium` (`--ignore-file` for obvious sample/demo subtrees).
@@ -47,7 +49,7 @@ Group by rule family; auto-flag tests/sample/examples/demos/fixtures as candidat
 Always: write `docs/scans/<slug>.md` (including the **Scan coverage** block copied from `reports/<slug>/coverage.json`, never hand-written) + prepend a row to `docs/index.md` + a bullet to `docs/scan-log.md` (bump both scan counts). If gate TRUE and not strict-norm: file focused de-branded courtesy issue (+ PR for clean one-line fixes). If strict-norm: post-only or one-issue-per-critical. If gate FALSE: post-only. Open `docs:` PR on `elfrost/ai-patchlab`, merge, verify publication via `gh run list --workflow=pages-build-deployment --limit 1` = `success` AND the post returns 200 serving the new text. Do NOT gate on `pages/builds/latest` — on this Actions-published site it reports `errored` even when the deploy succeeded (2026-08-26).
 
 ## Phase 6 — Record
-Update `reports/.daily_state.json`; update memory on resolutions/lessons; print a 3-line summary.
+Close the run record in `reports/.daily_state.json` (same `runs_recent` entry, real outcome); update memory on resolutions/lessons; print a 3-line summary.
 
 ## Rules
 Never rescan a covered repo. Never file when the gate is false. Never skip the strict-norm check before a grouped issue. Always use the noreply commit email. Keep honest records of rejections. In `--dry-run`, zero irreversible public actions.
