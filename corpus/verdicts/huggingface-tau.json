@@ -1,0 +1,57 @@
+{
+  "repository": "C:\\Users\\Elfrost\\AppData\\Local\\Temp\\ai-patchlab-clone-57q7apzl\\repo",
+  "generated_at": "2026-10-23T13:17:09.639918+00:00",
+  "total_dismissed": 46,
+  "by_reason": {
+    "dependency-currency": 42,
+    "by-design": 3,
+    "not-reachable": 1
+  },
+  "records": [
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "pillow 12.3.0 in uv.lock (fixed 13.0.0)",
+      "count": 39,
+      "verdict": "hardening",
+      "detail": "39 advisories (CVE-2026-96636..96644, CVE-2026-96778, CVE-2026-112390..112406 (no 112398), CVE-2026-112891..112902, GHSA-78g4-xqwv-q3g8), all from uv.lock, the contributor path (uv sync --dev). Every documented user install (installer script, uv tool install, pipx, pip) resolves the pyproject floor pillow>=11.0 fresh: pip-audit got 13.0.0, clean. On the lock path the read tool is the only Pillow caller, behind a magic-byte allowlist (JPEG, static PNG, GIF, WebP, header-checked BMP), so the TIFF/EPS/PDF/XBM/APNG decoders never receive data; GIF/BMP/JPEG paths remain."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "anyio 4.13.0 in uv.lock (fixed 4.14.2)",
+      "count": 2,
+      "verdict": "hardening",
+      "detail": "CVE-2026-63374 (critical), CVE-2026-64847 (medium). Lock path only; a fresh install resolves anyio>=4.0 to 4.15.1."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "certifi 2026.5.20 in uv.lock (fixed 2026.10.19)",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "GHSA-6q48-6c7w-9gw2 (critical, CA bundle). Transitive via httpx; lock path only, a fresh install gets 2026.10.23. Dependabot covers github-actions only, so no automated uv.lock refresh exists."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.compatibility.python37.python37-compatibility-importlib2",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "requires-python >=3.12; importlib.resources is the stdlib API on every supported version (catalog_loader.py:10, models_dev.py:7, tui/themes/__init__.py:13)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "scripts/generate_models.py:26, a maintainer build script for the model catalog. _load_source hands only http(s) locations to urlopen, so file:// never reaches it; the location is the maintainer's CLI argument or a hardcoded catalog URL, and the line carries a reviewed noqa: S310."
+    }
+  ]
+}
