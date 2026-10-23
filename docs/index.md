@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "112 curated security scans of open-source AI agents, MCP servers and LLM apps - 26 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "112 curated security scans of open-source AI agents, MCP servers and LLM apps - 27 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 112 scans, 26 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 112 scans, 27 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -35,7 +35,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Two shorter ways in
 
-- [**Findings a maintainer fixed**]({{ '/fixed' | relative_url }}) — the 26 that resolved
+- [**Findings a maintainer fixed**]({{ '/fixed' | relative_url }}) — the 27 that resolved
   upstream. The shortest version of the argument: a report is only worth writing if someone
   can act on it.
 - [**Scans that found nothing**]({{ '/clean' | relative_url }}) — 40 of them, published as
@@ -180,7 +180,7 @@ filed, which is the usual outcome of a clean scan.
 | 2026-07-21 | [ucbepic/docetl](scans/ucbepic-docetl.html) | 124 | 1 real | — |
 | 2026-07-20 | [ModelEngine-Group/nexent](scans/modelengine-group-nexent.html) | 115 | 0 real | — |
 | 2026-07-19 | [vitali87/code-graph-rag](scans/vitali87-code-graph-rag.html) | 22 | 1 real | **fixed** |
-| 2026-07-18 | [algorithmicsuperintelligence/optillm](scans/algorithmicsuperintelligence-optillm.html) | 57 | 1 real | — |
+| 2026-07-18 | [algorithmicsuperintelligence/optillm](scans/algorithmicsuperintelligence-optillm.html) | 57 | 1 real | **fixed** |
 | 2026-07-17 | [IBM/mcp-context-forge](scans/ibm-mcp-context-forge.html) | 946 | 0 real | — |
 | 2026-07-16 | [a2aproject/a2a-python](scans/a2aproject-a2a-python.html) | 20 | 0 real | — |
 | 2026-07-15 | [mnemosyne-oss/mnemosyne](scans/mnemosyne-oss-mnemosyne.html) | 195 | 0 real | — |
