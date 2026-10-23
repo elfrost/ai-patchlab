@@ -1,17 +1,17 @@
 ---
 layout: default
 title: Findings a maintainer fixed
-description: "The 26 scans in the AI PatchLab series where the maintainer shipped a fix — what was reported, and what landed upstream."
+description: "The 27 scans in the AI PatchLab series where the maintainer shipped a fix — what was reported, and what landed upstream."
 ---
 
 # Findings a maintainer fixed
 
-Of 112 scans, **26** ended with a maintainer shipping a fix. This page is the
+Of 113 scans, **27** ended with a maintainer shipping a fix. This page is the
 short version of the argument: a report is only worth writing if someone can act on it.
 
 The fastest turnaround in the series was about six hours from filing to a merged pull
-request. Two were fixed by people other than the reporter — in one case a passer-by
-contributor adopted the filing and wrote the patch, in another the maintainer wrote their own
+request. Several were fixed by people other than the reporter — passer-by contributors
+adopted the filing and wrote the patch (most recently on optillm), and once the maintainer wrote their own
 diff because a contributor licence agreement had blocked the offered one, and said so in the
 release notes.
 
@@ -32,6 +32,7 @@ release notes.
 | 2026-07-29 | [Project-N-E-K-O/N.E.K.O](scans/project-n-e-k-o-n-e-k-o.html) | 783 | 1 real |
 | 2026-07-28 | [EvoScientist/EvoScientist](scans/evoscientist-evoscientist.html) | 39 | 1 real |
 | 2026-07-19 | [vitali87/code-graph-rag](scans/vitali87-code-graph-rag.html) | 22 | 1 real |
+| 2026-07-18 | [algorithmicsuperintelligence/optillm](scans/algorithmicsuperintelligence-optillm.html) | 57 | 1 real |
 | 2026-07-03 | [AgentEra/Agently](scans/agentera-agently.html) | 25 | 1 real |
 | 2026-06-19 | [xerrors/Yuxi](scans/xerrors-yuxi.html) | 70 | see write-up |
 | 2026-06-08 | [54yyyu/zotero-mcp](scans/54yyyu-zotero-mcp.html) | 4 | 6 real |

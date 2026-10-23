@@ -198,6 +198,7 @@ python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/fossa
 
 ## More from this series
 
+- **Next scan:** [huggingface/tau](huggingface-tau.html) — 2026-10-23, 0 first-party — dependency
 - **Previous scan:** [superdesigndev/treg](superdesigndev-treg.html) — 2026-09-24, 1 real — withheld
 - [Every scan in the series]({{ '/' | relative_url }}) — 112 repositories, newest first
 - [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 26 that resolved

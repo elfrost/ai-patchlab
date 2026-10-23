@@ -10,7 +10,7 @@ date: 2026-07-18
 **Repository:** [algorithmicsuperintelligence/optillm](https://github.com/algorithmicsuperintelligence/optillm)
 **Commit scanned:** `eaf171aa6da5682ba1014ef342556f40247f5b35`
 **Scan date:** 2026-07-18
-**Disclosure status:** disclosed (one focused issue filed)
+**Disclosure status:** ✅ **resolved** — one focused issue filed on the day of the scan; a contributor's fix was merged upstream 84 days later in [#334](https://github.com/algorithmicsuperintelligence/optillm/pull/334) and the issue closed as completed. This series has not re-run its own check against the merged code (see the timeline).
 
 ## Summary
 
@@ -165,6 +165,8 @@ URL-fetch quietly reaches further than "fetch a webpage" implies.
 - 2026-07-18 - scan run (commit `eaf171aa`)
 - 2026-07-18 - focused issue filed upstream ([#323](https://github.com/algorithmicsuperintelligence/optillm/issues/323), readurls SSRF)
 - 2026-07-18 - public post (this page)
+- 2026-10-10 - **fixed** in [#334](https://github.com/algorithmicsuperintelligence/optillm/pull/334) (merge commit `4088efcc`), written by a contributor who adopted the issue after an earlier attempt (#326) was closed unmerged, and merged by the maintainer; [#323](https://github.com/algorithmicsuperintelligence/optillm/issues/323) closed as completed. As the pull request describes it, `readurls` now refuses destinations that do not resolve to a public address, re-checks every redirect hop, gives operators an explicit flag to allow internal fetches, and ships an offline regression test file.
+- 2026-10-23 - resolution recorded from the merged pull request and the closed issue. **Not re-verified by this series:** the check that found the gap was not re-run against the merged code.
 
 ## Reproduce
 
