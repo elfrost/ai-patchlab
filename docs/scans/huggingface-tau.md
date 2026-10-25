@@ -192,6 +192,7 @@ python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/huggi
 
 ## More from this series
 
+- **Next scan:** [nicedreamzapp/claude-code-local](nicedreamzapp-claude-code-local.html) — 2026-10-25, 0 real
 - **Previous scan:** [fossasia/voxbento](fossasia-voxbento.html) — 2026-09-28, 0 first-party — dependency
 - [Every scan in the series]({{ '/' | relative_url }}) — 113 repositories, newest first
 - [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 27 that resolved
