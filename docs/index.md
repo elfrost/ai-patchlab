@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "113 curated security scans of open-source AI agents, MCP servers and LLM apps - 27 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "114 curated security scans of open-source AI agents, MCP servers and LLM apps - 27 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 113 scans, 27 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 114 scans, 27 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -38,7 +38,7 @@ remediation and confidence rules to normalize the findings.
 - [**Findings a maintainer fixed**]({{ '/fixed' | relative_url }}) — the 27 that resolved
   upstream. The shortest version of the argument: a report is only worth writing if someone
   can act on it.
-- [**Scans that found nothing**]({{ '/clean' | relative_url }}) — 40 of them, published as
+- [**Scans that found nothing**]({{ '/clean' | relative_url }}) — 41 of them, published as
   they ran. A method that can only return "yes" is not a method.
 
 ## Six scans worth reading
@@ -103,7 +103,7 @@ login and static assets. Fifty-two flagged, none reported.
 
 ## All scans
 
-113 scans, newest first. **Findings** is the raw count the tools produced;
+114 scans, newest first. **Findings** is the raw count the tools produced;
 **Real** is what survived curation. The gap between those two columns is the
 entire job.
 
@@ -118,6 +118,7 @@ filed, which is the usual outcome of a clean scan.
 
 | Date | Repository | Findings | Real | Outcome |
 | --- | --- | ---: | --- | --- |
+| 2026-10-25 | [nicedreamzapp/claude-code-local](scans/nicedreamzapp-claude-code-local.html) | 20 | 0 real | — |
 | 2026-10-23 | [huggingface/tau](scans/huggingface-tau.html) | 49 | 0 first-party — dependency | — |
 | 2026-09-28 | [fossasia/voxbento](scans/fossasia-voxbento.html) | 168 | 0 first-party — dependency | — |
 | 2026-09-24 | [superdesigndev/treg](scans/superdesigndev-treg.html) | 96 | 1 real — withheld | private |

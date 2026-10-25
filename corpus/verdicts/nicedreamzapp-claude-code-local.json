@@ -1,0 +1,76 @@
+{
+  "repository": "C:\\Users\\Elfrost\\AppData\\Local\\Temp\\ai-patchlab-clone-gk0qexwm\\repo",
+  "generated_at": "2026-10-25T13:08:32.310538+00:00",
+  "total_dismissed": 20,
+  "by_reason": {
+    "by-design": 9,
+    "not-reachable": 8,
+    "mitigated-in-app": 2,
+    "product-surface": 1
+  },
+  "records": [
+    {
+      "source": "curation",
+      "reason_code": "product-surface",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.subprocess-shell-true.subprocess-shell-true",
+      "count": 1,
+      "verdict": "by-design",
+      "detail": "agent/agent.py:196 is the Native Engine's Bash tool: running the shell command the model chose is the documented purpose of a one-file coding agent (docs/configuration.md lists AGENT_BASH_TIMEOUT and the closed stdin). The docs advertise no approval step or sandbox, so no stated boundary goes unenforced."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+      "count": 7,
+      "verdict": "hardening",
+      "detail": "ci.yml x2 and docs.yml x5 pin actions by tag (checkout@v4, setup-python@v5, configure-pages@v5, upload-pages-artifact@v3, deploy-pages@v4). docs.yml holds pages:write + id-token:write; neither workflow uses pull_request_target. scorecard.yml, added in the scanned commit, already SHA-pins all four of its actions with a version comment, so the project has written the fix in a sibling file."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "count": 7,
+      "verdict": "false-positive",
+      "detail": "Every URL is a constant, a loopback port or operator config: agent.py:733 AGENT_BASE_URL, keepgoing.py:84 the hardcoded OpenRouter models endpoint, keepgoing.py:107 and router.py:120/136 127.0.0.1 health checks, limit-handoff.py:103 MOONSTONE_URL (default loopback), router.py:220 the client's request path appended to a fixed loopback backend. No request- or model-controlled URL reaches urlopen, so file:// never can."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.insecure-transport.urllib.insecure-urlopen.insecure-urlopen",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "router.py:120 is plain http to 127.0.0.1:4000/health, a loopback hop with no network to encrypt."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "scripts/limit-handoff.py:81 sha1(cwd)[:16] names a per-folder stamp file for the hand-off quiet period; a non-security identifier, not a password, MAC or signature."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "bash.curl.security.curl-pipe-bash.curl-pipe-bash",
+      "count": 1,
+      "verdict": "by-design",
+      "detail": "setup.sh:33 runs Homebrew's official installer, only when brew is absent; that is the vendor's own documented install line, fetched over HTTPS with curl -fsSL."
+    },
+    {
+      "source": "curation",
+      "reason_code": "mitigated-in-app",
+      "tool": "manual-review",
+      "rule": "loopback-no-origin-host-guard",
+      "count": 2,
+      "verdict": "hardening",
+      "detail": "proxy/server.py (127.0.0.1:4000) and the experimental smart-router/router.py (127.0.0.1:4010, started by no launcher) check neither Host nor Origin and parse a text/plain body as JSON, so a web page can send them CORS-simple POSTs. Impact is bounded to compute: inference on the proxy, forced model swaps on the router. Nothing is readable cross-origin (no CORS headers), every shell string in the router is built from constants, and the 127.0.0.1 bind keeps the LAN out. A Host allowlist plus refusing requests that carry a browser Origin would close it."
+    }
+  ]
+}
