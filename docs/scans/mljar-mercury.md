@@ -9,7 +9,55 @@ date: 2026-09-11
 **Repository:** [mljar/mercury](https://github.com/mljar/mercury)
 **Commit scanned:** `b02bca0`
 **Scan date:** 2026-09-11
-**Disclosure status:** reported privately — detail withheld pending maintainer response
+**Disclosure status:** ✅ **resolved** — filed privately as
+[GHSA-8hq5-94w5-f4ff](https://github.com/mljar/mercury/security/advisories/GHSA-8hq5-94w5-f4ff),
+accepted on 2026-09-14, fixed in
+[v3.2.12](https://github.com/mljar/mercury/releases/tag/v3.2.12) and
+**published by the maintainers on 2026-10-26**, forty-five days after filing. The
+embargo has lifted; the specifics are below. This series has not re-run its own check
+against the fixed release (see the update).
+
+## Update — 2026-10-26: fixed and published
+
+The advisory is public, so this page no longer needs to talk around the finding.
+
+**[GHSA-8hq5-94w5-f4ff](https://github.com/mljar/mercury/security/advisories/GHSA-8hq5-94w5-f4ff)**
+— *Unauthenticated notebook enumeration outside the configured directory via `?dir=`
+(NotebooksAPIHandler).* Medium (CVSS 3.1 5.3, `AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N`),
+CWE-22 / CWE-200 / CWE-548, affected `> 3.0, <= 3.2.11`, patched in **3.2.12**
+(released 2026-10-24). The advisory recommends
+[3.2.13](https://github.com/mljar/mercury/releases/tag/v3.2.13) or later, which adds
+further security improvements on top of this fix.
+
+**What was withheld.** Mercury's standalone app has two sibling handlers that list
+notebooks. `RootIndexHandler` (`mercury_app/root.py`) always lists the server's
+configured `notebooks_dir`. `NotebooksAPIHandler` (`mercury_app/notebooks.py`, lines
+22–24 at the scanned commit) read two query parameters, `dir` and `recursive`, and used
+them to choose which directory to list and how deep to go. In the shipped default the
+Jupyter token is empty, so `@authenticated` passes for the auto-generated anonymous
+user, and the firewall's block-list did not include this route. An anonymous visitor
+could therefore list the notebooks in any directory the server process could read, with
+their titles and descriptions, and learn whether an arbitrary directory existed. The
+bound held as the original post described it: no notebook content and no file reads,
+because the read path goes through Jupyter's contents manager, which rejects `..`. The
+advisory states the same limit in its own words: the issue "does not establish
+arbitrary notebook-content reads outside the served root, arbitrary file reads or
+writes, or command execution."
+
+**The fix is the stricter of the two remedies the report offered.** The report proposed
+either dropping the overrides so the handler behaves like its sibling, or confining
+`dir` under the real path of `notebooks_dir`. Per the advisory, 3.2.12 "removes the
+request-controlled listing overrides and derives the root and recursion policy from
+server configuration," with regression tests for absolute and relative paths, recursion
+overrides and directory-existence behaviour. No request can choose the root at all any
+more, so there is no confinement check left to get wrong.
+
+**Not re-verified by this series.** Before writing *resolved*, this series normally
+re-runs the original differential against the shipped fix: the served notebook still
+lists, a traversal read still returns `404`, and the escape no longer works. That has
+not been done for this entry. It is recorded from the maintainers' published advisory,
+which is specific about what changed and what the tests cover, but it is their account,
+not an independent check.
 
 ## Summary
 
@@ -134,8 +182,12 @@ promise rather than in a public issue.
   report as reporter. Accepted is not the same as fixed — a draft advisory means the
   maintainers agree there is something to advise on, and the fix and publication are
   still theirs to schedule.
-- *pending* — fix and advisory publication
-- *pending* — public detail here, once fixed or after a reasonable window
+- 2026-10-24 — fix released in Mercury 3.2.12 (GitHub release and PyPI); the advisory
+  was updated with the affected range `> 3.0, <= 3.2.11` and patched version 3.2.12
+- 2026-10-26 — **advisory published by the maintainers** (CVSS 3.1 5.3 Medium), shortly
+  after the 3.2.13 release; detail lifted on this page the same day
+- 2026-10-26 — resolution recorded from the published advisory. **Not re-verified by
+  this series:** the differential that found the gap has not been re-run against 3.2.12.
 
 ## Reproduce
 
