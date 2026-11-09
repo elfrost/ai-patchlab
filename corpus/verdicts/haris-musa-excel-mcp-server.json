@@ -1,0 +1,49 @@
+{
+  "repository": "C:\\Users\\Elfrost\\AppData\\Local\\Temp\\ai-patchlab-clone-_v7it1p1\\repo",
+  "generated_at": "2026-11-09T13:09:46.679615+00:00",
+  "total_dismissed": 4,
+  "by_reason": {
+    "below-min-severity": 1,
+    "domain-noun-collision": 1,
+    "by-design": 1,
+    "placeholder-secret": 1
+  },
+  "records": [
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "No HEALTHCHECK defined",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "domain-noun-collision",
+      "tool": "semgrep",
+      "rule": "python.django.security.audit.unvalidated-password.unvalidated-password",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "src/excel_mcp/operations/protection.py:99 calls openpyxl SheetProtection.set_password(), which writes Excel's legacy sheet-protection hash into the workbook. It is not an account password and the project is not a Django app, so there is no password-strength validator to call."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "html.security.audit.missing-integrity.missing-integrity",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "docs/index.html:9 is <link rel=\"canonical\" href=\"https://excelmcpserver.com/\"> on the project's static landing page: a self-link, not a script or stylesheet load, so SRI does not apply (same shape as superdesigndev-treg)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "manual-review",
+      "rule": "documented-placeholder-auth-token",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "Hand review; no tool rule covers it. The README 'Remote use' and 'Docker' examples set EXCEL_MCP_AUTH_TOKEN=change-me together with --host 0.0.0.0 / -p 8017:8017, and cli.py:42 accepts any non-empty value, so a copy-pasted command serves the network behind a token printed in the README. Not a vulnerability: the server refuses a non-loopback host with no token, and the value says to change it. Refusing the documented placeholder, or tokens shorter than about 16 characters, at startup would close the copy-paste path."
+    }
+  ]
+}
