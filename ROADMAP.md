@@ -63,7 +63,7 @@
 - [x] Outcome column on the public index documented, and every value in use covered by the legend (2026/09/18)
 - [x] A `/daily` run records itself before it can fail (2026/10/13) - run record opened at target pick, `scanner/run_orphan_check.py` in Phase 0 pauses the pipeline on a run that died unfinished. Replayed on the real 2026-09-25..10-03 incident (7 scans lost, nothing published) it stops the pipeline the morning after the first lost scan
 - [x] The scheduled wrapper reports failure to Task Scheduler (2026/10/13) - `run-daily.ps1` (outside the repo, in `%USERPROFILE%\ai-patchlab-daily\`) exits 1 when Claude fails and 3 when the run ended with `.daily-paused` present; it used to always exit 0
-- [ ] Make a halted or paused `/daily` visible without opening a log: the 2026-10-04 diagnosis sat unread for nine days because a headless run's final message goes only to a UTF-16 log file
+- [x] Make a halted or paused `/daily` visible without opening a log (2026/11/08) - `run-daily.ps1` raises a persistent Windows toast on every paused morning, on a run that pauses itself and on any failed run, and a pause found at start now exits 3 instead of 0. The 2026-10-04 diagnosis had sat unread for nine days, then the 2026-10-27 pause sat unseen for twelve (2026-10-28..11-08, 12 scan days lost), because a headless run's final message goes only to a UTF-16 log file
 - [ ] Track the autonomous/human-gated split per month, to see whether the tiering actually moves it
 - [ ] Re-key sweep: assert at startup that no `withheld_finding_*` entry lacks a delivery record (the claude-tap mis-key evaded guardrail 6 for ~20 runs)
 
