@@ -228,7 +228,7 @@ python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/niced
 
 ## More from this series
 
-- **Previous scan:** [huggingface/tau](huggingface-tau.html) — 2026-10-23, 0 first-party — dependency
+- **Previous scan:** [eugeniughelbur/obsidian-second-brain](eugeniughelbur-obsidian-second-brain.html) — 2026-10-24, 2 real — fixed
 - [Every scan in the series]({{ '/' | relative_url }}) — 114 repositories, newest first
 - [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 27 that resolved
 - [Scans that found nothing]({{ '/clean' | relative_url }}) — published as they were

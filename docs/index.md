@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "114 curated security scans of open-source AI agents, MCP servers and LLM apps - 28 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "115 curated security scans of open-source AI agents, MCP servers and LLM apps - 29 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 114 scans, 28 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 115 scans, 29 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -35,7 +35,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Two shorter ways in
 
-- [**Findings a maintainer fixed**]({{ '/fixed' | relative_url }}) — the 28 that resolved
+- [**Findings a maintainer fixed**]({{ '/fixed' | relative_url }}) — the 29 that resolved
   upstream. The shortest version of the argument: a report is only worth writing if someone
   can act on it.
 - [**Scans that found nothing**]({{ '/clean' | relative_url }}) — 41 of them, published as
@@ -103,7 +103,7 @@ login and static assets. Fifty-two flagged, none reported.
 
 ## All scans
 
-114 scans, newest first. **Findings** is the raw count the tools produced;
+115 scans, newest first. **Findings** is the raw count the tools produced;
 **Real** is what survived curation. The gap between those two columns is the
 entire job.
 
@@ -119,6 +119,7 @@ filed, which is the usual outcome of a clean scan.
 | Date | Repository | Findings | Real | Outcome |
 | --- | --- | ---: | --- | --- |
 | 2026-10-25 | [nicedreamzapp/claude-code-local](scans/nicedreamzapp-claude-code-local.html) | 20 | 0 real | — |
+| 2026-10-24 | [eugeniughelbur/obsidian-second-brain](scans/eugeniughelbur-obsidian-second-brain.html) | 30 | 2 real | fixed |
 | 2026-10-23 | [huggingface/tau](scans/huggingface-tau.html) | 49 | 0 first-party — dependency | — |
 | 2026-09-28 | [fossasia/voxbento](scans/fossasia-voxbento.html) | 168 | 0 first-party — dependency | — |
 | 2026-09-24 | [superdesigndev/treg](scans/superdesigndev-treg.html) | 96 | 1 real — withheld | private |

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Work with me — AI agent & LLM security review
-description: "Independent security review of AI agents, MCP servers and LLM applications. 114 public scans and 28 confirmed fixes as the proof; first-look engagements from $750."
+description: "Independent security review of AI agents, MCP servers and LLM applications. 115 public scans and 29 confirmed fixes as the proof; first-look engagements from $750."
 ---
 
 # Work with me
@@ -12,11 +12,24 @@ If you're shipping an agent framework, an MCP server, a RAG pipeline, or anythin
 
 ## The proof is public
 
-Everything I'd do for you, I've done in the open — [114 curated scans]({{ '/' | relative_url }}) of well-known AI/agent projects, with **28 confirmed fixes** where maintainers acted on the findings, and a documented methodology behind each one.
+Everything I'd do for you, I've done in the open — [115 curated scans]({{ '/' | relative_url }}) of well-known AI/agent projects, with **29 confirmed fixes** where maintainers acted on the findings, and a documented methodology behind each one.
 
 - **Real findings, not scanner noise.** A typical scan starts at hundreds of raw findings and ends at a handful that matter — because the rest are false positives, by-design patterns, or vendored third-party code. The curation is the value.
 - **Reachability over rule-count.** A `subprocess(shell=True)` that's safe under operator trust can become a multi-tenant sandbox escape once you trace who reaches it — and a scary-looking SQL string can be fully gated by a five-character allowlist. The verdict goes wherever the *code* goes, which means reading the code, not the rule.
 - **Responsible disclosure, done right.** Severe findings go to you privately first — never a public issue before you've patched. False positives are documented so you don't waste a sprint on them. Good engineering gets credited, not nitpicked. (Maintainers have called the reports *"unusually clean,"* *"careful,"* and *"well-structured and actionable."*)
+
+### Credited by the maintainers
+
+Four of the fixes carry a reporter credit on the project's own published security advisory. The maintainer wrote it, not me:
+
+| Project | Advisory | Severity |
+|---|---|---|
+| ArcReel/ArcReel | [GHSA-5r36-2f3p-5q87](https://github.com/ArcReel/ArcReel/security/advisories/GHSA-5r36-2f3p-5q87) | High |
+| mljar/mercury | [GHSA-8hq5-94w5-f4ff](https://github.com/mljar/mercury/security/advisories/GHSA-8hq5-94w5-f4ff) | Medium |
+| huangruiteng/loopx | [GHSA-p7c9-q3rc-f4f5](https://github.com/huangruiteng/loopx/security/advisories/GHSA-p7c9-q3rc-f4f5) | Medium |
+| samuelgursky/davinci-resolve-mcp | [GHSA-8f4v-j8rq-hj47](https://github.com/samuelgursky/davinci-resolve-mcp/security/advisories/GHSA-8f4v-j8rq-hj47) | Low |
+
+The other fixes landed through public issues, pull requests, or email, and are linked from [the fixed list]({{ '/fixed' | relative_url }}).
 
 ## What an engagement looks like
 
