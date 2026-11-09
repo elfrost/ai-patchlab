@@ -26,7 +26,7 @@ Runs the full public-scan workflow once per day without the user driving it. Mod
 `reports/.daily_state.json` (gitignored): `{"last_run":"YYYY-MM-DD","last_slug":"...","runs":[...]}`. If `last_run == today`, rate-limit to status-only. The run record is opened as soon as Phase 2 picks a target and closed in Phase 6 (same `runs_recent` entry, real outcome; `halted: <reason>` on any early stop).
 
 ## Phase 0 — Preconditions
-Abort if `.daily-paused`. Read state. If already ran today → status-only. Then run `.venv/Scripts/python.exe scanner/run_orphan_check.py --write-pause` (no flag in `--status-only`): exit 2 means an earlier run died unfinished — STOP (status-only: report it and carry on).
+Abort if `.daily-paused`. Read state. If already ran today → status-only. Then run `.venv/Scripts/python.exe scanner/run_orphan_check.py --write-pause` (no flag in `--status-only`): exit 2 means an earlier run died unfinished — STOP (status-only: report it and carry on). If `.daily-questions.md` exists, list its open questions at the top of the summary and carry on.
 
 ## Phase 1 — Status sweep (always)
 `gh search prs/issues --author=elfrost` (exclude `elfrost/ai-patchlab`). For each open disclosure updated since `last_run`, read latest comments/reviews and act:
@@ -36,7 +36,7 @@ Abort if `.daily-paused`. Read state. If already ran today → status-only. Then
 Update outcomes ONLY after upstream merge/close, never on open. Stop here if `--status-only`.
 
 ## Phase 2 — Candidate discovery + pre-check
-`gh search repos --language=python --stars=1500..6000 --sort=updated` filtered to AI/agent/LLM/RAG/inference. Drop already-scanned slugs. Responsiveness check (recent closed issues + merged PRs from ≥2 contributors). Strict-norm detection → publication mode. Pick ONE; record why. Then open the run record before Phase 3.
+`gh search repos --language=python --stars=1500..6000 --sort=updated` filtered to AI/agent/LLM/RAG/inference. Drop already-scanned repos by identity. A repo counts as scanned if its slug is in `docs/scans/`, or if its current full name matches that of a scanned or excluded repo. Resolve each post's `**Repository:**` link with `gh api repos/<owner>/<name> --jq .full_name`, because a renamed repo redirects to its new name (2026-11-09: Observal/Observal had become AgenticResourceRegistry). Responsiveness check (recent closed issues + merged PRs from ≥2 contributors). Strict-norm detection → publication mode. Pick ONE; record why. Then open the run record before Phase 3.
 
 ## Phase 3 — Scan
 `.venv/Scripts/python.exe scanner/run_scan.py --from-git-url "<url>" --reports-dir reports/<slug> --min-severity medium` (`--ignore-file` for obvious sample/demo subtrees).
@@ -49,7 +49,7 @@ Group by rule family; auto-flag tests/sample/examples/demos/fixtures as candidat
 Always: write `docs/scans/<slug>.md` (including the **Scan coverage** block copied from `reports/<slug>/coverage.json`, never hand-written) + prepend a row to `docs/index.md` + a bullet to `docs/scan-log.md` (bump both scan counts). If gate TRUE and not strict-norm: file focused de-branded courtesy issue (+ PR for clean one-line fixes). If strict-norm: post-only or one-issue-per-critical. If gate FALSE: post-only. Open `docs:` PR on `elfrost/ai-patchlab`, merge, verify publication via `gh run list --workflow=pages-build-deployment --limit 1` = `success` AND the post returns 200 serving the new text. Do NOT gate on `pages/builds/latest` — on this Actions-published site it reports `errored` even when the deploy succeeded (2026-08-26).
 
 ## Phase 6 — Record
-Close the run record in `reports/.daily_state.json` (same `runs_recent` entry, real outcome); update memory on resolutions/lessons; print a 3-line summary.
+Close the run record in `reports/.daily_state.json` (same `runs_recent` entry, real outcome); update memory on resolutions/lessons; print a 3-line summary. Anything the user must decide or do goes in `.daily-questions.md`, not only in the summary. The file sits at the repo root, is gitignored, and is written in French as numbered questions, each with a recommendation; append under a `## <date>` heading if it already exists. The wrapper notifies the user while the file exists, and the user answers by saying « questions ».
 
 ## Rules
-Never rescan a covered repo. Never file when the gate is false. Never skip the strict-norm check before a grouped issue. Always use the noreply commit email. Keep honest records of rejections. In `--dry-run`, zero irreversible public actions.
+Never rescan a covered repo, including under a new name. Never file when the gate is false. Never skip the strict-norm check before a grouped issue. Always use the noreply commit email. Keep honest records of rejections. In `--dry-run`, zero irreversible public actions.
