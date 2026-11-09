@@ -1,12 +1,12 @@
 ---
 layout: default
 title: Findings a maintainer fixed
-description: "The 28 scans in the AI PatchLab series where the maintainer shipped a fix — what was reported, and what landed upstream."
+description: "The 29 scans in the AI PatchLab series where the maintainer shipped a fix — what was reported, and what landed upstream."
 ---
 
 # Findings a maintainer fixed
 
-Of 114 scans, **28** ended with a maintainer shipping a fix. This page is the
+Of 115 scans, **29** ended with a maintainer shipping a fix. This page is the
 short version of the argument: a report is only worth writing if someone can act on it.
 
 The fastest turnaround in the series was about six hours from filing to a merged pull
@@ -17,6 +17,7 @@ release notes.
 
 | Date | Repository | Raw findings | Real |
 |---|---|---:|---|
+| 2026-10-24 | [eugeniughelbur/obsidian-second-brain](scans/eugeniughelbur-obsidian-second-brain.html) | 30 | 2 real |
 | 2026-09-14 | [superlinked/sie](scans/superlinked-sie.html) | 156 | 1 real |
 | 2026-09-11 | [mljar/mercury](scans/mljar-mercury.html) | 140 | 1 real — withheld |
 | 2026-09-03 | [samuelgursky/davinci-resolve-mcp](scans/samuelgursky-davinci-resolve-mcp.html) | 97 | 1 real |

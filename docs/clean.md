@@ -6,7 +6,7 @@ description: "The 41 scans in the AI PatchLab series that produced no real findi
 
 # Scans that found nothing
 
-**41** of 114 scans ended with no real finding, and every one of them was
+**41** of 115 scans ended with no real finding, and every one of them was
 published saying so.
 
 That is not modesty — it is the load-bearing part. If every write-up in this series ended in

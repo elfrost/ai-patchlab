@@ -75,6 +75,7 @@
 - [x] Gitleaks confidence keyed on rule id and placeholder shape (2026/08/21) - 93% of historical hits leave the `high` tier
 - [ ] Rule applicability check: suppress a framework-specific rule when the framework is not a declared dependency (`sqlalchemy-execute-raw-query` fired 157 times on a project with no SQLAlchemy; `django-no-csrf-token` went 45 for 45 false on FastAPI templates in fossasia/voxbento, 2026-09-28)
 - [ ] Gitleaks: fingerprint hits by secret hash and report one finding with N locations (fossasia/voxbento: one CI-only key quoted across `docs/plans/` surfaced as 49 high-severity findings)
+- [ ] Custom Semgrep rule: a headless `claude` run with `--dangerously-skip-permissions` and no `--tools` (eugeniughelbur/obsidian-second-brain, 2026-10-24: a hook restricted its agent with `--allowedTools`, which removes nothing under the bypass flag; no shipped rule in any of the four tools could express it)
 - [ ] Semgrep partial-coverage advice keyed on error type: recommend a higher `--timeout` only when rules timed out; parse errors never succeed on retry (flagged 2026-09-13, again 2026-09-28 with 0 timeouts in 40 errors)
 - [ ] Report lockfile and open-floor dependency sets as separate rows naming the install path, rather than one merged verdict
 - [ ] Timeouts on the semgrep, trivy and gitleaks runners (pip-audit done; the others share the same hang risk)

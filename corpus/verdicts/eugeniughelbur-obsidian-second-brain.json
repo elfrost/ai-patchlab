@@ -1,0 +1,140 @@
+{
+  "repository": "https://github.com/eugeniughelbur/obsidian-second-brain @ f11ffb37",
+  "generated_at": "2026-10-24T13:09:47.738874+00:00",
+  "total_dismissed": 32,
+  "by_reason": {
+    "by-design": 11,
+    "not-reachable": 10,
+    "dependency-currency": 6,
+    "below-min-severity": 3,
+    "confirmed-real": 2
+  },
+  "records": [
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.dependabot.dependabot-missing-cooldown.dependabot-missing-cooldown",
+      "count": 2,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.insecure-transport.requests.request-session-with-http.request-session-with-http",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+      "count": 9,
+      "verdict": "hardening",
+      "detail": "ci.yml x5, scorecard.yml x4: actions referenced by tag, not commit SHA. SHA-pinning is supply-chain hardening, not a vulnerability; Dependabot's github-actions ecosystem is already configured and would keep pinned SHAs current."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "count": 4,
+      "verdict": "false-positive",
+      "detail": "vault_ops.py:383 and eval/semantic_search.py:114,162 build the embedding endpoint from operator env (OLLAMA_URL / OBSIDIAN_EMBED_URL, default http://localhost:11434); triage_links.py:54 is the literal https://api.anthropic.com/v1/messages wrapped in a Request object. No attacker-chosen URL reaches urlopen."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "eval/semantic_search.py:289 sha1()[:16] content hash for embedding-cache dedup; research/lib/cache.py:31 sha1 of the normalized query names a cache file. Non-security digests."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "obsidian-plugin/src/lint.ts:61 hasField() compiles a RegExp from REQUIRED_FIELDS, the constant (\"date\",\"type\",\"tags\"); its only caller is lint.ts:89."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "certifi 2026.4.22 in uv.lock (fixed 2026.10.19)",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "GHSA-6q48-6c7w-9gw2 (critical): bundle still trusts emSign roots whose intermediate CA keys were compromised. certifi is the CA bundle for every `requests` call (8 imports in the research toolkit), so it is on the path. uv.lock is the documented user path here, not a contributor-only one: install.sh runs `uv sync` and every research command runs `uv run --directory <skill>`, both of which install the locked versions. pip-audit resolved the pyproject floors fresh and found 0."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "urllib3 2.7.0 in uv.lock (fixed 2.8.0)",
+      "count": 3,
+      "verdict": "hardening",
+      "detail": "CVE-2026-97687 (high; needs an HTTPS proxy to be configured), CVE-2026-97689 (high) and CVE-2026-97688 (medium) are response-parsing DoS. The research toolkit fetches user-supplied and search-result URLs through requests, so a hostile server can stall the local process; impact bounded to a local CLI run. uv.lock is the documented user path here, not a contributor-only one: install.sh runs `uv sync` and every research command runs `uv run --directory <skill>`, both of which install the locked versions. pip-audit resolved the pyproject floors fresh and found 0."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "idna 3.13 in uv.lock (fixed 3.15)",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "CVE-2026-45409 (medium) long-input DoS, reached through requests hostname handling on researched URLs; local CLI DoS only."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "httplib2 0.31.2 in uv.lock (fixed 0.32.0)",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "CVE-2026-59939 (high) unbounded decompression DoS. httplib2 serves only the optional YouTube Data API client (YOUTUBE_API_KEY); the peer is googleapis.com, so reaching it needs a hostile or intercepted Google endpoint."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "anyio 4.13.0 in uv.lock (fixed 4.14.2)",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "CVE-2026-63374 (critical, IDNA confusion in connect_tcp/TLSStream.wrap) and CVE-2026-64847 (medium, process-pool stderr). No shipped script is async (only the MCP live_test.py harness); the openai/google-genai calls are the sync clients and the MCP server is stdio, so no TLS stream or process pool is opened through anyio. Still behind; the same lock refresh clears it."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "pyasn1 0.6.3 in uv.lock (fixed 0.6.4)",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "CVE-2026-59884/59885/59886 (high) BER/ASN.1 parsing DoS. pyasn1 arrives through the google-auth chain and parses only local credential material, never attacker input."
+    },
+    {
+      "source": "curation",
+      "reason_code": "confirmed-real",
+      "tool": "manual-review",
+      "rule": "advertised-boundary-not-enforced",
+      "count": 1,
+      "verdict": "real",
+      "detail": "Hand review; no tool rule covers it. Medium, in the project's declared SECURITY.md scope. hooks/obsidian-bg-agent.sh ran the opt-in PostCompact agent with --dangerously-skip-permissions and --allowedTools \"Read,Write,Edit,Glob,Grep\", which its comment and README.md:590 said pins the tool surface. --allowedTools only adds allow rules, so under the bypass flag every tool stayed available (two-arm differential, Claude Code 2.1.310: 29 tools incl. shell and WebFetch as shipped, 5 with --tools). Reported privately by email 2026-10-26; fixed 2026-10-27 in PR #373 (--tools plus an argv test)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "confirmed-real",
+      "tool": "manual-review",
+      "rule": "credential-hygiene",
+      "count": 1,
+      "verdict": "real",
+      "detail": "Hand review; Low, in the project's declared SECURITY.md scope. scripts/research/lib/youtube.py printed the googleapiclient HttpError text, whose request URI carries key=<YOUTUBE_API_KEY>, on routine errors (comments disabled, quota); verified with a fake key against the real endpoint. Reported in the same email; fixed 2026-10-27 in PR #373 (status-only error summary plus a test)."
+    }
+  ]
+}
