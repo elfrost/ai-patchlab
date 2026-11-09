@@ -60,7 +60,8 @@ Runs the full AI PatchLab public-scan workflow end-to-end, once per day, without
 3. **Tool preflight.** Run `semgrep --version`, `gitleaks version` and `trivy --version`. Any tool that cannot report a version WILL produce an empty raw report that reads as "no findings" — name it in the run summary and in the published post, and treat the scan as partial coverage. **Semgrep is a Python program installed on the user-site interpreter**, so it breaks whenever that interpreter does, independently of this project's venv (2026-08-20 to 2026-08-24: a pydantic downgrade killed semgrep — 52% of the series' historical output — and nothing surfaced it because no scan ran in that window).
 4. Read `reports/.daily_state.json` (create with empty defaults if missing).
 5. **Interrupted-run check.** Run `.venv/Scripts/python.exe scanner/run_orphan_check.py --write-pause` (drop `--write-pause` in `--status-only` mode). Exit 0 → continue. Exit 2 → a previous run died without finishing; the script has listed it and created `.daily-paused`. Print `daily: halted — interrupted run(s), see .daily-paused` and STOP. Do not scan, do not pick another target to "make up" the day, do not delete the evidence. In `--status-only` mode print the list at the top of the run summary and carry on: that mode scans nothing, so it cannot add to the pile. The user clears it with `scanner/run_orphan_check.py --acknowledge` after reviewing `reports/<slug>/`, then deletes `.daily-paused`.
-6. Compute `today` (local date). If `last_run == today` and mode is not `--status-only`, downgrade to status-only and note it.
+6. **Open questions.** If `.daily-questions.md` exists, the user has not yet answered an earlier run's questions. Do not block on it: carry on, and list those questions at the top of the run summary.
+7. Compute `today` (local date). If `last_run == today` and mode is not `--status-only`, downgrade to status-only and note it.
 
 ## Phase 1 — Status sweep (always runs)
 1. `gh search prs --author=elfrost --json repository,number,title,state,url,updatedAt` and `gh search issues --author=elfrost --json repository,number,title,state,url,updatedAt` (filter out `elfrost/ai-patchlab`).
@@ -76,7 +77,7 @@ If mode is `--status-only`, STOP here after pushing doc updates.
 
 ## Phase 2 — Candidate discovery + pre-check
 1. `gh search repos --language=python --stars=1500..6000 --sort=updated --json fullName,stargazersCount,description,pushedAt,license,url` and filter descriptions matching the AI/agent/LLM/RAG/inference space.
-2. Drop any repo whose slug already exists in `docs/scans/` (`<owner>-<name>.md`).
+2. Drop any repo already scanned, **by repository identity, not only by slug.** Drop it if its slug already exists in `docs/scans/` (`<owner>-<name>.md`). Also drop it if its current full name matches the current full name of a repo already scanned or listed in `excluded_repos`. To get those names, resolve each post's `**Repository:**` link with `gh api repos/<owner>/<name> --jq .full_name` (GitHub redirects a renamed repo to its new name) and compare case-insensitively. On 2026-11-09 the top candidate, `AgenticResourceRegistry/AgenticResourceRegistry`, was `Observal/Observal` renamed. That repo had been scanned on 2026-08-02 and still had a private advisory in triage. The slug check could not see it, and it was the third rename in the series.
 3. Responsiveness pre-check on the top few: recent *closed* issues + *merged* PRs from ≥2 distinct contributors in the last ~60 days → signals a maintainer who answers. Skip ghost repos.
 4. Strict-norm detection: check for `SECURITY.md`, commercial backing in README, named security reviewers. Record the publication mode this implies.
 5. **Channel-viability pre-check — adaptive.** Before committing to a candidate, resolve how a
@@ -145,10 +146,16 @@ Then read `reports/<slug>/coverage.json`. It is the authoritative record of what
 ## Phase 6 — Record
 1. Close the run record opened in Phase 2: set the real `outcome` (plus counts and notes) on that SAME `runs_recent` entry — do not append a second — and update `last_slug`. A run that stops earlier closes it as `halted: <reason>` and says so in its summary.
 2. Update memory if a disclosure resolved or a new methodology lesson emerged.
-3. Print a 3-line summary: what was swept, what was scanned, what was filed (or why not).
+3. **Put every question for the user in `.daily-questions.md`, not only in the summary.** That covers anything the user must decide or do: a send, an approval, a choice between options.
+   - Write it at the repo root, in French: one numbered question per item, each with your recommendation and what each answer will do.
+   - If the file already exists, append under a `## <date>` heading.
+   - The file is gitignored; never commit it.
+
+   While the file exists, the scheduled wrapper raises a desktop notification. The user answers by opening Claude in the repo and saying « questions ». A question that lives only in the run summary is never seen. On 2026-11-09 a successful run left three decisions in a UTF-16 log the user does not read; one of them, a nudge to a maintainer, was wrong.
+4. Print a 3-line summary: what was swept, what was scanned, what was filed (or why not).
 
 ## Rules
-- NEVER rescan a repo already in `docs/scans/`.
+- NEVER rescan a repo already in `docs/scans/`, including under a new name (Phase 2 step 2).
 - NEVER file an issue/PR when the quality gate is false — post-only instead.
 - NEVER skip the strict-norm check before filing a grouped issue.
 - ALWAYS use the noreply commit email; NEVER expose a personal email.

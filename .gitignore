@@ -49,3 +49,6 @@ secrets/
 
 # Scratch artifacts left by an interrupted /daily run
 .scratch_*
+
+# Questions a /daily run leaves for the user, answered in a session (local only, never committed)
+.daily-questions.md
