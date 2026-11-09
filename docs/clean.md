@@ -1,12 +1,12 @@
 ---
 layout: default
 title: Scans that found nothing
-description: "The 41 scans in the AI PatchLab series that produced no real finding, published exactly as they ran. A method that can only return yes is not a method."
+description: "The 42 scans in the AI PatchLab series that produced no real finding, published exactly as they ran. A method that can only return yes is not a method."
 ---
 
 # Scans that found nothing
 
-**41** of 115 scans ended with no real finding, and every one of them was
+**42** of 116 scans ended with no real finding, and every one of them was
 published saying so.
 
 That is not modesty — it is the load-bearing part. If every write-up in this series ended in
@@ -20,6 +20,7 @@ of the same function. Those write-ups say so.
 
 | Date | Repository | Raw findings | Real |
 |---|---|---:|---|
+| 2026-11-09 | [haris-musa/excel-mcp-server](scans/haris-musa-excel-mcp-server.html) | 5 | 0 real |
 | 2026-10-25 | [nicedreamzapp/claude-code-local](scans/nicedreamzapp-claude-code-local.html) | 20 | 0 real |
 | 2026-09-12 | [langroid/langroid](scans/langroid-langroid.html) | 132 | 0 real |
 | 2026-09-08 | [chigwell/telegram-mcp](scans/chigwell-telegram-mcp.html) | 38 | 0 real |
