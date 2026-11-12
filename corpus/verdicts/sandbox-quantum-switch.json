@@ -1,0 +1,588 @@
+{
+  "repository": "C:\\Users\\Elfrost\\AppData\\Local\\Temp\\ai-patchlab-clone-9pgk557w\\repo",
+  "generated_at": "2026-11-12T13:12:22.922230+00:00",
+  "total_dismissed": 467,
+  "by_reason": {
+    "sql-identifier-fp": 266,
+    "not-reachable": 68,
+    "product-surface": 26,
+    "below-min-severity": 24,
+    "by-design": 24,
+    "dependency-currency": 21,
+    "domain-noun-collision": 13,
+    "test-or-fixture-path": 9,
+    "mitigated-in-app": 8,
+    "active-harm-fp": 3,
+    "confirmed-real": 3,
+    "credited-defense": 2
+  },
+  "records": [
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "No HEALTHCHECK defined",
+      "count": 6,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "javascript.audit.detect-replaceall-sanitization.detect-replaceall-sanitization",
+      "count": 4,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.unsafe-formatstring.unsafe-formatstring",
+      "count": 4,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Missing description for security group rule.",
+      "count": 2,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.npm.npm-missing-minimum-release-age.npm-missing-minimum-release-age",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.pnpm.pnpm-block-exotic-sub-dependencies.pnpm-block-exotic-sub-dependencies",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.pnpm.pnpm-missing-minimum-release-age.pnpm-minimum-release-age",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.pnpm.pnpm-trust-policy.pnpm-trust-policy",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "aiohttp: aiohttp: Host-Only cookie protection bypass via untrusted subdomain",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "authlib: Authlib: Transport security bypass via improper URL validation",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "fast-uri: fast-uri: Cross-site scripting via unescaped colon in relative URI paths",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "fast-uri: fast-uri: Path traversal via improper relative URI normalization",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query",
+      "count": 131,
+      "verdict": "false-positive",
+      "detail": "129 in core/switch_core/migrations/versions/ (Alembic DDL run at deploy time, f-strings over module-constant index/table names, e.g. 063652bcb450:40 CREATE INDEX IF NOT EXISTS {_INDEX}) and 2 in deploy/hosted/controller/.../store.py:585,618, where the interpolated column is checked against an explicit allowlist ('invalid intent column', 'invalid set-once column') and every value is a bound ? parameter."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.formatted-sql-query.formatted-sql-query",
+      "count": 129,
+      "verdict": "false-positive",
+      "detail": "All 129 in core/switch_core/migrations/versions/: Alembic op.execute() over constant identifiers at deploy time; no request data reaches a migration."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+      "count": 6,
+      "verdict": "false-positive",
+      "detail": "text() statements built from module-level SQL fragments (event_buffer.py:375 _UNREAD_IN_ROOM_SQL, message_store.py:553-561 _ROOMS_PAST_SQL with a constant {types} fragment, erasure_store.py:667 UNREFERENCED_BLOB, retention_store.py:145 _UNREFERENCED_BLOBS); every value is a bound :param (:t, :uris, :room_ids, :tenant_id)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "product-surface",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.detect-child-process.detect-child-process",
+      "count": 25,
+      "verdict": "by-design",
+      "detail": "Switch Console is the desktop app that installs and launches agent CLIs (Claude Code, Codex, ...), a local Switch server and Docker, so spawning processes is what it is for. Arguments come from bundled constants (OPEN_IN_APPS, provider registries) or the user's own choices; provider-process.ts spawns with argv arrays and quotes .cmd shims by hand rather than shell:true. 2 hits are test files. One hardening note recorded separately (open-in-app {{path_raw}})."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.spawn-shell-true.spawn-shell-true",
+      "count": 3,
+      "verdict": "false-positive",
+      "detail": "console/apps/switch-console-desktop/scripts/postinstall.ts:11,55 is a dev-time install script with constant commands; console/packages/agent-providers/src/cline/cline.integration.test.ts:31 is a test. Neither ships in the runtime path."
+    },
+    {
+      "source": "curation",
+      "reason_code": "domain-noun-collision",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.logging.logger-credential-leak.python-logger-credential-disclosure",
+      "count": 13,
+      "verdict": "false-positive",
+      "detail": "The word 'token'/'API key' is in the message, not the value: api_keys.py:137,218 log the key's label and user id, agent/auth.py:296 the key id and type, broker.py:1092,2330 and github_installation.py:240 deliberately log type(error).__name__ rather than the exception, so a token inside an error string cannot reach the log."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp",
+      "count": 12,
+      "verdict": "false-positive",
+      "detail": "Patterns built from developer-registered route paths (control-server.ts:45), local filesystem glob matching (local-fs.ts, ssh-fs.ts), PATH expansion (shellEnv.ts) and template fields in the desktop app; 4 are tests. No remote party supplies the pattern."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket",
+      "count": 6,
+      "verdict": "false-positive",
+      "detail": "4 in user-changes.test.ts and 2 in loadtest/ (agents.py:118, controllers.py:84), all ws:// to a local test stack."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.prototype-pollution.prototype-pollution-loop.prototype-pollution-loop",
+      "count": 4,
+      "verdict": "false-positive",
+      "detail": "Keys are developer constants: codex/profile.ts:167 and opencode/profile.ts:163 walk setting.tomlPath from CODEX/OPENCODE_PROFILE_SETTINGS ('a value stored under a key Codex does not declare is left out'), switch-console-config-file.ts:21 walks typed ShareableLocationSettingsWriteField paths, and vendor-cli.ts:348 only reads."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "shellEnv.ts:85 expands the user's own login-shell PATH entries on their own machine."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "javascript.ajv.security.audit.ajv-allerrors-true.ajv-allerrors-true",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "room-templates/controller.ts:162 validates a room template the local user imports into their own desktop app; allErrors only lengthens the error list shown to that user."
+    },
+    {
+      "source": "curation",
+      "reason_code": "mitigated-in-app",
+      "tool": "semgrep",
+      "rule": "typescript.react.security.audit.react-dangerouslysetinnerhtml.react-dangerouslysetinnerhtml",
+      "count": 5,
+      "verdict": "false-positive",
+      "detail": "Mermaid previews (mermaid-diagram-preview.tsx:57, -dialog.tsx:27) render SVG from mermaid.render() with securityLevel:'strict' (mermaid-renderer.ts:30); agent-icon.tsx:48 and mcpIcons.tsx:36 inline bundled provider/MCP icon SVGs (workspace agents' icons from the server go through <img src>); IntegrationRow.tsx:111 is not rendered anywhere. The renderer runs with contextIsolation:true and nodeIntegration:false."
+    },
+    {
+      "source": "curation",
+      "reason_code": "mitigated-in-app",
+      "tool": "semgrep",
+      "rule": "python.django.security.injection.raw-html-format.raw-html-format",
+      "count": 3,
+      "verdict": "false-positive",
+      "detail": "bridges/agent/deeplink.py:135,163,168 format the handoff page with html.escape(..., quote=True) into an href attribute, the scheme and host of the target are fixed constants (switchdash://), and console paths are allowlisted (404 otherwise)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.jwt.security.unverified-jwt-decode.unverified-jwt-decode",
+      "count": 3,
+      "verdict": "false-positive",
+      "detail": "Each reads claims from a token the server itself just received over TLS from Microsoft or WorkOS, never to admit a caller: teams/auth.py:285 the Graph app roles (Graph tokens are not verifiable by their holder, documented with a nosemgrep), workos_sign_in.py:136 and members_service.py:115 the expiry only, with the members service as the verifier."
+    },
+    {
+      "source": "curation",
+      "reason_code": "active-harm-fp",
+      "tool": "semgrep",
+      "rule": "python.cryptography.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "teams/crypto.py:68-69 is RSA-OAEP with SHA-1, the padding Microsoft Graph uses to wrap the dataKey of encrypted change notifications; switching hashes would make Graph's payloads undecryptable."
+    },
+    {
+      "source": "curation",
+      "reason_code": "active-harm-fp",
+      "tool": "semgrep",
+      "rule": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "teams/auth.py:122 sends the certificate's legacy x5t (SHA-1 thumbprint, usedforsecurity=False) beside x5t#S256 because older Entra endpoints read only x5t; it names the certificate and secures nothing."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "gitleaks",
+      "rule": "Potential secret detected: generic-api-key",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "core/tests/switch_core/fixtures/agent_controllers/controller_info_{request,response}.json: the value base64-decodes to 'machine-public-key-32-bytes.....', a placeholder public key in a test fixture."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "semgrep",
+      "rule": "generic.secrets.security.detected-aws-access-key-id-value.detected-aws-access-key-id-value",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "console/apps/switch-console-desktop/src/main/lib/file-logger.test.ts:87, a fake key in a test of the log redactor."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.secrets-inherit.secrets-inherit",
+      "count": 2,
+      "verdict": "by-design",
+      "detail": "e2e-scheduled.yml:60,79 call the repo's own e2e.yml, which needs environment secrets; the caller runs on push to main, a schedule and release tags only (no pull_request/pull_request_target), and the comment says why inherit is needed."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "generic.nginx.security.possible-h2c-smuggling.possible-nginx-h2c-smuggling",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "deploy/shared_resources/gateway-nginx.conf:19 forwards Upgrade only on the exact location /gateway/changes/ws (the signed-in user's change socket) to the app itself; the upstream is uvicorn, which does not speak h2c."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.insecure-transport.urllib.insecure-request-object.insecure-request-object",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "deploy/hosted/machine/switch_machine_boot.py:317,324 call the EC2 instance metadata service, which is plain HTTP on a link-local address by design, using IMDSv2 session tokens."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.insecure-file-permissions.insecure-file-permissions",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "switch_machine_boot.py:673 creates a data-mount directory 0o755 after refusing any symlink on the path."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.compatibility.python37.python37-compatibility-importlib2",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "gateway/email_domains.py:16 uses importlib.resources; the project requires Python 3.11+, so a Python 3.7 compatibility rule does not apply."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.performance.performance-improvements.len-all-count",
+      "count": 5,
+      "verdict": "not-applicable",
+      "detail": "A performance rule (len(query.all()) vs count()), not a security finding."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "trivy",
+      "rule": "Image user should not be 'root'",
+      "count": 4,
+      "verdict": "hardening",
+      "detail": "Dockerfile.switch, Dockerfile.gateway (nginx), Dockerfile.setup and the BYOI image declare no USER. Hardening, not a vulnerability: none is reachable without first compromising the service it runs."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "trivy",
+      "rule": "'apt-get' missing '--no-install-recommends'",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Image-size hygiene in the BYOI Dockerfile:26,36, not a security property."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "trivy",
+      "rule": "Port 22 exposed",
+      "count": 1,
+      "verdict": "by-design",
+      "detail": "The BYOI (bring-your-own-image) Dockerfile is an SSH target for remote agent hosts; exposing 22 is its purpose."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "trivy",
+      "rule": "A security group rule should not allow unrestricted egress to any IP address.",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "deploy/hosted/terraform/main.tf:21: the worker group has no inbound rule at all and egress only to TCP 80/443; an 'isolation' group exists to cut a machine off, and the controller cannot change an instance's groups."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "trivy",
+      "rule": "Network ACLs should not allow unrestricted ingress to SSH or RDP from any IP address.",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "network.tf:94 admits TCP 1024-65535 inbound: return traffic for a stateless NACL. 3389 falls in the ephemeral range; the security group in front admits nothing inbound."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "trivy",
+      "rule": "VPC Flow Logs is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC. After you've created a flow log, you can view and retrieve its data in Amazon CloudWatch Logs. It is recommended that VPC Flow Logs be enabled for packet \"Rejects\" for VPCs.",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "Observability hardening for the hosted VPC, not a vulnerability."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "aiohttp 3.14.3 in core/uv.lock (fixed 3.14.4)",
+      "count": 7,
+      "verdict": "hardening",
+      "detail": "CVE-2026-111064/111066/123817 (high), 111063/111065/111748/111750 (medium). Reachable in part: bridges/collaboration/ingress.py and teams/adapter.py run aiohttp.web servers for inbound platform webhooks, so the missing initial-request timeout (111064) applies to a public listener (availability). 111066 needs Request.post() (not used), 111748 needs Request.scheme in a security decision, 111750 the pure-Python parser behind a disagreeing proxy; the rest are client-side against platform servers."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "authlib 1.7.2 in core/uv.lock (fixed 1.9.1)",
+      "count": 8,
+      "verdict": "not-applicable",
+      "detail": "CVE-2026-96760 (critical), 114615/114616/116672 (high), 114617/114618/114619/114620 (medium). Switch imports only authlib.integrations.starlette_client for its OIDC sign-in, an authorization-code flow whose ID token comes from the IdP's token endpoint. The advisories cover JWS JSON deserialize_json, OAuth/OIDC server endpoints (client configuration, JWT bearer grant, implicit grant, RFC 9101 request objects), implicit/hybrid nonce handling, and HMAC keys from PEM or empty secrets; none is on that path. Still worth the bump: the version is two minors behind."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "anyio 4.13.0 in core/uv.lock (fixed 4.14.2)",
+      "count": 2,
+      "verdict": "hardening",
+      "detail": "CVE-2026-63374 (critical: IDNA 2003 vs 2008 when validating a non-ASCII TLS hostname, needs an on-path attacker and an internationalised domain) and 64847 (process-pool stderr). Outbound hosts are ASCII platform and provider APIs."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "certifi 2026.4.22 in core/uv.lock (fixed 2026.10.18)",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "GHSA-6q48-6c7w-9gw2 (critical): the bundle still trusts the emSign ECC root whose intermediates were compromised and revoked; exploiting it needs an on-path attacker holding one of those keys. Every outbound HTTPS call from the image trusts this bundle."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "mcp 1.28.1 in core/uv.lock (fixed 1.30.0)",
+      "count": 4,
+      "verdict": "hardening",
+      "detail": "CVE-2026-59951 is not reachable (the FastMCP server runs stateless_http=True, bridges/agent/mcp/server.py:177) and 116684 needs the SDK's AuthSettings token_verifier, which Switch does not use. 116685 (cross-origin redirects keep custom headers) and 116686 (outputSchema $ref fetches) are client-side: they apply to connections/adapters/oauth.py's fastmcp Client against the connector MCP servers Switch calls."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "FastMCP: Post-transform component authorization is skipped on direct calls",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "GHSA-7xgj-8392-5q4r on fastmcp and fastmcp-slim 3.3.1: needs server transforms plus component authorization policies; Switch's FastMCP server uses neither."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "joserfc 1.6.8 in core/uv.lock (fixed 1.7.6)",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "CVE-2026-119283/119284: JWE recipient and JWS deserialization DoS. joserfc arrives with authlib; the only token it could parse is the ID token from the IdP's own token endpoint."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "dnspython 2.8.0 in core/uv.lock (fixed 2.9.0)",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "CVE-2026-114605: DNS wire-format parsing. switch_core never imports dns and parses no DNS messages."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "opentelemetry-api 1.41.1 in core/uv.lock (fixed 1.45.1)",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "CVE-2026-114603: TraceState.from_header via TraceContextTextMapPropagator.extract on inbound tracestate. switch_core does not extract trace context from inbound requests."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "mako 1.3.12 in core/uv.lock (fixed 1.4.2)",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "CVE-2026-102991: path traversal on Windows in template lookup. Mako only renders Alembic's migration template; the server image is Linux."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "multidict 6.7.1 in core/uv.lock (fixed 6.9.1)",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "CVE-2026-104874: reference leak in items-view union/subtraction over attacker-influenced sequences; arrives with aiohttp."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "@modelcontextprotocol/sdk 1.30.0 in console/pnpm-lock.yaml (fixed 1.32.0)",
+      "count": 6,
+      "verdict": "hardening",
+      "detail": "Server side: GHSA-f897-62hf-6gxq and CVE-2026-111768 (request-size DoS) are not reachable without the token, because switch-agent-runtime/src/hosted.ts checks its bearer token before the SDK sees the request; 111767 needs the experimental taskStore and 111771 the SDK's bearer auth, neither used. Client side: 104850 (OAuth credentials not bound to their authorization server) and 111769 (cross-origin redirects keep headers) apply to agent-providers/src/host/vendor-mcp.ts against vendor MCP servers."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "fast-uri 3.1.5 in console/pnpm-lock.yaml (fixed 3.1.9)",
+      "count": 8,
+      "verdict": "not-applicable",
+      "detail": "Five high, three medium (SSRF, host confusion, XSS via URI parsing). fast-uri arrives with ajv for URI format checks on templates the local user imports; nothing fetches based on its parse."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "hono 4.12.34 and @hono/node-server 2.0.12 in console/pnpm-lock.yaml",
+      "count": 6,
+      "verdict": "not-applicable",
+      "detail": "serveStatic, parseBody, toSSG and hono/jsx advisories. Transitive via the MCP SDK; no console code imports hono or serves static files with it."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "express stack (proxy-addr 2.0.7, body-parser 2.3.0, qs 6.15.3) in console/pnpm-lock.yaml",
+      "count": 5,
+      "verdict": "not-applicable",
+      "detail": "proxy-addr CVE-2026-90711 (critical) needs a trust-proxy subnet written in IPv4-mapped notation; body-parser and qs are request-parsing DoS. The console's loopback servers are plain node:http, not Express; these arrive with the MCP SDK."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "glob-pattern parsers (brace-expansion 5.0.9, minimatch 10.2.5, glob 13.0.6) in console/pnpm-lock.yaml",
+      "count": 5,
+      "verdict": "not-applicable",
+      "detail": "DoS through crafted glob patterns; the only patterns come from the local user or the build."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "ip-address 10.4.0 in console/pnpm-lock.yaml (fixed 10.7.4)",
+      "count": 5,
+      "verdict": "not-applicable",
+      "detail": "Address-classification and parsing advisories; no console code makes an allow/deny decision with it."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "smol-toml 1.8.0 in console/pnpm-lock.yaml (fixed 1.9.0)",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "GHSA-r4xh-jqrq-34v2: quadratic parse of TOML the console writes and reads itself (agent CLI profiles)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "confirmed-real",
+      "tool": "manual-review",
+      "rule": "withheld-private-reports",
+      "count": 3,
+      "verdict": "real",
+      "detail": "Hand review; no tool rule covers them. Three first-party findings (2 High, 1 Medium), each reported privately through GitHub private vulnerability reporting on 2026-11-12, one report per finding, as SECURITY.md asks. Detail withheld until the maintainers resolve them."
+    },
+    {
+      "source": "curation",
+      "reason_code": "product-surface",
+      "tool": "manual-review",
+      "rule": "open-in-app-unquoted-path-template",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "Hand review behind a detect-child-process hit. console/.../main/core/app/service.ts:254-266 runs each 'Open in' command template through exec(); {{path}} is shell-quoted per platform but {{path_raw}} is substituted raw inside double quotes (Alacritty, Athas, Trae, Trae Solo, and Windows 'cmd /K \"cd /d ...\"' in shared/openInApps.ts), where $(...) still expands on macOS/Linux and & ends the command in cmd. The path comes from the OS folder picker, so it needs a booby-trapped folder name the user chose: hardening, not a vulnerability. Fix: quote it like {{path}} or use execFile with an argv."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "pytest 8.4.2 in deploy/hosted/controller/uv.lock (fixed 9.0.3)",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "CVE-2025-71176: test runner, development group only."
+    }
+  ]
+}
