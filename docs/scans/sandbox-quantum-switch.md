@@ -36,7 +36,7 @@ you built) work together, with connectors to Google Workspace, Atlassian, GitHub
 Airtable (4.4k★, Apache 2.0 with the Commons Clause, backed by SandboxAQ). It is a large
 codebase: the control plane `switch_core` is 715 Python files and about 230,000 lines, with
 another 895 test files; Switch Console is about 2,600 TypeScript files, and the web dashboard
-another 228. It is also a busy one: in the 60 days before the scan, 26 people merged more than
+another 228. It is also a busy one: in the 60 days before the scan, 26 people merged at least
 100 pull requests and 87 issues from 30 people were closed.
 
 **Scope of this write-up.** Every tool finding below was checked at its call site. The hand
@@ -62,11 +62,12 @@ module.
 | `ai-security-review` | `not_run` | AI security review is disabled |
 
 **Coverage complete:** no. Semgrep scanned 4,147 paths and reported 85 errors. Ten were rule
-timeouts: nine on TypeScript in Switch Console and the dashboard (three of them test files), and
-one on `core/switch_core/bridges/collaboration/mattermost/adapter.py`, for the rule that flags
-plain-HTTP `requests` calls. The other 75 were parse errors on files that are not Python: Helm
-templates, which are Go templates rather than YAML until rendered, GitHub workflows, shell
-scripts, Dockerfiles and a few TypeScript files. No `switch_core` module failed to parse. The
+timeouts: nine on TypeScript in Switch Console and the dashboard (five of them in three test
+files), and one on `core/switch_core/bridges/collaboration/mattermost/adapter.py`, for the rule
+that flags plain-HTTP `requests` calls. The other 75 were parse errors, none on Python: 29 on
+Helm templates, which are Go templates rather than YAML until rendered, 24 on GitHub workflows,
+13 on TypeScript, 5 on shell scripts and 4 on Dockerfiles. No `switch_core` module failed to
+parse. The
 workflows were read by hand instead: PR CI runs on `pull_request`, with a comment saying never to
 switch it to `pull_request_target`, and the one `pull_request_target` workflow (the CLA bot)
 checks out no pull-request code and pins its actions by SHA. The `dependency-scan` row is
@@ -206,7 +207,7 @@ the built-in catalog.
 - **pip-audit only looks at the root**, so a monorepo whose Python project sits in `core/` reads
   as "no manifest". Trivy covered it this time. The dependency scan should look one level down
   when the root has nothing.
-- **Helm templates are not YAML until rendered.** 30 of Semgrep's 75 parse errors were chart
+- **Helm templates are not YAML until rendered.** 29 of Semgrep's 75 parse errors were chart
   templates. Rendering the chart with its default values before scanning would turn them into
   coverage instead of noise.
 
