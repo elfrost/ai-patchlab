@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "117 curated security scans of open-source AI agents, MCP servers and LLM apps - 29 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "117 curated security scans of open-source AI agents, MCP servers and LLM apps - 30 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 117 scans, 29 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 117 scans, 30 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -35,7 +35,7 @@ remediation and confidence rules to normalize the findings.
 
 ## Two shorter ways in
 
-- [**Findings a maintainer fixed**]({{ '/fixed' | relative_url }}) — the 29 that resolved
+- [**Findings a maintainer fixed**]({{ '/fixed' | relative_url }}) — the 30 that resolved
   upstream. The shortest version of the argument: a report is only worth writing if someone
   can act on it.
 - [**Scans that found nothing**]({{ '/clean' | relative_url }}) — 42 of them, published as
@@ -113,8 +113,9 @@ publicly and still open; *declined* — the maintainer considered it and said no
 the write-up quotes their reasoning; *private* — reported through a private channel
 and withheld here until it resolves; *undelivered* — no private channel existed at
 all, so the report could not be delivered and the detail stays withheld
-indefinitely; *partial* — only part of a multi-item report landed; — — nothing was
-filed, which is the usual outcome of a clean scan.
+indefinitely; *partial* — only part of a multi-item report landed; *expired* — reported
+publicly, then closed by the project's inactivity automation with no maintainer reply;
+— — nothing was filed, which is the usual outcome of a clean scan.
 
 | Date | Repository | Findings | Real | Outcome |
 | --- | --- | ---: | --- | --- |
@@ -182,7 +183,7 @@ filed, which is the usual outcome of a clean scan.
 | 2026-07-24 | [gpustack/gpustack](scans/gpustack-gpustack.html) | 136 | 0 real | — |
 | 2026-07-23 | [EverMind-AI/Raven](scans/evermind-ai-raven.html) | 87 | 0 real | — |
 | 2026-07-22 | [mixelpixx/KiCAD-MCP-Server](scans/mixelpixx-kicad-mcp-server.html) | 29 | 0 real | — |
-| 2026-07-21 | [ucbepic/docetl](scans/ucbepic-docetl.html) | 124 | 1 real | — |
+| 2026-07-21 | [ucbepic/docetl](scans/ucbepic-docetl.html) | 124 | 1 real | **fixed** |
 | 2026-07-20 | [ModelEngine-Group/nexent](scans/modelengine-group-nexent.html) | 115 | 0 real | — |
 | 2026-07-19 | [vitali87/code-graph-rag](scans/vitali87-code-graph-rag.html) | 22 | 1 real | **fixed** |
 | 2026-07-18 | [algorithmicsuperintelligence/optillm](scans/algorithmicsuperintelligence-optillm.html) | 57 | 1 real | **fixed** |
@@ -233,7 +234,7 @@ filed, which is the usual outcome of a clean scan.
 | 2026-05-16 | [MervinPraison/PraisonAI](scans/mervinpraison-praisonai.html) | 489 | 5 real | **fixed** |
 | 2026-05-15 | [Upsonic/Upsonic](scans/upsonic-upsonic.html) | 40 | 4 real | — |
 | 2026-05-15 | [msoedov/agentic_security](scans/msoedov-agentic-security.html) | 9 | 2 real | **fixed** |
-| 2026-05-14 | [traceloop/openllmetry](scans/traceloop-openllmetry.html) | 33 | 1 real | — |
+| 2026-05-14 | [traceloop/openllmetry](scans/traceloop-openllmetry.html) | 33 | 1 real | expired |
 | 2026-05-14 | [gptme/gptme](scans/gptme-gptme.html) | 57 | 3 real | **fixed** |
 
 *Older entries predate the "N real" convention and are marked "see write-up".

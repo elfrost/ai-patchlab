@@ -1,17 +1,17 @@
 ---
 layout: default
 title: Findings a maintainer fixed
-description: "The 29 scans in the AI PatchLab series where the maintainer shipped a fix — what was reported, and what landed upstream."
+description: "The 30 scans in the AI PatchLab series where the maintainer shipped a fix — what was reported, and what landed upstream."
 ---
 
 # Findings a maintainer fixed
 
-Of 117 scans, **29** ended with a maintainer shipping a fix. This page is the
+Of 117 scans, **30** ended with a maintainer shipping a fix. This page is the
 short version of the argument: a report is only worth writing if someone can act on it.
 
 The fastest turnaround in the series was about six hours from filing to a merged pull
 request. Several were fixed by people other than the reporter — passer-by contributors
-adopted the filing and wrote the patch (most recently on optillm), and once the maintainer wrote their own
+adopted the filing and wrote the patch (most recently on docetl), and once the maintainer wrote their own
 diff because a contributor licence agreement had blocked the offered one, and said so in the
 release notes.
 
@@ -33,6 +33,7 @@ release notes.
 | 2026-08-03 | [the-momentum/open-wearables](scans/the-momentum-open-wearables.html) | 145 | 2 real |
 | 2026-07-29 | [Project-N-E-K-O/N.E.K.O](scans/project-n-e-k-o-n-e-k-o.html) | 783 | 1 real |
 | 2026-07-28 | [EvoScientist/EvoScientist](scans/evoscientist-evoscientist.html) | 39 | 1 real |
+| 2026-07-21 | [ucbepic/docetl](scans/ucbepic-docetl.html) | 124 | 1 real |
 | 2026-07-19 | [vitali87/code-graph-rag](scans/vitali87-code-graph-rag.html) | 22 | 1 real |
 | 2026-07-18 | [algorithmicsuperintelligence/optillm](scans/algorithmicsuperintelligence-optillm.html) | 57 | 1 real |
 | 2026-07-03 | [AgentEra/Agently](scans/agentera-agently.html) | 25 | 1 real |
