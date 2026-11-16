@@ -58,6 +58,7 @@
 - [ ] Topical grouping done properly, by reading each post rather than matching it
 
 ## Phase 4.7 - Disclosure throughput (the pipeline's measured bottleneck)
+- [x] Recover the stranded 2026-11-15 status sweep (2026/11/16) - publish docetl's verified 30th fix and openllmetry's expired outcome; close the interrupted mcp-proxy run and exclude that target from automatic selection after user review
 - [x] Channel viability is a target-selection criterion, tiered on manual-queue depth (2026/09/18)
 - [x] `unreachable` disposition with four written evidence criteria, closing the deadlock class (2026/09/18)
 - [x] Outcome column on the public index documented, and every value in use covered by the legend (2026/09/18)

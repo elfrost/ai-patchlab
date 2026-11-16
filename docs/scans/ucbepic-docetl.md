@@ -10,7 +10,7 @@ date: 2026-07-21
 **Repository:** [ucbepic/docetl](https://github.com/ucbepic/docetl)
 **Commit scanned:** `ae7f10f1ba35`
 **Scan date:** 2026-07-21
-**Disclosure status:** disclosed — [filed ucbepic/docetl#505](https://github.com/ucbepic/docetl/issues/505)
+**Disclosure status:** ✅ **resolved** — [filed ucbepic/docetl#505](https://github.com/ucbepic/docetl/issues/505) on the day of the scan; a contributor's fix for the file read/write was merged 116 days later in [#507](https://github.com/ucbepic/docetl/pull/507) and the issue closed as completed. Re-verified by this series against the merged code. The fix confines paths; it adds no authentication and leaves the URL-ingest SSRF in place, and both are recorded below as open.
 
 ## Summary
 
@@ -65,9 +65,36 @@ This is the [optillm](algorithmicsuperintelligence-optillm.html) / [zotero-mcp](
 - **Gitleaks:** 1 hit, a `docs/python/examples.md` placeholder (`split_0_chunk_num`) — FP, doc example.
 - CI `github-actions-mutable-action-tag` (13) + `gha-curl-pipe-shell` (3) are the usual workflow-hardening tail, not the story here.
 
+## Resolution
+
+**What shipped.** [#507](https://github.com/ucbepic/docetl/pull/507) (+442/−98, `server/app/routes/filesystem.py` plus a new `tests/test_filesystem_security.py`) was written by contributor [rohankumardubey](https://github.com/rohankumardubey) and merged by the maintainer. Every `/fs` route now takes its path through one helper, `resolve_storage_path`. The helper canonicalises the path with `resolve()` and refuses anything outside `$DOCETL_HOME_DIR/.docetl`. The check is `relative_to`, which compares path components, not string prefixes. Single file and directory names go through `resolve_storage_child`, which refuses separators, `..` and NUL bytes. `serve-document` no longer has its own substring `".."` check, the weaker guard the report had pointed at; it uses the same helper as the other routes. The new tests cover traversal, absolute paths outside the root, sibling-prefix paths and symlink escapes, and they check that legitimate nested paths still work.
+
+**Re-verified 2026-11-15, as a differential.** The five path helpers were extracted from `filesystem.py` at the merge commit `8163c31e` and run against a scratch storage root. Each probe was also run through the pre-fix behaviour, where the client's path went to `Path(path)` unchecked.
+
+| Probe | Before the fix | After the fix |
+| --- | --- | --- |
+| `../outside.txt` | escapes the root | rejected (400) |
+| `ns/../../outside.txt` | escapes the root | rejected (400) |
+| an absolute path outside the root | escapes the root | rejected (400) |
+| a sibling prefix, `~/.docetl-evil/x.txt` | escapes the root | rejected (400) |
+| relative and absolute paths inside the root | served | served |
+
+A `../..` namespace, an empty namespace, and file names containing `../`, `..\` or a NUL byte are all rejected too. The symlink case could not run on the Windows machine used here (no symlink privilege), but the project's own tests cover it. The container sets `DOCETL_HOME_DIR=/docetl-data`, which puts the `~/.aws` mount of the `docetl-aws` profile outside the root, so the cloud-credential read described above is closed.
+
+**Still open.** The pull request describes itself as covering "the filesystem-confinement portion of #505". It took neither of the other two recommendations, and the maintainer closed the issue anyway, so the following are a decision on record, not an open thread:
+
+- **No authentication.** At `8163c31e` the server still has no auth dependency (`server/app/main.py` adds only CORS), and `docker-compose.yml` still binds the backend to `0.0.0.0`. On that deployment, anyone who can reach the backend port can still read and write files *inside* the storage root and run pipelines, `code` operators included.
+- **The URL-ingest SSRF.** `/fs/upload-file` still fetches a caller-supplied `url` with `follow_redirects=True` and no scheme or host check, and stores the body when it parses as JSON.
+- **Dependencies.** `nltk` is still 3.9.2 in `uv.lock`, and there is still no `dependabot.yml`.
+
+The bare-metal default still binds to loopback (`BACKEND_HOST` defaults to `127.0.0.1`), so all three matter mainly for the container deployment. This counts as the series' 30th fix because the issue closed as completed and the arbitrary host file read and write that this write-up led with is gone.
+
 ## Disclosure timeline
 
 - 2026-07-21 — scan run, curation, focused issue [ucbepic/docetl#505](https://github.com/ucbepic/docetl/issues/505) filed upstream (no private security channel is published; the finding requires the operator to expose the server, and the report leads with the fix, not an exploit chain)
+- 2026-07-24 — a contributor opens [#507](https://github.com/ucbepic/docetl/pull/507), "fix(server): confine filesystem routes to storage root", scoped to the confinement part of the report
+- 2026-11-14 — **fixed**: #507 merged by the maintainer (merge commit `8163c31e`), and #505 closed as completed forty minutes later
+- 2026-11-15 — re-verified by this series against the merged code (see Resolution); authentication and the URL-ingest SSRF recorded as still open
 
 ## Reproduce
 

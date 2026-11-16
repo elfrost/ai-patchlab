@@ -10,7 +10,7 @@ date: 2026-05-14
 **Repository:** [traceloop/openllmetry](https://github.com/traceloop/openllmetry) — 7.1k★, Apache-2.0, observability layer for LLM applications based on OpenTelemetry.
 **Commit scanned:** approx `72fc45e` (HEAD of `main` at scan time)
 **Scan date:** 2026-05-14
-**Disclosure status:** One best-practice item (test cassette anonymization) filed as a public courtesy issue on the openllmetry repo. No findings required private coordination.
+**Disclosure status:** One best-practice item (test cassette anonymization) filed as a public courtesy issue on the openllmetry repo. No findings required private coordination. **Expired 2026-11-15:** the project's Linear integration closed [#4150](https://github.com/traceloop/openllmetry/issues/4150) as *not planned* six months after filing, with no maintainer reply.
 
 ## Summary
 
@@ -99,6 +99,8 @@ These all now live in the project backlog.
 
 - **2026-05-14** — Scan run, top findings curated.
 - **2026-05-14** — Public courtesy issue filed on [traceloop/openllmetry](https://github.com/traceloop/openllmetry/issues) recommending cassette-anonymization (VCR filter configuration). One additional best-practice note (a comment on the SDK's `jinja2.Environment()` use) is mentioned inline in the issue.
+- **2026-05-16 and 2026-06-26** — Two community pull requests take up the issue: [#4151](https://github.com/traceloop/openllmetry/pull/4151) documents the jinja2 autoescape rationale and [#4321](https://github.com/traceloop/openllmetry/pull/4321) anonymizes the VCR cassettes. Both are still open.
+- **2026-11-15** — [#4150](https://github.com/traceloop/openllmetry/issues/4150) closed as *not planned* by `linear[bot]`, with no comment, six months after filing. The same automation closed [#4038](https://github.com/traceloop/openllmetry/issues/4038) six months to the day after it was opened, so this reads as an inactivity close, not a decision on the report. Recorded as *expired*.
 
 No findings rose to the level of critical vulnerability requiring private coordination before publication.
 
