@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "117 curated security scans of open-source AI agents, MCP servers and LLM apps - 30 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "118 curated security scans of open-source AI agents, MCP servers and LLM apps - 30 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 117 scans, 30 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 118 scans, 30 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -38,7 +38,7 @@ remediation and confidence rules to normalize the findings.
 - [**Findings a maintainer fixed**]({{ '/fixed' | relative_url }}) — the 30 that resolved
   upstream. The shortest version of the argument: a report is only worth writing if someone
   can act on it.
-- [**Scans that found nothing**]({{ '/clean' | relative_url }}) — 42 of them, published as
+- [**Scans that found nothing**]({{ '/clean' | relative_url }}) — 43 of them, published as
   they ran. A method that can only return "yes" is not a method.
 
 ## Six scans worth reading
@@ -103,7 +103,7 @@ login and static assets. Fifty-two flagged, none reported.
 
 ## All scans
 
-117 scans, newest first. **Findings** is the raw count the tools produced;
+118 scans, newest first. **Findings** is the raw count the tools produced;
 **Real** is what survived curation. The gap between those two columns is the
 entire job.
 
@@ -119,6 +119,7 @@ publicly, then closed by the project's inactivity automation with no maintainer 
 
 | Date | Repository | Findings | Real | Outcome |
 | --- | --- | ---: | --- | --- |
+| 2026-11-17 | [jordan-gibbs/hyperresearch](scans/jordan-gibbs-hyperresearch.html) | 45 | 0 real | — |
 | 2026-11-12 | [sandbox-quantum/switch](scans/sandbox-quantum-switch.html) | 442 | 3 real — withheld | private |
 | 2026-11-09 | [haris-musa/excel-mcp-server](scans/haris-musa-excel-mcp-server.html) | 5 | 0 real | — |
 | 2026-10-25 | [nicedreamzapp/claude-code-local](scans/nicedreamzapp-claude-code-local.html) | 20 | 0 real | — |
