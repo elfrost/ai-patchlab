@@ -1,0 +1,151 @@
+{
+  "repository": "C:\\Users\\Elfrost\\AppData\\Local\\Temp\\ai-patchlab-clone-_k749n_j\\repo",
+  "generated_at": "2026-11-17T13:10:50.474320+00:00",
+  "total_dismissed": 49,
+  "by_reason": {
+    "sql-identifier-fp": 27,
+    "by-design": 11,
+    "not-reachable": 6,
+    "below-min-severity": 2,
+    "mitigated-in-app": 1,
+    "placeholder-secret": 1,
+    "product-surface": 1
+  },
+  "records": [
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.dependabot.dependabot-missing-cooldown.dependabot-missing-cooldown",
+      "count": 2,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query",
+      "count": 21,
+      "verdict": "false-positive",
+      "detail": "The project uses sqlite3, not SQLAlchemy, and binds every value with '?'. The f-strings carry only placeholder lists (',?' per id), WHERE fragments assembled from constant clauses (cli/batch.py:52, cli/export.py:92, cli/note.py:370 whose ORDER BY comes from a fixed sort_map), table names from the constant _NOTE_ID_REBUILT_TABLES/_NOTE_ID_URL_TABLES tuples (core/sync.py:440-461) and migration column names read back from PRAGMA table_info (core/migrations.py; line 300 even quotes them). search/fts.py:220 binds the search text through MATCH ?; its BM25 weights come from the operator's own config file."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.formatted-sql-query.formatted-sql-query",
+      "count": 6,
+      "verdict": "false-positive",
+      "detail": "The same six core/migrations.py lines as the rule above (87, 153, 182, 254, 301, 311): schema-derived column names, constant DDL declarations and PRAGMA foreign_keys={int(...)}."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "gitleaks",
+      "rule": "Potential secret detected: generic-api-key",
+      "count": 3,
+      "verdict": "by-design",
+      "detail": "README.md:484-486 are the sealed_token parameter of the star-history.com chart embed. The service issues that token encrypted for README embeds and says it is acceptable to publish; it is not a raw GitHub credential committed to the repo."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "gitleaks",
+      "rule": "Potential secret detected: generic-api-key",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "tests/test_scholar/test_fred.py:21: KEY is a 32-character sequential hex placeholder (16 distinct characters, starting 'abcd'), used against the mocked HTTP seam."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.compatibility.python36.python36-compatibility-Popen1",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "codex_bench/harness.py:691: a Python 3.6 compatibility rule. The project requires Python 3.11+, and codex_bench/ is a benchmark harness outside the wheel (packages = ['src/hyperresearch'])."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.compatibility.python36.python36-compatibility-Popen2",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Same line as Popen1 (codex_bench/harness.py:691); same reasoning."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.compatibility.python37.python37-compatibility-importlib2",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "core/hooks.py:4355 uses importlib.resources; requires-python is >=3.11."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "codex_bench/harness.py:133 opens the module constant QUERY_URL to download a benchmark query file; the harness is not shipped in the wheel."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.flask.security.xss.audit.direct-use-of-jinja2.direct-use-of-jinja2",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "core/render.py:51 builds the Jinja2 environment for agent prompt files (custom <<>>/<% %> delimiters, StrictUndefined). The output is Markdown for a model, never HTML for a browser, and the templates are the package's own prompt files rendered with profile settings, never fetched content."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.non-literal-import.non-literal-import",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "scholar/registry.py:40 imports hyperresearch.scholar.providers.<suffix>, where the suffix comes from the module's own constant provider tuple."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+      "count": 7,
+      "verdict": "hardening",
+      "detail": "ci.yml (2) and publish.yml (5) pin actions by major tag. Triggers are push, tag, release and workflow_dispatch only, with no pull_request_target. publish.yml sets permissions: contents: read globally and isolates id-token: write in a publish job gated by the pypi environment that only downloads the built artifact. SHA-pinning pypa/gh-action-pypi-publish@release/v1 in that job is the one pin worth adding."
+    },
+    {
+      "source": "curation",
+      "reason_code": "product-surface",
+      "tool": "manual-review",
+      "rule": "untrusted-fence-missing-on-mcp-transport",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "mcp/server.py:92,118,141 (search_notes, read_note, read_many) return fetched note bodies without the <untrusted-source> fence that note show and search apply (cli/note.py:223, cli/search.py:212). README.md:342 says every fetched body is served wrapped 'on both paths that serve bodies'; the MCP server is a third such path. Serving bodies to an agent is the tool's purpose and the fence is a best-effort prompt-injection mitigation, not a boundary, so this is a parity gap, not a vulnerability. The module docstring ('Exposes 8 tools', 'Read-only by design') is also stale: 13 tools are registered, including fetch_url, create_note and update_note."
+    },
+    {
+      "source": "curation",
+      "reason_code": "mitigated-in-app",
+      "tool": "manual-review",
+      "rule": "loopback-no-origin-host-guard",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "serve/server.py binds 127.0.0.1 (default port 8080) and is GET-only and read-only over the vault, but it never checks Host or Origin. A web page using DNS rebinding could read notes while 'hyperresearch serve' runs, subject to the browser's own local-network protections. A Host allowlist (127.0.0.1:<port>, localhost:<port>) closes it."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "manual-review",
+      "rule": "unescaped-enum-in-html-attribute",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "serve/server.py:475-478 puts row['status'] into class=\"status ...\" unescaped, while escaping the same value in the text beside it. status is a NoteStatus enum enforced when frontmatter is parsed and when the MCP update_note writes it, so no quote can reach the attribute. Escaping it would make the page consistent."
+    }
+  ]
+}
