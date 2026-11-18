@@ -67,6 +67,7 @@
 - [x] Make a halted or paused `/daily` visible without opening a log (2026/11/08) - `run-daily.ps1` raises a persistent Windows toast on every paused morning, on a run that pauses itself and on any failed run, and a pause found at start now exits 3 instead of 0. The 2026-10-04 diagnosis had sat unread for nine days, then the 2026-10-27 pause sat unseen for twelve (2026-10-28..11-08, 12 scan days lost), because a headless run's final message goes only to a UTF-16 log file
 - [x] Let the user see and answer a `/daily` run's questions (2026/11/09) - Phase 6 writes them to `.daily-questions.md` (gitignored), the wrapper raises a desktop toast while the file exists, and the user answers in a session by saying « questions ». On 2026-11-09 a successful run's three decisions had sat in the log unseen
 - [x] Dedup scan candidates by repository identity, not only by slug (2026/11/09) - renamed repos slipped the slug check three times; that day's top pick was Observal/Observal under its new name
+- [x] Headless runs never end their turn with background work pending (2026/11/18) - `/daily` Phase 4 runs review slices as foreground Agent calls. On 2026-11-18 a run ended its turn waiting on three background slices, the session closed with them and the wrapper was killed, leaving a verified High unfiled
 - [ ] Track the autonomous/human-gated split per month, to see whether the tiering actually moves it
 - [ ] Re-key sweep: assert at startup that no `withheld_finding_*` entry lacks a delivery record (the claude-tap mis-key evaded guardrail 6 for ~20 runs)
 

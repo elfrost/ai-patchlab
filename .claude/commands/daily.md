@@ -119,6 +119,7 @@ Use `--ignore-file` if the repo has obvious sample/example/demo subtrees (until 
 Then read `reports/<slug>/coverage.json`. It is the authoritative record of what the scan examined, written on every run from the scanners' own meta findings and derived **before** `--ignore-file` suppression, so no pattern can hide it. If `complete` is `false`, the finding count is not a clean bill of health: carry the rows verbatim into the post's **Scan coverage** section and say in one sentence what was not examined. This replaces transcribing the Phase 1 preflight by hand — the preflight still runs, because catching a broken Semgrep *before* burning a scan is worth more than reporting it afterwards.
 
 ## Phase 4 — Curate
+0. **Hand-review slices run in the foreground.** To split a large target into parallel review slices, launch them as several Agent calls in ONE message with `run_in_background: false`. They still run in parallel, and the run continues only once every slice has returned. Never end the turn "waiting" for background work: in a headless run, ending the turn ends the session, and the work dies with it. On 2026-11-18 a run ended its turn "waiting on the three parallel review slices". The session closed, the slices died, and the wrapper was killed (`0xC000013A`) before it could write its end line or raise an alert. A verified High sat unfiled until a human finished the run.
 1. Group findings by rule family. Auto-flag `tests/`, `sample/`, `examples/`, `demos/`, fixtures, placeholders as candidate-FP.
 2. Inspect the top 5 real candidates in the actual repo via `gh api repos/<owner>/<name>/contents/<path>` — read the call site, confirm the threat path.
 3. Write per-finding verdicts (real / by-design / FP, with the *why*), then **append them to `reports/<slug>/verdicts.json`** as `source: "curation"` rows — one row per rule family with its count, not one per finding. The scanner has already written its own deterministic rows there (what `--ignore-file` and `--min-severity` removed); add yours beside them.
@@ -163,3 +164,4 @@ Then read `reports/<slug>/coverage.json`. It is the authoritative record of what
 - In `--dry-run`, take ZERO irreversible public actions.
 - Respect the convention: a scan post's *outcome* is updated only after the upstream PR/issue is merged/closed, not when opened.
 - NEVER leave a run record `in-progress`: if you stop early for any reason, close it as `halted: <reason>`.
+- NEVER end the turn while background work is pending. Run review slices in the foreground (Phase 4 step 0) and wait for every result.
