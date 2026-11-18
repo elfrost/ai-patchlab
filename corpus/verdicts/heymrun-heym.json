@@ -1,0 +1,588 @@
+{
+  "repository": "C:\\Users\\Elfrost\\AppData\\Local\\Temp\\ai-patchlab-clone-2bbzck5l\\repo",
+  "generated_at": "2026-11-18T13:12:36.629258+00:00",
+  "total_dismissed": 304,
+  "by_reason": {
+    "below-min-severity": 53,
+    "by-design": 53,
+    "credited-defense": 34,
+    "test-or-fixture-path": 31,
+    "placeholder-secret": 28,
+    "dependency-currency": 27,
+    "not-reachable": 25,
+    "domain-noun-collision": 21,
+    "sql-identifier-fp": 17,
+    "product-surface": 8,
+    "sample-or-demo": 6,
+    "confirmed-real": 1
+  },
+  "records": [
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.dependabot.dependabot-missing-cooldown.dependabot-missing-cooldown",
+      "count": 7,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "yaml.kubernetes.security.run-as-non-root.run-as-non-root",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "CPU not limited",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "CPU requests not specified",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Container capabilities must only include NET_BIND_SERVICE",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Default capabilities: some containers do not drop all",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Default capabilities: some containers do not drop any",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Memory not limited",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Memory requests not specified",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "No HEALTHCHECK defined",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Runs with GID <= 10000",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Runs with UID <= 10000",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Runtime/Default Seccomp profile not set",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Workloads in the default namespace",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "DOMPurify: IN_PLACE returns a force-removed rawtext root whose text carries attacker markup — pure HTML reparse executes",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "DOMPurify: SMIL attributeName=href guard is skipped when PARSER_MEDIA_TYPE is application/xhtml+xml",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "axios: Axios: Information disclosure via Prototype Pollution",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "dompurify: DOMPurify: Client-side arbitrary code execution due to improper Trusted Types policy reset",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "dompurify: DOMPurify: Cross-Site Scripting (XSS) via custom element attribute bypass",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "dompurify: DOMPurify: Cross-site scripting vulnerability via attacker-controlled nodeName",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "dompurify: DOMPurify: Template expression injection allows information disclosure",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "semgrep",
+      "rule": "javascript.vue.security.audit.xss.templates.avoid-v-html.avoid-v-html",
+      "count": 30,
+      "verdict": "false-positive",
+      "detail": "Every v-html sink renders through DOMPurify.sanitize: lib/markdown.ts (renderMarkdown, renderChartMarkdown) or a component-level renderer (HITLReviewView, CodexFollowupView, DebugPanel, AnalysisPanel, StickyNoteNode, EvalsTestCasesPanel, SkillBuilderModal, DocContent). PluginIcon sanitizes plugin SVG with the svg/svgFilters profile. 2 of the 30 are in frontend docs."
+    },
+    {
+      "source": "curation",
+      "reason_code": "domain-noun-collision",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.logging.logger-credential-leak.python-logger-credential-disclosure",
+      "count": 21,
+      "verdict": "false-positive",
+      "detail": "All 21 log a credential id, node id, credential name, Secret pointer or a count (Slack, Discord and Telegram webhook rejections, credential refresh failures, the Kubernetes credential watcher, an LLM output-token-limit warning). None logs a secret value. The watcher's ERROR branch logs a Kubernetes Status message, never a Secret body."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+      "count": 18,
+      "verdict": "hardening",
+      "detail": "Actions pinned by tag rather than commit SHA across .github/workflows. Supply-chain hardening, not a vulnerability."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+      "count": 17,
+      "verdict": "false-positive",
+      "detail": "13 in services/vector_store_pg.py: the f-strings carry the module constant TABLE (vector_store_items), the constant TEXT_SEARCH_SQL and placeholder-only fragments; every value is bound (:c, :mf, :s, :keep, :after, :k, :t{i}). 4 in alembic/versions/109 and 111: one-time backfill migrations formatting table and column names from a literal tuple, values bound."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "The two code sites map the scheme instead of forcing plaintext: sandbox/kubernetes/client.py attach_url turns https into wss, and collabClient.ts collabSocketUrl derives ws or wss from the page origin."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sample-or-demo",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket",
+      "count": 6,
+      "verdict": "not-applicable",
+      "detail": "Documentation of user-configured WebSocket node URLs: 4 in frontend/src/docs/content/nodes/websocket-*.md and 2 in the workflow DSL prompt text (workflow_dsl_prompt.py)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "collabClient.test.ts."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "semgrep",
+      "rule": "generic.secrets.security.detected-google-oauth-access-token.detected-google-oauth-access-token",
+      "count": 10,
+      "verdict": "false-positive",
+      "detail": "ya29.valid-token and similar fixture values in test snippets inside docs/superpowers/plans (Google Sheets, BigQuery and chat-credential plans)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp",
+      "count": 8,
+      "verdict": "not-applicable",
+      "detail": "Playwright e2e specs under frontend/e2e."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "lib/fileAccept.ts escapes every regex metacharacter before turning a MIME glob into a RegExp."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "lib/utils.ts:85 builds a RegExp from a node label without escaping it, in the editor's own rename path. Only a label the user or a collaborator typed reaches it; escaping the label would make rename robust."
+    },
+    {
+      "source": "curation",
+      "reason_code": "product-surface",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.exec-detected.exec-detected",
+      "count": 5,
+      "verdict": "by-design",
+      "detail": "Code node, Python tool and file-sandbox runners. code_runner.py and file_sandbox/runner.py are shipped as source into the sibling sandbox container and never run in the backend process; python_tool_runner.py adds restricted builtins and a code-safety check. Running user code is the feature; the sandbox is the boundary."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.insecure-file-permissions.insecure-file-permissions",
+      "count": 5,
+      "verdict": "by-design",
+      "detail": "Per-run sandbox workspace directories (file_sandbox/workspace.py) opened to the unprivileged sandbox user (uid 65534), and a CA-bundle directory of public certificates (sandbox/ca_bundle.py). Tightening them as the rule suggests would break the sandbox."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "yaml.kubernetes.security.allow-privilege-escalation-no-securitycontext.allow-privilege-escalation-no-securitycontext",
+      "count": 3,
+      "verdict": "hardening",
+      "detail": "Kubernetes manifests under deploy/kubernetes without a securityContext; same family as the Trivy rows below."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.performance.performance-improvements.len-all-count",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Performance lint, not a security rule."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "semgrep",
+      "rule": "python.django.security.injection.command.subprocess-injection.subprocess-injection",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "opencode_runner_service.py:624 starts the OpenCode runner with subprocess.Popen on a built argv list, no shell, stdin closed."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "dockerfile.security.missing-user.missing-user",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "frontend/Dockerfile runs as root; container hardening."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.non-literal-import.non-literal-import",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "node_execution/registry.py imports a handler module named by a static node-type dictionary; no request value reaches the module name."
+    },
+    {
+      "source": "curation",
+      "reason_code": "product-surface",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "count": 1,
+      "verdict": "by-design",
+      "detail": "playwright_code_generator.py: a helper shipped as source into the generated Playwright script, which runs in the Playwright sandbox."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.prototype-pollution.prototype-pollution-loop",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "useExpressionCompletion.ts walks an object read-only to suggest completions; nothing is assigned."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "gitleaks",
+      "rule": "Potential secret detected: generic-api-key",
+      "count": 16,
+      "verdict": "not-applicable",
+      "detail": "backend/tests fixtures."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "gitleaks",
+      "rule": "Potential secret detected: generic-api-key",
+      "count": 13,
+      "verdict": "false-positive",
+      "detail": "CI and e2e keys made of sequential hex (pr-checks.yml x3, playwright.config.ts, run_e2e.sh); sk-abc123 and vendor-secret examples in plan documents; a deliberately fake token in a secret-detection test sample; credential UUIDs in an audit-log example (reference/audit.md)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "gitleaks",
+      "rule": "Potential secret detected: stripe-access-token",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "backend/tests fixtures."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "gitleaks",
+      "rule": "Potential secret detected: stripe-access-token",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "sk_test_1234 examples in a plan document."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "gitleaks",
+      "rule": "Potential secret detected: curl-auth-user",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "backend/tests fixture."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "gitleaks",
+      "rule": "Potential secret detected: curl-auth-user",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "you@example.com and a shell variable in curl examples in the frontend docs."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "gitleaks",
+      "rule": "Potential secret detected: curl-auth-header",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "backend/tests fixture."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "gitleaks",
+      "rule": "Potential secret detected: curl-auth-header",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "your-secret in a webhooks documentation example."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "axios 1.15.2 in frontend/bun.lock (fixed 1.20.0)",
+      "count": 27,
+      "verdict": "hardening",
+      "detail": "Used only in the browser bundle, where the HTTP/2, proxy, socket, maxBodyLength, form-data and follow-redirects advisories do not apply and the prototype-pollution gadgets need a separate pollution primitive. A refresh is still worth doing."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "dompurify 3.4.1 in frontend/bun.lock (fixed 3.4.17)",
+      "count": 7,
+      "verdict": "not-applicable",
+      "detail": "Every advisory needs a configuration heym never uses: IN_PLACE mode, sanitizer hooks, setConfig or clearConfig with Trusted Types, SAFE_FOR_TEMPLATES with DOM output, CUSTOM_ELEMENT_HANDLING or XHTML parsing. heym calls sanitize() on strings with default or allowlist configs and registers no hooks."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "postcss 8.5.6 in frontend/bun.lock",
+      "count": 4,
+      "verdict": "not-applicable",
+      "detail": "Build-time tooling (vite build); not in the shipped bundle."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "picomatch 4.0.3 in frontend/bun.lock",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Build and dev tooling; its advisories need an attacker-supplied glob pattern."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "nanoid 3.3.11 in frontend/bun.lock",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Transitive through build tooling; the application does not import it."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "source-map-js 1.2.1 in frontend/bun.lock",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Build-time tooling."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "defu 6.1.4 in frontend/bun.lock",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Build-time tooling."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "@vue/server-renderer 3.5.33 in frontend/bun.lock",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "The app is a client-rendered SPA; server rendering appears only in one unit test (ChartView.test.ts)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "form-data 4.0.5 in frontend/bun.lock",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Node-side dependency of axios; not used by the browser adapter."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "follow-redirects 1.15.11 in frontend/bun.lock",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Node-side dependency of axios; not used by the browser adapter."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "trivy",
+      "rule": "Kubernetes securityContext defaults (runAsNonRoot, readOnlyRootFilesystem, allowPrivilegeEscalation, seccomp)",
+      "count": 18,
+      "verdict": "hardening",
+      "detail": "deploy/kubernetes/base/deployment.yaml (7) and the local OrbStack overlays (11) set no restrictive securityContext. Hardening for operators who deploy on Kubernetes."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "trivy",
+      "rule": "Container image hygiene (root USER, :latest tag, registry restriction, RUN cd)",
+      "count": 6,
+      "verdict": "hardening",
+      "detail": "backend/Dockerfile, frontend/Dockerfile and docker/release.Dockerfile run as root; one manifest uses :latest."
+    },
+    {
+      "source": "curation",
+      "reason_code": "product-surface",
+      "tool": "trivy",
+      "rule": "Kubernetes RBAC: manage pods, read namespace Secrets",
+      "count": 2,
+      "verdict": "by-design",
+      "detail": "The Kubernetes sandbox backend creates pods and the Kubernetes-credentials feature watches labelled Secrets; both need these verbs."
+    },
+    {
+      "source": "curation",
+      "reason_code": "confirmed-real",
+      "tool": "manual-review",
+      "rule": "withheld-private-reports",
+      "count": 1,
+      "verdict": "real",
+      "detail": "Hand review; no tool rule covers it. One first-party finding (High), reported privately through GitHub private vulnerability reporting on 2026-11-18 as SECURITY.md asks. Detail withheld until a fix ships."
+    }
+  ]
+}

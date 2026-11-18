@@ -10,7 +10,7 @@ date: 2026-05-19
 **Repository:** [guardrails-ai/guardrails](https://github.com/guardrails-ai/guardrails) — 6.9k★, Apache-2.0, "adding guardrails to large language models" — schema-driven LLM output validation and safety library.
 **Commit scanned:** `28d74af02215` (HEAD of `main` at scan time)
 **Scan date:** 2026-05-19
-**Disclosure status:** Public courtesy issue filed on the guardrails repo with the publishable items below. No findings required private coordination.
+**Disclosure status:** Public courtesy issue filed on the guardrails repo with the publishable items below. No findings required private coordination. **Closed 2026-11-18** by the project's stale bot as *not planned*: two of the three items were fixed on `main`, the third never was.
 
 ## Summary
 
@@ -171,8 +171,10 @@ Recurring backlog items confirmed on this scan:
 - **2026-06-19** — **Item 1 fixed.** `cac65a45` bumped litellm to 1.89.2 and `42d7ab44` adopted the published `guardrails-api` 0.4.3 ("resolves litellm vulns"), following [#1484](https://github.com/guardrails-ai/guardrails/pull/1484). The pin now reads `litellm>=1.82.5,<2.0.0` — the upper bound no longer excludes the patched releases.
 - **2026-07-27** — **Item 3 fixed.** [#1585](https://github.com/guardrails-ai/guardrails/pull/1585) routed `package_directory` and `validator_id` through `env:` and quoted them as shell variables, closing the template-injection path. The maintainers' own PR describes it as CWE-78 / CWE-74 and rates it critical.
 - **2026-08-17** — **Item 2 still open.** Both `get_jwt_token` copies remain byte-identical at `hub_client.py:97` and `token.py:46`. A stale bot moved to auto-close the issue; [commented](https://github.com/guardrails-ai/guardrails/issues/1485#issuecomment-5316413918) with the state above so the close would not read as "all three addressed". Two community PRs ([#1494](https://github.com/guardrails-ai/guardrails/pull/1494), [#1451](https://github.com/guardrails-ai/guardrails/pull/1451)) remain open.
+- **2026-09-03 and 2026-09-17** — Correction to the entry above: both community PRs were later closed unmerged by the same stale bot, #1494 on 09-03 and #1451 on 09-17. They were open on 2026-08-17.
+- **2026-11-18** — **Issue closed as *not planned*** by the stale bot, 183 days after filing. Re-checked that day at `06d0ff2c5f`, the latest commit on `main` (2026-08-26): both copies of item 2 are unchanged at `hub_client.py:97` and `token.py:46`.
 
-**Outcome: partial (2 of 3).** Both fixed items were resolved by maintainer work on their own schedule rather than by a PR from this series — the filing's contribution was naming them, not fixing them. The third is the one this scan wrote the most about, and it is the one still standing.
+**Outcome: partial (2 of 3).** Both fixed items were resolved by maintainer work on their own schedule rather than by a PR from this series — the filing's contribution was naming them, not fixing them. The third is the one this scan wrote the most about, and it is the one still standing. Nobody declined it: on 2026-06-17 a maintainer called it "reasonable to file separately", this series never did, and the issue closed for inactivity.
 
 ## Reproduce
 

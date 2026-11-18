@@ -6,7 +6,7 @@ description: "The 30 scans in the AI PatchLab series where the maintainer shippe
 
 # Findings a maintainer fixed
 
-Of 118 scans, **30** ended with a maintainer shipping a fix. This page is the
+Of 119 scans, **30** ended with a maintainer shipping a fix. This page is the
 short version of the argument: a report is only worth writing if someone can act on it.
 
 The fastest turnaround in the series was about six hours from filing to a merged pull

@@ -80,6 +80,7 @@
 - [ ] Gitleaks: fingerprint hits by secret hash and report one finding with N locations (fossasia/voxbento: one CI-only key quoted across `docs/plans/` surfaced as 49 high-severity findings)
 - [ ] Custom Semgrep rule: a headless `claude` run with `--dangerously-skip-permissions` and no `--tools` (eugeniughelbur/obsidian-second-brain, 2026-10-24: a hook restricted its agent with `--allowedTools`, which removes nothing under the bypass flag; no shipped rule in any of the four tools could express it)
 - [ ] Semgrep partial-coverage advice keyed on error type: recommend a higher `--timeout` only when rules timed out; parse errors never succeed on retry (flagged 2026-09-13, again 2026-09-28 with 0 timeouts in 40 errors)
+- [ ] Tell Semgrep's tool-side failures apart from real parse errors in the coverage report: on heymrun/heym (2026-11-18) a `Permission denied` on Semgrep's own Windows temp file came back typed as a syntax error, and the 3,178-line ORM models module got no rules at all
 - [ ] Report lockfile and open-floor dependency sets as separate rows naming the install path, rather than one merged verdict
 - [ ] Timeouts on the semgrep, trivy and gitleaks runners (pip-audit done; the others share the same hang risk)
 - [ ] Exempt meta findings from `--ignore-file` suppression as well as `--min-severity`
