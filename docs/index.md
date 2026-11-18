@@ -230,7 +230,7 @@ publicly, then closed by the project's inactivity automation with no maintainer 
 | 2026-05-21 | [dograh-hq/dograh](scans/dograh-hq-dograh.html) | 69 | see write-up | **fixed** |
 | 2026-05-20 | [Klavis-AI/klavis](scans/klavis-ai-klavis.html) | 1,556 | see write-up | — |
 | 2026-05-20 | [Giskard-AI/giskard-oss](scans/giskard-ai-giskard-oss.html) | 27 | 0 real | — |
-| 2026-05-19 | [guardrails-ai/guardrails](scans/guardrails-ai-guardrails.html) | 17 | see write-up | — |
+| 2026-05-19 | [guardrails-ai/guardrails](scans/guardrails-ai-guardrails.html) | 17 | see write-up | partial |
 | 2026-05-19 | [airweave-ai/airweave](scans/airweave-ai-airweave.html) | 46 | see write-up | — |
 | 2026-05-16 | [MervinPraison/PraisonAI](scans/mervinpraison-praisonai.html) | 489 | 5 real | **fixed** |
 | 2026-05-15 | [Upsonic/Upsonic](scans/upsonic-upsonic.html) | 40 | 4 real | — |
