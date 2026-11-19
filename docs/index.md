@@ -120,7 +120,7 @@ publicly, then closed by the project's inactivity automation with no maintainer 
 | Date | Repository | Findings | Real | Outcome |
 | --- | --- | ---: | --- | --- |
 | 2026-11-19 | [patrickchugh/terravision](scans/patrickchugh-terravision.html) | 384 | 2 real — withheld | private |
-| 2026-11-18 | [heymrun/heym](scans/heymrun-heym.html) | 253 | 1 real — withheld | private |
+| 2026-11-18 | [heymrun/heym](scans/heymrun-heym.html) | 253 | 1 real | declined |
 | 2026-11-17 | [jordan-gibbs/hyperresearch](scans/jordan-gibbs-hyperresearch.html) | 45 | 0 real | — |
 | 2026-11-12 | [sandbox-quantum/switch](scans/sandbox-quantum-switch.html) | 442 | 3 real — withheld | private |
 | 2026-11-09 | [haris-musa/excel-mcp-server](scans/haris-musa-excel-mcp-server.html) | 5 | 0 real | — |

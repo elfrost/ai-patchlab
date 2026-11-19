@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "heymrun/heym: security scan"
-description: "Security scan of heymrun/heym: 253 findings at medium+, 1 real (High) found by hand and reported privately through GitHub. The report was closed without being accepted, and the finding stays withheld. All 250 tool findings dismissed. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
+description: "Security scan of heymrun/heym: 253 findings at medium+, 1 real (High) found by hand: the official deployment publishes PostgreSQL on every interface with the example superuser password. Reported privately and declined by the maintainers as a configuration matter, so this page gives operators the fix. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-11-18
 ---
 
@@ -10,13 +10,13 @@ date: 2026-11-18
 **Repository:** [heymrun/heym](https://github.com/heymrun/heym)
 **Commit scanned:** `83b5ecd` (`main`, v0.0.162)
 **Scan date:** 2026-11-18
-**Disclosure status:** reported privately, then closed without being accepted. One High-severity
-finding was filed through GitHub private vulnerability reporting on 2026-11-18, as the project's
-`SECURITY.md` asks
+**Disclosure status:** ❌ **declined**. One High-severity finding was reported privately through
+GitHub private vulnerability reporting on 2026-11-18, as the project's `SECURITY.md` asks
 ([GHSA-73pj-mcr8-4c3g](https://github.com/heymrun/heym/security/advisories/GHSA-73pj-mcr8-4c3g)).
-**The advisory was closed unaccepted 49 minutes after filing** (see
-[timeline](#disclosure-timeline)). No reason is visible to me, and the finding stays withheld: this
-page does not describe it, or the part of the project it is in.
+The maintainers closed it the same day. In their view it is a matter of deployment configuration,
+not a product vulnerability, and no fix is planned; their reply is quoted
+[below](#the-maintainers-answer). Because nothing will change upstream, this page now describes the
+finding and the three steps operators can take.
 
 ## Summary
 
@@ -67,15 +67,81 @@ counted below.
 
 ## Top findings
 
-### 1. One High-severity finding, reported privately
+### 1. The official deployment publishes the database with the example password (High, declined)
 
+- **Files:** `docker-compose.yml:29` and `:36-37`, `.env.example:5-7`, `deploy.sh` (`prepare_env()`)
 - **Tool:** manual review; no rule in the four tools covers it
-- **Confidence:** high, verified before filing
-- **Status:** reported through GitHub private vulnerability reporting on 2026-11-18
-  ([GHSA-73pj-mcr8-4c3g](https://github.com/heymrun/heym/security/advisories/GHSA-73pj-mcr8-4c3g));
-  closed the same day without being accepted
-- **Detail:** withheld, including the part of the project it is in. A declined private report is
-  not permission to publish one, so this stays as it is.
+- **Confidence:** high, verified with Docker's own renderer (`docker compose config`) on the files as
+  shipped. Nothing was started and no instance was contacted
+- **Why it matters:** `deploy.sh`, the documented production path, copies `.env.example` to `.env`,
+  generates `SECRET_KEY` and `ENCRYPTION_KEY`, and starts `docker-compose.yml`. It leaves the
+  database password at its example value. The compose file publishes PostgreSQL as
+  `"${POSTGRES_PORT:-6543}:5432"` with no host address, so Docker binds every interface, and
+  `.env.example` sets `POSTGRES_USER=postgres` and `POSTGRES_PASSWORD=postgres`. A default
+  deployment therefore accepts a superuser login, with a publicly known password, on port 6543 of
+  every network the host is on. Docker's published ports also bypass host firewalls such as ufw.
+  The deployment guide says the opposite: *"there is only one public-facing port in production."*
+- **Impact:** whoever reaches that port can read and change the whole heym database: users and
+  password hashes, sessions, workflows and their stored outputs. Stored credentials are encrypted
+  with `ENCRYPTION_KEY`, which is not in the database, but write access is enough to take over any
+  account.
+
+**If you run heym, three steps close it.** None of them depends on an upstream change.
+
+1. **Stop publishing the database port.** In `docker-compose.yml`, remove the `ports:` entry of the
+   `postgres` service, or bind it to loopback: `"127.0.0.1:${POSTGRES_PORT:-6543}:5432"`. The
+   backend reaches the database as `postgres:5432` on the internal network and does not need the
+   published port.
+2. **Change the database password.** Editing `.env` is not enough for a database that already
+   exists, because the postgres image applies the password only when it first creates its data. Run
+   `ALTER USER postgres PASSWORD '...'` inside the database container, then put the same value in
+   `.env`.
+3. **Close port 6543 at your provider's firewall** as well, since Docker's published ports bypass
+   ufw.
+
+The local development script `run.sh` publishes the same port with the same default, and
+`docker-compose.cluster.yml` follows the same pattern on port 6544.
+
+## The maintainers' answer
+
+Quoted in full, as the series does for every declined report:
+
+> Hi,
+>
+> Thanks for the report.
+>
+> We've reviewed the findings and decided to reject this advisory.
+>
+> Heym is a self-hosted platform. Database credentials, ports, and network settings are documented
+> and configurable through environment variables.
+>
+> The credentials in .env.example are example values, not secrets. Operators are expected to
+> configure their deployment environment, including database credentials and network access,
+> according to their security requirements.
+>
+> The reported scenario assumes that an operator deploys the application with example credentials
+> and makes the database accessible to untrusted networks.
+>
+> The report does not demonstrate an authentication bypass or an application-level authorization
+> vulnerability. It describes the security implications of a particular deployment configuration.
+>
+> We do not consider the findings sufficient to establish a distinct product vulnerability or
+> justify a CVE.
+>
+> Thanks for your contribution.
+>
+> Best regards,
+> The Heym Team
+
+They are right on several points. The values in `.env.example` are examples, operators own their
+deployments, and nothing here bypasses authentication in the application itself. The disagreement
+is narrower. The project's own production script turns the examples into the deployed values: it
+replaces the two application secrets and keeps the example database password. The compose file it
+starts then publishes the database on every interface, while the guide tells operators that only one
+port is public. An operator who follows the documentation makes the choice the reply describes
+without knowing it. One line in the compose file and one more generated value in the script would
+make the documented path safe by default. I respect the decision; this page exists so that operators
+do not have to find this out on their own.
 
 ## Why the rest were dismissed
 
@@ -110,6 +176,12 @@ describe the Node adapter, which the browser build does not use.
 **A security process that already works.** The project has five published advisories, a policy
 that names its channel and its timeline, and private reporting turned on. That combination makes a
 private report cheap for everyone, which is why this one went out the same day it was found.
+
+**An example that a script copies is a default.** `.env.example` is an example until `deploy.sh`
+copies it to `.env`. From then on, its values are what ships, and the line between "example value"
+and "deployment configuration" is exactly where this finding sits. The project already treats two
+of those values as defaults to replace: it generates `SECRET_KEY` and `ENCRYPTION_KEY`, and refuses
+a legacy placeholder key. The database password is the one that was left behind.
 
 **The tools' findings and the real one did not overlap.** As in most well-built projects in this
 series, the scanner output could be dismissed quickly, and the finding came from reading. The
@@ -154,6 +226,13 @@ tools' useful work here was negative: they showed, fast, where nothing was wrong
   public reports, and a closed private report does not change that. This entry is here because the
   series records declined reports rather than deleting them. It is not a complaint: a project is
   entitled to triage an unsolicited report however it sees fit
+- 2026-11-19 — the maintainers' reasoning, posted in the advisory thread, reached me and is quoted
+  [above](#the-maintainers-answer): a matter of deployment configuration, not a product
+  vulnerability, and no CVE
+- 2026-11-19 — this page updated to describe the finding, with three steps for operators. The
+  previous entry kept the finding withheld because a closed report alone does not say whether a fix
+  is coming. The answer does: none is coming, and the maintainers' position is that operators must
+  secure the database themselves. The steps above are what that takes on the official deployment
 
 ## Reproduce
 
