@@ -1,0 +1,987 @@
+{
+  "repository": "C:\\Users\\Elfrost\\AppData\\Local\\Temp\\ai-patchlab-clone-w4livs8w\\repo",
+  "generated_at": "2026-11-19T13:14:22.874731+00:00",
+  "total_dismissed": 534,
+  "by_reason": {
+    "below-min-severity": 151,
+    "test-or-fixture-path": 360,
+    "credited-defense": 2,
+    "by-design": 11,
+    "not-reachable": 8,
+    "confirmed-real": 2
+  },
+  "records": [
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Lambda functions should have X-Ray tracing enabled",
+      "count": 19,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "S3 Bucket Logging",
+      "count": 17,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Missing description for security group rule.",
+      "count": 16,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Google Compute Subnetwork with Private Google Access Disabled",
+      "count": 15,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "VPC flow logs should be enabled for all subnetworks",
+      "count": 15,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "S3 buckets should each define an aws_s3_bucket_public_access_block",
+      "count": 13,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Cloud Storage buckets should be encrypted with a customer-managed key.",
+      "count": 8,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "VM disks should be encrypted with Customer Supplied Encryption Keys",
+      "count": 8,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Missing description for security group.",
+      "count": 7,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "CloudWatch log groups should be encrypted using CMK",
+      "count": 5,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "ECS clusters should have container insights enabled",
+      "count": 4,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "DynamoDB tables should use at rest encryption with a Customer Managed Key",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Enable Performance Insights to detect potential problems",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Ensure Container-Optimized OS (cos) is used for Kubernetes Engine Clusters Node image",
+      "count": 2,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Kubernetes should have 'Automatic repair' enabled",
+      "count": 2,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Kubernetes should have 'Automatic upgrade' enabled",
+      "count": 2,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Secrets Manager should use customer managed keys",
+      "count": 2,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Storage account should use geo-redundant replication",
+      "count": 2,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.dependabot.dependabot-missing-cooldown.dependabot-missing-cooldown",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.uv.uv-missing-dependency-cooldown.uv-missing-dependency-cooldown",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Clusters should be configured with Labels",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Disks should be encrypted with customer managed encryption keys",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Ensure AKS cluster has Azure Policy add-on enabled",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Ensure AKS cluster has disk encryption set ID configured",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "No HEALTHCHECK defined",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "No unauthorized access to API Gateway methods",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "VPC Flow Logs is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC. After you've created a flow log, you can view and retrieve its data in Amazon CloudWatch Logs. It is recommended that VPC Flow Logs be enabled for packet \"Rejects\" for VPCs.",
+      "count": 32,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "EKS Clusters should have cluster control plane logging turned on",
+      "count": 25,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "S3 encryption should use Customer Managed Keys",
+      "count": 16,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Google Compute Subnetwork Logging Disabled",
+      "count": 15,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "S3 Access block should block public ACL",
+      "count": 14,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "S3 Access block should block public policy",
+      "count": 14,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "S3 Access Block should Ignore Public ACL",
+      "count": 14,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "S3 Access block should restrict public bucket to limit access",
+      "count": 14,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "S3 Data should be versioned",
+      "count": 13,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "aws_instance should activate session tokens for Instance Metadata Service.",
+      "count": 10,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "A security group rule should not allow unrestricted egress to any IP address.",
+      "count": 8,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Instance with unencrypted block device.",
+      "count": 8,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Disable project-wide SSH keys for all instances",
+      "count": 8,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Instances should have Shielded VM VTPM enabled",
+      "count": 8,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Instances should have Shielded VM integrity monitoring enabled",
+      "count": 8,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Instances should have Shielded VM secure boot enabled",
+      "count": 8,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Cloud Storage Bucket Logging Not Enabled",
+      "count": 8,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Cloud Storage Bucket Versioning Disabled",
+      "count": 7,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Instances in a subnet should not receive a public IP address by default.",
+      "count": 6,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "EKS Clusters should have the public access disabled",
+      "count": 5,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "EKS cluster should not have open CIDR range for public access",
+      "count": 5,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "EKS should have the encryption of secrets enabled",
+      "count": 5,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "VM Not Attached To Network",
+      "count": 5,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Ensure that Cloud Storage buckets have uniform bucket-level access enabled",
+      "count": 5,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Instances should not override the project setting for OS Login",
+      "count": 4,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Load balancers should drop invalid headers",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "RDS encryption has not been enabled at a DB Instance level.",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Unencrypted SQS queue.",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "SSL connections to a SQL database instance should be enforced.",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "A KMS key is not configured to auto-rotate.",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "RDS Cluster and RDS instance should have backup retention longer than default 1 day",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "RDS IAM Database Authentication Disabled",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "RDS Deletion Protection Disabled",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Google Compute Network Using Firewall Rule that Allows All Ports",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Point in time recovery should be enabled to protect DynamoDB table",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Temporary file logging should be enabled for all temporary files.",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Ensure that logging of connections is enabled.",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Ensure that logging of lock waits is enabled.",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Ensure that logging of disconnections is enabled.",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Ensure that logging of checkpoints is enabled.",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "The default action on Storage account network rules should be set to deny",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "A security group rule should not allow unrestricted ingress from any IP address.",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Load balancer is exposed to the internet.",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Unencrypted SNS topic.",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Ensure that Cloud SQL Database Instances are not publicly exposed",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Instances should not have public IP addresses",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Node metadata value disables metadata concealment.",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Disable Default Firewall Rules",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Storage account should have logging enabled",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Storage account should have infrastructure encryption enabled",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Enable automated backups to recover from data-loss",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Checks for service account defined for GKE nodes",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Ensure that lambda function permission has a source arn specified",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Use of plain HTTP.",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Key vault should have the network acl block specified",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Ensure AKS has an API Server Authorized IP Ranges enabled",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Security group should not allow unrestricted ingress to SSH port from any IP address.",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Instances should not use the default service account",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Kinesis stream is unencrypted.",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Elasticache Replication Group stores unencrypted data at-rest.",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Elasticache Replication Group uses unencrypted traffic.",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Password authentication should be disabled on Azure virtual machines",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Ensure RBAC is enabled on AKS clusters",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Master authorized networks should be configured on GKE clusters",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "IAM Password policy should prevent password reuse.",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "IAM Password policy should have minimum password length of 14 or more characters.",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "IAM Pass Role Filtering",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Redis cluster should have backup retention turned on",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Key vault should have purge protection enabled",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Ensure AKS logging to Azure Monitoring is Configured",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Ensure AKS cluster has private cluster enabled",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "SSH Access Is Not Restricted",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Network Policy should be enabled on GKE clusters",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "trivy",
+      "rule": "Clusters should be set to private",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Infrastructure-as-code rule applied to Terraform under tests/fixtures/ (inputs the diagram tool draws in its own tests) or to a remote module those fixtures reference, which Trivy fetched and evaluated. Not infrastructure this project deploys."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "semgrep",
+      "rule": "trailofbits.python.tarfile-extractall-traversal.tarfile-extractall-traversal",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "modules/gitlibs.py:308. The module-archive extraction pre-checks every member with realpath + commonpath against the destination, caps entries (10,000) and uncompressed size (1 GiB), extracts with filter='data', and refuses to run on a Python without tarfile.data_filter. The zip branch gets the same member pre-check."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.non-literal-import.non-literal-import",
+      "count": 9,
+      "verdict": "false-positive",
+      "detail": "config_loader.py:89/144, drawing.py:174/179, drawio_emitter.py:141/152/201, graphmaker.py:1952, tfwrapper.py:904. Each import name is built from a provider already limited to aws/azure/gcp (or a hard-coded tuple, or a mapping lookup) and walks only the package's own modules. No input chooses the module."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.non-literal-import.non-literal-import",
+      "count": 5,
+      "verdict": "not-applicable",
+      "detail": "Maintainer scripts under scripts/ that regenerate icon and shape maps. scripts/ is not in the published package (pyproject packages: terravision, modules, resource_classes)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.dangerous-globals-use.dangerous-globals-use",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "drawing.py:1903 picks the provider group class from an allowlisted provider name; resource_transformers.py:1033 dispatches to a transformer named in the shipped RESOURCE_HANDLER_CONFIGS. Neither name comes from user input."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "All three are in maintainer scripts under scripts/ (icon import and shape-map generation), which are not in the published package."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "gitleaks",
+      "rule": "generic-api-key",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "Dockerfile:14 is the fingerprint of HashiCorp's public release-signing key, the trust anchor the image build uses to verify signed downloads. Public by design, and a defence."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "gitleaks",
+      "rule": "hashicorp-tf-password",
+      "count": 4,
+      "verdict": "false-positive",
+      "detail": "Placeholder database passwords in fixture Terraform under tests/fixtures/ (secretsmanager_lambda, secretsmanager_rds, us9_data_services)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "confirmed-real",
+      "tool": "manual-review",
+      "rule": "withheld-private-reports",
+      "count": 2,
+      "verdict": "real",
+      "detail": "Hand review; no tool rule covers them. Two first-party findings (Medium), each reported privately through GitHub private vulnerability reporting on 2026-11-19, one report per finding, as SECURITY.md asks. Detail withheld until a fix ships."
+    }
+  ]
+}

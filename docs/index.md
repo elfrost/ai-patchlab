@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "119 curated security scans of open-source AI agents, MCP servers and LLM apps - 30 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "120 curated security scans of open-source AI agents, MCP servers and LLM apps - 30 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 119 scans, 30 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 120 scans, 30 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -103,7 +103,7 @@ login and static assets. Fifty-two flagged, none reported.
 
 ## All scans
 
-119 scans, newest first. **Findings** is the raw count the tools produced;
+120 scans, newest first. **Findings** is the raw count the tools produced;
 **Real** is what survived curation. The gap between those two columns is the
 entire job.
 
@@ -119,6 +119,7 @@ publicly, then closed by the project's inactivity automation with no maintainer 
 
 | Date | Repository | Findings | Real | Outcome |
 | --- | --- | ---: | --- | --- |
+| 2026-11-19 | [patrickchugh/terravision](scans/patrickchugh-terravision.html) | 384 | 2 real — withheld | private |
 | 2026-11-18 | [heymrun/heym](scans/heymrun-heym.html) | 253 | 1 real — withheld | private |
 | 2026-11-17 | [jordan-gibbs/hyperresearch](scans/jordan-gibbs-hyperresearch.html) | 45 | 0 real | — |
 | 2026-11-12 | [sandbox-quantum/switch](scans/sandbox-quantum-switch.html) | 442 | 3 real — withheld | private |
