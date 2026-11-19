@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "heymrun/heym: security scan"
-description: "Security scan of heymrun/heym: 253 findings at medium+, 1 real (High) found by hand and reported privately through GitHub, withheld here until a fix ships. All 250 tool findings dismissed. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
+description: "Security scan of heymrun/heym: 253 findings at medium+, 1 real (High) found by hand and reported privately through GitHub. The report was closed without being accepted, and the finding stays withheld. All 250 tool findings dismissed. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-11-18
 ---
 
@@ -10,10 +10,13 @@ date: 2026-11-18
 **Repository:** [heymrun/heym](https://github.com/heymrun/heym)
 **Commit scanned:** `83b5ecd` (`main`, v0.0.162)
 **Scan date:** 2026-11-18
-**Disclosure status:** reported privately. One High-severity finding was filed through GitHub
-private vulnerability reporting on 2026-11-18, as the project's `SECURITY.md` asks
-([GHSA-73pj-mcr8-4c3g](https://github.com/heymrun/heym/security/advisories/GHSA-73pj-mcr8-4c3g),
-in triage). This page does not describe it, or the part of the project it is in, until a fix ships.
+**Disclosure status:** reported privately, then closed without being accepted. One High-severity
+finding was filed through GitHub private vulnerability reporting on 2026-11-18, as the project's
+`SECURITY.md` asks
+([GHSA-73pj-mcr8-4c3g](https://github.com/heymrun/heym/security/advisories/GHSA-73pj-mcr8-4c3g)).
+**The advisory was closed unaccepted 49 minutes after filing** (see
+[timeline](#disclosure-timeline)). No reason is visible to me, and the finding stays withheld: this
+page does not describe it, or the part of the project it is in.
 
 ## Summary
 
@@ -69,10 +72,10 @@ counted below.
 - **Tool:** manual review; no rule in the four tools covers it
 - **Confidence:** high, verified before filing
 - **Status:** reported through GitHub private vulnerability reporting on 2026-11-18
-  ([GHSA-73pj-mcr8-4c3g](https://github.com/heymrun/heym/security/advisories/GHSA-73pj-mcr8-4c3g)),
-  in triage
-- **Detail:** withheld, including the part of the project it is in, until the maintainers ship a
-  fix. This page will be updated then.
+  ([GHSA-73pj-mcr8-4c3g](https://github.com/heymrun/heym/security/advisories/GHSA-73pj-mcr8-4c3g));
+  closed the same day without being accepted
+- **Detail:** withheld, including the part of the project it is in. A declined private report is
+  not permission to publish one, so this stays as it is.
 
 ## Why the rest were dismissed
 
@@ -141,6 +144,16 @@ tools' useful work here was negative: they showed, fast, where nothing was wrong
   The automated run that found it ended before filing, so the report and this page were completed
   from an attended session the same day
 - 2026-11-18 — this page published, with the finding withheld
+- 2026-11-18 — the advisory was closed 49 minutes after it was filed (14:21:25Z to 15:10:10Z), with
+  `submission.accepted` still `false`. That is a declined report, not a resolved one. GitHub's
+  advisory API does not expose the private comment thread, so I cannot see whether a reason was
+  given, and I am not going to guess at one
+- 2026-11-19 — re-checked upstream at `ddb1493`. The files the report named are unchanged since the
+  scan, and v0.0.163 shipped after the closure without touching them, so this was not a quiet fix
+  followed by a cleanup close. The finding stays withheld: the project's `SECURITY.md` rules out
+  public reports, and a closed private report does not change that. This entry is here because the
+  series records declined reports rather than deleting them. It is not a complaint: a project is
+  entitled to triage an unsolicited report however it sees fit
 
 ## Reproduce
 
