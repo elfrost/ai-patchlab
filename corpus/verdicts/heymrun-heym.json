@@ -579,10 +579,10 @@
       "source": "curation",
       "reason_code": "confirmed-real",
       "tool": "manual-review",
-      "rule": "withheld-private-reports",
+      "rule": "deployment-default-exposure",
       "count": 1,
       "verdict": "real",
-      "detail": "Hand review; no tool rule covers it. One first-party finding (High), reported privately through GitHub private vulnerability reporting on 2026-11-18 as SECURITY.md asks. Detail withheld until a fix ships."
+      "detail": "Hand review; no tool rule covers it. High: the documented deploy path (deploy.sh, docker-compose.yml) publishes PostgreSQL on all interfaces (port 6543) with the .env.example superuser password, while the guide says only one port is public; verified with docker compose config. Reported privately 2026-11-18 (GHSA-73pj-mcr8-4c3g); declined the same day as a deployment-configuration matter; disclosed with operator guidance 2026-11-19."
     }
   ]
 }
