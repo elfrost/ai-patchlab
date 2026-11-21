@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "patrickchugh/terravision: security scan"
-description: "Security scan of patrickchugh/terravision: 384 findings at medium+, 2 real (Medium) found by hand and reported privately through GitHub, withheld here until a fix ships. All 381 tool findings dismissed, 360 of them rules applied to test-fixture Terraform. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
+description: "Security scan of patrickchugh/terravision: 384 findings at medium+, 2 real (Medium) found by hand, reported privately through GitHub and fixed in TerraVision 0.56.4 the next day. All 381 tool findings dismissed, 360 of them rules applied to test-fixture Terraform. Local-first curated review: Semgrep, Gitleaks, Trivy, pip-audit."
 date: 2026-11-19
 ---
 
@@ -10,13 +10,51 @@ date: 2026-11-19
 **Repository:** [patrickchugh/terravision](https://github.com/patrickchugh/terravision)
 **Commit scanned:** `c49bba6` (`main`, v0.56.3)
 **Scan date:** 2026-11-19
-**Disclosure status:** reported privately. Two Medium-severity findings were filed through GitHub
-private vulnerability reporting on 2026-11-19, one report each, as the project's `SECURITY.md` asks
-([GHSA-gr2g-28fj-fgmq](https://github.com/patrickchugh/terravision/security/advisories/GHSA-gr2g-28fj-fgmq)
-and
-[GHSA-24gx-f2fh-749r](https://github.com/patrickchugh/terravision/security/advisories/GHSA-24gx-f2fh-749r),
-in triage). This page does not describe them, or the part of the project they are in, until a fix
-ships.
+**Disclosure status:** ✅ **resolved.** Two Medium-severity findings were filed through GitHub
+private vulnerability reporting on 2026-11-19, one report each, as the project's `SECURITY.md` asks.
+The maintainer fixed both in
+[TerraVision 0.56.4](https://github.com/patrickchugh/terravision/releases/tag/v0.56.4) and published
+both advisories on 2026-11-20, about nineteen hours after filing
+([GHSA-gr2g-28fj-fgmq](https://github.com/patrickchugh/terravision/security/advisories/GHSA-gr2g-28fj-fgmq),
+[GHSA-24gx-f2fh-749r](https://github.com/patrickchugh/terravision/security/advisories/GHSA-24gx-f2fh-749r)).
+The specifics are below. This series re-ran its own checks against 0.56.4 on 2026-11-21: both are
+closed.
+
+## Update — 2026-11-21: fixed in 0.56.4 and published
+
+Both findings need the same starting point: a Terraform folder you did not write, with a
+`terravision.yml` in it. TerraVision loads that annotation file from the source folder
+automatically, including in the mode `SECURITY.md` recommends for untrusted Terraform
+(`--planfile` with `--graphfile`, which runs no Terraform but still reads the folder).
+
+- **Script in the interactive HTML page
+  ([GHSA-gr2g-28fj-fgmq](https://github.com/patrickchugh/terravision/security/advisories/GHSA-gr2g-28fj-fgmq)).**
+  The page template was filled with one `str.replace` per placeholder, title first. The title was
+  HTML-escaped, but escaping leaves `{` and `}` alone, so a title of `{{METADATA_JSON}}` survived
+  and was expanded by the last replace, which put the diagram's metadata JSON inside a `<div>`.
+  That JSON was only escaped for the `<script>` block it was meant for, so markup in any resource
+  attribute became live HTML in the page.
+- **Links and local files through labels
+  ([GHSA-24gx-f2fh-749r](https://github.com/patrickchugh/terravision/security/advisories/GHSA-24gx-f2fh-749r)).**
+  Annotation titles, group labels and edge text reached the Graphviz source unescaped. The
+  `graphviz` Python package writes a value that starts with `<` and ends with `>` unquoted, as an
+  HTML-like label, so a label could close itself and add a `URL` or `HREF` attribute: a
+  `javascript:` link in SVG and HTML output, one click away. For `--format svg`, the step that makes
+  the file portable inlined every `href` it found as base64, so a link to a local file copied that
+  file into the saved diagram.
+
+**The fix,** in one release: every annotation and plan string now goes through one escaping helper
+(`dot_text`) on its way into a label, edge text is passed as `nohtml` so it is always quoted, the
+HTML page fills all placeholders in a single regex pass and writes the metadata with `<`, `>` and
+`&` as `<`-style escapes, and the exporters embed only files under TerraVision's own `resource_images/`
+folder. The release notes name both advisories, and 150 lines of regression tests came with it.
+
+**Re-verified 2026-11-21** on the 0.56.4 tag, with the same differential checks used before filing
+and inert markers only. The shipped page assembler, given a title or an SVG label of
+`{{METADATA_JSON}}`, produces 0 live injected elements (0.56.3: 4 and 2). The title, group-cell and
+edge-text payloads no longer produce an unquoted `URL=`, a raw `HREF` cell or unquoted edge text in
+the DOT source. The new icon check accepts a bundled icon and refuses both a local marker file and a
+`resource_images/../` traversal. A sweep of the other label sites found none that skips the helper.
 
 ## Summary
 
@@ -66,17 +104,26 @@ so both install paths are covered.
 
 ## Top findings
 
-### 1. Two Medium-severity findings, reported privately
+### 1. Script injection in the interactive HTML page (Medium)
 
-- **Tool:** manual review; no rule in the four tools covers them
-- **Confidence:** high; each was verified on the shipped code with inert markers before filing
-- **Status:** reported through GitHub private vulnerability reporting on 2026-11-19, one report per
-  finding
-  ([GHSA-gr2g-28fj-fgmq](https://github.com/patrickchugh/terravision/security/advisories/GHSA-gr2g-28fj-fgmq),
-  [GHSA-24gx-f2fh-749r](https://github.com/patrickchugh/terravision/security/advisories/GHSA-24gx-f2fh-749r)),
-  in triage
-- **Detail:** withheld, including the part of the project they are in, until the maintainer ships a
-  fix. This page will be updated then.
+- **Tool:** manual review; no rule in the four tools covers it
+- **Where:** `modules/html_renderer.py` (`_assemble_html`, sequential placeholder replaces) and
+  `modules/templates/interactive.html` (`div#diagram-title`)
+- **Confidence:** high; verified on the shipped code with an inert `<i>` marker before filing
+- **Status:** ✅ fixed in 0.56.4, advisory
+  [GHSA-gr2g-28fj-fgmq](https://github.com/patrickchugh/terravision/security/advisories/GHSA-gr2g-28fj-fgmq)
+  published 2026-11-20. Details in the update above.
+
+### 2. Annotation text reaches the Graphviz source unescaped (Medium)
+
+- **Tool:** manual review
+- **Where:** `modules/drawing.py` (title node, SVG icon inlining), `modules/helpers.py`
+  (`node_label` for groups), `resource_classes/__init__.py` (`_edgetext`)
+- **Confidence:** high; the DOT output was checked with the real `graphviz` 0.21 package and the
+  rendered SVG with Graphviz 16.1.0 (its WebAssembly build), using a local marker file
+- **Status:** ✅ fixed in 0.56.4, advisory
+  [GHSA-24gx-f2fh-749r](https://github.com/patrickchugh/terravision/security/advisories/GHSA-24gx-f2fh-749r)
+  published 2026-11-20.
 
 ## Why the rest were dismissed
 
@@ -146,6 +193,9 @@ extraction, turned out to be some of the most carefully defended code in the ser
   ([GHSA-gr2g-28fj-fgmq](https://github.com/patrickchugh/terravision/security/advisories/GHSA-gr2g-28fj-fgmq),
   [GHSA-24gx-f2fh-749r](https://github.com/patrickchugh/terravision/security/advisories/GHSA-24gx-f2fh-749r))
 - 2026-11-19 — this page published, with both findings withheld
+- 2026-11-20 — TerraVision 0.56.4 released with fixes for both; the maintainer published both
+  advisories (affected `<= 0.56.3`, patched `0.56.4`), crediting this report
+- 2026-11-21 — fixes re-verified on the 0.56.4 tag; this page updated with the details
 
 ## Reproduce
 
@@ -161,5 +211,5 @@ python scanner/run_scan.py --repo /tmp/scan-target --reports-dir ./reports/patri
 
 - **Previous scan:** [heymrun/heym](heymrun-heym.html) — 2026-11-18, 1 real
 - [Every scan in the series]({{ '/' | relative_url }}) — 120 repositories, newest first
-- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 30 that resolved
+- [Where a maintainer shipped a fix]({{ '/fixed' | relative_url }}) — the 31 that resolved
 - [Scans that found nothing]({{ '/clean' | relative_url }}) — published as they were
