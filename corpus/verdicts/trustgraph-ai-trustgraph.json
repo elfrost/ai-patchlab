@@ -1,0 +1,179 @@
+{
+  "repository": "C:\\Users\\Elfrost\\AppData\\Local\\Temp\\ai-patchlab-clone-wsgq6mim\\repo",
+  "generated_at": "2026-11-21T13:11:39.798936+00:00",
+  "total_dismissed": 120,
+  "by_reason": {
+    "below-min-severity": 8,
+    "sql-identifier-fp": 57,
+    "by-design": 37,
+    "not-reachable": 11,
+    "placeholder-secret": 3,
+    "test-or-fixture-path": 1,
+    "active-harm-fp": 1,
+    "confirmed-real": 2
+  },
+  "records": [
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "No HEALTHCHECK defined",
+      "count": 8,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.security.sqlalchemy-execute-raw-query",
+      "count": 34,
+      "verdict": "false-positive",
+      "detail": "Cassandra CQL in the KG, row, config, IAM, knowledge and library stores: values are bound (?), only keyspace/table identifiers are f-strings, built from names passed through sanitize_name (re.sub [^a-zA-Z0-9_])."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.formatted-sql-query",
+      "count": 23,
+      "verdict": "false-positive",
+      "detail": "Same CQL sites plus the FTS5 keyword index, whose table name is kw_<ws>_<coll> with [^A-Za-z0-9_-] stripped and then quoted; the MATCH text is bound."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.detect-insecure-websocket",
+      "count": 16,
+      "verdict": "by-design",
+      "detail": "Client libraries and the MCP server derive ws:// from an http:// gateway URL and wss:// from https:// (socket_client.py:108-114): the scheme follows the operator's configured URL."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "trivy",
+      "rule": "Image user should not be 'root'",
+      "count": 8,
+      "verdict": "hardening",
+      "detail": "Eight Containerfiles run as root. Defence in depth for a multi-container deployment; no finding on its own."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.github-actions-mutable-action-tag",
+      "count": 7,
+      "verdict": "hardening",
+      "detail": "First-party and docker actions pinned by tag in release, build, PR and CLA workflows."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.run-shell-injection",
+      "count": 3,
+      "verdict": "false-positive",
+      "detail": "build-container.yaml is workflow_call only; its inputs come from release.yaml, which runs on maintainer tag pushes (v*) and workflow_dispatch. No external contributor controls the interpolated values."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.deserialization.avoid-pyyaml-load",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "processing.py loads the operator's own process-group definition file given on the command line with yaml.Loader; no request data. SafeLoader would be the tidier choice."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "gitleaks",
+      "rule": "generic-api-key",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "dev-tools/proc-group YAML: the access/secret key pair of a local Garage object store at localhost:3900 for development runs."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "gitleaks",
+      "rule": "jwt",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "tests/unit/test_agent/test_mcp_tool_auth.py: the public jwt.io example token used to test special characters in auth headers."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected",
+      "count": 3,
+      "verdict": "false-positive",
+      "detail": "Two in dev-tools/library_client.py (developer script, not packaged); one in the Pulsar backend calling the operator-configured Pulsar admin URL."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "html.security.plaintext-http-link + html.security.audit.missing-integrity",
+      "count": 4,
+      "verdict": "false-positive",
+      "detail": "docs/api.html, the generated API reference page; not served by the product."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.non-literal-import",
+      "count": 3,
+      "verdict": "by-design",
+      "detail": "importlib on module paths from the operator's processor-group and bootstrap configuration files; no request data reaches them."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.hardcoded-password-default-argument",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "RabbitMQ backend defaults to guest/guest, RabbitMQ's own local default; overridden by configuration."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "trailofbits.python.automatic-memory-pinning",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Performance lint in the cloze model service, not a security issue."
+    },
+    {
+      "source": "curation",
+      "reason_code": "active-harm-fp",
+      "tool": "semgrep",
+      "rule": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "sparql/expressions.py implements the SPARQL 1.1 SHA1() function; the standard mandates it, so 'use a stronger hash' would break query compliance."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.compatibility.python37.python37-compatibility-importlib2",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "importlib.resources usage flagged for Python 3.7; the packages require a modern Python."
+    },
+    {
+      "source": "curation",
+      "reason_code": "confirmed-real",
+      "tool": "manual-review",
+      "rule": "withheld-private-reports",
+      "count": 2,
+      "verdict": "real",
+      "detail": "Hand review; no tool rule covers them. Two first-party findings (one High, one Medium), each reported privately through GitHub private vulnerability reporting on 2026-11-21, one report per finding. Detail withheld until a fix ships."
+    }
+  ]
+}
