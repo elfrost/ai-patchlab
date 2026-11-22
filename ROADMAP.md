@@ -69,6 +69,7 @@
 - [x] Dedup scan candidates by repository identity, not only by slug (2026/11/09) - renamed repos slipped the slug check three times; that day's top pick was Observal/Observal under its new name
 - [x] Headless runs never end their turn with background work pending (2026/11/18) - `/daily` Phase 4 runs review slices as foreground Agent calls. On 2026-11-18 a run ended its turn waiting on three background slices, the session closed with them and the wrapper was killed, leaving a verified High unfiled
 - [x] No more red startup warnings in the `/daily` log (2026/11/19) - `Read(*)` / `Write(*)` replaced with project-scoped `Edit(/**)` in both settings files (PR #177; Claude starts with an empty stderr), and the wrapper prints any stderr line as plain text instead of a `NativeCommandError` block
+- [x] Keep editable and local requirement lines away from pip-audit (2026/11/22) - a scanned repository's `requirements.txt` was only `-e .[app]`, so pip-audit audited the scanner's own venv and coverage still said `ran`. `scanner/tools/requirements_sanitizer.py` drops those lines, falls back to the static `pyproject.toml` dependencies, and otherwise emits `dependency-scan-partial` (coverage `partial`); pip-audit now runs from an empty scratch cwd
 - [ ] Track the autonomous/human-gated split per month, to see whether the tiering actually moves it
 - [ ] Re-key sweep: assert at startup that no `withheld_finding_*` entry lacks a delivery record (the claude-tap mis-key evaded guardrail 6 for ~20 runs)
 

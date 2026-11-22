@@ -48,7 +48,7 @@ nobody reads.
 
 _NOT_RUN_SUFFIXES = ("-not-installed", "-disabled")
 _ERROR_SUFFIXES = ("-scan-error", "-json-parse-error", "-command-error")
-_PARTIAL_SUFFIXES = ("-partial-coverage", "-no-supported-manifest")
+_PARTIAL_SUFFIXES = ("-partial-coverage", "-partial", "-no-supported-manifest")
 
 _STATUS_RANK = {status: index for index, status in enumerate(COVERAGE_STATUSES)}
 

@@ -97,7 +97,12 @@ def test_pip_audit_runner_uses_requirements_json_report_command(
         "--requirement",
         str(requirements_path),
     ]
-    assert captured["kwargs"] == {
+    kwargs = dict(captured["kwargs"])
+    # pip resolves relative paths against its cwd, so it must never be the repo
+    # or the scanner's own tree (see tests/test_requirements_sanitizer.py).
+    cwd = Path(kwargs.pop("cwd"))
+    assert cwd not in {repo_path, Path.cwd()}
+    assert kwargs == {
         "capture_output": True,
         "text": True,
         "encoding": "utf-8",

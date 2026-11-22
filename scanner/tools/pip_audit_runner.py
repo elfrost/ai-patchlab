@@ -3,11 +3,15 @@
 from __future__ import annotations
 
 import importlib.util
+import os
 import shutil
 import subprocess
 import sys
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
+
+from scanner.tools.requirements_sanitizer import SkippedRequirement, sanitize_requirements
 
 # pip-audit has no internal time bound: resolving a `project` input builds the
 # full dependency graph and has been observed running indefinitely on large
@@ -22,6 +26,15 @@ class PipAuditInput:
 
     kind: str
     paths: tuple[Path, ...]
+    requirement_lines: tuple[str, ...] | None = None
+    """Sanitized requirements to audit instead of `paths`; None means audit `paths` as-is."""
+    skipped: tuple[SkippedRequirement, ...] = ()
+    """Local or editable lines that were never handed to pip."""
+
+    @property
+    def nothing_to_audit(self) -> bool:
+        """True when sanitizing left no requirement for pip-audit to read."""
+        return self.kind == "requirements" and self.requirement_lines == ()
 
     @property
     def display_path(self) -> Path:
@@ -72,18 +85,32 @@ def run_pip_audit(
             audit_input=audit_input,
         )
 
+    raw_report_path = Path(os.path.abspath(raw_report_path))
     raw_report_path.parent.mkdir(parents=True, exist_ok=True)
-    command = _build_pip_audit_command(command_prefix, repo_path, raw_report_path, audit_input)
-    try:
-        completed = subprocess.run(
-            command,
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            check=False,
-            timeout=timeout_seconds,
+    if audit_input.nothing_to_audit:
+        raw_report_path.write_text("[]", encoding="utf-8")
+        return PipAuditResult(
+            installed=True, raw_report_path=raw_report_path, audit_input=audit_input
         )
+    command = _build_pip_audit_command(
+        command_prefix, Path(os.path.abspath(repo_path)), raw_report_path, audit_input
+    )
+    try:
+        # pip resolves relative paths (`-e .`, `./pkg`) against its working
+        # directory. Run it from an empty scratch directory so that neither the
+        # scanner's own tree nor the scanned repository can ever be that
+        # directory: pip builds whatever it finds there.
+        with tempfile.TemporaryDirectory(prefix="pip-audit-cwd-") as scratch:
+            completed = subprocess.run(
+                command,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                check=False,
+                timeout=timeout_seconds,
+                cwd=scratch,
+            )
     except subprocess.TimeoutExpired as exc:
         # pip-audit resolves a `project` input by building the dependency graph,
         # which on a heavy pyproject can run indefinitely. Without a timeout the
@@ -123,12 +150,25 @@ def run_pip_audit(
 def find_pip_audit_input(repo_path: Path) -> PipAuditInput | None:
     """Find supported Python dependency inputs for pip-audit."""
     requirements = _find_requirements_files(repo_path)
-    if requirements:
-        return PipAuditInput(kind="requirements", paths=tuple(requirements))
-
     pylock_files = sorted(repo_path.glob("pylock.*.toml"))
+    skipped: tuple[SkippedRequirement, ...] = ()
+    if requirements:
+        sanitized = sanitize_requirements(repo_path, tuple(requirements))
+        if not sanitized.rewritten:
+            return PipAuditInput(kind="requirements", paths=tuple(requirements))
+        skipped = sanitized.skipped
+        if sanitized.lines or not pylock_files:
+            return PipAuditInput(
+                kind="requirements",
+                paths=tuple(requirements),
+                requirement_lines=sanitized.lines,
+                skipped=skipped,
+            )
+
     if pylock_files:
-        return PipAuditInput(kind="locked-project", paths=tuple([repo_path, *pylock_files]))
+        return PipAuditInput(
+            kind="locked-project", paths=tuple([repo_path, *pylock_files]), skipped=skipped
+        )
 
     pyproject_path = repo_path / "pyproject.toml"
     if pyproject_path.exists():
@@ -181,8 +221,14 @@ def _build_pip_audit_command(
     ]
 
     if audit_input.kind == "requirements":
+        if audit_input.requirement_lines is not None:
+            sanitized_path = raw_report_path.with_name("pip-audit-requirements.txt")
+            body = "\n".join(audit_input.requirement_lines) + "\n"
+            sanitized_path.write_text(body, encoding="utf-8")
+            command.extend(["--requirement", str(sanitized_path)])
+            return command
         for requirement_path in audit_input.paths:
-            command.extend(["--requirement", str(requirement_path)])
+            command.extend(["--requirement", str(Path(os.path.abspath(requirement_path)))])
         return command
 
     if audit_input.kind == "locked-project":
