@@ -51,6 +51,14 @@ def scan_dependencies(repo_path: Path, reports_dir: Path) -> list[Finding]:
             )
         ]
 
+    if audit_input.nothing_to_audit:
+        # Every requirement was local or editable: running pip-audit would audit
+        # nothing, and a silent run would render as "ran" in the coverage block.
+        raw_report_path = reports_dir / "raw" / "pip-audit.json"
+        raw_report_path.parent.mkdir(parents=True, exist_ok=True)
+        raw_report_path.write_text("[]", encoding="utf-8")
+        return [_partial_coverage_finding(repo_path, audit_input)]
+
     raw_report_path = reports_dir / "raw" / "pip-audit.json"
     result = run_pip_audit(
         repo_path=repo_path,
@@ -111,10 +119,49 @@ def scan_dependencies(repo_path: Path, reports_dir: Path) -> list[Finding]:
 
     enriched = apply_patch_suggestions(enrich_findings(findings))
 
+    if any(not item.resolved for item in audit_input.skipped):
+        enriched.append(_partial_coverage_finding(repo_path, audit_input))
+
     coverage = _unaudited_lockfile_finding(repo_path, audit_input)
     if coverage is not None:
         enriched.append(coverage)
     return enriched
+
+
+def _partial_coverage_finding(repo_path: Path, audit_input: PipAuditInput) -> Finding:
+    """Report requirement lines pip was never allowed to resolve.
+
+    pip resolves `-e .`, `./pkg` and `file:` entries from disk and builds them,
+    which executes the build backend of the scanned repository (or, from the
+    scanner's own working directory, audits the wrong project entirely). Those
+    lines are therefore dropped before pip sees them, and the dependencies they
+    stand for are named here as not examined.
+    """
+    unresolved = [item for item in audit_input.skipped if not item.resolved]
+    listed = "; ".join(item.describe() for item in unresolved[:10])
+    if len(unresolved) > 10:
+        listed += f"; and {len(unresolved) - 10} more"
+    return Finding(
+        id="dependency-scan-partial",
+        tool="dependency-scan",
+        severity="info",
+        title="Local or editable requirements were not covered by the dependency scan",
+        description=(
+            "pip-audit was not given these requirements lines because pip would resolve "
+            "them from disk and run the target's build backend, and the project's "
+            "pyproject.toml does not list its dependencies statically: "
+            f"{listed}. Their dependencies are not represented in the dependency result."
+        ),
+        file=str(audit_input.display_path),
+        line=None,
+        recommendation=(
+            "Audit the dependencies these lines stand for with a tool that reads the "
+            "project's own manifests or lockfile (e.g. Trivy), or inspect them by hand. "
+            "Do not treat the absence of dependency findings as a clean result."
+        ),
+        confidence=confidence_for_meta_finding("partial-coverage"),
+        is_meta=True,
+    )
 
 
 def _unaudited_lockfile_finding(
@@ -200,7 +247,10 @@ def _relative_path(path: Path, repo_path: Path) -> str:
 def _describe_audited_input(audit_input: PipAuditInput) -> str:
     """Describe what pip-audit actually read, for the coverage message."""
     if audit_input.kind == "requirements":
-        return ", ".join(path.name for path in audit_input.paths)
+        names = ", ".join(path.name for path in audit_input.paths)
+        if any(item.resolved for item in audit_input.skipped):
+            return f"{names} plus the dependencies pyproject.toml declares for the project itself"
+        return names
     if audit_input.kind == "locked-project":
         return "the project's pylock file"
     return "pyproject.toml (declared version floors)"
