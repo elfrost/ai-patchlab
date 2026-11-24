@@ -1,0 +1,488 @@
+{
+  "repository": "C:\\Users\\Elfrost\\AppData\\Local\\Temp\\ai-patchlab-clone-3hk9yqla\\repo",
+  "generated_at": "2026-11-24T13:07:52.127922+00:00",
+  "total_dismissed": 182,
+  "by_reason": {
+    "ignore-pattern": 109,
+    "sql-identifier-fp": 18,
+    "active-harm-fp": 16,
+    "domain-noun-collision": 10,
+    "not-reachable": 9,
+    "by-design": 7,
+    "test-or-fixture-path": 4,
+    "below-min-severity": 3,
+    "product-surface": 3,
+    "mitigated-in-app": 2,
+    "confirmed-real": 1
+  },
+  "records": [
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "count": 10,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Default security context configured",
+      "count": 8,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "EKS Clusters should have cluster control plane logging turned on",
+      "count": 5,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Runs with GID <= 10000",
+      "count": 5,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Runtime/Default Seccomp profile not set",
+      "count": 5,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Seccomp policies disabled",
+      "count": 5,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.detect-child-process.detect-child-process",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Can elevate its own privileges",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Container capabilities must only include NET_BIND_SERVICE",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Default capabilities: some containers do not drop all",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Default capabilities: some containers do not drop any",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Root file system is not read-only",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Runs as root user",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Runs with UID <= 10000",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "yaml.kubernetes.security.run-as-non-root.run-as-non-root",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "ECR Repository should use customer managed keys to allow more control",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Image tag \":latest\" used",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.unknown-value-with-script-tag.unknown-value-with-script-tag",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "yaml.kubernetes.security.allow-privilege-escalation-no-securitycontext.allow-privilege-escalation-no-securitycontext",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "CPU not limited",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "CPU requests not specified",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Instances in a subnet should not receive a public IP address by default.",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Memory not limited",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Memory requests not specified",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "No HEALTHCHECK defined",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "dockerfile.security.last-user-is-root.last-user-is-root",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "package_managers.npm.npm-missing-minimum-release-age.npm-missing-minimum-release-age",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.insecure-transport.requests.request-with-http.request-with-http",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "python.lang.security.dangerous-globals-use.dangerous-globals-use",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "python.lang.security.use-defused-xml-parse.use-defused-xml-parse",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "EKS Clusters should have the public access disabled",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Manage Kubernetes networking",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Manage Kubernetes workloads and pods",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Manage configmaps",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Secrets Manager should use customer managed keys",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "VPC Flow Logs is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC. After you've created a flow log, you can view and retrieve its data in Amazon CloudWatch Logs. It is recommended that VPC Flow Logs be enabled for packet \"Rejects\" for VPCs.",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "minimatch: minimatch: Denial of Service via crafted glob pattern expansion",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.npm.npm-missing-minimum-release-age.npm-missing-minimum-release-age",
+      "count": 3,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "active-harm-fp",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.insecure-file-permissions.insecure-file-permissions",
+      "count": 16,
+      "verdict": "false-positive",
+      "detail": "Every hit is the project's own owner-only chmod/fchmod 0o700 on CAO home, DB dir, audit log dir, plugin store and per-provider runtime homes (constants.py:165, database.py:1350, audit_log.py:217 via AUDIT_DIR_MODE=0o700). The rule's advice would loosen them."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.security.sqlalchemy-execute-raw-query",
+      "count": 10,
+      "verdict": "false-positive",
+      "detail": "sqlite3 migrations and journals: PRAGMA table_info / ALTER TABLE over hardcoded table names (database.py:1530, 2162), PRAGMA busy_timeout from module constants, and workflow_journal.read_events with a constant column list and run_id/seq bound as ?."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.formatted-sql-query",
+      "count": 8,
+      "verdict": "false-positive",
+      "detail": "Same sqlite call sites as the raw-query rule: identifiers from constants, values bound."
+    },
+    {
+      "source": "curation",
+      "reason_code": "domain-noun-collision",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.logging.logger-credential-leak",
+      "count": 10,
+      "verdict": "false-positive",
+      "detail": "The hits sit inside the secret-redaction machinery itself (kimi_runtime_home secret_skip, OKF import/export secret gate, vault writer secret gate) and log only the entry name, the key or the matched pattern NAME, never a value."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected",
+      "count": 7,
+      "verdict": "by-design",
+      "detail": "Six in scripts/ release tooling (version assertion, plugin build, schema vendoring) against fixed release URLs; one in cao_workflow/_transport.py posting to the configured local CAO server URL."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.compatibility.python37.python37-compatibility-importlib2",
+      "count": 6,
+      "verdict": "not-applicable",
+      "detail": "Compatibility rule, not a security finding; the package requires a modern Python."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "semgrep",
+      "rule": "javascript.browser.security.wildcard-postmessage-configuration",
+      "count": 4,
+      "verdict": "not-applicable",
+      "detail": "cao_mcp_apps/e2e/host.js is the end-to-end test host for the MCP Apps views."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "javascript.browser.security.wildcard-postmessage-configuration",
+      "count": 1,
+      "verdict": "by-design",
+      "detail": "mcpApp.ts:307 posts to the parent of a sandbox-proxy iframe whose origin is unknown up front; inbound messages pin the host origin on the first correlated reply and drop notifications from any other origin (mcpApp.ts:322-337). Commented as intentional."
+    },
+    {
+      "source": "curation",
+      "reason_code": "product-surface",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.detect-child-process",
+      "count": 2,
+      "verdict": "by-design",
+      "detail": "cao_mcp_apps/scripts/record-demo.mjs, a developer script that records the demo video."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.prototype-pollution.prototype-pollution-loop",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "patch.ts getAtPointer only reads along a JSON pointer; it assigns nothing, and the diff code checks own properties with hasOwnProperty."
+    },
+    {
+      "source": "curation",
+      "reason_code": "mitigated-in-app",
+      "tool": "semgrep",
+      "rule": "python.flask.security.xss.audit.direct-use-of-jinja2",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "agent_scaffold renders bundled template.md.j2 files to Markdown with select_autoescape set at the Environment call; template names are resolved, not caller paths."
+    },
+    {
+      "source": "curation",
+      "reason_code": "product-surface",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.non-literal-import",
+      "count": 1,
+      "verdict": "by-design",
+      "detail": "cli/main.py lazy-loads click commands from a static _BY_NAME table."
+    },
+    {
+      "source": "curation",
+      "reason_code": "confirmed-real",
+      "tool": "manual-review",
+      "rule": "withheld-private-reports",
+      "count": 1,
+      "verdict": "real",
+      "detail": "Hand review; no tool rule covers it. One first-party finding (Medium), reported privately through GitHub private vulnerability reporting on 2026-11-24, as SECURITY.md asks. Detail withheld until a fix ships."
+    }
+  ]
+}
