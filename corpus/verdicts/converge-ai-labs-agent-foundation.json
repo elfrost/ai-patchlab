@@ -1,0 +1,1587 @@
+{
+  "repository": "C:\\Users\\Elfrost\\AppData\\Local\\Temp\\ai-patchlab-clone-m8vewa09\\repo",
+  "generated_at": "2026-11-26T13:08:13.585375+00:00",
+  "total_dismissed": 845,
+  "by_reason": {
+    "ignore-pattern": 379,
+    "by-design": 300,
+    "dependency-currency": 39,
+    "sql-identifier-fp": 37,
+    "test-or-fixture-path": 32,
+    "below-min-severity": 26,
+    "not-reachable": 16,
+    "domain-noun-collision": 8,
+    "mitigated-in-app": 3,
+    "placeholder-secret": 2,
+    "credited-defense": 2,
+    "product-surface": 1
+  },
+  "records": [
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "AIOHTTP is an asynchronous HTTP client/server framework for asyncio an ...",
+      "count": 15,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "dnspython is a DNS toolkit for Python. Prior to version 2.9.2, the fro ...",
+      "count": 5,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "opentelemetry-api: opentelemetry-api: Denial of Service via regular expression backtracking",
+      "count": 5,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "opentelemetry-api: opentelemetry-api: Denial of Service via regular expression backtracking in header parsing",
+      "count": 5,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Pillow is a Python imaging library. In versions 2.3.0 through 12.3.0,  ...",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Pillow: Bundled libopenjp2 2.5.4 in all wheels since 11.1.0 carries OSV-2025-219 heap-buffer-overflow write reachable from Image.open().load()",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Pillow: Heap buffer overflow saving TIFF with libtiff when tags override image size",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Pillow: Memory DoS in TIFF and EXIF IFD parsing via overlapping tag data",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "Pillow: Memory disclosure and segfault in libtiff encoder via crafted TIFF tags",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "dnspython: dnspython: Denial of Service via excessive DNS compression pointer traversal",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "filelock: filelock: Arbitrary file overwrite via insecure database file reopening",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "filelock: filelock: Denial of Service (DoS) via symbolic link race condition",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "filelock: filelock: Denial of Service via Windows opportunistic lock on lock markers",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "filelock: filelock: Denial of Service via crafted SQLite lock database",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "filelock: filelock: Denial of Service via improper lock file permissions on Windows",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "filelock: filelock: Denial of service via pre-created SQLite side files",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "filelock: filelock: Lock bypass via pre-created shared protocol directory",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "filelock: filelock: Lock redirection and mutual exclusion bypass via symbolic links",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "filelock: filelock: Unauthorized concurrent access via stale lock cleanup race condition",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "filelock: filelock: Unauthorized lock acquisition via forged process identifier in SoftFileLock",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "filelock: filelock: arbitrary file truncation via lock path replacement",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "filelock: filelock: unauthorized concurrent access via insecure claim directory permissions",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "joserfc: joserfc: Denial of Service via excessive memory allocation during JWS deserialization",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow multi-frame loaders can reuse stale native image storage after mode transitions",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Argument Injection in Ghostscript call, potentially leading into RCE",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Denial of Service via crafted XBM image header",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Denial of Service via infinite loop during crafted MIC image parsing",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Denial of Service via invalid pointer free during font rendering",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Denial of Service via negative archive member size in TarIO",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Denial of Service via null pointer dereference in Image.merge()",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Denial of Service via out-of-bounds read in TIFF decoding",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Denial of Service via out-of-bounds read in TIFF encoder",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Denial of Service via out-of-bounds read in metafile parser",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Denial of Service via unbounded recursion in PDF parser",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Heap buffer overflow in FlashPix (FPX) JPEG decoding leads to code execution",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Heap buffer overflow in ImagingJpegDecode",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Heap buffer overflow in _tiffWriteProc when saving TIFF to BytesIO",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Information disclosure via empty palette quantization",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: Pillow: Information disclosure via improper memory alignment during Arrow export",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Arbitrary code execution via JPEG encoder buffer overflow",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of Service via crafted GIF comments",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of Service via crafted RLE BMP image",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of Service via crafted multi-frame image conversion",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of Service via decompression bomb bypass in SPIDER images",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of Service via decompression bomb check bypass in multi-frame images",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of Service via duplicate page references in PDF files",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of Service via infinite loop during PDF page rewriting",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of Service via integer overflow in text-width calculation",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of Service via large GIF comments",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of Service via memory exhaustion from crafted GIF image",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of Service via out-of-bounds memory access on zero-width images",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of Service via repeated EXIF headers",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of Service via unbounded memory expansion in MSP image decoder",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of Service via zero-size images in rank filters",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of service via crafted APNG image",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of service via crafted PDF during append operations",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Denial of service via double free during image transformation",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Information disclosure via crafted tiled TIFF image",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Information disclosure via out-of-bounds read in raw decoders",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: Information disclosure via uninitialized buffer in TIFF decoding",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pillow: pillow: arbitrary code execution via heap use-after-free during TIFF encoding",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyasn1: pyasn1: Denial of Service via constructed bit string decoding",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyasn1: pyasn1: Denial of Service via hash collisions in schemaless decoding",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyasn1: pyasn1: Denial of Service via quadratic complexity in binary REAL decoding",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyasn1: pyasn1: Denial of Service via quadratic processing of fragmented ASN.1 data",
+      "count": 4,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "aiohttp: aiohttp: Denial of Service via Max-Age processing overflow",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "aiohttp: aiohttp: Denial of Service via file descriptor exhaustion in multipart request processing",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "aiohttp: aiohttp: Denial of Service via inefficient domain mask wildcard matching",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "aiohttp: aiohttp: Denial of Service via memory exhaustion during WebSocket frame reassembly",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "aiohttp: aiohttp: Denial of Service via missing initial request timeout",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "aiohttp: aiohttp: Denial of Service via pure-Python parser buffer growth",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "aiohttp: aiohttp: Denial of Service via unbounded buffering during connection upgrades",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "aiohttp: aiohttp: Denial of Service via unbounded cookie storage",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "aiohttp: aiohttp: HTTP request smuggling via ambiguous request framing",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "aiohttp: aiohttp: Host-Only cookie protection bypass via untrusted subdomain",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "aiohttp: aiohttp: Information disclosure via unenforced Secure attribute on shared cookies",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "aiohttp: aiohttp: Security control bypass via request scheme spoofing",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "certifi bundles emSign root CAs with compromised intermediate CA keys",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "multidict: multidict: Denial of Service via memory leak in items-view operations",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyjwt: PyJWT: Denial of Service via deeply nested JSON token payload",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyjwt: PyJWT: Token verification bypass via mismatched OKP key components",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "urllib3: urllib3: Denial of Service via infinite loop during chunked Deflate decoding",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "urllib3: urllib3: Denial of Service via unbounded memory allocation in chunk parser",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "urllib3: urllib3: Traffic interception via HTTPS proxy TLS configuration override",
+      "count": 3,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "FastMCP MCP client wrappers construct M2M OAuth providers without issuer binding — client secret redirectable to attacker-advertised authorization server",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "FastMCP: Post-transform component authorization is skipped on direct calls",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "PyJWT: HS256/384/512 verify accepts empty HMAC key via oct JWK (PyJWK/PyJWKClient) enabling token forgery",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "filelock: filelock: Information disclosure via symbolic link following in SoftFileLock",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "joserfc: joserfc: Denial of Service via unbounded recipient processing during JWE decryption",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyjwt: PyJWT: Authentication bypass via acceptance of DER public keys as HMAC secrets",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyjwt: PyJWT: Authentication bypass via improper public key validation",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyjwt: PyJWT: Denial of Service via outbound request amplification on unknown key identifiers",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyjwt: PyJWT: Token revocation bypass via non-canonical signature decoding",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyjwt: pyjwt: Authentication bypass via empty HMAC key acceptance",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyjwt: pyjwt: Denial of Service via deeply nested token headers",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyjwt: pyjwt: Denial of Service via malformed RSA key in JWK set",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyjwt: pyjwt: Denial of Service via regular expression backtracking in is_pem_format",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyjwt: pyjwt: Token forgery via acceptance of public JWK containers as HMAC secrets",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyjwt: pyjwt: Token forgery via improper Unicode byte-order mark handling",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyjwt: pyjwt: Token validation bypass via options dictionary mutation",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "pyjwt: pyjwt: Verification key substitution via unvalidated JWKS redirects",
+      "count": 2,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "package_managers.pnpm.pnpm-block-exotic-sub-dependencies.pnpm-block-exotic-sub-dependencies",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "package_managers.pnpm.pnpm-missing-minimum-release-age.pnpm-minimum-release-age",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "package_managers.pnpm.pnpm-trust-policy.pnpm-trust-policy",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "semgrep",
+      "rule": "yaml.kubernetes.security.allow-privilege-escalation-no-securitycontext.allow-privilege-escalation-no-securitycontext",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "@modelcontextprotocol/sdk: @modelcontextprotocol/client: Model Context Protocol TypeScript SDK: Sensitive information disclosure via cross-origin redirects",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "authlib: Authlib: Authentication bypass via disabled nonce verification in OpenID Connect tokens",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "authlib: Authlib: Authentication bypass via improper asymmetric key validation",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "authlib: Authlib: Server-Side Request Forgery via unvalidated request URI",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "authlib: Authlib: Unauthorized access via improper JWT audience validation",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "authlib: authlib: Authentication bypass via zero-length HMAC key",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "authlib: authlib: Authorization bypass via missing client token verification",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "authlib: authlib: Signature verification bypass via deserialize_json",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "authlib: authlib: authorization bypass via improper scope check in OpenID implicit grant",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "ignore-pattern",
+      "tool": "trivy",
+      "rule": "wcmatch is a Python library for wildcard file-name matching. Prior to  ...",
+      "count": 1,
+      "verdict": "",
+      "detail": "Suppressed by an ignore pattern."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.uv.uv-missing-dependency-cooldown.uv-missing-dependency-cooldown",
+      "count": 2,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "No HEALTHCHECK defined",
+      "count": 2,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.pnpm.pnpm-block-exotic-sub-dependencies.pnpm-block-exotic-sub-dependencies",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.pnpm.pnpm-missing-minimum-release-age.pnpm-minimum-release-age",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.pnpm.pnpm-trust-policy.pnpm-trust-policy",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.dangerous-annotations-usage.dangerous-annotations-usage",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "DOMPurify IN_PLACE: hook that removes a parent or sibling leaves the detached subtree's event handlers armed (incomplete fix for GHSA-p98j-92pf-mc4p)",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "DOMPurify SAFE_FOR_TEMPLATES bypass: split template expressions survive in attached shadow root content on DOM output modes",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "DOMPurify: IN_PLACE returns a force-removed rawtext root whose text carries attacker markup — pure HTML reparse executes",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "DOMPurify: IN_PLACE: node-removing afterSanitize hook leaves detached subtree event handlers armed, causing DOM XSS",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "DOMPurify: SMIL attributeName=href guard is skipped when PARSER_MEDIA_TYPE is application/xhtml+xml",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Rustls: Brotli certificate decompression can allocate an attacker-controlled amount of memory up to 1 GiB before authentication.",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "atty potential unaligned read",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "fast-uri: fast-uri: Cross-site scripting via unescaped colon in relative URI paths",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "fast-uri: fast-uri: Path traversal via improper relative URI normalization",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "katex: katex: Cross-site scripting via prototype pollution inheritance",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "next: Next.js: Information disclosure via unrestricted cross-site requests",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "rustls: An unauthenticated ServerHello poisons the per-name key-exchange record, so later ClientHellos carry only a classical X25519 share",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "undici: Undici: Response queue poisoning on reused keep-alive sockets can lead to incorrect response delivery.",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "undici: Undici: Response truncation and connection termination",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "undici: undici: HTTP response splitting via retry interceptor",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "undici: undici: Integrity failure due to caching of unsafe HTTP method responses",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "undici: undici: Weakening of cookie SameSite policy due to incorrect parsing of Set-Cookie header",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "vite: vite: Arbitrary script execution via improper URL handling during HTML transformation",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.github-actions-mutable-action-tag",
+      "count": 252,
+      "verdict": "hardening",
+      "detail": "Workflow actions referenced by tag, not commit SHA. Supply-chain hardening, not a vulnerability in the product."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text",
+      "count": 26,
+      "verdict": "false-positive",
+      "detail": "Alembic migrations, the migration runner (SET statement_timeout from integer settings) and maintenance filters built from module constants (environments.status IN OPERATIONS). No request value is interpolated."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.security.sqlalchemy-execute-raw-query",
+      "count": 6,
+      "verdict": "false-positive",
+      "detail": "Migration helpers (ALTER TABLE {table} DISABLE TRIGGER over hardcoded table names, CREATE FUNCTION bodies chosen by a boolean) and Harness UI PRAGMA busy_timeout from an int() config value."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.formatted-sql-query",
+      "count": 5,
+      "verdict": "false-positive",
+      "detail": "Same call sites as the raw-query rule: identifiers from constants, no values."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.compatibility.python37.python37-compatibility-importlib2",
+      "count": 18,
+      "verdict": "not-applicable",
+      "detail": "Project requires Python 3.13+."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.performance.performance-improvements.len-all-count",
+      "count": 4,
+      "verdict": "not-applicable",
+      "detail": "Performance rule, not security."
+    },
+    {
+      "source": "curation",
+      "reason_code": "domain-noun-collision",
+      "tool": "semgrep",
+      "rule": "python.django.security.audit.query-set-extra.avoid-query-set-extra",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "anyio listener.extra(SocketAttribute.local_address) in loopback OAuth listeners; no Django in the project."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.detect-non-literal-regexp",
+      "count": 10,
+      "verdict": "not-applicable",
+      "detail": "Nine hits in *.test.ts(x) and one in a brand-sync build script."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.detect-insecure-websocket",
+      "count": 8,
+      "verdict": "hardening",
+      "detail": "Kubernetes browser provider and envd provider_private_link use plaintext ws/http over the pod network with bearer tokens, documented in docs/a13n-service/browsers.md as relying on the operator network; envd refuses plaintext outside explicit loopback/private-link scopes. Two hits are docs."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.non-literal-import",
+      "count": 4,
+      "verdict": "false-positive",
+      "detail": "import_module over static export and model-provider registries plus an OpenAPI export script; no user-chosen module name."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "javascript.ajv.security.audit.ajv-allerrors-true",
+      "count": 2,
+      "verdict": "not-applicable",
+      "detail": "Client-side form validation in the Console."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "dockerfile.security.missing-user-entrypoint",
+      "count": 4,
+      "verdict": "hardening",
+      "detail": "Sandbox image (3 missing-user + 1 last-user-is-root): envd starts as root and runs agent code as the configured execution UID/GID (1000); Kubernetes non_root mode runs envd as 1000."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "semgrep",
+      "rule": "generic.secrets.security.detected-bcrypt-hash",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "dev/service/oidc_review.py: bcrypt of a public dev-fixture password for a local Dex review stack."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.jwt.security.unverified-jwt-decode",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "chatgpt.py reads display claims (subject, email, expiry) from a token just obtained over TLS from the provider; no trust decision."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "semgrep",
+      "rule": "trailofbits.python.tarfile-extractall-traversal",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "Release-check script extracts with filter=data, which blocks traversal and links."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.insecure-file-permissions",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "/tmp/.X11-unix created 1777 (sticky), the standard X11 socket directory; the private runtime dir beside it is 0700."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "semgrep",
+      "rule": "python.django.security.injection.raw-html-format",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "dev/fixtures/oauth.py, a local OAuth fixture."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.exec-detected",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "dev/harness/benchmark_discovery.py compiles the repository's own historical revisions for a benchmark; dev tooling."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.unknown-value-with-script-tag",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "protocol.test.ts."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "html.security.audit.missing-integrity",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "Static marketing site index.html."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "semgrep",
+      "rule": "javascript.browser.security.wildcard-postmessage-configuration",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "mermaid-render.ts posts to an app-created sandbox=allow-scripts frame (an opaque origin cannot be named); replies are accepted only from origin null AND the exact frame window, rendered as an inert img data URI."
+    },
+    {
+      "source": "curation",
+      "reason_code": "product-surface",
+      "tool": "semgrep",
+      "rule": "python.django.security.injection.request-data-write",
+      "count": 1,
+      "verdict": "by-design",
+      "detail": "Harness UI host_files.py writes to host paths by design (human-facing native filesystem operations), behind the API key and the computer-sharing setting; writes refuse to replace symlinks or non-regular files."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.flask.security.audit.directly-returned-format-string",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "interactive/decisions.py builds a terminal prompt string, not an HTTP response."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "gitleaks",
+      "rule": "generic-api-key",
+      "count": 18,
+      "verdict": "false-positive",
+      "detail": "12 in stream-protocol display fixtures, 3 Console/Harness UI test files, 3 live-provider tests matching a WebSocket handshake sample key."
+    },
+    {
+      "source": "curation",
+      "reason_code": "domain-noun-collision",
+      "tool": "gitleaks",
+      "rule": "generic-api-key",
+      "count": 6,
+      "verdict": "false-positive",
+      "detail": "Constant NAMES that contain 'key' (localStorage keys, metadata keys, trace attribute names, approval-metadata keys), not credentials."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "gitleaks",
+      "rule": "generic-api-key",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "Public OAuth client id for the Grok model-account PKCE flow; public clients have no secret."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "gitleaks",
+      "rule": "generic-api-key",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "dev/observability/langfuse.compose.yaml ENCRYPTION_KEY 0123...abcdef dev placeholder."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "gitleaks",
+      "rule": "private-key",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "envd-client test TLS fixture key."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "next (Next.js, 15 advisories incl. 2 critical RCE)",
+      "count": 15,
+      "verdict": "not-applicable",
+      "detail": "Only frontend/apps/a13n-docs uses Next, built with output:export and images.unoptimized; no Next server, Image Optimization API or use-cache runtime ships."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "frontend/pnpm-lock.yaml toolchain (undici, vite, launch-editor, lodash, fast-uri, i18next, source-map-js, @modelcontextprotocol/sdk)",
+      "count": 37,
+      "verdict": "hardening",
+      "detail": "Frontend toolchain and dev-server dependencies behind fixed versions; the Console and Harness UI ship as static SPA bundles."
+    },
+    {
+      "source": "curation",
+      "reason_code": "mitigated-in-app",
+      "tool": "trivy",
+      "rule": "zip (CVE-2026-115905, CVE-2026-115909, CVE-2026-115906)",
+      "count": 3,
+      "verdict": "hardening",
+      "detail": "envd self-update parses a zip only after verifying its SHA-256 against the release SHA256SUMS, and accepts exactly two allowlisted regular entries with size caps."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "rustls (GHSA-2mjx-qc3c-rqvc, GHSA-c8m5-c952-6cm4)",
+      "count": 2,
+      "verdict": "hardening",
+      "detail": "rustls 0.23.43 behind 0.23.46."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "trivy",
+      "rule": "sandbox Dockerfile root user / latest tag",
+      "count": 2,
+      "verdict": "hardening",
+      "detail": "Same sandbox image as the semgrep Dockerfile row."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "hand-review",
+      "rule": "media-url-tool-endpoint-policy",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "Hand review, not a tool finding: the media-URL tool builds its own endpoint policy without the operator require_https / http_origins settings its sibling fetch paths get. Low impact (status-code probe of internal plain-HTTP hosts; body only for media content types); the project documents private-address restriction as a deployment responsibility. Not filed."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "hand-review",
+      "rule": "harness-ui-allowed-origins-wildcard",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "Hand review: webui.allowed_origins ['*'] drops the Host-header (DNS-rebinding) check; harmful only combined with --dangerous-skip-permissions, while the docs say '*' keeps same-origin checks. Two explicit opt-ins; not filed."
+    }
+  ]
+}

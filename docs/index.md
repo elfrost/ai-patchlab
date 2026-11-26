@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "122 curated security scans of open-source AI agents, MCP servers and LLM apps - 31 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "123 curated security scans of open-source AI agents, MCP servers and LLM apps - 31 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 122 scans, 31 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 123 scans, 31 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -38,7 +38,7 @@ remediation and confidence rules to normalize the findings.
 - [**Findings a maintainer fixed**]({{ '/fixed' | relative_url }}) — the 31 that resolved
   upstream. The shortest version of the argument: a report is only worth writing if someone
   can act on it.
-- [**Scans that found nothing**]({{ '/clean' | relative_url }}) — 43 of them, published as
+- [**Scans that found nothing**]({{ '/clean' | relative_url }}) — 44 of them, published as
   they ran. A method that can only return "yes" is not a method.
 
 ## Six scans worth reading
@@ -103,7 +103,7 @@ login and static assets. Fifty-two flagged, none reported.
 
 ## All scans
 
-122 scans, newest first. **Findings** is the raw count the tools produced;
+123 scans, newest first. **Findings** is the raw count the tools produced;
 **Real** is what survived curation. The gap between those two columns is the
 entire job.
 
@@ -119,6 +119,7 @@ publicly, then closed by the project's inactivity automation with no maintainer 
 
 | Date | Repository | Findings | Real | Outcome |
 | --- | --- | ---: | --- | --- |
+| 2026-11-26 | [converge-ai-labs/agent-foundation](scans/converge-ai-labs-agent-foundation.html) | 441 | 0 real | — |
 | 2026-11-24 | [awslabs/cli-agent-orchestrator](scans/awslabs-cli-agent-orchestrator.html) | 72 | 1 real — withheld | private |
 | 2026-11-21 | [trustgraph-ai/trustgraph](scans/trustgraph-ai-trustgraph.html) | 113 | 2 real — withheld | private |
 | 2026-11-19 | [patrickchugh/terravision](scans/patrickchugh-terravision.html) | 384 | 2 real | **fixed** |
