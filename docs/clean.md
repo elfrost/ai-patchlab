@@ -1,17 +1,17 @@
 ---
 layout: default
 title: Scans that found nothing
-description: "The 43 scans in the AI PatchLab series that produced no real finding, published exactly as they ran. A method that can only return yes is not a method."
+description: "The 44 scans in the AI PatchLab series that produced no real finding, published exactly as they ran. A method that can only return yes is not a method."
 ---
 
 # Scans that found nothing
 
-**43** of 122 scans ended with no real finding, and every one of them was
+**44** of 123 scans ended with no real finding, and every one of them was
 published saying so.
 
 That is not modesty — it is the load-bearing part. If every write-up in this series ended in
 a finding, the correct inference would be that the series manufactures findings. **A method
-that can only return "yes" is not a method.** These pages are what make the other 73 worth
+that can only return "yes" is not a method.** These pages are what make the other 79 worth
 reading.
 
 Several were expensive. In more than one, a lead looked certain — a documented non-goal, a
@@ -20,6 +20,7 @@ of the same function. Those write-ups say so.
 
 | Date | Repository | Raw findings | Real |
 |---|---|---:|---|
+| 2026-11-26 | [converge-ai-labs/agent-foundation](scans/converge-ai-labs-agent-foundation.html) | 441 | 0 real |
 | 2026-11-17 | [jordan-gibbs/hyperresearch](scans/jordan-gibbs-hyperresearch.html) | 45 | 0 real |
 | 2026-11-09 | [haris-musa/excel-mcp-server](scans/haris-musa-excel-mcp-server.html) | 5 | 0 real |
 | 2026-10-25 | [nicedreamzapp/claude-code-local](scans/nicedreamzapp-claude-code-local.html) | 20 | 0 real |
