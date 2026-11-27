@@ -1,7 +1,7 @@
 ---
 layout: default
 title: AI PatchLab Scans
-description: "123 curated security scans of open-source AI agents, MCP servers and LLM apps - 31 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
+description: "124 curated security scans of open-source AI agents, MCP servers and LLM apps - 31 confirmed fixes, run local-first with Semgrep, Gitleaks, Trivy and pip-audit."
 ---
 
 # AI PatchLab Scans
@@ -20,7 +20,7 @@ remediation and confidence rules to normalize the findings.
 
 > **Want this run privately against your own codebase?** I do independent
 > security review of AI agents, MCP servers, and LLM apps —
-> [**work with me →**]({{ '/work-with-me' | relative_url }}). 123 scans, 31 confirmed fixes, methodology in the open.
+> [**work with me →**]({{ '/work-with-me' | relative_url }}). 124 scans, 31 confirmed fixes, methodology in the open.
 
 > **OpenAI just launched [Daybreak](https://openai.com/index/daybreak-securing-the-world/) and Patch the Planet.**
 > Same remediation loop, opposite trade-off: their path is a cloud frontier model;
@@ -103,7 +103,7 @@ login and static assets. Fifty-two flagged, none reported.
 
 ## All scans
 
-123 scans, newest first. **Findings** is the raw count the tools produced;
+124 scans, newest first. **Findings** is the raw count the tools produced;
 **Real** is what survived curation. The gap between those two columns is the
 entire job.
 
@@ -119,6 +119,7 @@ publicly, then closed by the project's inactivity automation with no maintainer 
 
 | Date | Repository | Findings | Real | Outcome |
 | --- | --- | ---: | --- | --- |
+| 2026-11-27 | [Continuum-AI-Corp/OrcaRouter-Lite](scans/continuum-ai-corp-orcarouter-lite.html) | 84 | 1 real — withheld | private |
 | 2026-11-26 | [converge-ai-labs/agent-foundation](scans/converge-ai-labs-agent-foundation.html) | 441 | 0 real | — |
 | 2026-11-24 | [awslabs/cli-agent-orchestrator](scans/awslabs-cli-agent-orchestrator.html) | 72 | 1 real — withheld | private |
 | 2026-11-21 | [trustgraph-ai/trustgraph](scans/trustgraph-ai-trustgraph.html) | 113 | 2 real — withheld | private |

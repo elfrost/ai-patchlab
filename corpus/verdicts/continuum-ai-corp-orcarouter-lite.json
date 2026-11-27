@@ -1,0 +1,164 @@
+{
+  "repository": "https://github.com/Continuum-AI-Corp/OrcaRouter-Lite",
+  "generated_at": "2026-11-27T13:16:50.816076+00:00",
+  "total_dismissed": 84,
+  "by_reason": {
+    "by-design": 32,
+    "test-or-fixture-path": 22,
+    "placeholder-secret": 14,
+    "active-harm-fp": 3,
+    "sql-identifier-fp": 3,
+    "sample-or-demo": 3,
+    "not-reachable": 3,
+    "domain-noun-collision": 1,
+    "dependency-currency": 1,
+    "credited-defense": 1,
+    "confirmed-real": 1
+  },
+  "records": [
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+      "count": 31,
+      "verdict": "hardening",
+      "detail": "Workflow actions pinned by tag, not SHA. Supply-chain hardening; release.yml already signs images with cosign and attaches SLSA provenance."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "gitleaks",
+      "rule": "generic-api-key",
+      "count": 21,
+      "verdict": "false-positive",
+      "detail": "Test fixtures: tests/ (16), desktop/tests/setup.test.mjs, and key-shaped test vectors inside logic.rs #[cfg(test)] (line 892+) asserting that orca:// links carrying keys are rejected."
+    },
+    {
+      "source": "curation",
+      "reason_code": "domain-noun-collision",
+      "tool": "gitleaks",
+      "rule": "generic-api-key (packages/db/guards.py)",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "Variable named encrypted_key passed to decrypt_credential; no literal secret."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "gitleaks",
+      "rule": "curl-auth-header",
+      "count": 14,
+      "verdict": "false-positive",
+      "detail": "README translations showing curl examples with placeholder bearer tokens against localhost."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "gitleaks",
+      "rule": "github-pat",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "ghp_ test vector in logic.rs #[cfg(test)], asserting looks_like_key() refuses it."
+    },
+    {
+      "source": "curation",
+      "reason_code": "active-harm-fp",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.insecure-file-permissions.insecure-file-permissions",
+      "count": 3,
+      "verdict": "false-positive",
+      "detail": "All three are the project's own os.chmod(dir, 0o700) on private state folders; the rule's advice would loosen them."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "PRAGMA busy_timeout interpolates a module constant (SQLITE_BUSY_TIMEOUT_MS); no caller input."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.formatted-sql-query.formatted-sql-query",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "Same PRAGMA line as above (packages/db/engine.py:93), constant only."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.security.audit.avoid-sqlalchemy-text.avoid-sqlalchemy-text",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "Migration repair UPDATE built from SQL function names and a constant (MICROCENTS_PER_CENT); no caller input."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sample-or-demo",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "desktop/scripts/seed_demo.py, a demo seeding script against the local engine."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sample-or-demo",
+      "tool": "semgrep",
+      "rule": "javascript.playwright.security.audit.playwright-goto-injection / playwright-setcontent-injection",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "scripts/record_demo.cjs, the screenshot/demo recorder."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "zip crate CVEs (parser differential, symlink DoS, auth-tag bypass)",
+      "count": 3,
+      "verdict": "not-applicable",
+      "detail": "zip 4.6.1 is pulled only by tauri-plugin-updater, which extracts an update after verifying its signature against the built-in public key, and only in builds carrying the updater key."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "glib VariantStrIter unsoundness",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Transitive GTK binding of the Linux Tauri build; the affected iterator is not called by first-party code."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "trivy",
+      "rule": "Image user should not be 'root'",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "Dockerfile creates user orca; the entrypoint starts as root only to chown a mounted /data volume, then drops to orca before the server starts."
+    },
+    {
+      "source": "curation",
+      "reason_code": "confirmed-real",
+      "tool": "hand-review",
+      "rule": "desktop app sends its app key to the engine port without re-verifying the engine identity after startup",
+      "count": 1,
+      "verdict": "real",
+      "detail": "Medium. engine.rs get_json/settings send the app key every 20 s with no /health/identity check after Engine::start; the orca CLI re-checks before every request. Withheld; private report pending (PVR disabled, email channel)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "hand-review",
+      "rule": "streaming include_usage=false records zero cost (desktop agent budget)",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "Low. chat.py keeps an explicit include_usage=false, so an agent key can stream at 0 recorded cost and never trip the soft daily budget. Mentioned in the private report as a secondary note."
+    }
+  ]
+}
