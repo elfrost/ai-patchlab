@@ -1,0 +1,544 @@
+{
+  "repository": "https://github.com/amd/gaia",
+  "generated_at": "2026-11-28T13:17:48.565069+00:00",
+  "total_dismissed": 1245,
+  "by_reason": {
+    "by-design": 694,
+    "not-reachable": 271,
+    "sql-identifier-fp": 65,
+    "below-min-severity": 58,
+    "test-or-fixture-path": 58,
+    "product-surface": 36,
+    "dependency-currency": 25,
+    "domain-noun-collision": 22,
+    "active-harm-fp": 6,
+    "credited-defense": 5,
+    "vendored-code": 2,
+    "placeholder-secret": 2,
+    "confirmed-real": 1
+  },
+  "records": [
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.unsafe-formatstring.unsafe-formatstring",
+      "count": 27,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "package_managers.dependabot.dependabot-missing-cooldown.dependabot-missing-cooldown",
+      "count": 6,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "No HEALTHCHECK defined",
+      "count": 6,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.insecure-transport.requests.request-with-http.request-with-http",
+      "count": 2,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "semgrep",
+      "rule": "javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "@babel/core: @babel/core: Arbitrary file read via sourceMappingURL comment",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Astro Development Server has Arbitrary Local File Read",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Astro: Cross-site scripting via unescaped transition:* directive values on hydrated islands",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Astro: Remote allowlist bypass via unanchored matchPathname wildcard",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Astro: Server island encrypted parameters vulnerable to cross-component replay",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Invoking integer overflow in NewNTUnicodeString in golang.org/x/sys/windows",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "Sveltejs devalue's `devalue.parse` and `devalue.unflatten` emit objects with `__proto__` own properties",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "astro: astro: Cross-site scripting via attribute injection in dynamic tag names",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "body-parser: body-parser: Denial of Service via invalid limit option",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "devalue `uneval`ed code can create objects with polluted prototypes when `eval`ed",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "devalue affected by CPU and memory amplification from sparse arrays",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "devalue: Sparse arrays emitted by uneval cause eager allocation when evaluated",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "fast-uri: fast-uri: Cross-site scripting via unescaped colon in relative URI paths",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "fast-uri: fast-uri: Path traversal via improper relative URI normalization",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "postcss-selector-parser: Postcss: Denial of Service via uncontrolled recursion in AST Serialization",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "scanner",
+      "reason_code": "below-min-severity",
+      "tool": "trivy",
+      "rule": "vite: vite: Arbitrary script execution via improper URL handling during HTML transformation",
+      "count": 1,
+      "verdict": "",
+      "detail": "Below the --min-severity floor (medium)."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.github-actions-mutable-action-tag.github-actions-mutable-action-tag",
+      "count": 538,
+      "verdict": "hardening",
+      "detail": "Workflow and composite actions pinned by tag, not by commit SHA, across a large CI tree. Supply-chain hardening, not a vulnerability."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "generic.unicode.security.bidi.contains-bidirectional-characters",
+      "count": 112,
+      "verdict": "false-positive",
+      "detail": "70 hits are the Arabic UI locale (webui i18n/locales/ar.ts); the rest are RTL test strings and the link-policy / notification code that handles bidi controls. Legitimate right-to-left text, not hidden source."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.path-traversal.path-join-resolve-traversal.path-join-resolve-traversal",
+      "count": 78,
+      "verdict": "false-positive",
+      "detail": "Electron main-process packaging and installer services (agent-seeder, after-pack, appimage-launcher, backend-installer). Spot-checked: joins of readdir entry names and install-directory constants, with no renderer or network input."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.dynamic-urllib-use-detected.dynamic-urllib-use-detected",
+      "count": 56,
+      "verdict": "false-positive",
+      "detail": "Installer smoke tests, release utilities and the embedded Lemonade client calling configured local endpoints; most hits are under util/ and installer/."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query",
+      "count": 49,
+      "verdict": "false-positive",
+      "detail": "SQLite memory store, UI database and scratchpad: f-strings carry fixed table names (FTS5 'optimize') and PRAGMA values from code, while data values are bound parameters."
+    },
+    {
+      "source": "curation",
+      "reason_code": "sql-identifier-fp",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.formatted-sql-query.formatted-sql-query",
+      "count": 16,
+      "verdict": "false-positive",
+      "detail": "Same call sites as the raw-query rule: identifiers and PRAGMAs from code, values bound."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp",
+      "count": 25,
+      "verdict": "false-positive",
+      "detail": "Regexes built from app-side constants and escaped search terms in the web UI; no ReDoS-shaped user pattern found in the spot check."
+    },
+    {
+      "source": "curation",
+      "reason_code": "product-surface",
+      "tool": "semgrep",
+      "rule": "go.lang.security.audit.dangerous-exec-command.dangerous-exec-command",
+      "count": 24,
+      "verdict": "by-design",
+      "detail": "The Go TUI launches the GAIA agent and its helpers; that is what it is for. Program paths are resolved by the TUI, with no shell."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.run-shell-injection.run-shell-injection",
+      "count": 23,
+      "verdict": "false-positive",
+      "detail": "Every interpolation is a maintainer-controlled input (workflow_dispatch / workflow_call / composite-action inputs) or a static matrix value; none comes from a pull_request_target or issue_comment event field."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.gha-curl-pipe-shell.gha-curl-pipe-shell",
+      "count": 21,
+      "verdict": "hardening",
+      "detail": "CI installs tools from their vendors with curl | sh. Supply-chain hardening item."
+    },
+    {
+      "source": "curation",
+      "reason_code": "domain-noun-collision",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.logging.logger-credential-leak.python-logger-credential-disclosure",
+      "count": 21,
+      "verdict": "false-positive",
+      "detail": "Log lines use 'token' / 'credential' / 'secret' as nouns (credential reads, skill budgets, Discord credentials file) without logging the value."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.compatibility.python36.python36-compatibility-Popen1",
+      "count": 10,
+      "verdict": "not-applicable",
+      "detail": "Python 3.6 compatibility rule; the project requires a modern Python."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.compatibility.python36.python36-compatibility-Popen2",
+      "count": 8,
+      "verdict": "not-applicable",
+      "detail": "Python 3.6 compatibility rule; the project requires a modern Python."
+    },
+    {
+      "source": "curation",
+      "reason_code": "product-surface",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.detect-child-process.detect-child-process",
+      "count": 10,
+      "verdict": "by-design",
+      "detail": "Electron services and npm lifecycle scripts starting the GAIA backend and installers with argv arrays."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "yaml.github-actions.security.secrets-inherit.secrets-inherit",
+      "count": 8,
+      "verdict": "by-design",
+      "detail": "Reusable first-party workflows called with secrets: inherit from the same repository."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.non-literal-import.non-literal-import",
+      "count": 7,
+      "verdict": "false-positive",
+      "detail": "Agent and provider factories importing from an internal registry, plus two lint utilities."
+    },
+    {
+      "source": "curation",
+      "reason_code": "active-harm-fp",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.insecure-file-permissions.insecure-file-permissions",
+      "count": 6,
+      "verdict": "false-positive",
+      "detail": "Five are the project's own chmod 0o700 on private state directories (connectors, daemon, attempts); one is 0o755 on a lock queue directory. Loosening per the rule's advice would weaken them."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "semgrep",
+      "rule": "problem-based-packs.insecure-transport.js-node.using-http-server.using-http-server",
+      "count": 3,
+      "verdict": "false-positive",
+      "detail": "Loopback-only Electron servers; the browser-pane bridge requires a bearer token from a user-only discovery file."
+    },
+    {
+      "source": "curation",
+      "reason_code": "product-surface",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.exec-detected.exec-detected",
+      "count": 2,
+      "verdict": "by-design",
+      "detail": "python_runner.py is the agent's Python execution tool (product surface); frozen.py runs the bundled entry script in a frozen build."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.lang.security.insecure-hash-algorithms.insecure-hash-algorithm-sha1",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "SHA-1 used as a content fingerprint or cache key, not for authentication."
+    },
+    {
+      "source": "curation",
+      "reason_code": "credited-defense",
+      "tool": "semgrep",
+      "rule": "go.lang.security.audit.xss.no-io-writestring-to-responsewriter.no-io-writestring-to-responsewriter",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "TUI control server: loopback-only, bearer token required, plain-text responses."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.detect-insecure-websocket.detect-insecure-websocket",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "Test and visual-regression files."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "dockerfile.security.missing-user.missing-user",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "Build or dev container image; not a shipped runtime service."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "dockerfile.security.missing-user-entrypoint.missing-user-entrypoint",
+      "count": 1,
+      "verdict": "hardening",
+      "detail": "Build or dev container image; not a shipped runtime service."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "semgrep",
+      "rule": "javascript.lang.security.audit.unknown-value-with-script-tag.unknown-value-with-script-tag",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "Service-worker unit test writing a static index.html fixture."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "semgrep",
+      "rule": "python.lang.security.audit.eval-detected.eval-detected",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "util/verify_publish_pipeline.py evaluates a parsed ast.Expression from the repo's own workflow file; release tooling."
+    },
+    {
+      "source": "curation",
+      "reason_code": "domain-noun-collision",
+      "tool": "semgrep",
+      "rule": "python.lang.security.dangerous-globals-use.dangerous-globals-use",
+      "count": 1,
+      "verdict": "false-positive",
+      "detail": "globals().get('anthropic') checks for a lazily imported module."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "semgrep",
+      "rule": "python.sqlalchemy.performance.performance-improvements.len-all-count",
+      "count": 1,
+      "verdict": "not-applicable",
+      "detail": "Performance rule, not security."
+    },
+    {
+      "source": "curation",
+      "reason_code": "test-or-fixture-path",
+      "tool": "gitleaks",
+      "rule": "generic-api-key / github-pat / aws-access-token / private-key / jwt / curl-auth-header (tests, fixtures)",
+      "count": 55,
+      "verdict": "false-positive",
+      "detail": "tests/ (35), cpp/tests/test_secrets.cpp and the vendored sqlite3.c (15), webui __tests__ and an eval retrieval case (3), eval scenario fake ghp_GAIAEVALfake tokens (2). Test vectors for the project's own secret-detection code."
+    },
+    {
+      "source": "curation",
+      "reason_code": "vendored-code",
+      "tool": "gitleaks",
+      "rule": "generic-api-key (tui/third_party/bubbletea/key.go)",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": "Vendored bubbletea key-name table ('ctrl+shift+end')."
+    },
+    {
+      "source": "curation",
+      "reason_code": "placeholder-secret",
+      "tool": "gitleaks",
+      "rule": "generic-api-key / curl-auth-header (.env.example, README)",
+      "count": 2,
+      "verdict": "false-positive",
+      "detail": ".env.example has an empty HF_TOKEN=; the worker README shows a curl example against localhost with a placeholder."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "website/package-lock.json (Astro, sharp, rollup, vite, fast-uri, devalue, js-yaml and others)",
+      "count": 58,
+      "verdict": "not-applicable",
+      "detail": "Marketing website built with Astro 4 as a static site (no server adapter). Includes the AVIF-optimization Critical: image optimization runs at build time over the project's own images. Dev-server CVEs (vite, esbuild, launch-editor) only matter on a developer machine running the dev server."
+    },
+    {
+      "source": "curation",
+      "reason_code": "not-reachable",
+      "tool": "trivy",
+      "rule": "docs/package-lock.json (proxy-addr, qs, body-parser, path-to-regexp, follow-redirects, picomatch)",
+      "count": 10,
+      "verdict": "not-applicable",
+      "detail": "Small Express auth proxy in front of the hosted docs. The proxy-addr Critical concerns a trusted-subnet list matched against IPv4-mapped IPv6; server.js sets trust proxy to a hop count (1), not a subnet list. The rest are dependency currency. Not examined further: it fronts a live deployment."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "tui/go.mod golang.org/x/net, golang.org/x/text (indirect)",
+      "count": 21,
+      "verdict": "not-applicable",
+      "detail": "Indirect x/net v0.38.0 and x/text v0.30.0 in the TUI and its vendored bubbletea; the TUI parses no untrusted HTML and runs no HTTP/2 server. Bump for currency."
+    },
+    {
+      "source": "curation",
+      "reason_code": "dependency-currency",
+      "tool": "trivy",
+      "rule": "src/gaia/apps/webui/package-lock.json js-yaml",
+      "count": 4,
+      "verdict": "not-applicable",
+      "detail": "js-yaml DoS CVEs in the web UI build tree; YAML inputs are first-party."
+    },
+    {
+      "source": "curation",
+      "reason_code": "by-design",
+      "tool": "trivy",
+      "rule": "Image user should not be 'root'",
+      "count": 5,
+      "verdict": "hardening",
+      "detail": "Docs, build, test-fixture and agent-hub worker Dockerfiles; none is the desktop product."
+    },
+    {
+      "source": "curation",
+      "reason_code": "confirmed-real",
+      "tool": "manual-review",
+      "rule": "withheld-private-reports",
+      "count": 1,
+      "verdict": "real",
+      "detail": "Hand review; no tool rule covers it. One first-party finding (High proposed), reported privately through GitHub private vulnerability reporting on 2026-11-28, as SECURITY.md asks. Detail withheld until a fix ships."
+    }
+  ]
+}
