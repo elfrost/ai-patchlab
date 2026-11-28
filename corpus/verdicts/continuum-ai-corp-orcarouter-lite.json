@@ -145,20 +145,20 @@
     {
       "source": "curation",
       "reason_code": "confirmed-real",
-      "tool": "hand-review",
-      "rule": "desktop app sends its app key to the engine port without re-verifying the engine identity after startup",
+      "tool": "manual-review",
+      "rule": "withheld-private-reports",
       "count": 1,
       "verdict": "real",
-      "detail": "Medium. engine.rs get_json/settings send the app key every 20 s with no /health/identity check after Engine::start; the orca CLI re-checks before every request. Withheld; private report pending (PVR disabled, email channel)."
+      "detail": "Hand review; no tool rule covers it. One first-party finding (Medium), reported privately to the organisation's published contact address on 2026-11-27 (GitHub private vulnerability reporting is disabled). Detail withheld until a fix ships."
     },
     {
       "source": "curation",
       "reason_code": "by-design",
       "tool": "hand-review",
-      "rule": "streaming include_usage=false records zero cost (desktop agent budget)",
+      "rule": "withheld-private-report-secondary-note",
       "count": 1,
       "verdict": "hardening",
-      "detail": "Low. chat.py keeps an explicit include_usage=false, so an agent key can stream at 0 recorded cost and never trip the soft daily budget. Mentioned in the private report as a secondary note."
+      "detail": "Low hand-review note sent with the private report as a secondary item. Detail withheld until a fix ships."
     }
   ]
 }
